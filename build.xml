@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="chess" default="run" basedir=".">
+
+    <property name="verbose.output" value="false"/>
+    <property name="build.dir" location="build"/>
+    <property name="classes.dir" location="${build.dir}/classes"/>
+    <property name="jar.dir" location="${build.dir}/jar"/>
+    <property name="dist.lib.dir" location="${build.dir}/lib"/>
+    <property name="dependency.file" value="dependencies-all.jar"/>
+    <property name="src.dir" location="src"/>
+    <property name="lib.dir" location="lib"/>
+    <property name="assets.dir" location="${src.dir}/assets"/>
+    <property name="doc.dir" location="doc"/>
+    <property name="jar.file" value="chess.jar"/>
+
+    <path id="classpath.base">
+        <pathelement location="${classes.dir}"/>
+    </path>
+
+    <target name="copy-dependencies">
+        <mkdir dir="${dist.lib.dir}"/>
+        <jar jarfile="${dist.lib.dir}/${dependency.file}">
+            <zipgroupfileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </zipgroupfileset>
+        </jar>
+    </target>
+
+    <target name="init" description="Create directories">
+        <mkdir dir="${src.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="clean" description="Clean the project (Remove build files &amp; docs)">
+        <delete dir="${build.dir}"/>
+        <delete dir="${doc.dir}"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compile the code into classes (build/classes/)">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" verbose="${verbose.output}" includeantruntime="false">
+            <classpath refid="classpath.base"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile, copy-dependencies" description="Bundle classes into a single JAR file (build/jar/)">
+        <mkdir dir="${jar.dir}"/>
+        <mkdir dir="${dist.lib.dir}"/>
+        <jar destfile="${jar.dir}/${jar.file}" basedir="${classes.dir}">
+            <fileset dir="${assets.dir}"/>
+            <zipfileset src="${dist.lib.dir}/${dependency.file}" excludes="META-INF/*.SF"/>
+            <manifest>
+                <attribute name="Main-Class" value="edu.kingsu.SoftwareEngineering.Chess.Launcher"/>
+            </manifest>
+        </jar>
+        <chmod file="${jar.dir}/${jar.file}" perm="ugo+x"/>
+    </target>
+
+    <target name="run" depends="jar" description="Execute Chess">
+        <java jar="${jar.dir}/${jar.file}" fork="true" spawn="true"/>
+    </target>
+
+    <target name="javadoc" description="Create the JavaDoc API">
+        <javadoc sourcepath="${src.dir}" destdir="${doc.dir}" author="true" version="true" use="true" linksource="yes" windowtitle="Chess Game">
+            <link href="https://docs.oracle.com/en/java/javase/11/docs/api"/>
+            <bottom><![CDATA[<i>Copyright &#169; 2021 Nikolas Haugrud. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+
+</project>
