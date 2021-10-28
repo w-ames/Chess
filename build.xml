@@ -29,6 +29,7 @@
 
     <target name="init" description="Create directories">
         <mkdir dir="${src.dir}"/>
+        <mkdir dir="${assets.dir}"/>
         <mkdir dir="${lib.dir}"/>
         <mkdir dir="${classes.dir}"/>
     </target>
