@@ -68,7 +68,7 @@ public class PGNTranslator{
         //************************************************************************* */
 
         //find out if a capture occurred
-        Piece destPiece= board.getPiece(destRow, destCol);
+        Piece destPiece= board.getPiece(destRow, move.getColTo());
         if(destPiece != null) capture= "x";
 
         return null;

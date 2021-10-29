@@ -2,8 +2,6 @@ package edu.kingsu.SoftwareEngineering.Chess.PGN;
 
 import java.util.*;
 import java.io.File;
-import org.junit.Test;
-import org.junit.Assert;
 
 public class PGNFile implements Iterable<String>{
     public static final String PLAYERTYPE_TAG= "PlayerTypes";   //change the value to something more appropriate
