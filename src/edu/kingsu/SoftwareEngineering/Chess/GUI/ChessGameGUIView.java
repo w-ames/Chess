@@ -1,4 +1,5 @@
 package edu.kingsu.SoftwareEngineering.Chess.GUI;
+
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.GridBagConstraints;
@@ -13,11 +14,11 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 
 public class ChessGameGUIView extends ChessGameView {
-    int selectedRow;
-    int selectedCol;
-    // private BoardSquare[][] boardSquares = new BoardSquare[8][8];
-    JPanel board = new JPanel();
-    JButton squareHolderArray[][]; 
+
+    private int selectedRow;
+    private int selectedCol;
+    private JPanel board = new JPanel();
+    private Square squareHolderArray[][];
 
     public ChessGameGUIView() {
 
@@ -26,39 +27,25 @@ public class ChessGameGUIView extends ChessGameView {
         GridBagConstraints gbForThis = new GridBagConstraints();
         gbForThis.fill = GridBagConstraints.CENTER;
 
-        // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
-        // 108, 141)));
-        board.setLayout(new GridBagLayout());
-        GridBagConstraints gbForBoard = new GridBagConstraints();
-        gbForBoard.fill = GridBagConstraints.BOTH;
-        gbForBoard.gridwidth = 1;
-        gbForBoard.gridheight = 1;
-        gbForBoard.weightx = 1;
-        gbForBoard.weighty = 1;
-
+        // This puts the board squares into the 2D array that holds the represntation of
+        // the board along with teaching them their location.
         String location;
-        // This puts the squares on the board and teachs them their location :)
+        squareHolderArray = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                gbForBoard.gridy = i;
-                gbForBoard.gridx = j;
                 if (((i + j) % 2 == 0)) {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
-                    //squareHolderArray[i][j] = new Square(location, true); 
-                    board.add(new Square(location, true), gbForBoard);
+                    squareHolderArray[i][j] = new Square(location, true);
                 } else {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
-                    board.add(new Square(location, false), gbForBoard);
+                    squareHolderArray[i][j] = new Square(location, false);
                 }
             }
         }
-
-        board.setMinimumSize(new Dimension(400, 400));
-        board.setPreferredSize(new Dimension(650, 650));
+        paintBoard();
         this.add(board, gbForThis);
-
     }
 
     @Override
@@ -83,4 +70,26 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     // public addController(ChessGameGUIController gameController){}
+
+    public void paintBoard() {
+
+        // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
+        // 108, 141)));
+        board.setLayout(new GridBagLayout());
+        GridBagConstraints gbForBoard = new GridBagConstraints();
+        gbForBoard.fill = GridBagConstraints.BOTH;
+        gbForBoard.gridwidth = 1;
+        gbForBoard.gridheight = 1;
+        gbForBoard.weightx = 1;
+        gbForBoard.weighty = 1;
+        board.setMinimumSize(new Dimension(400, 400));
+        board.setPreferredSize(new Dimension(650, 650));
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                gbForBoard.gridy = i;
+                gbForBoard.gridx = j;
+                board.add(squareHolderArray[i][j], gbForBoard);
+            }
+        }
+    }
 }
