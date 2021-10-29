@@ -5,6 +5,7 @@ public class Bishop extends Piece {
         super(isWhite);
     }
 
+    @Override
     public PieceType getPieceType() {
         return PieceType.BISHOP;
     }
