@@ -2,9 +2,11 @@ package edu.kingsu.SoftwareEngineering.Chess.PGN;
 
 import java.util.*;
 import java.io.File;
+import org.junit.Test;
+import org.junit.Assert;
 
-public class PGNFile implements Iterable{
-    public static final String PLAYERTYPE_TAG= "PlayerTypes";
+public class PGNFile implements Iterable<String>{
+    public static final String PLAYERTYPE_TAG= "PlayerTypes";   //change the value to something more appropriate
     private Map<String, String> tagPairs;
     private List<String> moveText;
 
@@ -18,9 +20,7 @@ public class PGNFile implements Iterable{
     }
 
     public Iterator<String> iterator(){
-        //write anonymous inner class to create a new iterator
-
-        return null;
+        return moveText.iterator();
     }
 
     public Map<String, String> getTagPairMap(){
