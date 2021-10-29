@@ -20,7 +20,7 @@ public class ChessGameGUIView extends ChessGameView {
 
     private int selectedRow;
     private int selectedCol;
-    private JPanel board = new JPanel();
+    private JPanel boardHolder = new JPanel();
     private Square squareHolderArray[][];
 
     /**
@@ -56,8 +56,8 @@ public class ChessGameGUIView extends ChessGameView {
             }
         }
 
-        update();
-        this.add(board, gbForThis);
+        paintBoard();
+        this.add(boardHolder, gbForThis);
     }
 
     @Override
@@ -77,27 +77,40 @@ public class ChessGameGUIView extends ChessGameView {
 
     }
 
-    public void update() {
-        board.setLayout(new GridBagLayout());
+    /**
+     * paintBoard() paints the current state of the board. (The current version held
+     * in the 2D array board).
+     */
+    public void paintBoard() {
+        boardHolder.setLayout(new GridBagLayout());
         GridBagConstraints gbForBoard = new GridBagConstraints();
         gbForBoard.fill = GridBagConstraints.BOTH;
         gbForBoard.gridwidth = 1;
         gbForBoard.gridheight = 1;
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
-        board.setMinimumSize(new Dimension(400, 400));
-        board.setPreferredSize(new Dimension(650, 650));
+        boardHolder.setMinimumSize(new Dimension(400, 400));
+        boardHolder.setPreferredSize(new Dimension(650, 650));
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 gbForBoard.gridy = i;
                 gbForBoard.gridx = j;
-                board.add(squareHolderArray[i][j], gbForBoard);
+                boardHolder.add(squareHolderArray[i][j], gbForBoard);
             }
         }
         // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
         // 108, 141)));
     }
 
-    // public addController(ChessGameGUIController gameController){}
+    // public void addController(ChessGameGUIController gameController){}
+
+    /**
+     * Update updates the 2D array representation of the board
+     * (squareHolderArray[][]). The board can then be repainted using paintBoard()
+     * to reflect the current state of the game.
+     */
+    public void update() {
+        // This needs to be written using
+    }
 
 }
