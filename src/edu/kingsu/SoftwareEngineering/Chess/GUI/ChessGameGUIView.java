@@ -13,6 +13,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 
+/**
+ * ChessGameGUIView class holds the graphical view of the game board.
+ */
 public class ChessGameGUIView extends ChessGameView {
 
     private int selectedRow;
@@ -20,15 +23,23 @@ public class ChessGameGUIView extends ChessGameView {
     private JPanel board = new JPanel();
     private Square squareHolderArray[][];
 
+    /**
+     * Constructs the initial graphical representation of the game board (And the
+     * panel behind it). Constructs each square and adds them to a 8x8 2D array,
+     * then calls the paintBoard() function to insert the contents of board (the 2D
+     * array) onto itself for GUI display.
+     */
     public ChessGameGUIView() {
 
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForThis = new GridBagConstraints();
+        // Centres the board on the display panel (this).
         gbForThis.fill = GridBagConstraints.CENTER;
 
-        // This puts the board squares into the 2D array that holds the represntation of
-        // the board along with teaching them their location.
+        // Instanciates the squares and puts them into the 2D array that holds the
+        // represntation of also teaches them their location on the board and determines
+        // which color they will be.
         String location;
         squareHolderArray = new Square[8][8];
         for (int i = 0; i < 8; i++) {
@@ -44,7 +55,8 @@ public class ChessGameGUIView extends ChessGameView {
                 }
             }
         }
-        paintBoard();
+
+        update();
         this.add(board, gbForThis);
     }
 
@@ -66,15 +78,6 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     public void update() {
-
-    }
-
-    // public addController(ChessGameGUIController gameController){}
-
-    public void paintBoard() {
-
-        // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
-        // 108, 141)));
         board.setLayout(new GridBagLayout());
         GridBagConstraints gbForBoard = new GridBagConstraints();
         gbForBoard.fill = GridBagConstraints.BOTH;
@@ -91,5 +94,10 @@ public class ChessGameGUIView extends ChessGameView {
                 board.add(squareHolderArray[i][j], gbForBoard);
             }
         }
+        // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
+        // 108, 141)));
     }
+
+    // public addController(ChessGameGUIController gameController){}
+
 }
