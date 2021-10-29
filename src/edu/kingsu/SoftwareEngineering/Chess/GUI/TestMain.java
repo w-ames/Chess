@@ -1,8 +1,6 @@
 package edu.kingsu.SoftwareEngineering.Chess.GUI;
 import javax.swing.*;
 
-import com.apple.eawt.Application;
-
 public class TestMain {
 
     public static void main(String[] args) {
