@@ -1,3 +1,5 @@
+package edu.kingsu.SoftwareEngineering.Chess.GUI;
+
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.GridBagConstraints;
