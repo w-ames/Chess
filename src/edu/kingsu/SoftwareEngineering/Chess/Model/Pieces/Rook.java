@@ -30,4 +30,11 @@ public class Rook extends Piece {
     public boolean isDoneCastling() {
         return doneCastling;
     }
+
+    /**
+     * Sets the flag for this {@link Rook} to be finished performing castling moves
+     */
+    public void doneCastling() {
+        doneCastling = true;
+    }
 }

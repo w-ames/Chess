@@ -28,6 +28,8 @@ public class PawnDoubleMove extends Move {
     @Override
     public void perform(Board board) {
         super.perform(board);
+        int middleRow = (getRowFrom()+getRowTo())/2;
+        board.setEnPassantable(middleRow, getColTo());
     }
 
     /**

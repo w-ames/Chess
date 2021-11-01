@@ -51,6 +51,7 @@ public class EnPassantMove extends Move {
     @Override
     public void perform(Board board) {
         super.perform(board);
+        board.setPiece(rowPassant, colPassant, null);
     }
 
     /**

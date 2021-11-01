@@ -62,7 +62,17 @@ public class CastlingMove extends Move {
      */
     @Override
     public void perform(Board board) {
+        Piece movingKing = board.getPiece(getRowFrom(), getColFrom());
+        Piece movingRook = board.getPiece(rowFromCastle, colFromCastle);
+        if (movingKing.getPieceType() == PieceType.KING) {
+            ((King)movingKing).doneCastling();
+        }
+        if (movingRook.getPieceType() == PieceType.ROOK) {
+            ((Rook)movingRook).doneCastling();
+        }
         super.perform(board);
+        board.setPiece(rowToCastle, colToCastle, movingRook);
+        board.setPiece(rowFromCastle, colFromCastle, null);
     }
 
     /**

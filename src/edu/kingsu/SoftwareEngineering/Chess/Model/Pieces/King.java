@@ -31,4 +31,11 @@ public class King extends Piece {
     public boolean isDoneCastling() {
         return doneCastling;
     }
+
+    /**
+     * Sets the flag for this {@link King} to be finished performing castling moves
+     */
+    public void doneCastling() {
+        doneCastling = true;
+    }
 }

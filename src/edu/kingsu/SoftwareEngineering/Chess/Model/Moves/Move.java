@@ -56,7 +56,10 @@ public class Move {
      * @see Board
      */
     public void perform(Board board) {
-        return;
+        Piece movingPiece = board.getPiece(rowFrom, colFrom);
+        board.setPiece(rowTo, colTo, movingPiece);
+        board.setPiece(rowFrom, colFrom, null);
+        board.setEnPassantable();
     }
 
     /**

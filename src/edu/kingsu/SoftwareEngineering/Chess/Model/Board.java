@@ -46,6 +46,15 @@ public class Board {
         squares[r][c] = p;
     }
 
+    public void setEnPassantable(int r, int c) {
+        enPassantableRow = r;
+        enPassantableCol = c;
+    }
+    public void setEnPassantable() {
+        enPassantableRow = -1;
+        enPassantableCol = -1;
+    }
+
     public List<Move> getMoves(int fromRow, int fromCol) {
         return null;
     }

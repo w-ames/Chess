@@ -38,7 +38,26 @@ public class PawnPromotionMove extends Move {
      */
     @Override
     public void perform(Board board) {
+        boolean whiteIsPerforming = board.getPiece(getRowFrom(), getColFrom()).isWhite();
         super.perform(board);
+        Piece promotedPiece = null;
+        switch (promotionType) {
+            case KNIGHT:
+                promotedPiece = new Knight(whiteIsPerforming);
+                break;
+            case BISHOP:
+                promotedPiece = new Bishop(whiteIsPerforming);
+                break;
+            case ROOK:
+                promotedPiece = new Rook(whiteIsPerforming);
+                break;
+            case QUEEN:
+                promotedPiece = new Queen(whiteIsPerforming);
+                break;
+            default:
+                break;
+        }
+        board.setPiece(getRowTo(), getColTo(), promotedPiece);
     }
 
     /**
