@@ -31,6 +31,21 @@ public class EnPassantMove extends Move {
     }
 
     /**
+     * Returns the row at which a {@link Pawn} is captured via en passant.
+     * @return the row at which a pawn is captured via en passant
+     */
+    public int getRowPassant() {
+        return rowPassant;
+    }
+    /**
+     * Returns the col at which a {@link Pawn} is captured via en passant.
+     * @return the col at which a pawn is captured via en passant
+     */
+    public int getColPassant() {
+        return colPassant;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -30,6 +30,27 @@ public class Move {
     }
 
     /**
+     * Returns the row from which a piece will move via this {@link Move}.
+     * @return the row from which a piece will move
+     */
+    public int getRowFrom() { return rowFrom; }
+    /**
+     * Returns the col from which a piece will move via this {@link Move}.
+     * @return the col from which a piece will move
+     */
+    public int getColFrom() { return colFrom; }
+    /**
+     * Returns the row to which a piece will move via this {@link Move}.
+     * @return the row to which a piece will move
+     */
+    public int getRowTo() { return rowTo; }
+    /**
+     * Returns the col to which a piece will move via this {@link Move}.
+     * @return the col to which a piece will move
+     */
+    public int getColTo() { return colTo; }
+
+    /**
      * Performs the move action defined in this class on a given {@link Board}.
      * @param board the board on which to perform the move action
      * @see Board

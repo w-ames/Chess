@@ -26,6 +26,14 @@ public class PawnPromotionMove extends Move {
     }
 
     /**
+     * Gives the {@link PieceType} enumeration value to which a the moving {@link Pawn} is promoted.
+     * @return the piece type to which the pawn is promoted
+     */
+    public PieceType getPromotionType() {
+        return promotionType;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -37,6 +37,27 @@ public class CastlingMove extends Move {
     }
 
     /**
+     * Returns the row from which a second rook piece will move via this {@link CastlingMove}.
+     * @return the row from which a second rook piece will move
+     */
+    public int getRowFromCastle() { return rowFromCastle; }
+    /**
+     * Returns the col from which a second rook piece will move via this {@link CastlingMove}.
+     * @return the col from which a second rook piece will move
+     */
+    public int getColFromCastle() { return colFromCastle; }
+    /**
+     * Returns the row to which a second rook piece will move via this {@link CastlingMove}.
+     * @return the row to which a second rook piece will move
+     */
+    public int getRowToCastle() { return rowToCastle; }
+    /**
+     * Returns the col to which a second rook piece will move via this {@link CastlingMove}.
+     * @return the col to which a second rook piece will move
+     */
+    public int getColToCastle() { return colToCastle; }
+
+    /**
      * {@inheritDoc}
      */
     @Override
