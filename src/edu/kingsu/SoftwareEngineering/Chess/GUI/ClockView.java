@@ -14,13 +14,25 @@ import java.awt.Graphics2D;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * For displaying information about time/chess clock.
+ */
 public class ClockView extends JPanel {
 
+    /**
+     * Constructs ClockView objects and specifices their border, sets them to opaque
+     * (visible).
+     */
     public ClockView() {
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -34,6 +46,11 @@ public class ClockView extends JPanel {
 
     }
 
+    /**
+     * Allows names to be added to representations of the chess clock.
+     * 
+     * @param name The name to add to this instance of the chess clock.
+     */
     void addPlayerName(String name) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
@@ -49,6 +66,11 @@ public class ClockView extends JPanel {
         this.add(playername, gb);
     }
 
+    /**
+     * Updates the time for instances representing a player's chess clock.
+     * 
+     * @param time The time to be updated to.
+     */
     void updatePlayerTime(String time) {
         GridBagConstraints gb = new GridBagConstraints();
         gb.fill = GridBagConstraints.VERTICAL;
@@ -62,6 +84,11 @@ public class ClockView extends JPanel {
         this.add(updateTime);
     }
 
+    /**
+     * Updates the time for instances representing the total game time clock.
+     * 
+     * @param time The time to be updated to.
+     */
     void updateTotalGameTime(String time) {
         this.setLayout(new GridBagLayout());
         JLabel updateTime = new JLabel(time);

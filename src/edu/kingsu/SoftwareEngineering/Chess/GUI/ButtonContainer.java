@@ -1,4 +1,5 @@
 package edu.kingsu.SoftwareEngineering.Chess.GUI;
+
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.GridBagConstraints;
@@ -14,13 +15,24 @@ import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
+/**
+ * Styled container to hold buttons.
+ */
 public class ButtonContainer extends JPanel {
 
+    /**
+     * Constructs a ButtonContainer. Specifies borders and makes visible (opaque).
+     */
     public ButtonContainer() {
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

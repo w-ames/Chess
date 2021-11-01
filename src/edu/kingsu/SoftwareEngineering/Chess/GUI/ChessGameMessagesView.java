@@ -1,4 +1,5 @@
 package edu.kingsu.SoftwareEngineering.Chess.GUI;
+
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.GridBagConstraints;
@@ -12,8 +13,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 
+/**
+ * Represents the view of notifications that communicates information about
+ * gameplay to the user.
+ */
 public class ChessGameMessagesView extends ChessGameView {
 
+    /**
+     * Constructs the notification JPanel.
+     */
     public ChessGameMessagesView() {
         this.setBackground(Color.WHITE);
         this.setOpaque(true);
@@ -21,6 +29,11 @@ public class ChessGameMessagesView extends ChessGameView {
         this.add(new JLabel("Messages View Placeholder"));
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

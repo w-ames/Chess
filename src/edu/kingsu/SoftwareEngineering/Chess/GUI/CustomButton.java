@@ -17,8 +17,17 @@ import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 
+/**
+ * Styling of custom buttons for Java Chess.
+ */
 public class CustomButton extends JButton implements MouseListener {
 
+    /**
+     * Constructs custom buttons for Java Chess, specifies the border styling, the
+     * text to be displayed on the button, and adds mouse listener.
+     * 
+     * @param buttonText Text to be displayed on the button.
+     */
     public CustomButton(String buttonText) {
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
@@ -33,6 +42,11 @@ public class CustomButton extends JButton implements MouseListener {
 
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -49,19 +63,35 @@ public class CustomButton extends JButton implements MouseListener {
 
     }
 
+    /**
+     * Changes the border of the button when the cursor hovers over it to provide a
+     * hint that it is clickable.
+     */
     public void mouseEntered(MouseEvent e) {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(96, 96, 96)));
     }
 
+    /**
+     * Changes the button's border back to defult when the cursor exits its
+     * boundaries.
+     */
     public void mouseExited(MouseEvent e) {
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
     }
 
+    /**
+     * Changes the border of the button when the button is clicked to help signal to
+     * the user that the button has been clicked.
+     */
     public void mousePressed(MouseEvent e) {
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(152, 152, 152)));
     }
 
+    /**
+     * Changes the button's border back to defult after the mouse click has been
+     * completed.
+     */
     public void mouseReleased(MouseEvent e) {
         System.out.println("CLICK");
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));

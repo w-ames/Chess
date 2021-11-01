@@ -60,6 +60,11 @@ public class ChessGameGUIView extends ChessGameView {
         this.add(boardHolder, gbForThis);
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

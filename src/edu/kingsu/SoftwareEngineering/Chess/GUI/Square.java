@@ -17,6 +17,10 @@ import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 
+/**
+ * Creates board squares that are a specified color (black or white), and are
+ * aware of their location.
+ */
 public class Square extends JButton implements MouseListener {
 
     String location; // The location of this square within the 2D array (squareHolderArray[][]).
@@ -43,6 +47,13 @@ public class Square extends JButton implements MouseListener {
 
     }
 
+    /**
+     * Over rides JPanel's paintComponent to allow for gradient color. Checks the
+     * color boolean to see whether to paint the square with the black or the white
+     * styling.
+     * 
+     * @param g Graphics object to build gradient on.
+     */
     @Override
     public void paintComponent(Graphics g) {
         if (color == false) {
@@ -96,6 +107,10 @@ public class Square extends JButton implements MouseListener {
 
     }
 
+    /**
+     * Prints the button's location to the notifaction window (for skeleton GUI
+     * only).
+     */
     public void mouseReleased(MouseEvent e) {
         System.out.println("Location: " + location);
 

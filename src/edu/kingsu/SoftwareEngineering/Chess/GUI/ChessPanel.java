@@ -15,7 +15,7 @@ import java.awt.Insets;
 import java.awt.Font;
 
 /**
- * ChessPanel
+ * ChessPanel holds all components of gameplay mode display.
  */
 public class ChessPanel extends JPanel {
 
@@ -41,7 +41,8 @@ public class ChessPanel extends JPanel {
     private CustomButton pieceInfo = new CustomButton("About Piece");
 
     /**
-     * Constructor
+     * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
+     * options (popupLayer), alternated using LayeredPane.
      */
     public ChessPanel() {
 
@@ -74,7 +75,7 @@ public class ChessPanel extends JPanel {
 
         // Begin adding all view components to mainLayer;
 
-        // Add Player 1 clock.
+        // Add Player 1 clock to mainLayer.
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.35;
@@ -84,7 +85,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.insets = new Insets(30, 30, 5, 5);
         mainLayer.add(player1Clock, gridBagForMainLayer);
 
-        // Add Player 2 clock.
+        // Add Player 2 clock to mainLayer.
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 1;
         gridBagForMainLayer.weightx = 0.35;
@@ -94,7 +95,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.insets = new Insets(30, 5, 5, 5);
         mainLayer.add(player2Clock, gridBagForMainLayer);
 
-        // Add total game clock.
+        // Add total game clock to mainLayer.
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 2;
         gridBagForMainLayer.weightx = 0.3;
@@ -104,7 +105,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.insets = new Insets(30, 30, 5, 30);
         mainLayer.add(totalGameTime, gridBagForMainLayer);
 
-        // Add guiView.
+        // Add guiView to mainLayer.
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.875;
@@ -114,7 +115,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.insets = new Insets(30, 30, 30, 30);
         mainLayer.add(guiView, gridBagForMainLayer);
 
-        // Add algebraicView.
+        // Add algebraicView to mainLayer.
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 2;
         gridBagForMainLayer.weightx = 0.3;
@@ -124,7 +125,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.insets = new Insets(30, 30, 30, 30);
         mainLayer.add(algebraicView, gridBagForMainLayer);
 
-        // Add messagesView.
+        // Add messagesView to mainLayer.
         gridBagForMainLayer.gridy = 3;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.7;
@@ -183,7 +184,7 @@ public class ChessPanel extends JPanel {
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
         buttonContainer.add(resignButton, gbForButtonPanel);
 
-        // Add button panel.
+        // Add button panel to mainLayer.
         gridBagForMainLayer.gridy = 3;
         gridBagForMainLayer.gridx = 2;
         gridBagForMainLayer.weightx = 0.3;
@@ -194,7 +195,7 @@ public class ChessPanel extends JPanel {
         mainLayer.add(buttonContainer, gridBagForMainLayer);
 
         // The following code block is responsible for dynamically resizing the popup
-        // layer.
+        // layer if the user resizes the application frame.
         layeredPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
