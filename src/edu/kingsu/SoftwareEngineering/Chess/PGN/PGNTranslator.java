@@ -3,6 +3,8 @@ package edu.kingsu.SoftwareEngineering.Chess.PGN;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class PGNTranslator{
 
@@ -65,17 +67,36 @@ public class PGNTranslator{
         if(destCol < 0 || destCol > 7) throw new IllegalArgumentException("Illegal destination column");
 
         destRank= "" + (destRow + 1);
-        destFile= convertColLetterToString(ColumnLetter.values()[destCol])
+        destFile= convertColLetterToString(ColumnLetter.values()[destCol]);
 
-        //disambiguate if necessary
-        //************************************************************************* */
-        //TO-DO
+        //disambiguate
 
+        //get a list of all squares containing pieces which can attack the same square
+        List<List<Integer>> attackSameSquare= board.getAttackers(destRow, destCol);
 
+        //distill this list to only include pieces of the same PieceType
+        List<List<Integer>> samePieceType= new ArrayList<List<Integer>>();
 
+        for(int i=0; i < attackSameSquare.size(); i++){
+            int row= attackSameSquare.get(i).get(0);
+            int col= attackSameSquare.get(i).get(1);
+            if(board.getPiece(row, col).getPieceType() == pieceType)
+                samePieceType.add(attackSameSquare.get(i));
+        }
 
-
-        //************************************************************************* */
+        //disambiguate from these pieces
+        for(int i=0; i < samePieceType.size(); i++){
+            if(samePieceType.get(i).get(1) == originCol){
+                //if the piece is in the same column as the piece which was moved,
+                //disambiguate the column
+                disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
+            }
+            if(samePieceType.get(i).get(0) == originRow){
+                //if the piece is in the same row as the piece which was moved,
+                //disambiguate the row
+                disambRank= "" + (originRow + 1);
+            }
+        }
 
         //find out if a capture occurred
         Piece destPiece= board.getPiece(destRow, move.getColTo());
@@ -83,7 +104,7 @@ public class PGNTranslator{
 
         //find out if a pawn got promoted
         if(moveType == MoveType.PAWN_PROMOTION)
-            pawnPromo= convertPieceTypeToString(move.getPromotionClass());
+            pawnPromo= convertPieceTypeToString(move.getPromotionType());
         
 
         //check if en passant occurred
@@ -100,7 +121,7 @@ public class PGNTranslator{
     }
 
     Move translatePGNToMove(String pgn, Board board){
-
+        
         return null;
     }
 
@@ -125,6 +146,4 @@ public class PGNTranslator{
         else if(col == ColumnLetter.H) return "h";
         else throw new IllegalArgumentException("Illegal parameter");
     }
-
-
 }
