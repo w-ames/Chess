@@ -32,6 +32,7 @@ public abstract class Piece {
      * {@link Piece}.
      * @return the {@link PieceType} enumeration value
      *  corresponding to this particular instance of {@link Piece}.
+     *  @see PieceType
      */
     public abstract PieceType getPieceType();
 
