@@ -115,7 +115,7 @@ public class ChessPanel extends JPanel {
         gridBagForMainLayer.weighty = 0.7;
         gridBagForMainLayer.gridwidth = 2;
         gridBagForMainLayer.gridheight = 2;
-        gridBagForMainLayer.insets = new Insets(30, 30, 30, 30);
+        gridBagForMainLayer.insets = new Insets(30, 30, 30, 5);
         mainLayer.add(guiView, gridBagForMainLayer);
 
         // Add algebraicView to mainLayer.
@@ -221,7 +221,7 @@ public class ChessPanel extends JPanel {
             }
         });
 
-        endGameOptions.setVisible(true);
+        endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
         layeredPane.revalidate();
         layeredPane.repaint();
