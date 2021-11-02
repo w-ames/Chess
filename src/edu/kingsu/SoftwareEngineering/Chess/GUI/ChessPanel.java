@@ -21,7 +21,8 @@ public class ChessPanel extends JPanel {
 
     private JLayeredPane layeredPane = new JLayeredPane();
     private MainLayer mainLayer = new MainLayer();
-    private JPanel popupLayer = new JPanel();
+    private PopupLayer endGameOptions = new PopupLayer();
+    private PopupLayer pawnPromotionScreen = new PopupLayer();
     // private ChessGame chessGame;
     private ChessGameGUIView guiView = new ChessGameGUIView();
     private ChessGameAlgebraicView algebraicView = new ChessGameAlgebraicView();
@@ -59,14 +60,16 @@ public class ChessPanel extends JPanel {
         /////////////////////////////////////////////////////////
 
         // Set layout for layeredPanes.
-        // LayeredPane is used to give z index for mainLayer and popupLayer.
+        // LayeredPane is used to give z index for mainLayer and the two popuplayers:
+        // endGameOptions, pawnPromotionScreen.
         this.setLayout(new GridLayout(0, 1));
 
-        popupLayer.setBackground(new Color(0, 94, 128));
-        popupLayer.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(0, 112, 153)));
         this.add(layeredPane);
         layeredPane.add(mainLayer, Integer.valueOf(0));
-        layeredPane.add(popupLayer, Integer.valueOf(1));
+        endGameOptions.makeIntoEndGameOptionsScreen("Game Over!");
+        layeredPane.add(endGameOptions, Integer.valueOf(1));
+        pawnPromotionScreen.makeIntoPawnPromotionScreen();
+        layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         // mainLayer layout.
         mainLayer.setLayout(new GridBagLayout());
@@ -195,7 +198,8 @@ public class ChessPanel extends JPanel {
         mainLayer.add(buttonContainer, gridBagForMainLayer);
 
         // The following code block is responsible for dynamically resizing the popup
-        // layer if the user resizes the application frame.
+        // layers (endGameOptions & pawnPromotionScreen) if the user resizes the
+        // application frame.
         layeredPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -205,16 +209,20 @@ public class ChessPanel extends JPanel {
                 // Makes the popupLayer rescale dynamically in the centre of ChessPanel.
                 Dimension popupSize = new Dimension((int) (size.getWidth() / popupScale),
                         (int) (size.getHeight() / popupScale));
-                popupLayer.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
+                pawnPromotionScreen.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
                         (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
-                popupLayer.setSize(popupSize);
+                endGameOptions.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
+                        (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
+                endGameOptions.setSize(popupSize);
+                pawnPromotionScreen.setSize(popupSize);
 
                 layeredPane.revalidate();
                 layeredPane.repaint();
             }
         });
 
-        popupLayer.setVisible(false);
+        endGameOptions.setVisible(true);
+        pawnPromotionScreen.setVisible(false);
         layeredPane.revalidate();
         layeredPane.repaint();
 
@@ -226,7 +234,11 @@ public class ChessPanel extends JPanel {
     }
 
     public void endGameOptions() {
-        // Need to add parameters
+        endGameOptions.setVisible(true);
+    }
+
+    public void showPawnPromotionScreen() {
+        pawnPromotionScreen.setVisible(true);
     }
 
 }
