@@ -107,9 +107,9 @@ public class ChessGameMessagesView extends ChessGameView {
         gbForInsideNotificationsPanel.gridy = 0;
         gbForInsideNotificationsPanel.weightx = 1;
         gbForInsideNotificationsPanel.weighty = 1;
-        addNotification.setMinimumSize(new Dimension(1000, 50));
-        addNotification.setMaximumSize(new Dimension(1000, 50));
-        addNotification.setPreferredSize(new Dimension(1000, 50));
+        addNotification.setMinimumSize(new Dimension(600, 50));
+        addNotification.setMaximumSize(new Dimension(600, 50));
+        addNotification.setPreferredSize(new Dimension(600, 50));
         notificationDisplayPanel.add(addNotification, gbForInsideNotificationsPanel);
         notificationDisplayPanel.repaint();
     }
