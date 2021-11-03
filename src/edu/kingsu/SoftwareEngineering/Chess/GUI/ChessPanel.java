@@ -241,19 +241,20 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
-        layeredPane.revalidate();
-        layeredPane.repaint();
 
+        initialize();
         // First notification.
         addNotification("Select a chess piece to begin...");
 
-        initialize();
+        layeredPane.revalidate();
+        layeredPane.repaint();
+
     }
 
     /**
      * Initialize the board at the start of the game.
      */
-    public void initialize() {
+    public void initialize() { // Needs to be edited to read from GameState.
         int width = 80;
         int height = 80;
         try {
@@ -367,8 +368,15 @@ public class ChessPanel extends JPanel implements MouseListener {
     /**
      * Displays the end game options popup screen.
      */
-    public void endGameOptions() {
+    public void showEndGameOptions() { // Needs to be edited to read from GameState.
         endGameOptions.setVisible(true);
+    }
+
+    /**
+     * Hides the end game options popup screen.
+     */
+    public void hideEndGameOptions() { // Needs to be edited to read from GameState.
+        endGameOptions.setVisible(false);
     }
 
     /**
@@ -376,6 +384,13 @@ public class ChessPanel extends JPanel implements MouseListener {
      */
     public void showPawnPromotionScreen() {
         pawnPromotionScreen.setVisible(true);
+    }
+
+    /**
+     * Hides the pawn promotion popup screen.
+     */
+    public void hidePawnPromotionScreen() {
+        pawnPromotionScreen.setVisible(false);
     }
 
     /**
