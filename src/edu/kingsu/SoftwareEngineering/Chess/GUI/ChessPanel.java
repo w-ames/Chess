@@ -13,11 +13,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
 
 /**
  * ChessPanel holds all components of gameplay mode display.
  */
-public class ChessPanel extends JPanel {
+public class ChessPanel extends JPanel implements MouseListener {
 
     private JLayeredPane layeredPane = new JLayeredPane();
     private MainLayer mainLayer = new MainLayer();
@@ -109,6 +114,13 @@ public class ChessPanel extends JPanel {
         mainLayer.add(totalGameTime, gridBagForMainLayer);
 
         // Add guiView to mainLayer.
+        // Add mouseListeners to the board squares within the guiView.
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                guiView.getSquares(i, j).addMouseListener(this);
+            }
+        }
+
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.875;
@@ -214,7 +226,7 @@ public class ChessPanel extends JPanel {
                 endGameOptions.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
                         (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
                 endGameOptions.setSize(popupSize);
-                pawnPromotionScreen.setSize(popupSize);
+                pawnPromotionScreen.setSize(new Dimension(popupSize));
 
                 layeredPane.revalidate();
                 layeredPane.repaint();
@@ -226,19 +238,67 @@ public class ChessPanel extends JPanel {
         layeredPane.revalidate();
         layeredPane.repaint();
 
+        // First notification.
+        addNotification("Select a chess piece to begin...");
     }
 
+    /**
+     * Initialize the board at the start of the game.
+     */
     public void initialize() {
         // Need to add parameters
         // Get times
     }
 
+    /**
+     * Displays the end game options popup screen.
+     */
     public void endGameOptions() {
         endGameOptions.setVisible(true);
     }
 
+    /**
+     * Displays the pawn promotion popup screen.
+     */
     public void showPawnPromotionScreen() {
         pawnPromotionScreen.setVisible(true);
     }
 
+    /**
+     * Adds a notification to the notifications screen (replaces previous
+     * notification)
+     * 
+     * @param notificationToAdd the notification string to add.
+     */
+    public void addNotification(String notificationToAdd) {
+        messagesView.addToNotifications(notificationToAdd);
+    }
+
+    /**
+     * Prints the location of the selected square to the notifications screen.
+     * 
+     * @param e
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Square copyButton = (Square) e.getSource();
+        addNotification("You have selected square: " + copyButton.getSquareLocation());
+    }
+
+    // The following are unused but required to implement MouseListener.
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+
+    }
 }

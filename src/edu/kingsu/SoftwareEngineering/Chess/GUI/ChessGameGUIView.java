@@ -12,6 +12,11 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
 
 /**
  * ChessGameGUIView class holds the graphical view of the game board.
@@ -110,12 +115,23 @@ public class ChessGameGUIView extends ChessGameView {
     // public void addController(ChessGameGUIController gameController){}
 
     /**
-     * Update updates the 2D array representation of the board
-     * (squareHolderArray[][]). The board can then be repainted using paintBoard()
-     * to reflect the current state of the game.
+     * Updates the 2D array representation of the board (squareHolderArray[][]). The
+     * board can then be repainted using paintBoard() to reflect the current state
+     * of the game.
      */
     public void update() {
-        // This needs to be written using
+        // need ChessGame
+    }
+
+    /**
+     * Returns the square at the requested coordinate.
+     * 
+     * @param i x axis location
+     * @param j y axis location
+     * @return the square at the specified coordinate.
+     */
+    public Square getSquares(int i, int j) {
+        return squareHolderArray[i][j];
     }
 
 }

@@ -23,7 +23,7 @@ import java.awt.Cursor;
  */
 public class Square extends JButton implements MouseListener {
 
-    String location; // The location of this square within the 2D array (squareHolderArray[][]).
+    private String location; // The location of this square within the 2D array (squareHolderArray[][]).
     boolean color; // White = true, Black = false
 
     /**
@@ -77,10 +77,6 @@ public class Square extends JButton implements MouseListener {
         }
     }
 
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
     /**
      * Changes the border color to blue, to highlight it when the mouse hovers over
      * it.
@@ -88,6 +84,15 @@ public class Square extends JButton implements MouseListener {
     public void mouseEntered(MouseEvent e) {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(49, 209, 245)));
+    }
+
+    /**
+     * To get the location of the square on the board.
+     * 
+     * @return the location of the square on the board.
+     */
+    public String getSquareLocation() {
+        return location;
     }
 
     /**
@@ -107,12 +112,11 @@ public class Square extends JButton implements MouseListener {
 
     }
 
-    /**
-     * Prints the button's location to the notifaction window (for skeleton GUI
-     * only).
-     */
     public void mouseReleased(MouseEvent e) {
-        System.out.println("Location: " + location);
+    }
+
+    public void mouseClicked(MouseEvent e) {
 
     }
+
 }

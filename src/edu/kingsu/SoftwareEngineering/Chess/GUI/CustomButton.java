@@ -34,6 +34,7 @@ public class CustomButton extends JButton implements MouseListener {
         JLabel text = new JLabel(buttonText);
         text.setFont(new Font("Arial", Font.PLAIN, 20));
         text.setForeground(new Color(242, 242, 242));
+        this.setText(buttonText);
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForButton = new GridBagConstraints();
         gbForButton.fill = GridBagConstraints.CENTER;
@@ -59,14 +60,11 @@ public class CustomButton extends JButton implements MouseListener {
         g2d.dispose();
     }
 
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
     /**
      * Changes the border of the button when the cursor hovers over it to provide a
      * hint that it is clickable.
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(96, 96, 96)));
@@ -76,6 +74,7 @@ public class CustomButton extends JButton implements MouseListener {
      * Changes the button's border back to defult when the cursor exits its
      * boundaries.
      */
+    @Override
     public void mouseExited(MouseEvent e) {
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
     }
@@ -84,6 +83,7 @@ public class CustomButton extends JButton implements MouseListener {
      * Changes the border of the button when the button is clicked to help signal to
      * the user that the button has been clicked.
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(152, 152, 152)));
     }
@@ -92,8 +92,13 @@ public class CustomButton extends JButton implements MouseListener {
      * Changes the button's border back to defult after the mouse click has been
      * completed.
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("CLICK");
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
     }
 }
