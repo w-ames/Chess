@@ -16,6 +16,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 /**
  * Creates board squares that are a specified color (black or white), and are
@@ -25,6 +28,7 @@ public class Square extends JButton implements MouseListener {
 
     private String location; // The location of this square within the 2D array (squareHolderArray[][]).
     boolean color; // White = true, Black = false
+    private String currentPiece = "None";
 
     /**
      * The constructor for Square class. Adds mouse listener to each square and
@@ -37,6 +41,8 @@ public class Square extends JButton implements MouseListener {
      */
     public Square(String location, boolean color) {
         addMouseListener(this);
+        this.setMinimumSize(new Dimension(70, 70));
+        this.setMaximumSize(new Dimension(70, 70));
         this.color = color;
         this.location = location;
         if (color == false) {
@@ -75,6 +81,24 @@ public class Square extends JButton implements MouseListener {
             g2d.fillRect(0, 0, w, h);
             g2d.dispose();
         }
+    }
+
+    /**
+     * Set information about what piece is currently on this square.
+     * 
+     * @param newPiece new piece that is added to the square.
+     */
+    public void setCurrentPiece(String newPiece) {
+        this.currentPiece = newPiece;
+    }
+
+    /**
+     * Returns the name of the piece currently on this square.
+     * 
+     * @return the piece on this square.
+     */
+    public String getPiece() {
+        return currentPiece;
     }
 
     /**

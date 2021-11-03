@@ -101,6 +101,7 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.weighty = 1;
         boardHolder.setMinimumSize(new Dimension(400, 400));
         boardHolder.setPreferredSize(new Dimension(650, 650));
+        boardHolder.setMaximumSize(new Dimension(650, 650));
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 gbForBoard.gridy = i;

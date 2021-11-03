@@ -18,6 +18,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.awt.image.BufferedImage;
 
 /**
  * ChessPanel holds all components of gameplay mode display.
@@ -240,14 +246,122 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         // First notification.
         addNotification("Select a chess piece to begin...");
+
+        initialize();
     }
 
     /**
      * Initialize the board at the start of the game.
      */
     public void initialize() {
-        // Need to add parameters
-        // Get times
+        int width = 80;
+        int height = 80;
+        try {
+
+            // Add Start New Game Black Pawns.
+            for (int i = 0; i < 8; i++) {
+                BufferedImage bufferedImage = ImageIO.read(new File("src/assets/piece_images/black_pawn.png"));
+                Image pieceImage = bufferedImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
+                guiView.getSquares(1, i).add(new JLabel(pieceImageIcon));
+                guiView.getSquares(1, i).setCurrentPiece("Black Pawn");
+            }
+
+            // Add Start New Game White Pawns.
+            for (int i = 0; i < 8; i++) {
+                BufferedImage bufferedImage = ImageIO.read(new File("src/assets/piece_images/white_pawn.png"));
+                Image pieceImage = bufferedImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
+                guiView.getSquares(6, i).add(new JLabel(pieceImageIcon));
+                guiView.getSquares(6, i).setCurrentPiece("White Pawn");
+            }
+
+            // Add black rooks.
+            BufferedImage bufferedImage4 = ImageIO.read(new File("src/assets/piece_images/black_rook.png"));
+            Image pieceImage = bufferedImage4.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconBlackRook = new ImageIcon(pieceImage);
+            guiView.getSquares(0, 7).add(new JLabel(pieceImageIconBlackRook));
+            guiView.getSquares(0, 0).add(new JLabel(pieceImageIconBlackRook));
+            guiView.getSquares(0, 7).setCurrentPiece("Black Rook");
+            guiView.getSquares(0, 0).setCurrentPiece("Black Rook");
+
+            // Add white rooks.
+            BufferedImage bufferedImagewRook1 = ImageIO.read(new File("src/assets/piece_images/white_rook.png"));
+            Image pieceImagewrook1 = bufferedImagewRook1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconwrook1 = new ImageIcon(pieceImagewrook1);
+            guiView.getSquares(7, 7).add(new JLabel(pieceImageIconwrook1));
+            guiView.getSquares(7, 0).add(new JLabel(pieceImageIconwrook1));
+            guiView.getSquares(7, 7).setCurrentPiece("White Rook");
+            guiView.getSquares(7, 0).setCurrentPiece("White Rook");
+
+            // Add black kinghts.
+            BufferedImage bufferedImagebKingt1 = ImageIO.read(new File("src/assets/piece_images/black_knight.png"));
+            Image pieceImagebKnight1 = bufferedImagebKingt1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconbKnight1 = new ImageIcon(pieceImagebKnight1);
+            guiView.getSquares(0, 6).add(new JLabel(pieceImageIconbKnight1));
+            guiView.getSquares(0, 1).add(new JLabel(pieceImageIconbKnight1));
+            guiView.getSquares(0, 6).setCurrentPiece("Black Knight");
+            guiView.getSquares(0, 1).setCurrentPiece("Black Knight");
+
+            // Add white kinghts.
+            BufferedImage bufferedImagewKingt1 = ImageIO.read(new File("src/assets/piece_images/white_knight.png"));
+            Image pieceImagewKnight1 = bufferedImagewKingt1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconwKnight1 = new ImageIcon(pieceImagewKnight1);
+            guiView.getSquares(7, 6).add(new JLabel(pieceImageIconwKnight1));
+            guiView.getSquares(7, 1).add(new JLabel(pieceImageIconwKnight1));
+            guiView.getSquares(7, 6).setCurrentPiece("White Knight");
+            guiView.getSquares(7, 1).setCurrentPiece("White Knight");
+
+            // Add black bishops.
+            BufferedImage bufferedImageBlackBishop = ImageIO.read(new File("src/assets/piece_images/black_bishop.png"));
+            Image pieceImageBlackBishop = bufferedImageBlackBishop.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconBlackBishop = new ImageIcon(pieceImageBlackBishop);
+            guiView.getSquares(0, 5).add(new JLabel(pieceImageIconBlackBishop));
+            guiView.getSquares(0, 2).add(new JLabel(pieceImageIconBlackBishop));
+            guiView.getSquares(0, 5).setCurrentPiece("Black Bishop");
+            guiView.getSquares(0, 2).setCurrentPiece("Black Bishop");
+
+            // Add white bishops.
+            BufferedImage bufferedImageWhiteBishop = ImageIO.read(new File("src/assets/piece_images/white_bishop.png"));
+            Image pieceImageWhiteBishop = bufferedImageWhiteBishop.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconWhiteBishop = new ImageIcon(pieceImageWhiteBishop);
+            guiView.getSquares(7, 5).add(new JLabel(pieceImageIconWhiteBishop));
+            guiView.getSquares(7, 2).add(new JLabel(pieceImageIconWhiteBishop));
+            guiView.getSquares(7, 5).setCurrentPiece("White Bishop");
+            guiView.getSquares(7, 2).setCurrentPiece("White Bishop");
+
+            // Add black queen.
+            BufferedImage bufferedImageBlackQueen = ImageIO.read(new File("src/assets/piece_images/black_queen.png"));
+            Image pieceImageBlackQueen = bufferedImageBlackQueen.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconBlackQueen = new ImageIcon(pieceImageBlackQueen);
+            guiView.getSquares(0, 3).add(new JLabel(pieceImageIconBlackQueen));
+            guiView.getSquares(0, 3).setCurrentPiece("Black Queen");
+
+            // Add white queen.
+            BufferedImage bufferedImageWhiteQueen = ImageIO.read(new File("src/assets/piece_images/white_queen.png"));
+            Image pieceImageWhiteQueen = bufferedImageWhiteQueen.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconWhiteQueen = new ImageIcon(pieceImageWhiteQueen);
+            guiView.getSquares(7, 3).add(new JLabel(pieceImageIconWhiteQueen));
+            guiView.getSquares(7, 3).setCurrentPiece("Black Queen");
+
+            // Add black king.
+            BufferedImage bufferedImageBlackKing = ImageIO.read(new File("src/assets/piece_images/black_king.png"));
+            Image pieceImageBlackKing = bufferedImageBlackKing.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconBlackKing = new ImageIcon(pieceImageBlackKing);
+            guiView.getSquares(0, 4).add(new JLabel(pieceImageIconBlackKing));
+            guiView.getSquares(0, 4).setCurrentPiece("Black King");
+
+            // Add white king.
+            BufferedImage bufferedImageWhiteKing = ImageIO.read(new File("src/assets/piece_images/white_king.png"));
+            Image pieceImageWhiteKing = bufferedImageWhiteKing.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIconWhiteKing = new ImageIcon(pieceImageWhiteKing);
+            guiView.getSquares(7, 4).add(new JLabel(pieceImageIconWhiteKing));
+            guiView.getSquares(7, 4).setCurrentPiece("White King");
+
+        } catch (Exception e) {
+            addNotification(e.toString());
+        }
+
     }
 
     /**
@@ -274,6 +388,14 @@ public class ChessPanel extends JPanel implements MouseListener {
         messagesView.addToNotifications(notificationToAdd);
     }
 
+    // public void turnOffNotifications(){}
+
+    // public void turnOffBoardHighlight(){}
+
+    // public void turnOffMoveHint(){}
+
+    // public void turnOff_Undo_Redo(){}
+
     /**
      * Prints the location of the selected square to the notifications screen.
      * 
@@ -282,7 +404,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
-        addNotification("You have selected square: " + copyButton.getSquareLocation());
+        addNotification("You have selected square: " + copyButton.getSquareLocation() + ". Contains piece: "
+                + copyButton.getPiece());
     }
 
     // The following are unused but required to implement MouseListener.

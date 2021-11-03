@@ -34,11 +34,10 @@ public class ChessGameMessagesView extends ChessGameView {
         // Add title and panel where notifications display panel.
         this.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
-        gb.fill = GridBagConstraints.BOTH;
         gb.anchor = GridBagConstraints.CENTER;
         gb.gridy = 0;
         gb.gridx = 0;
-        gb.weightx = 1;
+        gb.weightx = 0.75;
         gb.weighty = 0.25;
         gb.gridheight = 1;
         gb.gridwidth = 1;
@@ -54,12 +53,14 @@ public class ChessGameMessagesView extends ChessGameView {
         addToNotifications("To begin, select a piece...");
 
         // Add the notifications display panel to this component.
+        gb.fill = GridBagConstraints.BOTH;
         gb.gridy = 3;
         gb.gridx = 0;
         gb.weightx = 1;
         gb.weighty = 0.75;
         gb.gridheight = 3;
         gb.gridwidth = 1;
+        gb.insets = new Insets(5, 5, 5, 5);
         this.add(notificationDisplayPanel, gb);
     }
 
@@ -97,13 +98,18 @@ public class ChessGameMessagesView extends ChessGameView {
         notificationDisplayPanel.remove(addNotification);
 
         // Styles and adds the new notification to the notification display panel.
-        addNotification.setFont(new Font("Monospaced", Font.PLAIN, 20));
+        addNotification.setFont(new Font("Monospaced", Font.PLAIN, 15));
         addNotification.setForeground(new Color(0, 204, 0));
         notificationDisplayPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbForInsideNotificationsPanel = new GridBagConstraints();
         gbForInsideNotificationsPanel.anchor = GridBagConstraints.NORTHWEST;
+        gbForInsideNotificationsPanel.gridx = 0;
+        gbForInsideNotificationsPanel.gridy = 0;
         gbForInsideNotificationsPanel.weightx = 1;
         gbForInsideNotificationsPanel.weighty = 1;
+        addNotification.setMinimumSize(new Dimension(1000, 50));
+        addNotification.setMaximumSize(new Dimension(1000, 50));
+        addNotification.setPreferredSize(new Dimension(1000, 50));
         notificationDisplayPanel.add(addNotification, gbForInsideNotificationsPanel);
         notificationDisplayPanel.repaint();
     }
