@@ -15,6 +15,13 @@ public class Rook extends Piece {
         super(isWhite);
     }
 
+    @Override
+    public Piece copyPiece() {
+        Rook copy = new Rook(isWhite());
+        copy.doneCastling = this.doneCastling;
+        return copy;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -13,6 +13,11 @@ public class Bishop extends Piece {
         super(isWhite);
     }
 
+    @Override
+    public Piece copyPiece() {
+        return new Bishop(isWhite());
+    }
+
     /**
      * {@inheritDoc}
      */

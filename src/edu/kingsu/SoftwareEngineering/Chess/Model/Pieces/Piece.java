@@ -18,6 +18,8 @@ public abstract class Piece {
         this.isWhite = isWhite;
     }
 
+    public abstract Piece copyPiece();
+
     /**
      * Returns a boolean signifying if this piece is white or black.
      * @return <code>true</code> if this piece is white, and <code>false</code> if this piece is black

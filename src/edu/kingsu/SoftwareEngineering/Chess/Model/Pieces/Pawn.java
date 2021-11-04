@@ -15,6 +15,13 @@ public class Pawn extends Piece {
         super(isWhite);
     }
 
+    @Override
+    public Piece copyPiece() {
+        Pawn copy = new Pawn(isWhite());
+        copy.doneDoubleMove = this.doneDoubleMove;
+        return copy;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -27,5 +34,8 @@ public class Pawn extends Piece {
      * Returns a boolean representing whether this piece is finished performing initial two-space moves.
      * @return <code>true</code> if this piece is finished performing double-moves, and <code>false</code> if it is still able to double-move
      */
+    public boolean isDoneDoubleMove() {
+        return doneDoubleMove;
+    }
 
 }

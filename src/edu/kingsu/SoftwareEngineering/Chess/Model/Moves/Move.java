@@ -75,6 +75,31 @@ public class Move {
     }
 
     /**
+     * Returns a boolean representing whether this move has the
+     * same destination as another {@link Move}.
+     * @param otherMove the move whose destination will be compared
+     *  with that of this instance
+     * @return <code>true</code> if the moves have the same target
+     *  destination row and column, <code>false</code> otherwise
+     */
+    @Deprecated
+    public boolean hasSameDestination(Move otherMove) {
+        return rowTo == otherMove.rowTo && colTo == otherMove.colTo;
+    }
+
+    /**
+     * Returns a boolean representing whether or not this move
+     * targets a given location.
+     * @param r the target row
+     * @param c the target column
+     * @return <code>true</code> if this move targets the given
+     *  row and column, otherwise <code>false</code>
+     */
+    public boolean hasDestination(int r, int c) {
+        return rowTo == r && colTo == c;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
