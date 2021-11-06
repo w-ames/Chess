@@ -46,7 +46,7 @@ public class Square extends JButton implements MouseListener {
         this.color = color;
         this.location = location;
         if (color == false) {
-            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(80, 80, 80)));
+            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(104, 104, 104)));
         } else {
             this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
         }
@@ -67,7 +67,7 @@ public class Square extends JButton implements MouseListener {
             Graphics2D g2d = (Graphics2D) g.create();
             int w = getWidth();
             int h = getHeight();
-            GradientPaint gp = new GradientPaint(0, 0, new Color(80, 80, 80), 0, h, new Color(128, 128, 128));
+            GradientPaint gp = new GradientPaint(0, 0, new Color(104, 104, 104), 0, h, new Color(152, 152, 152));
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, w, h);
             g2d.dispose();
@@ -125,7 +125,7 @@ public class Square extends JButton implements MouseListener {
      */
     public void mouseExited(MouseEvent e) {
         if (color == false) {
-            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(80, 80, 80)));
+            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(104, 104, 104)));
         } else {
             this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
         }
