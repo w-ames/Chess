@@ -262,12 +262,12 @@ public class ChessPanel extends JPanel implements MouseListener {
      * Initialize the board at the start of a new game.
      */
     public void initialize() { // Needs to be edited to read from GameState.
-        int kingSize = 100;
+        int kingSize = 110;
         int queenSize = 90;
         int knightSize = 80;
-        int bishopSize = 80;
+        int bishopSize = 85;
         int rookSize = 70;
-        int pawnSize = 70;
+        int pawnSize = 60;
 
         // Adjust the piece sizes according to the application frame size.
         // if (guiView.getBoardHolderSize() > 475) {
