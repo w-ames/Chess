@@ -31,6 +31,7 @@ public class CustomButton extends JButton implements MouseListener {
     public CustomButton(String buttonText) {
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+
         JLabel text = new JLabel(buttonText);
         text.setFont(new Font("Arial", Font.PLAIN, 20));
         text.setForeground(new Color(242, 242, 242));

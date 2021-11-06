@@ -27,6 +27,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * ChessPanel holds all components of gameplay mode display.
+ * 
+ * @author Chelsie Bajic
  */
 public class ChessPanel extends JPanel implements MouseListener {
 
@@ -51,6 +53,11 @@ public class ChessPanel extends JPanel implements MouseListener {
     private CustomButton moveHintButton = new CustomButton("Hint");
     private CustomButton resignButton = new CustomButton("Resign");
     private CustomButton pieceInfo = new CustomButton("About Piece");
+    private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
+
+    // endGameState is used to determine if the main panel should display the "show
+    // end game options" button instead of the "Resign" button.
+    private boolean endGameState = false;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
@@ -252,7 +259,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Initialize the board at the start of the game.
+     * Initialize the board at the start of a new game.
      */
     public void initialize() { // Needs to be edited to read from GameState.
         int width = 80;
@@ -277,7 +284,7 @@ public class ChessPanel extends JPanel implements MouseListener {
                 guiView.getSquares(6, i).setCurrentPiece("White Pawn");
             }
 
-            // Add black rooks.
+            // Add Start New Game black rooks.
             BufferedImage bufferedImage4 = ImageIO.read(new File("src/assets/piece_images/black_rook.png"));
             Image pieceImage = bufferedImage4.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackRook = new ImageIcon(pieceImage);
@@ -286,7 +293,7 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(0, 7).setCurrentPiece("Black Rook");
             guiView.getSquares(0, 0).setCurrentPiece("Black Rook");
 
-            // Add white rooks.
+            // Add Start New Game white rooks.
             BufferedImage bufferedImagewRook1 = ImageIO.read(new File("src/assets/piece_images/white_rook.png"));
             Image pieceImagewrook1 = bufferedImagewRook1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconwrook1 = new ImageIcon(pieceImagewrook1);
@@ -295,7 +302,7 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(7, 7).setCurrentPiece("White Rook");
             guiView.getSquares(7, 0).setCurrentPiece("White Rook");
 
-            // Add black kinghts.
+            // Add Start New Game black kinghts.
             BufferedImage bufferedImagebKingt1 = ImageIO.read(new File("src/assets/piece_images/black_knight.png"));
             Image pieceImagebKnight1 = bufferedImagebKingt1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconbKnight1 = new ImageIcon(pieceImagebKnight1);
@@ -304,7 +311,7 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(0, 6).setCurrentPiece("Black Knight");
             guiView.getSquares(0, 1).setCurrentPiece("Black Knight");
 
-            // Add white kinghts.
+            // Add Start New Game white kinghts.
             BufferedImage bufferedImagewKingt1 = ImageIO.read(new File("src/assets/piece_images/white_knight.png"));
             Image pieceImagewKnight1 = bufferedImagewKingt1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconwKnight1 = new ImageIcon(pieceImagewKnight1);
@@ -313,7 +320,7 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(7, 6).setCurrentPiece("White Knight");
             guiView.getSquares(7, 1).setCurrentPiece("White Knight");
 
-            // Add black bishops.
+            // Add Start New Game black bishops.
             BufferedImage bufferedImageBlackBishop = ImageIO.read(new File("src/assets/piece_images/black_bishop.png"));
             Image pieceImageBlackBishop = bufferedImageBlackBishop.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackBishop = new ImageIcon(pieceImageBlackBishop);
@@ -322,7 +329,7 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(0, 5).setCurrentPiece("Black Bishop");
             guiView.getSquares(0, 2).setCurrentPiece("Black Bishop");
 
-            // Add white bishops.
+            // Add Start New Game white bishops.
             BufferedImage bufferedImageWhiteBishop = ImageIO.read(new File("src/assets/piece_images/white_bishop.png"));
             Image pieceImageWhiteBishop = bufferedImageWhiteBishop.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconWhiteBishop = new ImageIcon(pieceImageWhiteBishop);
@@ -331,28 +338,28 @@ public class ChessPanel extends JPanel implements MouseListener {
             guiView.getSquares(7, 5).setCurrentPiece("White Bishop");
             guiView.getSquares(7, 2).setCurrentPiece("White Bishop");
 
-            // Add black queen.
+            // Add Start New Game black queen.
             BufferedImage bufferedImageBlackQueen = ImageIO.read(new File("src/assets/piece_images/black_queen.png"));
             Image pieceImageBlackQueen = bufferedImageBlackQueen.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackQueen = new ImageIcon(pieceImageBlackQueen);
             guiView.getSquares(0, 3).add(new JLabel(pieceImageIconBlackQueen));
             guiView.getSquares(0, 3).setCurrentPiece("Black Queen");
 
-            // Add white queen.
+            // Add Start New Game white queen.
             BufferedImage bufferedImageWhiteQueen = ImageIO.read(new File("src/assets/piece_images/white_queen.png"));
             Image pieceImageWhiteQueen = bufferedImageWhiteQueen.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconWhiteQueen = new ImageIcon(pieceImageWhiteQueen);
             guiView.getSquares(7, 3).add(new JLabel(pieceImageIconWhiteQueen));
             guiView.getSquares(7, 3).setCurrentPiece("Black Queen");
 
-            // Add black king.
+            // Add Start New Game black king.
             BufferedImage bufferedImageBlackKing = ImageIO.read(new File("src/assets/piece_images/black_king.png"));
             Image pieceImageBlackKing = bufferedImageBlackKing.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackKing = new ImageIcon(pieceImageBlackKing);
             guiView.getSquares(0, 4).add(new JLabel(pieceImageIconBlackKing));
             guiView.getSquares(0, 4).setCurrentPiece("Black King");
 
-            // Add white king.
+            // Add Start New Game white king.
             BufferedImage bufferedImageWhiteKing = ImageIO.read(new File("src/assets/piece_images/white_king.png"));
             Image pieceImageWhiteKing = bufferedImageWhiteKing.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconWhiteKing = new ImageIcon(pieceImageWhiteKing);
@@ -370,6 +377,7 @@ public class ChessPanel extends JPanel implements MouseListener {
      */
     public void showEndGameOptions() { // Needs to be edited to read from GameState.
         endGameOptions.setVisible(true);
+        endGameState = true; // If the user undoes a move, this should be set back to false.
     }
 
     /**
@@ -377,6 +385,23 @@ public class ChessPanel extends JPanel implements MouseListener {
      */
     public void hideEndGameOptions() { // Needs to be edited to read from GameState.
         endGameOptions.setVisible(false);
+
+        // If the game is in the end game state, and hideEndGameOptions() is called,
+        // replace the "resign button"
+        // with the "Show end game options" button.
+        if (endGameState == true) {
+            buttonContainer.remove(resignButton);
+            GridBagConstraints gb = new GridBagConstraints();
+            gb.gridy = 2;
+            gb.gridx = 0;
+            gb.weightx = 1;
+            gb.weighty = 1;
+            gb.gridheight = 1;
+            gb.gridwidth = 4;
+            gb.insets = new Insets(5, 5, 5, 5);
+            buttonContainer.add(showEndGameOptionsButton, gb);
+
+        }
     }
 
     /**
@@ -403,13 +428,15 @@ public class ChessPanel extends JPanel implements MouseListener {
         messagesView.addToNotifications(notificationToAdd);
     }
 
-    // public void turnOffNotifications(){}
+    // public void disableNotifications(){}
 
-    // public void turnOffBoardHighlight(){}
+    // public void disableBoardHighlight(){}
 
-    // public void turnOffMoveHint(){}
+    // public void disableMoveHint(){}
 
-    // public void turnOff_Undo_Redo(){}
+    // public void disable_Undo_Redo_Move(){}
+
+    // public void loadSavedGame(ChessGameLoadView savedGame){}
 
     /**
      * Prints the location of the selected square to the notifications screen.

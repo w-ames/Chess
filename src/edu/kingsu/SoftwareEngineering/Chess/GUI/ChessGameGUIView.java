@@ -20,6 +20,8 @@ import java.awt.event.MouseAdapter;
 
 /**
  * ChessGameGUIView class holds the graphical view of the game board.
+ * 
+ * @author Chelsie Bajic
  */
 public class ChessGameGUIView extends ChessGameView {
 
@@ -120,9 +122,9 @@ public class ChessGameGUIView extends ChessGameView {
      * board can then be repainted using paintBoard() to reflect the current state
      * of the game.
      */
-    public void update() {
-        // need ChessGame
-    }
+    // public void update(Piece[][]) {
+    //
+    // }
 
     /**
      * Returns the square at the requested coordinate.

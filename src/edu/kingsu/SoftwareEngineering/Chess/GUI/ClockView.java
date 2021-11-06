@@ -50,6 +50,7 @@ public class ClockView extends JPanel {
      * Allows names to be added to representations of the chess clock.
      * 
      * @param name The name to add to this instance of the chess clock.
+     * @author Chelsie Bajic
      */
     void addPlayerName(String name) {
         this.setLayout(new GridBagLayout());
