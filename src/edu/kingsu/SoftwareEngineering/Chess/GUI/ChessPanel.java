@@ -262,7 +262,8 @@ public class ChessPanel extends JPanel implements MouseListener {
      * Initialize the board at the start of a new game.
      */
     public void initialize() { // Needs to be edited to read from GameState.
-        int kingQueenSize = 100;
+        int kingSize = 100;
+        int queenSize = 90;
         int knightSize = 80;
         int bishopSize = 80;
         int rookSize = 70;
@@ -272,7 +273,8 @@ public class ChessPanel extends JPanel implements MouseListener {
         if (guiView.getBoardHolderSize().getWidth() > 500) {
             // Do nothing
         } else {
-            kingQueenSize = 70;
+            kingSize = 75;
+            queenSize = 60;
             knightSize = 50;
             bishopSize = 60;
             rookSize = 40;
@@ -359,7 +361,7 @@ public class ChessPanel extends JPanel implements MouseListener {
 
             // Add Start New Game black queen.
             BufferedImage bufferedImageBlackQueen = ImageIO.read(new File("src/assets/piece_images/black_queen.png"));
-            Image pieceImageBlackQueen = bufferedImageBlackQueen.getScaledInstance(kingQueenSize, kingQueenSize,
+            Image pieceImageBlackQueen = bufferedImageBlackQueen.getScaledInstance(queenSize, queenSize,
                     Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackQueen = new ImageIcon(pieceImageBlackQueen);
             guiView.getSquares(0, 3).add(new JLabel(pieceImageIconBlackQueen));
@@ -367,7 +369,7 @@ public class ChessPanel extends JPanel implements MouseListener {
 
             // Add Start New Game white queen.
             BufferedImage bufferedImageWhiteQueen = ImageIO.read(new File("src/assets/piece_images/white_queen.png"));
-            Image pieceImageWhiteQueen = bufferedImageWhiteQueen.getScaledInstance(kingQueenSize, kingQueenSize,
+            Image pieceImageWhiteQueen = bufferedImageWhiteQueen.getScaledInstance(queenSize, queenSize,
                     Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconWhiteQueen = new ImageIcon(pieceImageWhiteQueen);
             guiView.getSquares(7, 3).add(new JLabel(pieceImageIconWhiteQueen));
@@ -375,7 +377,7 @@ public class ChessPanel extends JPanel implements MouseListener {
 
             // Add Start New Game black king.
             BufferedImage bufferedImageBlackKing = ImageIO.read(new File("src/assets/piece_images/black_king.png"));
-            Image pieceImageBlackKing = bufferedImageBlackKing.getScaledInstance(kingQueenSize, kingQueenSize,
+            Image pieceImageBlackKing = bufferedImageBlackKing.getScaledInstance(kingSize, kingSize,
                     Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconBlackKing = new ImageIcon(pieceImageBlackKing);
             guiView.getSquares(0, 4).add(new JLabel(pieceImageIconBlackKing));
@@ -383,7 +385,7 @@ public class ChessPanel extends JPanel implements MouseListener {
 
             // Add Start New Game white king.
             BufferedImage bufferedImageWhiteKing = ImageIO.read(new File("src/assets/piece_images/white_king.png"));
-            Image pieceImageWhiteKing = bufferedImageWhiteKing.getScaledInstance(kingQueenSize, kingQueenSize,
+            Image pieceImageWhiteKing = bufferedImageWhiteKing.getScaledInstance(kingSize, kingSize,
                     Image.SCALE_SMOOTH);
             ImageIcon pieceImageIconWhiteKing = new ImageIcon(pieceImageWhiteKing);
             guiView.getSquares(7, 4).add(new JLabel(pieceImageIconWhiteKing));
