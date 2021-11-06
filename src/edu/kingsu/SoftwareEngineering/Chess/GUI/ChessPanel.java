@@ -270,16 +270,16 @@ public class ChessPanel extends JPanel implements MouseListener {
         int pawnSize = 70;
 
         // Adjust the piece sizes according to the application frame size.
-        if (guiView.getBoardHolderSize().getWidth() > 500) {
-            // Do nothing
-        } else {
-            kingSize = 75;
-            queenSize = 60;
-            knightSize = 50;
-            bishopSize = 60;
-            rookSize = 40;
-            pawnSize = 50;
-        }
+        // if (guiView.getBoardHolderSize() > 475) {
+        // // Do nothing
+        // } else {
+        // kingSize = 75;
+        // queenSize = 60;
+        // knightSize = 50;
+        // bishopSize = 60;
+        // rookSize = 40;
+        // pawnSize = 50;
+        // }
 
         try {
 
