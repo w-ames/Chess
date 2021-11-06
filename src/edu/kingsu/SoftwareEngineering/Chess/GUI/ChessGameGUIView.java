@@ -101,7 +101,7 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.gridheight = 1;
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
-        boardHolder.setMinimumSize(new Dimension(400, 400));
+        boardHolder.setMinimumSize(new Dimension(450, 450));
         boardHolder.setPreferredSize(new Dimension(650, 650));
         boardHolder.setMaximumSize(new Dimension(650, 650));
         for (int i = 0; i < 8; i++) {
@@ -135,6 +135,10 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public Square getSquares(int i, int j) {
         return squareHolderArray[i][j];
+    }
+
+    public Dimension getBoardHolderSize() {
+        return boardHolder.getSize();
     }
 
 }
