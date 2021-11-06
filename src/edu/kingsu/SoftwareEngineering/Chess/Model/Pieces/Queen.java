@@ -13,6 +13,14 @@ public class Queen extends Piece {
         super(isWhite);
     }
 
+    /**
+     * Creates a new {@link Queen} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Queen(String color) {
+        super(color);
+    }
+
     @Override
     public Piece copyPiece() {
         return new Queen(isWhite());

@@ -16,6 +16,15 @@ public class King extends Piece {
         this.doneCastling = false;
     }
 
+    /**
+     * Creates a new {@link King} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public King(String color) {
+        super(color);
+        this.doneCastling = false;
+    }
+
     @Override
     public Piece copyPiece() {
         King copy = new King(isWhite());

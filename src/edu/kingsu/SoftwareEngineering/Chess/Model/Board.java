@@ -57,7 +57,7 @@ public class Board {
         {' ',' ',' ',' ',' ',' ',' ',' '},
         {' ',' ',' ',' ',' ',' ',' ',' '},
         {'p','p','p','p','p','p','p','p'},
-        {'r','n','b','q','k','n','n','r'}
+        {'r','n','b','q','k','b','n','r'}
     };
 
     public Board() {
@@ -65,6 +65,11 @@ public class Board {
     }
 
     public Board(Board oBoard) {
+        squares = new Piece[ROWS][COLS];
+        whiteKingSquare = new int[] {-1, -1};
+        blackKingSquare = new int[] {-1, -1};
+        enPassantableRow = -1;
+        enPassantableCol = -1;
         for (int i=0; i<ROWS; i++) {
             for (int j=0; j<COLS; j++) {
                 Piece piece = null;
@@ -72,7 +77,7 @@ public class Board {
                 if (oPiece != null) {
                     piece = oPiece.copyPiece();
                 }
-                squares[i][j] = piece;
+                setPiece(i, j, piece);
             }
         }
         enPassantableRow = oBoard.enPassantableRow;
@@ -83,6 +88,7 @@ public class Board {
         initializeBoard(initialBoard);
     }
     public void initializeBoard(char[][] boardMap) {
+        squares = new Piece[ROWS][COLS];
         whiteKingSquare = new int[] {-1, -1};
         blackKingSquare = new int[] {-1, -1};
         enPassantableRow = -1;
@@ -174,7 +180,7 @@ public class Board {
     public void setPiece(int r, int c, Piece p) {
         if (isOnBoard(r, c)) {
             squares[r][c] = p;
-            if (p.getPieceType() == PieceType.KING) {
+            if (p != null && p.getPieceType() == PieceType.KING) {
                 updateKingLocation(p.isWhite(), r, c);
             }
         }
@@ -227,25 +233,28 @@ public class Board {
                 int forwardMult = movingWhite ? -1 : 1;
                 for (int[] offset : pawnOffsets) {
                     int toRow = fromRow+forwardMult*offset[0];
-                    int toCol = fromCol+forwardMult*offset[1];
-                    switch (validPawnMove(fromRow, fromCol, toRow, toCol)) {
-                        case NORMAL:
-                            moveList.add(new Move(fromRow, fromCol, toRow, toCol));
-                            break;
-                        case PAWN_DOUBLE:
-                            moveList.add(new PawnDoubleMove(fromRow, fromCol, toRow, toCol));
-                            break;
-                        case PAWN_PROMOTION:
-                            moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.KNIGHT));
-                            moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.BISHOP));
-                            moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.ROOK));
-                            moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.QUEEN));
-                            break;
-                        case EN_PASSANT:
-                            moveList.add(new EnPassantMove(fromRow, fromCol, toRow, toCol, toRow-forwardMult*1, toCol));
-                            break;
-                        default:
-                            break;
+                    int toCol = fromCol+offset[1];
+                    MoveType pawnMoveType = validPawnMove(fromRow, fromCol, toRow, toCol);
+                    if (pawnMoveType != null) {
+                        switch (pawnMoveType) {
+                            case NORMAL:
+                                moveList.add(new Move(fromRow, fromCol, toRow, toCol));
+                                break;
+                            case PAWN_DOUBLE:
+                                moveList.add(new PawnDoubleMove(fromRow, fromCol, toRow, toCol));
+                                break;
+                            case PAWN_PROMOTION:
+                                moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.KNIGHT));
+                                moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.BISHOP));
+                                moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.ROOK));
+                                moveList.add(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.QUEEN));
+                                break;
+                            case EN_PASSANT:
+                                moveList.add(new EnPassantMove(fromRow, fromCol, toRow, toCol, toRow-forwardMult*1, toCol));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
                 break;
@@ -267,11 +276,11 @@ public class Board {
                 moveList.addAll(createNormalMoveList(fromRow, fromCol, getRaySquares(movingWhite, fromRow, fromCol, -1, 1)));
                 break;
             case ROOK:
+                Rook movingRook = (Rook)movingPiece;
                 moveList.addAll(createNormalMoveList(fromRow, fromCol, getRaySquares(movingWhite, fromRow, fromCol, 1, 0)));
                 moveList.addAll(createNormalMoveList(fromRow, fromCol, getRaySquares(movingWhite, fromRow, fromCol, -1, 0)));
                 moveList.addAll(createNormalMoveList(fromRow, fromCol, getRaySquares(movingWhite, fromRow, fromCol, 0, -1)));
                 moveList.addAll(createNormalMoveList(fromRow, fromCol, getRaySquares(movingWhite, fromRow, fromCol, 0, 1)));
-                Rook movingRook = (Rook)movingPiece;
                 break;
             case QUEEN:
                 Queen movingQueen = (Queen)movingPiece;
@@ -298,15 +307,20 @@ public class Board {
             default:
                 break;
         }
+        System.err.println("Moves for piece "+movingPiece.getPieceType().name()+" at ["+fromRow+","+fromCol+"] : "+moveList.size());
         return moveList;
     }
 
     public List<Move> pruneMoves(boolean forWhite, List<Move> moves) {
+        System.err.println("ABOUT TO PRUNE");
         ArrayList<Move> prunedMoves = new ArrayList<Move>();
         Board aCopy;
         for (Move move : moves) {
+            System.err.println("ABOUT TO COPY BOARD");
             aCopy = new Board(this);
+            System.err.println("ABOUT TO PERFORM A MOVE");
             move.perform(aCopy);
+            System.err.println("CHECKING MOVE ON COPY FOR PRUNING!");
             if (!aCopy.getCheck(!forWhite)) {
                 // there is not check for the other side if we do this move
                 prunedMoves.add(move);
@@ -420,10 +434,11 @@ public class Board {
     }
 
     private MoveType validPawnMove(int fromRow, int fromCol, int toRow, int toCol) {
-        Pawn pawn = (Pawn)squares[fromRow][fromCol];
         if (!isOnBoard(toRow, toCol)) {
             return null;
         }
+        // System.err.println("from: "+fromRow+","+fromCol+" to: "+toRow+","+toCol);
+        Pawn pawn = (Pawn)squares[fromRow][fromCol];
         int promotionRank;
         if (pawn.isWhite()) {
             promotionRank = 0;
@@ -431,7 +446,7 @@ public class Board {
             promotionRank = ROWS-1;
         }
         // does not check that 'from' and 'to' are compatible
-        if (toCol == promotionRank) { // promotion move
+        if (toRow == promotionRank) { // promotion move
             return MoveType.PAWN_PROMOTION;
         }
         if (fromCol == toCol && squares[toRow][toCol] == null) { // same column moves

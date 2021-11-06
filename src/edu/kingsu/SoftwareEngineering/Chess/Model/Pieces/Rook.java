@@ -13,6 +13,15 @@ public class Rook extends Piece {
      */
     public Rook(boolean isWhite) {
         super(isWhite);
+        this.doneCastling = false;
+    }
+
+    /**
+     * Creates a new {@link Rook} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Rook(String color) {
+        super(color);
     }
 
     @Override

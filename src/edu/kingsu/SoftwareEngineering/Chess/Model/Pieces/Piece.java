@@ -18,6 +18,14 @@ public abstract class Piece {
         this.isWhite = isWhite;
     }
 
+    /**
+     * Creates a new {@link Piece} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Piece(String color) {
+        this(color.equalsIgnoreCase("white"));
+    }
+
     public abstract Piece copyPiece();
 
     /**

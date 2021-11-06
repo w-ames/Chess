@@ -13,6 +13,15 @@ public class Pawn extends Piece {
      */
     public Pawn(boolean isWhite) {
         super(isWhite);
+        doneDoubleMove = false;
+    }
+
+    /**
+     * Creates a new {@link Pawn} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Pawn(String color) {
+        super(color);
     }
 
     @Override
@@ -36,6 +45,13 @@ public class Pawn extends Piece {
      */
     public boolean isDoneDoubleMove() {
         return doneDoubleMove;
+    }
+
+    /**
+     * Sets the flag for this {@link Pawn} to be finished performing double moves
+     */
+    public void doneDoubleMove() {
+        doneDoubleMove = true;
     }
 
 }

@@ -30,6 +30,7 @@ public class PawnDoubleMove extends Move {
         super.perform(board);
         int middleRow = (getRowFrom()+getRowTo())/2;
         board.setEnPassantable(middleRow, getColTo());
+        ((Pawn)board.getPiece(getRowTo(), getColTo())).doneDoubleMove();
     }
 
     /**

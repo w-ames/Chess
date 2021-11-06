@@ -13,6 +13,14 @@ public class Bishop extends Piece {
         super(isWhite);
     }
 
+    /**
+     * Creates a new {@link Bishop} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Bishop(String color) {
+        super(color);
+    }
+
     @Override
     public Piece copyPiece() {
         return new Bishop(isWhite());
