@@ -1,5 +1,8 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 public class ChessAI {
@@ -12,6 +15,15 @@ public class ChessAI {
 
     public static ChessAIThread bestMove(Board board, int depth, boolean forWhite) {
         return null;
+    }
+
+    public static ChessAIThread randomMove(Board board, boolean forWhite) {
+        return new ChessAIThread() {
+            public Move calculateMove() {
+                List<Move> moves = board.getAllMoves(forWhite);
+                return moves.get(ThreadLocalRandom.current().nextInt(moves.size()));
+            }
+        };
     }
 
     private static Move minimax(Board board, int depth, int a, int b, boolean forWhite) {

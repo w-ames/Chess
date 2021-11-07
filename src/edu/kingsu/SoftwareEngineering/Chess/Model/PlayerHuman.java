@@ -2,10 +2,16 @@ package edu.kingsu.SoftwareEngineering.Chess.Model;
 
 public class PlayerHuman extends Player {
 
-    public PlayerHuman(boolean isWhite, boolean isHuman, int interval, int increment) {
-        super(isWhite, isHuman, interval, increment);
+    public PlayerHuman(ChessGame chessGame, boolean isWhite, int interval, int increment) {
+        super(chessGame, isWhite, true, interval, increment);
     }
 
     public void run() {
+        resumeTimer();
+        while (true) {
+            setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+            safeWait();
+        }
     }
+
 }

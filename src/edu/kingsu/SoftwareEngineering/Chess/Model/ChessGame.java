@@ -9,7 +9,9 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 public class ChessGame {
     private Map<String, String> tagPairs;
     private Player whitePlayer;
+    private Thread whitePlayerThread;
     private Player blackPlayer;
+    private Thread blackPlayerThread;
     private Board board;
     private int playerInterval;
     private int playerIncrement;
@@ -23,10 +25,30 @@ public class ChessGame {
     private int interval;
     private Timer timer;
 
-    public ChessGame() {
+    public ChessGame(int playerInterval, int playerIncrement) {
+        this.playerInterval = playerInterval;
+        this.playerIncrement = playerIncrement;
+        initialize();
     }
 
     public void initialize() {
+        initialize(true, false);
+    }
+
+    public void initialize(boolean whiteIsHuman, boolean blackIsHuman) {
+        if (whiteIsHuman) {
+            whitePlayer = new PlayerHuman(this, true, playerInterval, playerIncrement);
+        } else {
+            whitePlayer = new PlayerAI(this, true, playerInterval, playerIncrement);
+        }
+        if (blackIsHuman) {
+            blackPlayer = new PlayerHuman(this, false, playerInterval, playerIncrement);
+        } else {
+            blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement);
+        }
+        whitePlayerThread = new Thread(whitePlayer);
+        blackPlayerThread = new Thread(blackPlayer);
+        board = new Board();
     }
 
     public int getPlayerInterval() { return playerInterval; }
@@ -43,7 +65,7 @@ public class ChessGame {
 
     public List<String> getAlgebraicHistory() { return algebraicHistory; }
 
-    public GameState getState() { return null; }
+    public GameState getState() { return GameState.ACTIVE; }
 
     // public void registerView(ChessGameView view) {
     // }
@@ -51,8 +73,22 @@ public class ChessGame {
     public void notifyViews() {
     }
 
-    public boolean performMove(Move move) {
-        return true;
+    public synchronized boolean performMove(Move move) {
+        if (validateMove(move)) {
+            move.perform(board);
+            moveHistory.add(move);
+            // algebraicHistory.add("");
+            (new Thread(new Runnable() {
+                public void run() {
+                    playerTurn.stop();
+                }
+            })).start();
+            playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
+            playerTurn.getLock().notify();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean performMove(String movePgn) {
@@ -60,10 +96,13 @@ public class ChessGame {
     }
 
     private boolean validateMove(Move move) {
-        return false;
+        return board.getAllMoves(getPlayerTurn().isWhite()).contains(move);
     }
 
     public void start() {
+        whitePlayerThread.start();
+        blackPlayerThread.start();
+        playerTurn.getLock().notify();
     }
 
     public void gameOver() {
