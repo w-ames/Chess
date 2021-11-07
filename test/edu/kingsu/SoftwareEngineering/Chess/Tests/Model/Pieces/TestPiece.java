@@ -1,4 +1,4 @@
-package edu.kingsu.SoftwareEngineering.Chess.Tests.Pieces;
+package edu.kingsu.SoftwareEngineering.Chess.Tests.Model.Pieces;
 
 import org.junit.*;
 import static org.junit.Assert.*;
