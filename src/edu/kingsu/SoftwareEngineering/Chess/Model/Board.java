@@ -88,6 +88,7 @@ public class Board {
         initializeBoard(initialBoard);
     }
     public void initializeBoard(char[][] boardMap) {
+        // Assumes special moves available if in initial position
         squares = new Piece[ROWS][COLS];
         whiteKingSquare = new int[] {-1, -1};
         blackKingSquare = new int[] {-1, -1};
@@ -101,7 +102,11 @@ public class Board {
                 Piece newPiece = null;
                 switch (cl) {
                     case 'p':
-                        newPiece = new Pawn(whitePiece);
+                        Pawn newPawn = new Pawn(whitePiece);
+                        if (!(whitePiece && i==ROWS-2 || !whitePiece && i==1)) {
+                            newPawn.doneDoubleMove();
+                        }
+                        newPiece = newPawn;
                         break;
                     case 'n':
                         newPiece = new Knight(whitePiece);
@@ -110,13 +115,21 @@ public class Board {
                         newPiece = new Bishop(whitePiece);
                         break;
                     case 'r':
-                        newPiece = new Rook(whitePiece);
+                        Rook newRook = new Rook(whitePiece);
+                        if (!((j==0 || j==COLS-1) && (whitePiece && i==ROWS-1 || !whitePiece && i==0))) {
+                            newRook.doneCastling();
+                        }
+                        newPiece = newRook;
                         break;
                     case 'q':
                         newPiece = new Queen(whitePiece);
                         break;
                     case 'k':
-                        newPiece = new King(whitePiece);
+                        King newKing = new King(whitePiece);
+                        if (whitePiece && i==ROWS-1 && j==4 || !whitePiece && i==0 && j==4) {
+                            newKing.doneCastling();
+                        }
+                        newPiece = newKing;
                         if (whitePiece) {
                             whiteKingSquare[0] = i;
                             whiteKingSquare[1] = j;
@@ -217,7 +230,7 @@ public class Board {
         return pruneMoves(squares[fromRow][fromCol].isWhite(), movesList);
     }
 
-    public List<Move> getMovesUnpruned(int fromRow, int fromCol) {
+    private List<Move> getMovesUnpruned(int fromRow, int fromCol) {
         if (!isOnBoard(fromRow, fromCol)) {
             return null;
         }
@@ -307,20 +320,16 @@ public class Board {
             default:
                 break;
         }
-        System.err.println("Moves for piece "+movingPiece.getPieceType().name()+" at ["+fromRow+","+fromCol+"] : "+moveList.size());
+        // System.err.println("Moves for piece "+movingPiece.getPieceType().name()+" at ["+fromRow+","+fromCol+"] : "+moveList.size());
         return moveList;
     }
 
-    public List<Move> pruneMoves(boolean forWhite, List<Move> moves) {
-        System.err.println("ABOUT TO PRUNE");
+    private List<Move> pruneMoves(boolean forWhite, List<Move> moves) {
         ArrayList<Move> prunedMoves = new ArrayList<Move>();
         Board aCopy;
         for (Move move : moves) {
-            System.err.println("ABOUT TO COPY BOARD");
             aCopy = new Board(this);
-            System.err.println("ABOUT TO PERFORM A MOVE");
             move.perform(aCopy);
-            System.err.println("CHECKING MOVE ON COPY FOR PRUNING!");
             if (!aCopy.getCheck(!forWhite)) {
                 // there is not check for the other side if we do this move
                 prunedMoves.add(move);
@@ -388,7 +397,7 @@ public class Board {
     }
 
     public boolean isColoredSquare(int r, int c) {
-        return (r+c)%2 == 1; // if sum of row and column is odd, it is colored
+        return (r+c)%2 != 0; // if sum of row and column is odd, it is colored
     }
 
     private boolean isOnBoard(int r, int c) {
@@ -451,7 +460,11 @@ public class Board {
         }
         if (fromCol == toCol && squares[toRow][toCol] == null) { // same column moves
             if (Math.abs(fromRow-toRow) == 2) { // double push
-                return MoveType.PAWN_DOUBLE;
+                if (pawn.isDoneDoubleMove()) {
+                    return null;
+                } else {
+                    return MoveType.PAWN_DOUBLE;
+                }
             } else { // single push
                 return MoveType.NORMAL;
             }

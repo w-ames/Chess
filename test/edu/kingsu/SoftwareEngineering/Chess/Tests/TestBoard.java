@@ -20,6 +20,39 @@ public class TestBoard {
         {'p','p','p','p','p','p','p','p'},
         {'r','n','b','q','k','b','n','r'}
     };
+
+    private static final char[][] testPosition = {
+        {'R',' ','B',' ',' ','R','K',' '},
+        {'P','P',' ',' ','B','P','P','P'},
+        {' ',' ','N',' ','P','N',' ',' '},
+        {'Q',' ',' ','P',' ',' ',' ',' '},
+        {' ',' ','p',' ',' ','b',' ',' '},
+        {'p',' ','n',' ','p','n',' ',' '},
+        {' ','p','q',' ',' ','p','p','p'},
+        {' ',' ',' ','r','k','b',' ','r'}
+    };
+
+    private static final char[][] checkBoard = {
+        {'R','N','B','Q','K','B','N','R'},
+        {'P','P','P',' ',' ',' ','P','P'},
+        {' ',' ',' ','P',' ','P',' ',' '},
+        {' ','b',' ',' ','P',' ',' ',' '},
+        {' ',' ',' ',' ','p',' ',' ',' '},
+        {' ',' ','n',' ',' ','p',' ',' '},
+        {'p','p','p','p',' ',' ','p','p'},
+        {'r',' ','b','q','k',' ','n','r'}
+    };
+
+    private static final char[][] checkmateBoard = {
+        {'R',' ','B','Q','K',' ','N','R'},
+        {'P','P','P','P','P','q','B','P'},
+        {' ',' ','N',' ',' ',' ','P',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ','b',' ','p',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {'p','p','p','p',' ','p','p','p'},
+        {'r','n','b',' ','k',' ','n','r'}
+    };
  
     @Before
     public void setUp() {
@@ -38,15 +71,21 @@ public class TestBoard {
 
     @Test
     public void testInitializeBoard() {
-        assertNull(null);
+        initialBoard.initializeBoard(checkBoard);
+        assertChars(checkBoard, initialBoard.getChars());
+        initialBoard.initializeBoard();
+        assertChars(defaultChars, initialBoard.getChars());
     }
 
     @Test
     public void testGetChars() {
-        char[][] boardChars = initialBoard.getChars();
-        assertEquals("New Board instance returns a character array with an incorrect number of rows.", defaultChars.length, boardChars.length);
-        for (int i=0; i<defaultChars.length; i++) {
-            assertArrayEquals("Row "+i+" of new Board instance does not return the correct character array", defaultChars[i], boardChars[i]);
+        assertChars(defaultChars, initialBoard.getChars());
+    }
+
+    private void assertChars(char[][] expected, char[][] given) {
+        assertEquals("Board instance returns a character array with an incorrect number of rows.", expected.length, given.length);
+        for (int i=0; i<expected.length; i++) {
+            assertArrayEquals("Row "+i+" of Board instance does not return the correct character array", expected[i], given[i]);
         }
     }
 
@@ -145,6 +184,23 @@ public class TestBoard {
         assertMoves(2, 6, 6);
         assertMoves(2, 6, 7);
         // --- End Initial Board Check ---
+
+        initialBoard.initializeBoard(testPosition);
+        assertMoves(2, 4, 2);
+        assertMoves(7, 4, 5);
+        assertMoves(1, 5, 0);
+        assertMoves(0, 5, 2);
+        assertMoves(1, 5, 4);
+        assertMoves(6, 5, 5);
+        assertMoves(2, 6, 1);
+        assertMoves(11, 6, 2);
+        assertMoves(0, 6, 5);
+        assertMoves(2, 6, 6);
+        assertMoves(2, 6, 7);
+        assertMoves(7, 7, 3);
+        assertMoves(2, 7, 4);
+        assertMoves(2, 7, 5);
+        assertMoves(1, 7, 7);
     }
 
     private void assertMoves(int expected, int r, int c) {
@@ -154,7 +210,35 @@ public class TestBoard {
     @Test
     public void testGetAllMoves() {
         assertEquals("An incorrect number of possible moves was returned.", 20, initialBoard.getAllMoves(true).size());
-        // assertNull(null);
+        assertEquals("An incorrect number of possible moves was returned.", 20, initialBoard.getAllMoves(false).size());
+        initialBoard.initializeBoard(testPosition);
+        assertEquals("An incorrect number of possible moves was returned.", 46, initialBoard.getAllMoves(true).size());
+    }
+
+    @Test
+    public void testGetCheck() {
+        assertFalse("New Board instance returned boolean indicating check.", initialBoard.getCheck(true));
+        assertFalse("New Board instance returned boolean indicating check.", initialBoard.getCheck(false));
+        initialBoard.initializeBoard(checkBoard);
+        assertTrue("Board instance with check conditions returned boolean indicating no check.", initialBoard.getCheck(true));
+        assertFalse("Board instance without check conditions returned boolean indicating check.", initialBoard.getCheck(false));
+    }
+
+    @Test
+    public void testGetCheckmate() {
+        assertFalse("New Board instance returned boolean indicating checkmate.", initialBoard.getCheckmate(true));
+        assertFalse("New Board instance returned boolean indicating checkmate.", initialBoard.getCheckmate(false));
+        initialBoard.initializeBoard(checkmateBoard);
+        assertTrue("Board instance with checkmate conditions returned boolean indicating no checkmate.", initialBoard.getCheckmate(true));
+        assertFalse("Board instance without checkmate conditions returned boolean indicating checkmate.", initialBoard.getCheckmate(false));
+    }
+
+    @Test
+    public void testIsColoredSquare() {
+        assertFalse("Board instance returned boolean indicating incorrect square color", initialBoard.isColoredSquare(0, 0));
+        assertTrue("Board instance returned boolean indicating incorrect square color", initialBoard.isColoredSquare(0, 7));
+        assertFalse("Board instance returned boolean indicating incorrect square color", initialBoard.isColoredSquare(7, 7));
+        assertTrue("Board instance returned boolean indicating incorrect square color", initialBoard.isColoredSquare(7, 0));
     }
 
 }
