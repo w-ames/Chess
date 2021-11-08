@@ -55,6 +55,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     private CustomButton pieceInfo = new CustomButton("About Piece");
     private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
 
+    private ChessGameGUIController guiController = new ChessGameGUIController(guiView);
+
     // endGameState is used to determine if the main panel should display the "show
     // end game options" button instead of the "Resign" button.
     private boolean endGameState = false;
