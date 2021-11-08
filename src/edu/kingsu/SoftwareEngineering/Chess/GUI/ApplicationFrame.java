@@ -2,6 +2,7 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 public class ApplicationFrame extends JFrame {
 
@@ -45,6 +46,9 @@ public class ApplicationFrame extends JFrame {
     }
     public void show(String card){
         layout.show(contentPanel,card);
+    }
+    public void initializeChessPanel(ChessGame chessGame){
+        chessPanel.initialize(chessGame);
     }
 }
 

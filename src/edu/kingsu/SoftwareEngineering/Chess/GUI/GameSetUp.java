@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+
 
 
 
@@ -29,6 +31,7 @@ public class GameSetUp extends JPanel {
         JLabel timerLabel2 = new JLabel("10:10");
         JLabel settingsLabel = new JLabel("Settings");
         String [] playerList = {"Human","AI(Easy)","AI(Medium)","AI(Hard)"};
+    
         int minTime = 10;
         int maxTime = 600;
 
@@ -62,7 +65,6 @@ public class GameSetUp extends JPanel {
         goToMainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
                 container.show("menu");
             }
         });  
@@ -72,6 +74,9 @@ public class GameSetUp extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // here
+                ChessGame chessGame = new ChessGame(true,false,-1,-1);
+                container.initializeChessPanel(chessGame);
+                chessGame.start();
                 container.show("chesspanel");
             }
         });  
@@ -93,9 +98,13 @@ public class GameSetUp extends JPanel {
         player1Constraints.gridy = 1; 
         player1Panel.add(player1Box,player1Constraints);
 
-        setup.fill = GridBagConstraints.HORIZONTAL;
+        setup.fill = GridBagConstraints.BOTH;
         setup.gridx = 0;
         setup.gridy = 0;
+        setup.weightx = 0.45;
+        setup.weighty = 0.4;
+        setup.gridwidth = 1;
+        setup.gridheight = 1;
         this.add(player1Panel,setup);
         
         //Player 2 Panel
@@ -114,9 +123,13 @@ public class GameSetUp extends JPanel {
         player2Constraints.gridy = 1;
         player2Panel.add(player2Box,player2Constraints);
 
-        setup.fill = GridBagConstraints.HORIZONTAL;
+        setup.fill = GridBagConstraints.BOTH;
         setup.gridx = 1;
         setup.gridy = 0;
+        setup.weightx = 0.45;
+        setup.weighty = 0.4;
+        setup.gridwidth = 1;
+        setup.gridheight = 1;
         this.add(player2Panel,setup);
 
         //Time Panel
@@ -189,13 +202,13 @@ public class GameSetUp extends JPanel {
         timePanel.add(timeSlider2,timeConstraints);
 
 
-
-
-
-
         setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 1;
+        setup.gridx = 0;
         setup.gridy = 1;
+        setup.weightx = 0.3;
+        setup.weighty = 0.4;
+        setup.gridwidth = 1;
+        setup.gridheight = 1;
         this.add(timePanel,setup);
 
         //Settings Panel
@@ -232,10 +245,20 @@ public class GameSetUp extends JPanel {
         settingsConstraints.gridy = 4;
         settingsPanel.add(notification,settingsConstraints);
 
+        JButton checkAll = new JButton("Check all / Uncheck All");
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 5;
+        timePanel.add(checkAll,timeConstraints);
+        
 
         setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 2;
+        setup.gridx = 1;
         setup.gridy = 1;
+        setup.weightx = 0.3;
+        setup.weighty = 0.4;
+        setup.gridwidth = 1;
+        setup.gridheight = 1;
         this.add(settingsPanel,setup);
 
         //Load
@@ -261,8 +284,12 @@ public class GameSetUp extends JPanel {
         setupPanel.add(goToMainMenu,setupConstraints);
 
         setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 3;
+        setup.gridx = 2;
         setup.gridy = 1;
+        setup.weightx = 0.3;
+        setup.weighty = 0.4;
+        setup.gridwidth = 1;
+        setup.gridheight = 1;
         this.add(setupPanel,setup);
 
 
