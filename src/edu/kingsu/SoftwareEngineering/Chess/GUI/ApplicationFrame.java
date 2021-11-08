@@ -12,6 +12,7 @@ public class ApplicationFrame extends JFrame {
     private CardLayout layout;
     private MainMenu mainMenu;
     private GameSetUp gameSetUp;
+    private ChessPanel chessPanel;
 
     public ApplicationFrame() {
         super(WINDOW_TITLE);
@@ -20,12 +21,14 @@ public class ApplicationFrame extends JFrame {
         layout = new CardLayout();
         mainMenu = new MainMenu(this);
         gameSetUp = new GameSetUp(this);
+        chessPanel = new ChessPanel(this);
 
         contentPanel.setLayout(layout);
 
         //Add cards test
         contentPanel.add(mainMenu, "menu");
-        contentPanel.add(gameSetUp, "gamesetup");        
+        contentPanel.add(gameSetUp, "gamesetup"); 
+        contentPanel.add(chessPanel, "chesspanel");       
 
         layout.show(contentPanel, "menu");
 

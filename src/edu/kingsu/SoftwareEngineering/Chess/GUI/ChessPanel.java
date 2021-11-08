@@ -61,11 +61,14 @@ public class ChessPanel extends JPanel implements MouseListener {
     // end game options" button instead of the "Resign" button.
     private boolean endGameState = false;
 
+    private ApplicationFrame container;
+
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
      */
-    public ChessPanel() {
+    public ChessPanel(ApplicationFrame container) {
+        this.container = container;
 
         //////////////// For Skeleton only //////////////////
 

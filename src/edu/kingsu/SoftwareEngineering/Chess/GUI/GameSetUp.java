@@ -66,6 +66,15 @@ public class GameSetUp extends JPanel {
                 container.show("menu");
             }
         });  
+
+        JButton startGame = new JButton("Start Game");
+        startGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // here
+                container.show("chesspanel");
+            }
+        });  
         
         
         ///Player 1 Panel
@@ -233,7 +242,6 @@ public class GameSetUp extends JPanel {
         setupPanel.setLayout(new GridBagLayout());
         setupPanel.setBackground(Color.RED);
         
-        JButton startGame = new JButton("Start Game");
         JButton loadButton = new JButton("Load Game");
         
         setupConstraints.fill = GridBagConstraints.BOTH;
