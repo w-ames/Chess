@@ -9,8 +9,23 @@ public class PlayerHuman extends Player {
     public void run() {
         resumeTimer();
         while (true) {
-            setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
-            safeWait();
+            synchronized (getChessGame()) {
+                try {
+                    while (getChessGame().getPlayerTurn() != this) {
+                        getChessGame().wait();
+                    }
+                    setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+                    getAIThread().start();
+                    while (getChessGame().getPlayerTurn() == this) {
+                        getChessGame().wait();
+                    }
+                } catch(InterruptedException e) {
+                    if (getAIThread() != null) {
+                        getAIThread().interrupt();
+                    }
+                    break;
+                }
+            }
         }
     }
 

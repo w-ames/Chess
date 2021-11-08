@@ -1,5 +1,6 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -16,6 +17,7 @@ public class ChessGame {
     private int playerInterval;
     private int playerIncrement;
     private Player playerTurn;
+    private final Object playerTurnLock;
     private List<Move> moveHistory;
     private List<String> algebraicHistory;
     private int moveNo;
@@ -25,17 +27,20 @@ public class ChessGame {
     private int interval;
     private Timer timer;
 
-    public ChessGame(int playerInterval, int playerIncrement) {
-        this.playerInterval = playerInterval;
-        this.playerIncrement = playerIncrement;
-        initialize();
+    public ChessGame(boolean whiteIsHuman, boolean blackIsHuman, int playerInterval, int playerIncrement) {
+        playerTurnLock = new Object();
+        initialize(whiteIsHuman, blackIsHuman, playerInterval, playerIncrement);
     }
 
     public void initialize() {
-        initialize(true, false);
+        initialize(true, false, -1, -1);
     }
 
-    public void initialize(boolean whiteIsHuman, boolean blackIsHuman) {
+    public void initialize(boolean whiteIsHuman, boolean blackIsHuman, int playerInterval, int playerIncrement) {
+        moveHistory = new ArrayList<Move>();
+        algebraicHistory = new ArrayList<String>();
+        this.playerInterval = playerInterval;
+        this.playerIncrement = playerIncrement;
         if (whiteIsHuman) {
             whitePlayer = new PlayerHuman(this, true, playerInterval, playerIncrement);
         } else {
@@ -46,6 +51,7 @@ public class ChessGame {
         } else {
             blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement);
         }
+        playerTurn = whitePlayer;
         whitePlayerThread = new Thread(whitePlayer);
         blackPlayerThread = new Thread(blackPlayer);
         board = new Board();
@@ -59,7 +65,11 @@ public class ChessGame {
 
     public Board getBoard() { return board; }
 
-    public Player getPlayerTurn() { return playerTurn; }
+    public Player getPlayerTurn() {
+        synchronized (playerTurnLock) {
+            return playerTurn;
+        }
+    }
 
     public List<Move> getMoveHistory() { return moveHistory; }
 
@@ -73,36 +83,47 @@ public class ChessGame {
     public void notifyViews() {
     }
 
-    public synchronized boolean performMove(Move move) {
-        if (validateMove(move)) {
-            move.perform(board);
-            moveHistory.add(move);
-            // algebraicHistory.add("");
-            (new Thread(new Runnable() {
-                public void run() {
-                    playerTurn.stop();
+    public  boolean performMove(Move move, boolean humanMoveMaker) {
+        synchronized (this) {
+            if (humanMoveMaker == getPlayerTurn().isHuman() && validateMove(move)) {
+                synchronized (playerTurnLock) {
+                    move.perform(board);
+                    moveHistory.add(move);
+                    // algebraicHistory.add("");
+                    // (new Thread(new Runnable() {
+                    //     public void run() {
+                    //         playerTurn.stop();
+                    //     }
+                    // })).start();
+                    playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
+                    this.notifyAll();
                 }
-            })).start();
-            playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
-            playerTurn.getLock().notify();
-            return true;
-        } else {
-            return false;
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
-    public boolean performMove(String movePgn) {
+    public boolean performMove(String movePgn, boolean humanMoveMaker) {
         return true;
     }
 
     private boolean validateMove(Move move) {
-        return board.getAllMoves(getPlayerTurn().isWhite()).contains(move);
+        return (board.getPiece(move.getRowFrom(), move.getColFrom()).isWhite() == getPlayerTurn().isWhite()) && (board.getMoves(move.getRowFrom(), move.getColFrom()).contains(move));
     }
 
     public void start() {
-        whitePlayerThread.start();
-        blackPlayerThread.start();
-        playerTurn.getLock().notify();
+        synchronized (this) {
+            whitePlayerThread.start();
+            blackPlayerThread.start();
+            this.notifyAll();
+        }
+    }
+
+    public void stop() {
+        whitePlayerThread.interrupt();
+        blackPlayerThread.interrupt();
     }
 
     public void gameOver() {

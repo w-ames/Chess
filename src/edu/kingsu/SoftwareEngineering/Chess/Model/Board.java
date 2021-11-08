@@ -187,7 +187,10 @@ public class Board {
     }
 
     public Piece getPiece(int r, int c) {
-        return squares[r][c];
+        if (isOnBoard(r, c)) {
+            return squares[r][c];
+        }
+        return null;
     }
 
     public void setPiece(int r, int c, Piece p) {
@@ -224,7 +227,7 @@ public class Board {
 
     public List<Move> getMoves(int fromRow, int fromCol) {
         if (!isOnBoard(fromRow, fromCol) || squares[fromRow][fromCol] == null) {
-            return null;
+            return new ArrayList<Move>();
         }
         List<Move> movesList = getMovesUnpruned(fromRow, fromCol);
         return pruneMoves(squares[fromRow][fromCol].isWhite(), movesList);
