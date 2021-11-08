@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 
+import edu.kingsu.SoftwareEngineering.Chess.GUI.ChessGameView;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 public class ChessGame {
@@ -21,7 +22,7 @@ public class ChessGame {
     private List<Move> moveHistory;
     private List<String> algebraicHistory;
     private int moveNo;
-    // private List<ChessGameView> views;
+    private List<ChessGameView> views;
 
     // Overall game time
     private int interval;
@@ -29,6 +30,7 @@ public class ChessGame {
 
     public ChessGame(boolean whiteIsHuman, boolean blackIsHuman, int playerInterval, int playerIncrement) {
         playerTurnLock = new Object();
+        views = new ArrayList<ChessGameView>();
         initialize(whiteIsHuman, blackIsHuman, playerInterval, playerIncrement);
     }
 
@@ -79,10 +81,14 @@ public class ChessGame {
 
     public GameState getState() { return GameState.ACTIVE; }
 
-    // public void registerView(ChessGameView view) {
-    // }
+    public void registerView(ChessGameView view) {
+        views.add(view);
+    }
 
     public void notifyViews() {
+        for (ChessGameView view : views) {
+            view.update();
+        }
     }
 
     public boolean performMove(int rowFrom, int colFrom, int rowTo, int colTo, boolean humanMoveMaker) {
@@ -107,6 +113,7 @@ public class ChessGame {
                     //     }
                     // })).start();
                     playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
+                    notifyViews();
                     this.notifyAll();
                 }
                 return true;
@@ -126,6 +133,7 @@ public class ChessGame {
 
     public void start() {
         synchronized (this) {
+            notifyViews();
             whitePlayerThread.start();
             blackPlayerThread.start();
             this.notifyAll();
