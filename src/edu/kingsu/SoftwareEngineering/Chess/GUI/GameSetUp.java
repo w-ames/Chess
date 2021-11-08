@@ -24,8 +24,13 @@ public class GameSetUp extends JPanel {
         JLabel player1Label = new JLabel("Player 1");
         JLabel player2Label = new JLabel("Player 2");
         JLabel timeLabel = new JLabel("Time");
+        JLabel timerLabel1 = new JLabel("10:10");
+        JLabel incrementLabel = new JLabel("Increment");
+        JLabel timerLabel2 = new JLabel("10:10");
         JLabel settingsLabel = new JLabel("Settings");
         String [] playerList = {"Human","AI(Easy)","AI(Medium)","AI(Hard)"};
+        int minTime = 10;
+        int maxTime = 600;
 
 
         GridBagConstraints player1Constraints = new GridBagConstraints();
@@ -38,6 +43,9 @@ public class GameSetUp extends JPanel {
         player1Label.setFont(new Font("Arial", Font.PLAIN, 35));
         player2Label.setFont(new Font("Arial", Font.PLAIN, 35));
         timeLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+        timerLabel1.setFont(new Font("Arial", Font.PLAIN, 35));
+        incrementLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+        timerLabel2.setFont(new Font("Arial", Font.PLAIN, 35));
         settingsLabel.setFont(new Font("Arial", Font.PLAIN, 35));
     
 
@@ -71,13 +79,12 @@ public class GameSetUp extends JPanel {
         
         JComboBox player1Box = new JComboBox(playerList);
         player1Box.setSelectedIndex(0);
-        // playerBox.addActionListener(player1Panel);
         player1Constraints.fill = GridBagConstraints.BOTH;
         player1Constraints.gridx = 0;
         player1Constraints.gridy = 1; 
         player1Panel.add(player1Box,player1Constraints);
 
-        setup.fill = GridBagConstraints.BOTH;
+        setup.fill = GridBagConstraints.HORIZONTAL;
         setup.gridx = 0;
         setup.gridy = 0;
         this.add(player1Panel,setup);
@@ -98,7 +105,7 @@ public class GameSetUp extends JPanel {
         player2Constraints.gridy = 1;
         player2Panel.add(player2Box,player2Constraints);
 
-        setup.fill = GridBagConstraints.BOTH;
+        setup.fill = GridBagConstraints.HORIZONTAL;
         setup.gridx = 1;
         setup.gridy = 0;
         this.add(player2Panel,setup);
@@ -123,6 +130,59 @@ public class GameSetUp extends JPanel {
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 2;
         timePanel.add(timeOff,timeConstraints);
+        
+        ButtonGroup timeGroup1 = new ButtonGroup();
+        timeGroup1.add(timeOn);
+        timeGroup1.add(timeOff);
+        
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 3;
+        timePanel.add(timerLabel1,timeConstraints);
+
+        JSlider timeSlider = new JSlider(minTime,maxTime);
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 4;
+        timePanel.add(timeSlider,timeConstraints);
+
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 5;
+        timePanel.add(incrementLabel,timeConstraints);
+
+        JRadioButton timeOn2 = new JRadioButton("On");
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 6;
+        timePanel.add(timeOn2, timeConstraints);
+
+        JRadioButton timeOff2 = new JRadioButton("Off");
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 7;
+        timePanel.add(timeOff2,timeConstraints);
+
+        ButtonGroup timeGroup2 = new ButtonGroup();
+        timeGroup2.add(timeOn2);
+        timeGroup2.add(timeOff2);
+
+        
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 8;
+        timePanel.add(timerLabel2,timeConstraints);
+
+        JSlider timeSlider2 = new JSlider(minTime,maxTime);
+        timeConstraints.fill = GridBagConstraints.BOTH;
+        timeConstraints.gridx = 0;
+        timeConstraints.gridy = 9;
+        timePanel.add(timeSlider2,timeConstraints);
+
+
+
+
+
 
         setup.fill = GridBagConstraints.BOTH;
         setup.gridx = 1;
@@ -173,18 +233,19 @@ public class GameSetUp extends JPanel {
         setupPanel.setLayout(new GridBagLayout());
         setupPanel.setBackground(Color.RED);
         
-        JButton loadButton = new JButton("Load Game");
         JButton startGame = new JButton("Start Game");
-
+        JButton loadButton = new JButton("Load Game");
+        
         setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 0;
-        setupPanel.add(loadButton,setupConstraints);
+        setupPanel.add(startGame,setupConstraints);
 
         setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 1;
-        setupPanel.add(startGame,setupConstraints);
+        setupPanel.add(loadButton,setupConstraints);
+
 
         setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
@@ -195,6 +256,7 @@ public class GameSetUp extends JPanel {
         setup.gridx = 3;
         setup.gridy = 1;
         this.add(setupPanel,setup);
+
 
 
 
