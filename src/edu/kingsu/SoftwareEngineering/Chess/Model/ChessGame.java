@@ -57,6 +57,8 @@ public class ChessGame {
         board = new Board();
     }
 
+    public char[][] getBoardChars() { return board.getChars(); }
+
     public int getPlayerInterval() { return playerInterval; }
 
     public int getPlayerIncrement() { return playerIncrement; }
@@ -81,6 +83,15 @@ public class ChessGame {
     // }
 
     public void notifyViews() {
+    }
+
+    public boolean performMove(int rowFrom, int colFrom, int rowTo, int colTo, boolean humanMoveMaker) {
+        for (Move m : getBoard().getMoves(rowFrom, colFrom)) {
+            if (m.hasDestination(rowTo, colTo)) {
+                return performMove(m, humanMoveMaker);
+            }
+        }
+        return false;
     }
 
     public  boolean performMove(Move move, boolean humanMoveMaker) {
