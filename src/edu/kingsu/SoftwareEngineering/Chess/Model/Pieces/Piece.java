@@ -19,6 +19,16 @@ public abstract class Piece {
     }
 
     /**
+     * Creates a new {@link Piece} instance.
+     * @param color a string representing the color of the piece.
+     */
+    public Piece(String color) {
+        this(color.equalsIgnoreCase("white"));
+    }
+
+    public abstract Piece copyPiece();
+
+    /**
      * Returns a boolean signifying if this piece is white or black.
      * @return <code>true</code> if this piece is white, and <code>false</code> if this piece is black
      */
@@ -32,6 +42,7 @@ public abstract class Piece {
      * {@link Piece}.
      * @return the {@link PieceType} enumeration value
      *  corresponding to this particular instance of {@link Piece}.
+     *  @see PieceType
      */
     public abstract PieceType getPieceType();
 
