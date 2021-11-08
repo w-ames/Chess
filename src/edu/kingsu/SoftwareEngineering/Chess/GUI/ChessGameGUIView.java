@@ -122,9 +122,10 @@ public class ChessGameGUIView extends ChessGameView {
      * board can then be repainted using paintBoard() to reflect the current state
      * of the game.
      */
-    // public void update(Piece[][]) {
-    //
-    // }
+    @Override
+    public void update() {
+        // add boolean arguments for tutorial options on or off.
+    }
 
     /**
      * Returns the square at the requested coordinate.

@@ -24,6 +24,7 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.awt.image.BufferedImage;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
  * ChessPanel holds all components of gameplay mode display.
@@ -36,7 +37,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     private MainLayer mainLayer = new MainLayer();
     private PopupLayer endGameOptions = new PopupLayer();
     private PopupLayer pawnPromotionScreen = new PopupLayer();
-    // private ChessGame chessGame;
+    private ChessGame chessGame;
     private ChessGameGUIView guiView = new ChessGameGUIView();
     private ChessGameAlgebraicView algebraicView = new ChessGameAlgebraicView();
     // private ChessGameSaveView saveView;
@@ -55,7 +56,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     private CustomButton pieceInfo = new CustomButton("About Piece");
     private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
 
-    private ChessGameGUIController guiController = new ChessGameGUIController(guiView);
+    private ChessGameGUIController guiController = new ChessGameGUIController(guiView, chessGame);
 
     // endGameState is used to determine if the main panel should display the "show
     // end game options" button instead of the "Resign" button.
@@ -263,10 +264,15 @@ public class ChessPanel extends JPanel implements MouseListener {
 
     }
 
+    public void initialize() {
+        initialize(null);
+    }
+
     /**
      * Initialize the board at the start of a new game.
      */
-    public void initialize() { // Needs to be edited to read from GameState.
+    public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+
         int kingSize = 110;
         int queenSize = 90;
         int knightSize = 80;
