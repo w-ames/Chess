@@ -3,7 +3,7 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 import javax.swing.JPanel;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
-public class ChessGameView extends JPanel {
+public abstract class ChessGameView extends JPanel {
 
     ChessGame chessGame;
 
@@ -11,11 +11,17 @@ public class ChessGameView extends JPanel {
     // this.chessGame = chessGame;
     // }
 
-    // public getChessGame(){
-    // return chessGame;
-    // }
-
-    public void update() {
-
+    public ChessGame getChessGame() {
+        return chessGame;
     }
+
+    public void setChessGame(ChessGame chessGame) {
+        this.chessGame = chessGame;
+        addListeners();
+    }
+
+    public abstract void update();
+
+    public abstract void addListeners();
+
 }

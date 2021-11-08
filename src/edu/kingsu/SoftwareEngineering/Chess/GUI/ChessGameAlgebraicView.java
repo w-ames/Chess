@@ -91,7 +91,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
         g2d.dispose();
-
     }
 
     /**
@@ -101,4 +100,15 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void submitAlgebraicMove() {
         String userInputMove = algebricInputPanel.getText();
     }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void addListeners() {
+
+    }
+
 }

@@ -17,6 +17,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.awt.image.BufferedImage;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
  * ChessGameGUIView class holds the graphical view of the game board.
@@ -38,6 +45,9 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public ChessGameGUIView() {
 
+        selectedCol = -1;
+        selectedRow = -1;
+
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForThis = new GridBagConstraints();
@@ -55,10 +65,14 @@ public class ChessGameGUIView extends ChessGameView {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
                     squareHolderArray[i][j] = new Square(location, true);
+                    // squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this,
+                    // getChessGame(), i, j));
                 } else {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
                     squareHolderArray[i][j] = new Square(location, false);
+                    // squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this,
+                    // getChessGame(), i, j));
                 }
             }
         }
@@ -104,6 +118,7 @@ public class ChessGameGUIView extends ChessGameView {
         boardHolder.setMinimumSize(new Dimension(650, 650));
         boardHolder.setPreferredSize(new Dimension(650, 650));
         boardHolder.setMaximumSize(new Dimension(650, 650));
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 gbForBoard.gridy = i;
@@ -125,6 +140,90 @@ public class ChessGameGUIView extends ChessGameView {
     @Override
     public void update() {
         // add boolean arguments for tutorial options on or off.
+
+        int kingSize = 110;
+        int queenSize = 90;
+        int knightSize = 80;
+        int bishopSize = 85;
+        int rookSize = 70;
+        int pawnSize = 60;
+
+        char[][] pieces = getChessGame().getBoardChars();
+
+        // Lower case == white, upper case == black
+
+        for (int i = 0; i < pieces.length; i++) {
+            for (int j = 0; j < pieces[0].length; j++) {
+
+                switch (pieces[i][j]) {
+                case 'P':
+                    // Add Black Pawns.
+                    putPieceImageOnSquare("src/assets/piece_images/black_pawn.png", pawnSize, i, j);
+                    break;
+
+                case 'p':
+                    // Add White Pawns.
+                    putPieceImageOnSquare("src/assets/piece_images/white_pawn.png", pawnSize, i, j);
+                    break;
+
+                case 'K':
+                    // Add Black King.
+                    putPieceImageOnSquare("src/assets/piece_images/black_king.png", pawnSize, i, j);
+                    break;
+
+                case 'k':
+                    // Add White King.
+                    putPieceImageOnSquare("src/assets/piece_images/white_king.png", pawnSize, i, j);
+                    break;
+
+                case 'Q':
+                    // Add Black King.
+                    putPieceImageOnSquare("src/assets/piece_images/black_queen.png", pawnSize, i, j);
+                    break;
+
+                case 'q':
+                    // Add White King.
+                    putPieceImageOnSquare("src/assets/piece_images/white_queen.png", pawnSize, i, j);
+                    break;
+
+                case 'R':
+                    // Add Black King.
+                    putPieceImageOnSquare("src/assets/piece_images/black_rook.png", pawnSize, i, j);
+                    break;
+
+                case 'r':
+                    // Add White King.
+                    putPieceImageOnSquare("src/assets/piece_images/white_rook.png", pawnSize, i, j);
+                    break;
+
+                case 'B':
+                    // Add Black King.
+                    putPieceImageOnSquare("src/assets/piece_images/black_bishop.png", pawnSize, i, j);
+                    break;
+
+                case 'b':
+                    // Add White King.
+                    putPieceImageOnSquare("src/assets/piece_images/white_bishop.png", pawnSize, i, j);
+                    break;
+
+                case 'N':
+                    // Add Black King.
+                    putPieceImageOnSquare("src/assets/piece_images/black_knight.png", pawnSize, i, j);
+                    break;
+
+                case 'n':
+                    // Add White King.
+                    putPieceImageOnSquare("src/assets/piece_images/white_knight.png", pawnSize, i, j);
+                    break;
+
+                case ' ':
+                    // Update blank square.
+                    this.getSquares(i, j).setIcon(null);
+                    break;
+                }
+
+            }
+        }
     }
 
     /**
@@ -136,6 +235,42 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public Square getSquares(int i, int j) {
         return squareHolderArray[i][j];
+    }
+
+    public void putPieceImageOnSquare(String filePath, int size, int i, int j) {
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+            Image pieceImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
+            ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
+            this.getSquares(i, j).setIcon(pieceImageIcon);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public int getSelectedCol() {
+        return selectedCol;
+    }
+
+    public void setSelectedRow(int row) {
+        selectedRow = row;
+    }
+
+    public void setSelectedCol(int col) {
+        selectedCol = col;
+    }
+
+    @Override
+    public void addListeners() {
+        for (int i = 0; i < squareHolderArray.length; i++) {
+            for (int j = 0; j < squareHolderArray.length; j++) {
+                squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this, getChessGame(), i, j));
+            }
+        }
     }
 
 }

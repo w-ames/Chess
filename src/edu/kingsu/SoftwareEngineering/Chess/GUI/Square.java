@@ -28,7 +28,6 @@ public class Square extends JButton implements MouseListener {
 
     private String location; // The location of this square within the 2D array (squareHolderArray[][]).
     boolean color; // White = true, Black = false
-    private String currentPiece = "None";
 
     /**
      * The constructor for Square class. Adds mouse listener to each square and
@@ -60,28 +59,30 @@ public class Square extends JButton implements MouseListener {
      * 
      * @param g Graphics object to build gradient on.
      */
-    @Override
-    public void paintComponent(Graphics g) {
-        if (color == false) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g.create();
-            int w = getWidth();
-            int h = getHeight();
-            GradientPaint gp = new GradientPaint(0, 0, new Color(104, 104, 104), 0, h, new Color(152, 152, 152));
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, w, h);
-            g2d.dispose();
-        } else {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g.create();
-            int w = getWidth();
-            int h = getHeight();
-            GradientPaint gp = new GradientPaint(0, 0, new Color(232, 232, 232), 0, h, new Color(248, 248, 248));
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, w, h);
-            g2d.dispose();
-        }
-    }
+    // @Override
+    // public void paintComponent(Graphics g) {
+    // if (color == false) {
+    // super.paintComponent(g);
+    // Graphics2D g2d = (Graphics2D) g.create();
+    // int w = getWidth();
+    // int h = getHeight();
+    // GradientPaint gp = new GradientPaint(0, 0, new Color(104, 104, 104), 0, h,
+    // new Color(152, 152, 152));
+    // g2d.setPaint(gp);
+    // g2d.fillRect(0, 0, w, h);
+    // g2d.dispose();
+    // } else {
+    // super.paintComponent(g);
+    // Graphics2D g2d = (Graphics2D) g.create();
+    // int w = getWidth();
+    // int h = getHeight();
+    // GradientPaint gp = new GradientPaint(0, 0, new Color(232, 232, 232), 0, h,
+    // new Color(248, 248, 248));
+    // g2d.setPaint(gp);
+    // g2d.fillRect(0, 0, w, h);
+    // g2d.dispose();
+    // }
+    // }
 
     /**
      * Set information about what piece is currently on this square.
@@ -89,17 +90,17 @@ public class Square extends JButton implements MouseListener {
      * @param newPiece new piece that is added to the square.
      */
     public void setCurrentPiece(String newPiece) {
-        this.currentPiece = newPiece;
+
     }
 
-    /**
-     * Returns the name of the piece currently on this square.
-     * 
-     * @return the piece on this square.
-     */
-    public String getPiece() {
-        return currentPiece;
-    }
+    // /**
+    // * Returns the name of the piece currently on this square.
+    // *
+    // * @return the piece on this square.
+    // */
+    // public String getPiece() {
+    // return currentPiece;
+    // }
 
     /**
      * Changes the border color to blue, to highlight it when the mouse hovers over

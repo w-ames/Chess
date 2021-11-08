@@ -56,7 +56,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     private CustomButton pieceInfo = new CustomButton("About Piece");
     private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
 
-    private ChessGameGUIController guiController = new ChessGameGUIController(guiView, chessGame);
+    // private ChessGameGUIController guiController = new
+    // ChessGameGUIController(guiView, chessGame);
 
     // endGameState is used to determine if the main panel should display the "show
     // end game options" button instead of the "Resign" button.
@@ -69,6 +70,7 @@ public class ChessPanel extends JPanel implements MouseListener {
      * options (popupLayer), alternated using LayeredPane.
      */
     public ChessPanel(ApplicationFrame container) {
+
         this.container = container;
 
         //////////////// For Skeleton only //////////////////
@@ -255,7 +257,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
 
-        initialize();
+        // initialize(chessGame);
         // First notification.
         addNotification("Select a chess piece to begin...");
 
@@ -264,147 +266,16 @@ public class ChessPanel extends JPanel implements MouseListener {
 
     }
 
-    public void initialize() {
-        initialize(null);
-    }
-
     /**
      * Initialize the board at the start of a new game.
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
-        int kingSize = 110;
-        int queenSize = 90;
-        int knightSize = 80;
-        int bishopSize = 85;
-        int rookSize = 70;
-        int pawnSize = 60;
+        guiView.setChessGame(chessGame);
+        algebraicView.setChessGame(chessGame);
 
-        // Adjust the piece sizes according to the application frame size.
-        // if (guiView.getBoardHolderSize() > 475) {
-        // // Do nothing
-        // } else {
-        // kingSize = 75;
-        // queenSize = 60;
-        // knightSize = 50;
-        // bishopSize = 60;
-        // rookSize = 40;
-        // pawnSize = 50;
-        // }
-
-        try {
-
-            // Add Start New Game Black Pawns.
-            for (int i = 0; i < 8; i++) {
-                BufferedImage bufferedImage = ImageIO.read(new File("src/assets/piece_images/black_pawn.png"));
-                Image pieceImage = bufferedImage.getScaledInstance(pawnSize, pawnSize, Image.SCALE_SMOOTH);
-                ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
-                guiView.getSquares(1, i).add(new JLabel(pieceImageIcon));
-                guiView.getSquares(1, i).setCurrentPiece("Black Pawn");
-            }
-
-            // Add Start New Game White Pawns.
-            for (int i = 0; i < 8; i++) {
-                BufferedImage bufferedImage = ImageIO.read(new File("src/assets/piece_images/white_pawn.png"));
-                Image pieceImage = bufferedImage.getScaledInstance(pawnSize, pawnSize, Image.SCALE_SMOOTH);
-                ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
-                guiView.getSquares(6, i).add(new JLabel(pieceImageIcon));
-                guiView.getSquares(6, i).setCurrentPiece("White Pawn");
-            }
-
-            // Add Start New Game black rooks.
-            BufferedImage bufferedImage4 = ImageIO.read(new File("src/assets/piece_images/black_rook.png"));
-            Image pieceImage = bufferedImage4.getScaledInstance(rookSize, rookSize, Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconBlackRook = new ImageIcon(pieceImage);
-            guiView.getSquares(0, 7).add(new JLabel(pieceImageIconBlackRook));
-            guiView.getSquares(0, 0).add(new JLabel(pieceImageIconBlackRook));
-            guiView.getSquares(0, 7).setCurrentPiece("Black Rook");
-            guiView.getSquares(0, 0).setCurrentPiece("Black Rook");
-
-            // Add Start New Game white rooks.
-            BufferedImage bufferedImagewRook1 = ImageIO.read(new File("src/assets/piece_images/white_rook.png"));
-            Image pieceImagewrook1 = bufferedImagewRook1.getScaledInstance(rookSize, rookSize, Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconwrook1 = new ImageIcon(pieceImagewrook1);
-            guiView.getSquares(7, 7).add(new JLabel(pieceImageIconwrook1));
-            guiView.getSquares(7, 0).add(new JLabel(pieceImageIconwrook1));
-            guiView.getSquares(7, 7).setCurrentPiece("White Rook");
-            guiView.getSquares(7, 0).setCurrentPiece("White Rook");
-
-            // Add Start New Game black kinghts.
-            BufferedImage bufferedImagebKingt1 = ImageIO.read(new File("src/assets/piece_images/black_knight.png"));
-            Image pieceImagebKnight1 = bufferedImagebKingt1.getScaledInstance(knightSize, knightSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconbKnight1 = new ImageIcon(pieceImagebKnight1);
-            guiView.getSquares(0, 6).add(new JLabel(pieceImageIconbKnight1));
-            guiView.getSquares(0, 1).add(new JLabel(pieceImageIconbKnight1));
-            guiView.getSquares(0, 6).setCurrentPiece("Black Knight");
-            guiView.getSquares(0, 1).setCurrentPiece("Black Knight");
-
-            // Add Start New Game white kinghts.
-            BufferedImage bufferedImagewKingt1 = ImageIO.read(new File("src/assets/piece_images/white_knight.png"));
-            Image pieceImagewKnight1 = bufferedImagewKingt1.getScaledInstance(knightSize, knightSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconwKnight1 = new ImageIcon(pieceImagewKnight1);
-            guiView.getSquares(7, 6).add(new JLabel(pieceImageIconwKnight1));
-            guiView.getSquares(7, 1).add(new JLabel(pieceImageIconwKnight1));
-            guiView.getSquares(7, 6).setCurrentPiece("White Knight");
-            guiView.getSquares(7, 1).setCurrentPiece("White Knight");
-
-            // Add Start New Game black bishops.
-            BufferedImage bufferedImageBlackBishop = ImageIO.read(new File("src/assets/piece_images/black_bishop.png"));
-            Image pieceImageBlackBishop = bufferedImageBlackBishop.getScaledInstance(bishopSize, bishopSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconBlackBishop = new ImageIcon(pieceImageBlackBishop);
-            guiView.getSquares(0, 5).add(new JLabel(pieceImageIconBlackBishop));
-            guiView.getSquares(0, 2).add(new JLabel(pieceImageIconBlackBishop));
-            guiView.getSquares(0, 5).setCurrentPiece("Black Bishop");
-            guiView.getSquares(0, 2).setCurrentPiece("Black Bishop");
-
-            // Add Start New Game white bishops.
-            BufferedImage bufferedImageWhiteBishop = ImageIO.read(new File("src/assets/piece_images/white_bishop.png"));
-            Image pieceImageWhiteBishop = bufferedImageWhiteBishop.getScaledInstance(bishopSize, bishopSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconWhiteBishop = new ImageIcon(pieceImageWhiteBishop);
-            guiView.getSquares(7, 5).add(new JLabel(pieceImageIconWhiteBishop));
-            guiView.getSquares(7, 2).add(new JLabel(pieceImageIconWhiteBishop));
-            guiView.getSquares(7, 5).setCurrentPiece("White Bishop");
-            guiView.getSquares(7, 2).setCurrentPiece("White Bishop");
-
-            // Add Start New Game black queen.
-            BufferedImage bufferedImageBlackQueen = ImageIO.read(new File("src/assets/piece_images/black_queen.png"));
-            Image pieceImageBlackQueen = bufferedImageBlackQueen.getScaledInstance(queenSize, queenSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconBlackQueen = new ImageIcon(pieceImageBlackQueen);
-            guiView.getSquares(0, 3).add(new JLabel(pieceImageIconBlackQueen));
-            guiView.getSquares(0, 3).setCurrentPiece("Black Queen");
-
-            // Add Start New Game white queen.
-            BufferedImage bufferedImageWhiteQueen = ImageIO.read(new File("src/assets/piece_images/white_queen.png"));
-            Image pieceImageWhiteQueen = bufferedImageWhiteQueen.getScaledInstance(queenSize, queenSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconWhiteQueen = new ImageIcon(pieceImageWhiteQueen);
-            guiView.getSquares(7, 3).add(new JLabel(pieceImageIconWhiteQueen));
-            guiView.getSquares(7, 3).setCurrentPiece("Black Queen");
-
-            // Add Start New Game black king.
-            BufferedImage bufferedImageBlackKing = ImageIO.read(new File("src/assets/piece_images/black_king.png"));
-            Image pieceImageBlackKing = bufferedImageBlackKing.getScaledInstance(kingSize, kingSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconBlackKing = new ImageIcon(pieceImageBlackKing);
-            guiView.getSquares(0, 4).add(new JLabel(pieceImageIconBlackKing));
-            guiView.getSquares(0, 4).setCurrentPiece("Black King");
-
-            // Add Start New Game white king.
-            BufferedImage bufferedImageWhiteKing = ImageIO.read(new File("src/assets/piece_images/white_king.png"));
-            Image pieceImageWhiteKing = bufferedImageWhiteKing.getScaledInstance(kingSize, kingSize,
-                    Image.SCALE_SMOOTH);
-            ImageIcon pieceImageIconWhiteKing = new ImageIcon(pieceImageWhiteKing);
-            guiView.getSquares(7, 4).add(new JLabel(pieceImageIconWhiteKing));
-            guiView.getSquares(7, 4).setCurrentPiece("White King");
-
-        } catch (Exception e) {
-            addNotification(e.toString());
-        }
+        chessGame.registerView(guiView);
+        chessGame.registerView(algebraicView);
 
     }
 
@@ -482,8 +353,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
-        addNotification("You have selected square: " + copyButton.getSquareLocation() + ". Contains piece: "
-                + copyButton.getPiece());
+        addNotification("You have selected square: " + copyButton.getSquareLocation() + ". Contains piece: ");
+
     }
 
     // The following are unused but required to implement MouseListener.
