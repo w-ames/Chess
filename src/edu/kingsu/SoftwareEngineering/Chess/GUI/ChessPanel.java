@@ -230,29 +230,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         gridBagForMainLayer.insets = new Insets(5, 30, 30, 30);
         mainLayer.add(buttonContainer, gridBagForMainLayer);
 
-        // The following code block is responsible for dynamically resizing the popup
-        // layers (endGameOptions & pawnPromotionScreen) if the user resizes the
-        // application frame while the popup screens are being displayed.
-        layeredPane.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                Dimension size = layeredPane.getSize(); // get size
-                mainLayer.setSize(size);
-                int popupScale = 2; // Determines the scale of the popup relative to mainLayer.
-                // Makes the popupLayer rescale dynamically in the centre of ChessPanel.
-                Dimension popupSize = new Dimension((int) (size.getWidth() / popupScale),
-                        (int) (size.getHeight() / popupScale));
-                pawnPromotionScreen.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
-                        (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
-                endGameOptions.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
-                        (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
-                endGameOptions.setSize(popupSize);
-                pawnPromotionScreen.setSize(new Dimension(popupSize));
-
-                layeredPane.revalidate();
-                layeredPane.repaint();
-            }
-        });
+        makePopupsResizeable();
 
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
@@ -355,6 +333,50 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         addNotification("You have selected square: " + copyButton.getSquareLocation());
 
+    }
+
+    /**
+     * Makes the chess pieces resizable by listening for changes to the application
+     * frame size and then sending information about the size of the applicaiton
+     * frame to guiView
+     */
+    public void makePiecesResizable() {
+
+        container.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                guiView.setContainerSize(container.getBounds().height, container.getBounds().width);
+                guiView.update();
+            }
+        });
+    }
+
+    /**
+     * Responsible for dynamically resizing the popup layers (endGameOptions &
+     * pawnPromotionScreen) if the user resizes the application frame.
+     */
+    public void makePopupsResizeable() {
+
+        layeredPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Dimension size = layeredPane.getSize(); // get size
+                mainLayer.setSize(size);
+                int popupScale = 2; // Determines the scale of the popup relative to mainLayer.
+                // Makes the popupLayer rescale dynamically in the centre of ChessPanel.
+                Dimension popupSize = new Dimension((int) (size.getWidth() / popupScale),
+                        (int) (size.getHeight() / popupScale));
+                pawnPromotionScreen.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
+                        (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
+                endGameOptions.setBounds((int) ((mainLayer.getWidth() - popupSize.getWidth()) / 2),
+                        (int) ((mainLayer.getHeight() - popupSize.getHeight()) / 2), 0, 0);
+                endGameOptions.setSize(popupSize);
+                pawnPromotionScreen.setSize(new Dimension(popupSize));
+
+                layeredPane.revalidate();
+                layeredPane.repaint();
+            }
+        });
     }
 
     // The following are unused but required to implement MouseListener.

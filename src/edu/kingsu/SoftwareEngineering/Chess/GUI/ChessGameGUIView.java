@@ -38,6 +38,9 @@ public class ChessGameGUIView extends ChessGameView {
     private JPanel boardHolder = new JPanel();
     private Square squareHolderArray[][];
 
+    private int currentFrameHeight;
+    private int currentFrameWidth;
+
     /**
      * Constructs the initial graphical representation of the game board (And the
      * panel behind it). Constructs each square and adds them to a 8x8 2D array,
@@ -113,7 +116,9 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.gridheight = 1;
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
-        boardHolder.setMinimumSize(new Dimension(650, 650));
+
+        // Allows
+        boardHolder.setMinimumSize(new Dimension(350, 350));
         boardHolder.setPreferredSize(new Dimension(650, 650));
         boardHolder.setMaximumSize(new Dimension(650, 650));
 
@@ -127,6 +132,16 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
+     * To look at the current size of the application frame
+     * 
+     * @param container
+     */
+    public void setContainerSize(int width, int height) {
+        this.currentFrameHeight = height;
+        this.currentFrameWidth = width;
+    }
+
+    /**
      * Updates the 2D array representation of the board (squareHolderArray[][]). The
      * board can then be repainted using paintBoard() to reflect the current state
      * of the game.
@@ -135,12 +150,25 @@ public class ChessGameGUIView extends ChessGameView {
     public void update() {
         // add boolean arguments for tutorial options on or off.
 
+        // For 650 x 650 board size.
         int kingSize = 110;
         int queenSize = 90;
         int knightSize = 80;
         int bishopSize = 85;
         int rookSize = 70;
         int pawnSize = 60;
+
+        // For 350 x 350 board size.
+        if (currentFrameWidth < 1000 || currentFrameHeight < 1000) {
+            // System.err.println(currentFrameWidth);
+            // System.err.println(currentFrameHeight);
+            kingSize = 58;
+            queenSize = 49;
+            knightSize = 40;
+            bishopSize = 40;
+            rookSize = 35;
+            pawnSize = 30;
+        }
 
         char[][] pieces = getChessGame().getBoardChars();
 
@@ -230,6 +258,14 @@ public class ChessGameGUIView extends ChessGameView {
         return squareHolderArray[i][j];
     }
 
+    /**
+     * Draws the image of the chess piece on the square.
+     * 
+     * @param filePath Path to the file containing the image of the chess piece.
+     * @param size     Pixel size of piece image to appear on square.
+     * @param i        Row of square to draw on.
+     * @param j        Column of squaew to draw on.
+     */
     public void putPieceImageOnSquare(String filePath, int size, int i, int j) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(filePath));
