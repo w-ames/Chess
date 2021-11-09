@@ -59,8 +59,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     // private ChessGameGUIController guiController = new
     // ChessGameGUIController(guiView, chessGame);
 
-    // endGameState is used to determine if the main panel should display the "show
-    // end game options" button instead of the "Resign" button.
+    // endGameState is used to determine if the main panel should display the "View
+    // End Game Options" button instead of the "Resign" button.
     private boolean endGameState = false;
 
     private ApplicationFrame container;
@@ -232,7 +232,7 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         // The following code block is responsible for dynamically resizing the popup
         // layers (endGameOptions & pawnPromotionScreen) if the user resizes the
-        // application frame.
+        // application frame while the popup screens are being displayed.
         layeredPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -257,7 +257,6 @@ public class ChessPanel extends JPanel implements MouseListener {
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
 
-        // initialize(chessGame);
         // First notification.
         addNotification("Select a chess piece to begin...");
 
@@ -353,7 +352,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
-        addNotification("You have selected square: " + copyButton.getSquareLocation() + ". Contains piece: ");
+        addNotification("You have selected square: " + copyButton.getSquareLocation());
 
     }
 

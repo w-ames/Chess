@@ -4,6 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
+/**
+ * ChessGameGUIController holds the graphical controller for the chessGame
+ * model.
+ * 
+ * @author Nikolas Haugrud
+ * @author Chelsie Bajic
+ */
 public class ChessGameGUIController implements ActionListener {
 
     ChessGameGUIView guiView;
@@ -11,9 +18,14 @@ public class ChessGameGUIController implements ActionListener {
     int row;
     int col;
 
-    // Add a constructor to give reference to the view
-    // and a reference ot the row and column that it is
-
+    /**
+     * Build the ChessGameGUIController object.
+     * 
+     * @param guiView   The graphical view.
+     * @param chessGame The chess game model.
+     * @param row       The row of the square for this controller.
+     * @param col       The column of the square for this controller
+     */
     public ChessGameGUIController(ChessGameGUIView guiView, ChessGame chessGame, int row, int col) {
         this.guiView = guiView;
         this.chessGame = chessGame;
@@ -21,22 +33,22 @@ public class ChessGameGUIController implements ActionListener {
         this.col = col;
     }
 
+    /**
+     * Allows moves to be performed on the graphical board.
+     */
     public void actionPerformed(ActionEvent e) {
+
         int selectedRow = guiView.getSelectedRow();
         int selectedCol = guiView.getSelectedCol();
 
-        System.err.println("1");
         if (selectedRow == -1 || selectedCol == -1) {
-            System.err.println("2");
             guiView.setSelectedRow(row);
             guiView.setSelectedCol(col);
 
         } else {
             chessGame.performMove(selectedRow, selectedCol, row, col, true);
-            System.err.println("3");
             guiView.setSelectedRow(-1);
             guiView.setSelectedCol(-1);
         }
     }
-
 }

@@ -16,6 +16,8 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * For displaying information about time/chess clock.
+ * 
+ * @author Chelsie Bajic
  */
 public class ClockView extends JPanel {
 

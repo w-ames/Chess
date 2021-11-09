@@ -16,7 +16,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
 /**
- * Styled container to hold buttons.
+ * Creates a styled container to hold buttons.
+ * 
+ * @author Chelsie Bajic
  */
 public class ButtonContainer extends JPanel {
 

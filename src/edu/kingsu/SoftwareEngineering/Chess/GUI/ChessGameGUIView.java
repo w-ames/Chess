@@ -29,6 +29,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * ChessGameGUIView class holds the graphical view of the game board.
  * 
  * @author Chelsie Bajic
+ * @author Nikolas Haugrud
  */
 public class ChessGameGUIView extends ChessGameView {
 
@@ -51,7 +52,6 @@ public class ChessGameGUIView extends ChessGameView {
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForThis = new GridBagConstraints();
-        // Centres the board on the display panel (this).
         gbForThis.fill = GridBagConstraints.CENTER;
 
         // Instanciates the squares and puts them into the 2D array that holds the
@@ -65,14 +65,10 @@ public class ChessGameGUIView extends ChessGameView {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
                     squareHolderArray[i][j] = new Square(location, true);
-                    // squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this,
-                    // getChessGame(), i, j));
                 } else {
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
                     squareHolderArray[i][j] = new Square(location, false);
-                    // squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this,
-                    // getChessGame(), i, j));
                 }
             }
         }
@@ -126,11 +122,7 @@ public class ChessGameGUIView extends ChessGameView {
                 boardHolder.add(squareHolderArray[i][j], gbForBoard);
             }
         }
-        // board.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(37,
-        // 108, 141)));
     }
-
-    // public void addController(ChessGameGUIController gameController){}
 
     /**
      * Updates the 2D array representation of the board (squareHolderArray[][]). The
@@ -150,74 +142,73 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // Lower case == white, upper case == black
-
+        // Lower case == white, upper case == black.
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[0].length; j++) {
 
                 switch (pieces[i][j]) {
                 case 'P':
-                    // Add Black Pawns.
+                    // Add black pawns.
                     putPieceImageOnSquare("src/assets/piece_images/black_pawn.png", pawnSize, i, j);
                     break;
 
                 case 'p':
-                    // Add White Pawns.
+                    // Add white pawns.
                     putPieceImageOnSquare("src/assets/piece_images/white_pawn.png", pawnSize, i, j);
                     break;
 
                 case 'K':
-                    // Add Black King.
-                    putPieceImageOnSquare("src/assets/piece_images/black_king.png", pawnSize, i, j);
+                    // Add black king.
+                    putPieceImageOnSquare("src/assets/piece_images/black_king.png", kingSize, i, j);
                     break;
 
                 case 'k':
-                    // Add White King.
-                    putPieceImageOnSquare("src/assets/piece_images/white_king.png", pawnSize, i, j);
+                    // Add white king.
+                    putPieceImageOnSquare("src/assets/piece_images/white_king.png", kingSize, i, j);
                     break;
 
                 case 'Q':
-                    // Add Black King.
-                    putPieceImageOnSquare("src/assets/piece_images/black_queen.png", pawnSize, i, j);
+                    // Add black queen.
+                    putPieceImageOnSquare("src/assets/piece_images/black_queen.png", queenSize, i, j);
                     break;
 
                 case 'q':
-                    // Add White King.
-                    putPieceImageOnSquare("src/assets/piece_images/white_queen.png", pawnSize, i, j);
+                    // Add white queen.
+                    putPieceImageOnSquare("src/assets/piece_images/white_queen.png", queenSize, i, j);
                     break;
 
                 case 'R':
-                    // Add Black King.
-                    putPieceImageOnSquare("src/assets/piece_images/black_rook.png", pawnSize, i, j);
+                    // Add black rook.
+                    putPieceImageOnSquare("src/assets/piece_images/black_rook.png", rookSize, i, j);
                     break;
 
                 case 'r':
-                    // Add White King.
-                    putPieceImageOnSquare("src/assets/piece_images/white_rook.png", pawnSize, i, j);
+                    // Add white rook.
+                    putPieceImageOnSquare("src/assets/piece_images/white_rook.png", rookSize, i, j);
                     break;
 
                 case 'B':
-                    // Add Black King.
-                    putPieceImageOnSquare("src/assets/piece_images/black_bishop.png", pawnSize, i, j);
+                    // Add black bishop.
+                    putPieceImageOnSquare("src/assets/piece_images/black_bishop.png", bishopSize, i, j);
                     break;
 
                 case 'b':
-                    // Add White King.
-                    putPieceImageOnSquare("src/assets/piece_images/white_bishop.png", pawnSize, i, j);
+                    // Add white bishop.
+                    putPieceImageOnSquare("src/assets/piece_images/white_bishop.png", bishopSize, i, j);
                     break;
 
                 case 'N':
-                    // Add Black King.
-                    putPieceImageOnSquare("src/assets/piece_images/black_knight.png", pawnSize, i, j);
+                    // Add black knight.
+                    putPieceImageOnSquare("src/assets/piece_images/black_knight.png", knightSize, i, j);
                     break;
 
                 case 'n':
-                    // Add White King.
-                    putPieceImageOnSquare("src/assets/piece_images/white_knight.png", pawnSize, i, j);
+                    // Add white knight.
+                    putPieceImageOnSquare("src/assets/piece_images/white_knight.png", knightSize, i, j);
                     break;
 
                 case ' ':
-                    // Update blank square.
+                    // Update empty square.
                     this.getSquares(i, j).setIcon(null);
                     break;
                 }
@@ -248,22 +239,45 @@ public class ChessGameGUIView extends ChessGameView {
         }
     }
 
+    /**
+     * Returns the selected row.
+     * 
+     * @return The selected row.
+     */
     public int getSelectedRow() {
         return selectedRow;
     }
 
+    /**
+     * Returns the selected column.
+     * 
+     * @return The selected column.
+     */
     public int getSelectedCol() {
         return selectedCol;
     }
 
+    /**
+     * Sets the selected row.
+     * 
+     * @param The row to be the "selected row".
+     */
     public void setSelectedRow(int row) {
         selectedRow = row;
     }
 
+    /**
+     * Sets the selected column.
+     * 
+     * @param col The row to be the "selected column".
+     */
     public void setSelectedCol(int col) {
         selectedCol = col;
     }
 
+    /**
+     * Adds action listeners to the board squares.
+     */
     @Override
     public void addListeners() {
         for (int i = 0; i < squareHolderArray.length; i++) {

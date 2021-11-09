@@ -88,19 +88,11 @@ public class Square extends JButton implements MouseListener {
      * Set information about what piece is currently on this square.
      * 
      * @param newPiece new piece that is added to the square.
+     * @author Chelsie Bajic
      */
     public void setCurrentPiece(String newPiece) {
 
     }
-
-    // /**
-    // * Returns the name of the piece currently on this square.
-    // *
-    // * @return the piece on this square.
-    // */
-    // public String getPiece() {
-    // return currentPiece;
-    // }
 
     /**
      * Changes the border color to blue, to highlight it when the mouse hovers over
@@ -122,7 +114,7 @@ public class Square extends JButton implements MouseListener {
 
     /**
      * When the mouse leaves the square, changes it back to its original border
-     * color/
+     * color.
      */
     public void mouseExited(MouseEvent e) {
         if (color == false) {
