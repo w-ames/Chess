@@ -14,6 +14,12 @@ import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.Insets;
 
+/**
+ * ChessGameAlgebraicView class holds the graphical view of the game board.
+ * 
+ * @author Chelsie Baic
+ * @author Greg Cal
+ */
 public class ChessGameAlgebraicView extends ChessGameView {
 
     private JPanel algebraicDisplayPanel = new JPanel();
@@ -23,7 +29,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
     /**
      * Draws the algebraic view panel to be added to ChessPanel.
      * 
-     * @author Chelsie Baic & Greg Cal
      */
     public ChessGameAlgebraicView() {
         this.setBackground(Color.WHITE);
@@ -81,6 +86,9 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
     }
 
+    /**
+     * Overrides the JPanel paint component to allow for gradient paint.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

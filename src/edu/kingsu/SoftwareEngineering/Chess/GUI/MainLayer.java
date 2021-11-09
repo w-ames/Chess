@@ -17,11 +17,13 @@ import java.awt.Graphics2D;
 /**
  * MainLayer creates the JPanel that provides the color of the background for
  * gameplay mode and holds all of the gameplay components.
+ * 
+ * @author Chelsie Bajic
  */
 public class MainLayer extends JPanel {
 
     /**
-     * Over rides JPanel's paintComponent to allow for gradient color.
+     * Overrides JPanel's paintComponent to allow for gradient paint.
      * 
      * @param g Graphics object to build gradient on.
      */

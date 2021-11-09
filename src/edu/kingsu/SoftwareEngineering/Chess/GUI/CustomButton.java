@@ -19,6 +19,8 @@ import java.awt.Cursor;
 
 /**
  * Styling of custom buttons for Java Chess.
+ * 
+ * @author Chelsie Bajic
  */
 public class CustomButton extends JButton implements MouseListener {
 

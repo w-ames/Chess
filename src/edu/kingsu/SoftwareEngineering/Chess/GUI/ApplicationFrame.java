@@ -26,30 +26,31 @@ public class ApplicationFrame extends JFrame {
 
         contentPanel.setLayout(layout);
 
-        //Add cards test
+        // Add cards test
         contentPanel.add(mainMenu, "menu");
-        contentPanel.add(gameSetUp, "gamesetup"); 
-        contentPanel.add(chessPanel, "chesspanel");       
+        contentPanel.add(gameSetUp, "gamesetup");
+        contentPanel.add(chessPanel, "chesspanel");
 
         layout.show(contentPanel, "menu");
 
         setPreferredSize(WINDOW_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-
         pack();
         setVisible(true);
     }
-    public void test(){
+
+    public void test() {
         // layout.show(contentPanel,"gamesetup");
         System.out.println("TEST");
     }
-    public void show(String card){
-        layout.show(contentPanel,card);
+
+    public void show(String card) {
+        layout.show(contentPanel, card);
     }
-    public void initializeChessPanel(ChessGame chessGame){
+
+    public void initializeChessPanel(ChessGame chessGame) {
         chessPanel.initialize(chessGame);
+        chessPanel.makePiecesResizable();
     }
 }
-
-

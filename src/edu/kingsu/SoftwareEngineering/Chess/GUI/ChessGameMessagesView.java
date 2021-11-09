@@ -17,6 +17,8 @@ import java.awt.Font;
 /**
  * Represents the view of notifications that communicates information about
  * gameplay to the user.
+ * 
+ * @author Chelsie Bajic
  */
 public class ChessGameMessagesView extends ChessGameView {
 
@@ -24,7 +26,7 @@ public class ChessGameMessagesView extends ChessGameView {
     JLabel addNotification = new JLabel();
 
     /**
-     * Constructs the notification JPanel.
+     * Constructs the notifications JPanel.
      */
     public ChessGameMessagesView() {
         this.setBackground(Color.WHITE);
@@ -81,9 +83,6 @@ public class ChessGameMessagesView extends ChessGameView {
         g2d.dispose();
 
     }
-    // public void update(){
-
-    // }
 
     /**
      * Add a notification to the notifications screen.
@@ -112,5 +111,15 @@ public class ChessGameMessagesView extends ChessGameView {
         addNotification.setPreferredSize(new Dimension(600, 50));
         notificationDisplayPanel.add(addNotification, gbForInsideNotificationsPanel);
         notificationDisplayPanel.repaint();
+    }
+
+    // Mandatory override to inherit from ChessGameView.
+    public void addListeners() {
+
+    }
+
+    // Mandatory override to inherit from ChessGameView.
+    public void update() {
+
     }
 }

@@ -21,6 +21,8 @@ import java.awt.Dimension;
 /**
  * Popuplayer is used to create both the end game options popup screen, and the
  * pawn promotion popup screen.
+ * 
+ * @author Chelsie Bajic
  */
 public class PopupLayer extends JPanel implements MouseListener {
 
@@ -56,6 +58,9 @@ public class PopupLayer extends JPanel implements MouseListener {
         endGameViewBoardButton.addMouseListener(this);
     }
 
+    /**
+     * Makes this PopupLayer object into a pawn promotion popup screen.
+     */
     public void makeIntoPawnPromotionScreen() {
         JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion");
         pawnPromotionLabel.setFont(new Font("Arial", Font.PLAIN, 35));
@@ -94,6 +99,11 @@ public class PopupLayer extends JPanel implements MouseListener {
 
     }
 
+    /**
+     * Makes this PopupLayer object into an End Game Options screen.
+     * 
+     * @param endGameMessage
+     */
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
         JLabel endGameLabel = new JLabel(endGameMessage);
         endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
