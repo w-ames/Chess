@@ -55,8 +55,8 @@ public class ChessGameGUIView extends ChessGameView {
         gbForThis.fill = GridBagConstraints.CENTER;
 
         // Instanciates the squares and puts them into the 2D array that holds the
-        // represntation of also teaches them their location on the board and determines
-        // which color they will be.
+        // represntation of the board. Also teaches them their location on the board and
+        // determines which color they will be.
         String location;
         squareHolderArray = new Square[8][8];
         for (int i = 0; i < 8; i++) {
@@ -84,6 +84,7 @@ public class ChessGameGUIView extends ChessGameView {
      */
     @Override
     public void paintComponent(Graphics g) {
+
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         int w = getWidth();
@@ -104,6 +105,7 @@ public class ChessGameGUIView extends ChessGameView {
      * in the 2D array board).
      */
     public void paintBoard() {
+
         boardHolder.setLayout(new GridBagLayout());
         GridBagConstraints gbForBoard = new GridBagConstraints();
         gbForBoard.fill = GridBagConstraints.BOTH;
@@ -286,5 +288,4 @@ public class ChessGameGUIView extends ChessGameView {
             }
         }
     }
-
 }

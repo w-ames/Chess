@@ -352,6 +352,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
+
         addNotification("You have selected square: " + copyButton.getSquareLocation());
 
     }
