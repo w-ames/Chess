@@ -23,9 +23,9 @@ public class GameSetUp extends JPanel {
         JLabel player1Label = new JLabel("Player 1");
         JLabel player2Label = new JLabel("Player 2");
         JLabel timeLabel = new JLabel("Time");
-        JLabel timerLabel1 = new JLabel("10:10");
+        JLabel timerLabel1 = new JLabel("10:00");
         JLabel incrementLabel = new JLabel("Increment");
-        JLabel timerLabel2 = new JLabel("10:10");
+        JLabel timerLabel2 = new JLabel("0:10");
         JLabel settingsLabel = new JLabel("Settings");
         String[] playerList = { "Human", "AI(Easy)", "AI(Medium)", "AI(Hard)" };
 
@@ -49,6 +49,8 @@ public class GameSetUp extends JPanel {
         this.setLayout(new GridBagLayout());
         GridBagConstraints setup = new GridBagConstraints();
         setup.fill = GridBagConstraints.BOTH;
+        // setup.insets = new Insets(25,100,100,100);
+
 
         JButton goToMainMenu = new JButton("Return");
         goToMainMenu.addActionListener(new ActionListener() {
@@ -70,6 +72,15 @@ public class GameSetUp extends JPanel {
             }
         });
 
+
+        ////First Row
+        JPanel playerContainer = new JPanel();
+        playerContainer.setLayout(new GridBagLayout());
+        GridBagConstraints pc = new GridBagConstraints();
+        pc.fill = GridBagConstraints.BOTH;
+        pc.insets = new Insets(10,10,10,10);
+
+
         /// Player 1 Panel
         player1Panel.setLayout(new GridBagLayout());
         player1Panel.setBackground(Color.GRAY);
@@ -85,19 +96,15 @@ public class GameSetUp extends JPanel {
         player1Constraints.gridx = 0;
         player1Constraints.gridy = 1;
         player1Panel.add(player1Box, player1Constraints);
+        
+        pc.gridx = 0;
+        pc.gridy = 0;
+        playerContainer.add(player1Panel,pc);
 
-        setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 0;
-        setup.gridy = 0;
-        setup.weightx = 0.45;
-        setup.weighty = 0.4;
-        setup.gridwidth = 1;
-        setup.gridheight = 1;
-        this.add(player1Panel, setup);
 
         // Player 2 Panel
         player2Panel.setLayout(new GridBagLayout());
-        player2Panel.setBackground(Color.LIGHT_GRAY);
+        player2Panel.setBackground(Color.GRAY);
 
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
@@ -111,18 +118,33 @@ public class GameSetUp extends JPanel {
         player2Constraints.gridy = 1;
         player2Panel.add(player2Box, player2Constraints);
 
-        setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 1;
+        pc.gridx = 1;
+        pc.gridy = 0;
+        playerContainer.add(player2Panel,pc);
+
+
+        
+        setup.gridx = 0;
         setup.gridy = 0;
-        setup.weightx = 0.45;
-        setup.weighty = 0.4;
-        setup.gridwidth = 1;
-        setup.gridheight = 1;
-        this.add(player2Panel, setup);
+        setup.weightx = 1.0;
+        setup.weighty = 1.0;
+        setup.insets = new Insets(100,100,25,100);
+        this.add(playerContainer,setup);
+
+
+        // playerContainer.add(Player1Panel,gb)
+
+        JPanel settingContainer = new JPanel();
+        settingContainer.setLayout(new GridBagLayout());
+        GridBagConstraints sc = new GridBagConstraints();
+        sc.fill = GridBagConstraints.BOTH;
+        sc.insets = new Insets(10,10,10,10);
+
+        
 
         // Time Panel
         timePanel.setLayout(new GridBagLayout());
-        timePanel.setBackground(Color.WHITE);
+        timePanel.setBackground(Color.GRAY);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -188,14 +210,9 @@ public class GameSetUp extends JPanel {
         timeConstraints.gridy = 9;
         timePanel.add(timeSlider2, timeConstraints);
 
-        setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 0;
-        setup.gridy = 1;
-        setup.weightx = 0.3;
-        setup.weighty = 0.4;
-        setup.gridwidth = 1;
-        setup.gridheight = 1;
-        this.add(timePanel, setup);
+        sc.gridx = 0;
+        sc.gridy = 0;
+        settingContainer.add(timePanel,sc);
 
         // Settings Panel
         settingsPanel.setLayout(new GridBagLayout());
@@ -236,19 +253,19 @@ public class GameSetUp extends JPanel {
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 5;
         timePanel.add(checkAll, timeConstraints);
+        settingsConstraints.fill = GridBagConstraints.BOTH;
+        settingsConstraints.gridx = 0;
+        settingsConstraints.gridy = 5;
+        settingsPanel.add(checkAll,timeConstraints);
+        
 
-        setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 1;
-        setup.gridy = 1;
-        setup.weightx = 0.3;
-        setup.weighty = 0.4;
-        setup.gridwidth = 1;
-        setup.gridheight = 1;
-        this.add(settingsPanel, setup);
+        sc.gridx = 1;
+        sc.gridy = 0;
+        settingContainer.add(settingsPanel,sc);
 
         // Load
         setupPanel.setLayout(new GridBagLayout());
-        setupPanel.setBackground(Color.RED);
+        setupPanel.setBackground(Color.GRAY);
 
         JButton loadButton = new JButton("Load Game");
 
@@ -267,14 +284,20 @@ public class GameSetUp extends JPanel {
         setupConstraints.gridy = 2;
         setupPanel.add(goToMainMenu, setupConstraints);
 
-        setup.fill = GridBagConstraints.BOTH;
-        setup.gridx = 2;
+
+        sc.gridx = 2;
+        sc.gridy = 0;
+        settingContainer.add(setupPanel,sc);
+
+    
+        setup.gridx = 0;
         setup.gridy = 1;
-        setup.weightx = 0.3;
-        setup.weighty = 0.4;
-        setup.gridwidth = 1;
-        setup.gridheight = 1;
-        this.add(setupPanel, setup);
+        setup.weightx = 1.0;
+        setup.weighty = 1.0;
+        setup.insets = new Insets(25,100,100,100);
+        this.add(settingContainer,setup);
+
+        
 
     }
 }
