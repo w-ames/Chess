@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Font;
+import java.awt.Insets;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 public class GameSetUp extends JPanel {
@@ -15,6 +17,7 @@ public class GameSetUp extends JPanel {
 
         this.setBackground(Color.cyan);
 
+        MainLayer background = new MainLayer();
         ButtonContainer player1Panel = new ButtonContainer();
         ButtonContainer player2Panel = new ButtonContainer();
         ButtonContainer timePanel = new ButtonContainer();
@@ -39,19 +42,26 @@ public class GameSetUp extends JPanel {
         GridBagConstraints setupConstraints = new GridBagConstraints();
 
         player1Label.setFont(new Font("Arial", Font.PLAIN, 35));
+        player1Label.setForeground(new Color(16, 46, 60));
         player2Label.setFont(new Font("Arial", Font.PLAIN, 35));
+        player2Label.setForeground(new Color(16, 46, 60));
         timeLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+        timeLabel.setForeground(new Color(16, 46, 60));
         timerLabel1.setFont(new Font("Arial", Font.PLAIN, 35));
+        timerLabel1.setForeground(new Color(16, 46, 60));
         incrementLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+        incrementLabel.setForeground(new Color(16, 46, 60));
         timerLabel2.setFont(new Font("Arial", Font.PLAIN, 35));
+        timerLabel2.setForeground(new Color(16, 46, 60));
         settingsLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+        settingsLabel.setForeground(new Color(16, 46, 60));
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints setup = new GridBagConstraints();
         setup.fill = GridBagConstraints.BOTH;
         // setup.insets = new Insets(25,100,100,100);
 
-        JButton goToMainMenu = new JButton("Return");
+        CustomButton goToMainMenu = new CustomButton("Return");
         goToMainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +69,7 @@ public class GameSetUp extends JPanel {
             }
         });
 
-        JButton startGame = new JButton("Start Game");
+        CustomButton startGame = new CustomButton("Start Game");
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +81,15 @@ public class GameSetUp extends JPanel {
             }
         });
 
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints mainLayerGB = new GridBagConstraints();
+        mainLayerGB.fill = GridBagConstraints.BOTH;
+        mainLayerGB.gridx = 0;
+        mainLayerGB.gridy = 0;
+        mainLayerGB.weightx = 1;
+        mainLayerGB.weighty = 1;
+        this.add(background, mainLayerGB);
+
         //// First Row
         JPanel playerContainer = new JPanel();
         playerContainer.setLayout(new GridBagLayout());
@@ -80,7 +99,6 @@ public class GameSetUp extends JPanel {
 
         /// Player 1 Panel
         player1Panel.setLayout(new GridBagLayout());
-        player1Panel.setBackground(Color.GRAY);
 
         player1Constraints.fill = GridBagConstraints.BOTH;
         player1Constraints.gridx = 0;
@@ -92,15 +110,19 @@ public class GameSetUp extends JPanel {
         player1Constraints.fill = GridBagConstraints.BOTH;
         player1Constraints.gridx = 0;
         player1Constraints.gridy = 1;
+        player1Constraints.weightx = 1;
+        player1Constraints.weighty = 1;
         player1Panel.add(player1Box, player1Constraints);
 
         pc.gridx = 0;
         pc.gridy = 0;
+        pc.weightx = 1;
+        pc.weighty = 1;
+        pc.fill = GridBagConstraints.BOTH;
         playerContainer.add(player1Panel, pc);
 
         // Player 2 Panel
         player2Panel.setLayout(new GridBagLayout());
-        player2Panel.setBackground(Color.GRAY);
 
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
@@ -112,18 +134,26 @@ public class GameSetUp extends JPanel {
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
         player2Constraints.gridy = 1;
+        player2Constraints.weightx = 1;
+        player2Constraints.weighty = 1;
         player2Panel.add(player2Box, player2Constraints);
 
         pc.gridx = 1;
         pc.gridy = 0;
+        pc.gridheight = 1;
+        pc.gridwidth = 1;
+        pc.fill = GridBagConstraints.BOTH;
         playerContainer.add(player2Panel, pc);
 
+        background.setLayout(new GridBagLayout());
+        setup.fill = GridBagConstraints.BOTH;
         setup.gridx = 0;
         setup.gridy = 0;
-        setup.weightx = 1.0;
-        setup.weighty = 1.0;
-        setup.insets = new Insets(100, 100, 25, 100);
-        this.add(playerContainer, setup);
+        setup.weightx = 1;
+        setup.weighty = 0.15;
+        setup.insets = new Insets(25, 250, 5, 250);
+        playerContainer.setOpaque(false);
+        background.add(playerContainer, setup);
 
         // playerContainer.add(Player1Panel,gb)
 
@@ -135,7 +165,8 @@ public class GameSetUp extends JPanel {
 
         // Time Panel
         timePanel.setLayout(new GridBagLayout());
-        timePanel.setBackground(Color.GRAY);
+        // timePanel.setBackground(Color.GRAY);
+        timePanel.setOpaque(false);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -203,11 +234,14 @@ public class GameSetUp extends JPanel {
 
         sc.gridx = 0;
         sc.gridy = 0;
+        sc.weightx = 1;
+        sc.weighty = 1;
         settingContainer.add(timePanel, sc);
 
         // Settings Panel
         settingsPanel.setLayout(new GridBagLayout());
-        settingsPanel.setBackground(Color.GRAY);
+        // settingsPanel.setBackground(Color.GRAY);
+        settingsPanel.setOpaque(false);
 
         JCheckBox highlightMove = new JCheckBox("Highlight Move");
         JCheckBox moveHint = new JCheckBox("Move Hint");
@@ -239,7 +273,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.gridy = 4;
         settingsPanel.add(notification, settingsConstraints);
 
-        JButton checkAll = new JButton("Check all / Uncheck All");
+        CustomButton checkAll = new CustomButton("Check all / Uncheck All");
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 5;
@@ -255,35 +289,41 @@ public class GameSetUp extends JPanel {
 
         // Load
         setupPanel.setLayout(new GridBagLayout());
-        setupPanel.setBackground(Color.GRAY);
 
-        JButton loadButton = new JButton("Load Game");
+        CustomButton loadButton = new CustomButton("Load Game");
 
         setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 0;
+        setupConstraints.weightx = 1;
+        setupConstraints.weighty = 1;
+        setupConstraints.insets = new Insets(120, 25, 5, 25);
         setupPanel.add(startGame, setupConstraints);
 
-        setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 1;
+        setupConstraints.insets = new Insets(5, 25, 5, 25);
         setupPanel.add(loadButton, setupConstraints);
 
-        setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 2;
+        setupConstraints.insets = new Insets(5, 25, 120, 25);
         setupPanel.add(goToMainMenu, setupConstraints);
 
         sc.gridx = 2;
         sc.gridy = 0;
+        sc.weightx = 1;
+        sc.weighty = 1;
         settingContainer.add(setupPanel, sc);
 
+        setup.fill = GridBagConstraints.BOTH;
         setup.gridx = 0;
         setup.gridy = 1;
-        setup.weightx = 1.0;
-        setup.weighty = 1.0;
-        setup.insets = new Insets(25, 100, 100, 100);
-        this.add(settingContainer, setup);
+        setup.weightx = 1;
+        setup.weighty = 0.85;
+        setup.insets = new Insets(5, 150, 25, 150);
+        settingContainer.setOpaque(false);
+        background.add(settingContainer, setup);
 
     }
 }
