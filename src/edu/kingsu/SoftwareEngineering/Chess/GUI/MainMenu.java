@@ -4,39 +4,32 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Insets;
 
 public class MainMenu extends JPanel {
 
     private ApplicationFrame container;
+    private CustomButton newGameButton = new CustomButton("New Game");
+    private CustomButton tutorialButton = new CustomButton("Tutorial");
+    private CustomButton loadGameButton = new CustomButton("Load Game");
+    private CustomButton helpButton = new CustomButton("Help");
+    private CustomButton exitButton = new CustomButton("Exit");
+    private MainLayer background = new MainLayer();
+    private ButtonContainer buttonContainer = new ButtonContainer();
 
     public MainMenu(ApplicationFrame container) {
-        //Add super constructor and parameter to go in between cards
+        // Add super constructor and parameter to go in between cards
         super();
         this.container = container;
         //
 
-        JButton newGameButton = new JButton("New Game");
-        JButton tutorialButton = new JButton("Tutorial");
-        JButton loadGameButton = new JButton("Load Game");
-        JButton helpButton = new JButton("Help");
-        JButton exitButton = new JButton("Exit");
-        this.setBackground(Color.CYAN);
-
-        //Set a JLabel for the LOGO
+        // Set a JLabel for the LOGO
         ImageIcon chessIcon = new ImageIcon("./src/assets/chesslogo.png");
         Image image = chessIcon.getImage();
         Image newimage = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
         chessIcon = new ImageIcon(newimage);
         JLabel chessTitle = new JLabel(chessIcon);
         chessTitle.setBackground(Color.black);
-
-        //Set the Font sizes for buttons
-        newGameButton.setFont(new Font("Arial", Font.PLAIN, 35));
-        loadGameButton.setFont(new Font("Arial", Font.PLAIN, 35));
-        tutorialButton.setFont(new Font("Arial", Font.PLAIN, 35));
-        helpButton.setFont(new Font("Arial", Font.PLAIN, 35));
-        exitButton.setFont(new Font("Arial", Font.PLAIN, 35));
-        
 
         newGameButton.addActionListener(new ActionListener() {
             @Override
@@ -49,87 +42,90 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry",JOptionPane.ERROR_MESSAGE );
+                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
             }
         });
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry",JOptionPane.ERROR_MESSAGE );
+                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
             }
         });
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry",JOptionPane.ERROR_MESSAGE );
+                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
             }
         });
-        exitButton.addActionListener(new ActionListener(){
+        exitButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
 
         this.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints forBackGround = new GridBagConstraints();
+        forBackGround.fill = GridBagConstraints.BOTH;
+        forBackGround.gridx = 0;
+        forBackGround.gridy = 0;
+        forBackGround.weightx = 1;
+        forBackGround.weighty = 1;
+        this.add(background, forBackGround);
 
-        
-        //// Button test
-        c.fill = GridBagConstraints.CENTER;
+        background.setLayout(new GridBagLayout());
+        forBackGround.gridx = 0;
+        forBackGround.gridy = 0;
+        forBackGround.weightx = 1;
+        forBackGround.weighty = 0.10;
+        background.add(chessTitle, forBackGround);
+
+        forBackGround.fill = GridBagConstraints.BOTH;
+        forBackGround.gridx = 0;
+        forBackGround.gridy = 1;
+        forBackGround.weightx = 1;
+        forBackGround.weighty = 0.90;
+        forBackGround.insets = new Insets(23, 500, 25, 500);
+        background.add(buttonContainer, forBackGround);
+
+        GridBagConstraints c = new GridBagConstraints();
+        buttonContainer.setLayout(new GridBagLayout());
+
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 0;
-        c.ipadx = 50;
-        c.ipady = 50;
-        this.add(chessTitle, c);
+        c.weightx = 1;
+        c.weighty = 1;
+        c.insets = new Insets(10, 10, 10, 10);
+        buttonContainer.add(newGameButton, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        c.ipadx = 50;
-        c.ipady = 50;
-        this.add(newGameButton, c);
+        // c.gridheight = 1;
+        // c.gridwidth = 1;
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        buttonContainer.add(loadGameButton, c);
+
         c.gridx = 0;
         c.gridy = 2;
         // c.gridheight = 1;
         // c.gridwidth = 1;
-        c.ipadx = 50;
-        c.ipady=50;
+        buttonContainer.add(tutorialButton, c);
 
-        this.add(loadGameButton, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 3;
-        c.ipadx = 50;
-        c.ipady = 50;
         // c.gridheight = 1;
         // c.gridwidth = 1;
-        this.add(tutorialButton, c);
+        buttonContainer.add(helpButton, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 4;
-        c.ipadx = 50;
-        c.ipady = 50;
-        // c.gridheight = 1;
-        // c.gridwidth = 1;
-        this.add(helpButton, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 5;
-        c.ipadx = 50;
-        c.ipady = 50;
         // c.gridheight = 1;
         // c.gridwidth = 1;
-        this.add(exitButton, c);
-        
-        
+        buttonContainer.add(exitButton, c);
+
         // button = new JButton("Button 2");
         // c.fill = GridBagConstraints.HORIZONTAL;
         // c.weightx = 0.5;
@@ -152,8 +148,6 @@ public class MainMenu extends JPanel {
         // c.gridx = 0;
         // c.gridy = 1;
         // this.add(button, c);
-
-
 
     }
 
