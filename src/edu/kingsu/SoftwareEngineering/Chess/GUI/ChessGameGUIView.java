@@ -445,7 +445,7 @@ public class ChessGameGUIView extends ChessGameView {
         } catch (Exception e) {
             System.err.println(e);
         }
-        return smallBlackBishopIcon;
+        return smallBlackBishopIcon; // I don't know how to make it compile without doing this?
     }
 
     /**
