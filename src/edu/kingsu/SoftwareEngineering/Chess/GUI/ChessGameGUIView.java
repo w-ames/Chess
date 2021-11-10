@@ -41,7 +41,7 @@ public class ChessGameGUIView extends ChessGameView {
     private int currentFrameHeight;
     private int currentFrameWidth;
 
-    // Large screen pieces
+    // Pieces for large screen sizes.
     private ImageIcon largeWhitePawnIcon;
     private ImageIcon largeBlackPawnIcon;
 
@@ -60,7 +60,7 @@ public class ChessGameGUIView extends ChessGameView {
     private ImageIcon largeWhiteKingIcon;
     private ImageIcon largeBlackKingIcon;
 
-    // Small screen pieces
+    // Pieces for small screen sizes.
     private ImageIcon smallWhitePawnIcon;
     private ImageIcon smallBlackPawnIcon;
 
