@@ -15,11 +15,11 @@ public class GameSetUp extends JPanel {
 
         this.setBackground(Color.cyan);
 
-        JPanel player1Panel = new JPanel();
-        JPanel player2Panel = new JPanel();
-        JPanel timePanel = new JPanel();
-        JPanel settingsPanel = new JPanel();
-        JPanel setupPanel = new JPanel();
+        ButtonContainer player1Panel = new ButtonContainer();
+        ButtonContainer player2Panel = new ButtonContainer();
+        ButtonContainer timePanel = new ButtonContainer();
+        ButtonContainer settingsPanel = new ButtonContainer();
+        ButtonContainer setupPanel = new ButtonContainer();
         JLabel player1Label = new JLabel("Player 1");
         JLabel player2Label = new JLabel("Player 2");
         JLabel timeLabel = new JLabel("Time");
@@ -51,7 +51,6 @@ public class GameSetUp extends JPanel {
         setup.fill = GridBagConstraints.BOTH;
         // setup.insets = new Insets(25,100,100,100);
 
-
         JButton goToMainMenu = new JButton("Return");
         goToMainMenu.addActionListener(new ActionListener() {
             @Override
@@ -72,14 +71,12 @@ public class GameSetUp extends JPanel {
             }
         });
 
-
-        ////First Row
+        //// First Row
         JPanel playerContainer = new JPanel();
         playerContainer.setLayout(new GridBagLayout());
         GridBagConstraints pc = new GridBagConstraints();
         pc.fill = GridBagConstraints.BOTH;
-        pc.insets = new Insets(10,10,10,10);
-
+        pc.insets = new Insets(10, 10, 10, 10);
 
         /// Player 1 Panel
         player1Panel.setLayout(new GridBagLayout());
@@ -96,11 +93,10 @@ public class GameSetUp extends JPanel {
         player1Constraints.gridx = 0;
         player1Constraints.gridy = 1;
         player1Panel.add(player1Box, player1Constraints);
-        
+
         pc.gridx = 0;
         pc.gridy = 0;
-        playerContainer.add(player1Panel,pc);
-
+        playerContainer.add(player1Panel, pc);
 
         // Player 2 Panel
         player2Panel.setLayout(new GridBagLayout());
@@ -120,17 +116,14 @@ public class GameSetUp extends JPanel {
 
         pc.gridx = 1;
         pc.gridy = 0;
-        playerContainer.add(player2Panel,pc);
+        playerContainer.add(player2Panel, pc);
 
-
-        
         setup.gridx = 0;
         setup.gridy = 0;
         setup.weightx = 1.0;
         setup.weighty = 1.0;
-        setup.insets = new Insets(100,100,25,100);
-        this.add(playerContainer,setup);
-
+        setup.insets = new Insets(100, 100, 25, 100);
+        this.add(playerContainer, setup);
 
         // playerContainer.add(Player1Panel,gb)
 
@@ -138,9 +131,7 @@ public class GameSetUp extends JPanel {
         settingContainer.setLayout(new GridBagLayout());
         GridBagConstraints sc = new GridBagConstraints();
         sc.fill = GridBagConstraints.BOTH;
-        sc.insets = new Insets(10,10,10,10);
-
-        
+        sc.insets = new Insets(10, 10, 10, 10);
 
         // Time Panel
         timePanel.setLayout(new GridBagLayout());
@@ -212,7 +203,7 @@ public class GameSetUp extends JPanel {
 
         sc.gridx = 0;
         sc.gridy = 0;
-        settingContainer.add(timePanel,sc);
+        settingContainer.add(timePanel, sc);
 
         // Settings Panel
         settingsPanel.setLayout(new GridBagLayout());
@@ -256,12 +247,11 @@ public class GameSetUp extends JPanel {
         settingsConstraints.fill = GridBagConstraints.BOTH;
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 5;
-        settingsPanel.add(checkAll,timeConstraints);
-        
+        settingsPanel.add(checkAll, timeConstraints);
 
         sc.gridx = 1;
         sc.gridy = 0;
-        settingContainer.add(settingsPanel,sc);
+        settingContainer.add(settingsPanel, sc);
 
         // Load
         setupPanel.setLayout(new GridBagLayout());
@@ -284,20 +274,16 @@ public class GameSetUp extends JPanel {
         setupConstraints.gridy = 2;
         setupPanel.add(goToMainMenu, setupConstraints);
 
-
         sc.gridx = 2;
         sc.gridy = 0;
-        settingContainer.add(setupPanel,sc);
+        settingContainer.add(setupPanel, sc);
 
-    
         setup.gridx = 0;
         setup.gridy = 1;
         setup.weightx = 1.0;
         setup.weighty = 1.0;
-        setup.insets = new Insets(25,100,100,100);
-        this.add(settingContainer,setup);
-
-        
+        setup.insets = new Insets(25, 100, 100, 100);
+        this.add(settingContainer, setup);
 
     }
 }
