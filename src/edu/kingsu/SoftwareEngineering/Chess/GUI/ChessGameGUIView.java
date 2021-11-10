@@ -41,6 +41,44 @@ public class ChessGameGUIView extends ChessGameView {
     private int currentFrameHeight;
     private int currentFrameWidth;
 
+    // Large screen pieces
+    private ImageIcon largeWhitePawnIcon;
+    private ImageIcon largeBlackPawnIcon;
+
+    private ImageIcon largeWhiteRookIcon;
+    private ImageIcon largeBlackRookIcon;
+
+    private ImageIcon largeWhiteKnightIcon;
+    private ImageIcon largeBlackKnightIcon;
+
+    private ImageIcon largeWhiteBishopIcon;
+    private ImageIcon largeBlackBishopIcon;
+
+    private ImageIcon largeWhiteQueenIcon;
+    private ImageIcon largeBlackQueenIcon;
+
+    private ImageIcon largeWhiteKingIcon;
+    private ImageIcon largeBlackKingIcon;
+
+    // Small screen pieces
+    private ImageIcon smallWhitePawnIcon;
+    private ImageIcon smallBlackPawnIcon;
+
+    private ImageIcon smallWhiteRookIcon;
+    private ImageIcon smallBlackRookIcon;
+
+    private ImageIcon smallWhiteKnightIcon;
+    private ImageIcon smallBlackKnightIcon;
+
+    private ImageIcon smallWhiteBishopIcon;
+    private ImageIcon smallBlackBishopIcon;
+
+    private ImageIcon smallWhiteQueenIcon;
+    private ImageIcon smallBlackQueenIcon;
+
+    private ImageIcon smallWhiteKingIcon;
+    private ImageIcon smallBlackKingIcon;
+
     /**
      * Constructs the initial graphical representation of the game board (And the
      * panel behind it). Constructs each square and adds them to a 8x8 2D array,
@@ -75,7 +113,7 @@ public class ChessGameGUIView extends ChessGameView {
                 }
             }
         }
-
+        loadPieceIconsIntoIconVariables();
         paintBoard();
         this.add(boardHolder, gbForThis);
     }
@@ -142,107 +180,165 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * Updates the 2D array representation of the board (squareHolderArray[][]). The
-     * board can then be repainted using paintBoard() to reflect the current state
-     * of the game.
+     * Updates the 2D array representation of the board (squareHolderArray[][]).
+     * Loads small piece image icons for small frame sizes or large piece image
+     * icons for large frame sizes.
+     *
      */
     @Override
     public void update() {
-        // add boolean arguments for tutorial options on or off.
-
-        // For 650 x 650 board size.
-        int kingSize = 110;
-        int queenSize = 90;
-        int knightSize = 80;
-        int bishopSize = 85;
-        int rookSize = 70;
-        int pawnSize = 60;
-
-        // For 350 x 350 board size.
-        if (currentFrameWidth < 1000 || currentFrameHeight < 1000) {
-            // System.err.println(currentFrameWidth);
-            // System.err.println(currentFrameHeight);
-            kingSize = 58;
-            queenSize = 49;
-            knightSize = 40;
-            bishopSize = 40;
-            rookSize = 35;
-            pawnSize = 30;
-        }
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // Lower case == white, upper case == black.
-        for (int i = 0; i < pieces.length; i++) {
-            for (int j = 0; j < pieces[0].length; j++) {
+        // For 350 x 350 board size.
+        if (currentFrameWidth < 1000 || currentFrameHeight < 1000) {
 
-                switch (pieces[i][j]) {
-                case 'P':
-                    // Add black pawns.
-                    putPieceImageOnSquare("src/assets/piece_images/black_pawn.png", pawnSize, i, j);
-                    break;
+            // Lower case == white, upper case == black.
+            for (int i = 0; i < pieces.length; i++) {
+                for (int j = 0; j < pieces[0].length; j++) {
 
-                case 'p':
-                    // Add white pawns.
-                    putPieceImageOnSquare("src/assets/piece_images/white_pawn.png", pawnSize, i, j);
-                    break;
+                    switch (pieces[i][j]) {
+                    case 'P':
+                        // Add black pawns.
+                        putPieceImageOnSquare(smallBlackPawnIcon, i, j);
+                        break;
 
-                case 'K':
-                    // Add black king.
-                    putPieceImageOnSquare("src/assets/piece_images/black_king.png", kingSize, i, j);
-                    break;
+                    case 'p':
+                        // Add white pawns.
+                        putPieceImageOnSquare(smallWhitePawnIcon, i, j);
+                        break;
 
-                case 'k':
-                    // Add white king.
-                    putPieceImageOnSquare("src/assets/piece_images/white_king.png", kingSize, i, j);
-                    break;
+                    case 'K':
+                        // Add black king.
+                        putPieceImageOnSquare(smallBlackKingIcon, i, j);
+                        break;
 
-                case 'Q':
-                    // Add black queen.
-                    putPieceImageOnSquare("src/assets/piece_images/black_queen.png", queenSize, i, j);
-                    break;
+                    case 'k':
+                        // Add white king.
+                        putPieceImageOnSquare(smallWhiteKingIcon, i, j);
+                        break;
 
-                case 'q':
-                    // Add white queen.
-                    putPieceImageOnSquare("src/assets/piece_images/white_queen.png", queenSize, i, j);
-                    break;
+                    case 'Q':
+                        // Add black queen.
+                        putPieceImageOnSquare(smallBlackQueenIcon, i, j);
+                        break;
 
-                case 'R':
-                    // Add black rook.
-                    putPieceImageOnSquare("src/assets/piece_images/black_rook.png", rookSize, i, j);
-                    break;
+                    case 'q':
+                        // Add white queen.
+                        putPieceImageOnSquare(smallWhiteQueenIcon, i, j);
+                        break;
 
-                case 'r':
-                    // Add white rook.
-                    putPieceImageOnSquare("src/assets/piece_images/white_rook.png", rookSize, i, j);
-                    break;
+                    case 'R':
+                        // Add black rook.
+                        putPieceImageOnSquare(smallBlackRookIcon, i, j);
+                        break;
 
-                case 'B':
-                    // Add black bishop.
-                    putPieceImageOnSquare("src/assets/piece_images/black_bishop.png", bishopSize, i, j);
-                    break;
+                    case 'r':
+                        // Add white rook.
+                        putPieceImageOnSquare(smallWhiteRookIcon, i, j);
+                        break;
 
-                case 'b':
-                    // Add white bishop.
-                    putPieceImageOnSquare("src/assets/piece_images/white_bishop.png", bishopSize, i, j);
-                    break;
+                    case 'B':
+                        // Add black bishop.
+                        putPieceImageOnSquare(smallBlackBishopIcon, i, j);
+                        break;
 
-                case 'N':
-                    // Add black knight.
-                    putPieceImageOnSquare("src/assets/piece_images/black_knight.png", knightSize, i, j);
-                    break;
+                    case 'b':
+                        // Add white bishop.
+                        putPieceImageOnSquare(smallWhiteBishopIcon, i, j);
+                        break;
 
-                case 'n':
-                    // Add white knight.
-                    putPieceImageOnSquare("src/assets/piece_images/white_knight.png", knightSize, i, j);
-                    break;
+                    case 'N':
+                        // Add black knight.
+                        putPieceImageOnSquare(smallBlackKingIcon, i, j);
+                        break;
 
-                case ' ':
-                    // Update empty square.
-                    this.getSquares(i, j).setIcon(null);
-                    break;
+                    case 'n':
+                        // Add white knight.
+                        putPieceImageOnSquare(smallWhiteKnightIcon, i, j);
+                        break;
+
+                    case ' ':
+                        // Update empty square.
+                        this.getSquares(i, j).setIcon(null);
+                        break;
+                    }
                 }
+            }
+            // Else if application frame size is larger than 1000 x 1000, load the large
+            // pieces for the 650 x 650 board size.
+        } else {
 
+            for (int i = 0; i < pieces.length; i++) {
+                for (int j = 0; j < pieces[0].length; j++) {
+
+                    switch (pieces[i][j]) {
+                    case 'P':
+                        // Add black pawns.
+                        putPieceImageOnSquare(largeBlackPawnIcon, i, j);
+                        break;
+
+                    case 'p':
+                        // Add white pawns.
+                        putPieceImageOnSquare(largeWhitePawnIcon, i, j);
+                        break;
+
+                    case 'K':
+                        // Add black king.
+                        putPieceImageOnSquare(largeBlackKingIcon, i, j);
+                        break;
+
+                    case 'k':
+                        // Add white king.
+                        putPieceImageOnSquare(largeWhiteKingIcon, i, j);
+                        break;
+
+                    case 'Q':
+                        // Add black queen.
+                        putPieceImageOnSquare(largeBlackQueenIcon, i, j);
+                        break;
+
+                    case 'q':
+                        // Add white queen.
+                        putPieceImageOnSquare(largeWhiteQueenIcon, i, j);
+                        break;
+
+                    case 'R':
+                        // Add black rook.
+                        putPieceImageOnSquare(largeBlackRookIcon, i, j);
+                        break;
+
+                    case 'r':
+                        // Add white rook.
+                        putPieceImageOnSquare(largeWhiteRookIcon, i, j);
+                        break;
+
+                    case 'B':
+                        // Add black bishop.
+                        putPieceImageOnSquare(largeBlackBishopIcon, i, j);
+                        break;
+
+                    case 'b':
+                        // Add white bishop.
+                        putPieceImageOnSquare(largeWhiteBishopIcon, i, j);
+                        break;
+
+                    case 'N':
+                        // Add black knight.
+                        putPieceImageOnSquare(largeBlackKnightIcon, i, j);
+                        break;
+
+                    case 'n':
+                        // Add white knight.
+                        putPieceImageOnSquare(largeWhiteKnightIcon, i, j);
+                        break;
+
+                    case ' ':
+                        // Update empty square.
+                        this.getSquares(i, j).setIcon(null);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -259,22 +355,97 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * Draws the image of the chess piece on the square.
+     * Puts the image icons of the pieces on to the squares.
      * 
-     * @param filePath Path to the file containing the image of the chess piece.
-     * @param size     Pixel size of piece image to appear on square.
-     * @param i        Row of square to draw on.
-     * @param j        Column of squaew to draw on.
+     * @param pieceImageIcon The piece image icon to put on the specified square.
+     * @param i              The row of the square.
+     * @param j              The column of the square.
      */
-    public void putPieceImageOnSquare(String filePath, int size, int i, int j) {
+    public void putPieceImageOnSquare(ImageIcon pieceImageIcon, int i, int j) {
+        this.getSquares(i, j).setIcon(pieceImageIcon);
+    }
+
+    /**
+     * Load the piece image files into their respective ImageIcon variables.
+     */
+    public void loadPieceIconsIntoIconVariables() {
+
+        // For 650 x 650 board size.
+        int largeKingSize = 110;
+        int largeQueenSize = 90;
+        int largeKnightSize = 80;
+        int largeBishopSize = 85;
+        int largeRookSize = 70;
+        int largePawnSize = 60;
+
+        // For 350 x 350 board size.
+        int smallKingSize = 58;
+        int smallQueenSize = 49;
+        int smallKnightSize = 40;
+        int smallBishopSize = 40;
+        int smallRookSize = 35;
+        int smallPawnSize = 30;
+
+        // Put the images of the pieces into the image icons.
+
+        // Large sizes.
+        largeWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", largePawnSize);
+        largeBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", largePawnSize);
+
+        largeWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", largeRookSize);
+        largeBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", largeRookSize);
+
+        largeWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", largeKnightSize);
+        largeBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", largeKnightSize);
+
+        largeWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", largeBishopSize);
+        largeBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", largeBishopSize);
+
+        largeWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", largeQueenSize);
+        largeBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", largeQueenSize);
+
+        largeWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", largeKingSize);
+        largeBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", largeKingSize);
+
+        // Small sizes.
+        smallWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", smallPawnSize);
+        smallBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", smallPawnSize);
+
+        smallWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", smallRookSize);
+        smallBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", smallRookSize);
+
+        smallWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", smallKnightSize);
+        smallBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", smallKnightSize);
+
+        smallWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", smallBishopSize);
+        smallBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", smallBishopSize);
+
+        smallWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", smallQueenSize);
+        smallBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", smallQueenSize);
+
+        smallWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", smallKingSize);
+        smallBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", smallKingSize);
+
+    }
+
+    /**
+     * Open the image files containing the representations of the pieces.
+     * 
+     * @param filePath The file path to the piece image.
+     * @param size     The size that the image is to be.
+     * @return The ImageIcon representation of the piece.
+     */
+    public ImageIcon openPieceImageFile(String filePath, int size) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(filePath));
             Image pieceImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
-            this.getSquares(i, j).setIcon(pieceImageIcon);
+            return pieceImageIcon;
+
         } catch (Exception e) {
             System.err.println(e);
         }
+        return smallBlackBishopIcon;
     }
 
     /**
