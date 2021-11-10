@@ -458,24 +458,32 @@ public class Board {
             promotionRank = ROWS-1;
         }
         // does not check that 'from' and 'to' are compatible
-        if (toRow == promotionRank) { // promotion move
-            return MoveType.PAWN_PROMOTION;
-        }
+        // if (toRow == promotionRank) { // promotion move
+        //     return MoveType.PAWN_PROMOTION;
+        // }
         if (fromCol == toCol && squares[toRow][toCol] == null) { // same column moves
             if (Math.abs(fromRow-toRow) == 2) { // double push
-                if (pawn.isDoneDoubleMove()) {
+                if (pawn.isDoneDoubleMove() || squares[(fromRow+toRow)/2][toCol] != null) {
                     return null;
                 } else {
                     return MoveType.PAWN_DOUBLE;
                 }
             } else { // single push
-                return MoveType.NORMAL;
+                if (toRow != promotionRank) {
+                    return MoveType.NORMAL;
+                } else {
+                    return MoveType.PAWN_PROMOTION;
+                }
             }
         }
         if (Math.abs(fromCol-toCol) == 1 && squares[toRow][toCol] != null && squares[toRow][toCol].isWhite() != pawn.isWhite()) { // diagonal captures
-            return MoveType.NORMAL;
+            if (toRow != promotionRank) {
+                return MoveType.NORMAL;
+            } else {
+                return MoveType.PAWN_PROMOTION;
+            }
         }
-        if (toRow == enPassantableRow && toCol == enPassantableCol) { // en passant
+        if (Math.abs(fromCol-toCol) == 1 && toRow == enPassantableRow && toCol == enPassantableCol) { // en passant
             return MoveType.EN_PASSANT;
         }
         return null;
