@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 
 public class PGNTranslator{
 
-    public static String translateMoveToPGN(Move move, Board board) throws IllegalArgumentException{
+    public static String translateMoveToPGN(Move move, Board board) throws IllegalStateException{
         //make copy of the board and perform the move on it
         Board newBoard= new Board(board);
         move.perform(newBoard);
@@ -74,7 +74,7 @@ public class PGNTranslator{
         //disambiguate
 
         //get a list of all squares containing pieces which can attack the same square
-        List<List<Integer>> attackSameSquare= board.getAttackers(destRow, destCol);
+        List<List<Integer>> attackSameSquare= board.getAttackers(!isWhite, destRow, destCol);
 
         //distill this list to only include pieces of the same PieceType, excluding the same piece
         List<List<Integer>> samePieceType= new ArrayList<List<Integer>>();
@@ -122,7 +122,7 @@ public class PGNTranslator{
             pawnPromo + enPassant + check + checkmate;
     }
 
-    public static Move translatePGNToMove(String pgn, Board board){
+    public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
         String regex=
             "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
@@ -142,10 +142,13 @@ public class PGNTranslator{
         Matcher matcher= pattern.matcher(pgn);
 
         //throw an error if the form didn't match
-        if(!matcher.find()) throw new IllegalStateException("The move provided did not match the form of a PGN move");
+        if(!matcher.find()) throw new IllegalArgumentException("The move provided did not match the form of a PGN move");
         
         //put the capture groups into their own strings
         String piece= matcher.group("piece");
+        //if piece is "p" or "P", convert it to an empty string for later logic
+        if(piece.equalsIgnoreCase("p")) piece= "";
+
         String disambFile= matcher.group("disambFile");
         String disambRank= matcher.group("disambRank");
         String capture= matcher.group("capture");
@@ -159,7 +162,88 @@ public class PGNTranslator{
         String castleCheck= matcher.group("castleCheck");
         String castleCheckmate= matcher.group("castleCheckmate");
 
-        //if the form was castling, do castling stuff
+        
+        if(piece == null && disambFile == null && disambRank == null && capture == null &&
+        destFile == null && destRank == null && pawnPromo == null && enPassant == null &&
+        check == null && checkmate == null && castle != null && castleCheck != null &&
+        castleCheckmate != null){
+            //if the form was castling, do castling stuff
+
+            Move move;
+            if(castle.equalsIgnoreCase("O-O") || castle.equalsIgnoreCase("OO")){
+                if(playerIsWhite){
+                    move= new Move(0, 4, 0, 6);
+                    
+                }else{
+                    move= new Move(7, 4, 7, 6);
+                }
+            }else if(castle.equalsIgnoreCase("O-O-O") || castle.equalsIgnoreCase("OOO")){
+                if(playerIsWhite){
+                    move= new Move(0, 4, 0, 2);
+                }else{
+                    move= new Move(7, 4, 7, 2);
+                }
+            }else throw new IllegalArgumentException("Incorrect castling move format");
+
+            return move;
+        }else if(piece != null && disambFile != null && disambRank != null && capture != null &&
+        destFile != null && destRank != null && pawnPromo != null && enPassant != null &&
+        check != null && checkmate != null && castle == null && castleCheck == null &&
+        castleCheckmate == null){
+            //if the form was normal, do normal stuff
+
+            //convert string destFile to int toCol
+            int toCol= -1;
+            for(ColumnLetter colLet: ColumnLetter.values()){
+                if(colLet.toString().equalsIgnoreCase(destFile)){
+                    toCol= colLet;
+                }
+            }
+            if(toCol == -1) throw new IllegalArgumentException("Illegal destination file");
+
+            //get a list of all squares containing pieces which can move to the destination square
+            List<List<Integer>> attackers= board.getAttackers(!playerIsWhite, Integer.parseInt(destRank) - 1, toCol);
+
+            //refine to a list containing only attackers of the same piece type
+            List<List<Integer>> samePieceType= new ArrayList<List<Integer>>();
+
+            for(int i=0; i < attackers.size(); i++){
+                int col= attackers.get(i).get(0);
+                int row= attackers.get(i).get(1);
+                PieceType pieceType= board.getPiece(row, col).getPieceType();
+
+                //if the piece at this square is the same piece type as the piece which was moved,
+                //add it to the refined list
+                if(convertPieceTypeToString(pieceType).equalsIgnoreCase(piece)){
+                    samePieceType.add(attackers.get(i));
+                }
+            }
+
+            //use the disambiguation to further refine this list to a single element, if necessary
+            List<List<Integer>> matchDisamb;
+
+            //convert string disambFile to int fromCol
+            int fromCol= -1;
+            for(ColumnLetter colLet: ColumnLetter.values()){
+                if(colLet.toString().equalsIgnoreCase(disambFile)){
+                    fromCol= colLet;
+                }
+            }
+
+            for(int i=0; i < samePieceType.size(); i++){
+                if(fromCol != -1 || fromCol == samePieceType.get(i).get(1)){
+                    if(disambRank.equals("") || Integer.parseInt(disambRank) - 1 == samePieceType.get(i).get(0))
+                        matchDisamb.add(samePieceType.get(i));
+                }
+            }
+
+            if(matchDisamb.length == 0) throw new IllegalArgumentException("No piece matches this move");
+            else if(matchDisamb.length > 1) throw new IllegalArgumentException("Ambiguous move");
+
+            List<Integer> originSquare= matchDisamb.get(0);
+            return new Move(originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
+
+        }else throw new IllegalStateException("Cannot perform normal move and castling move at same time");
     }
 
     private static String convertPieceTypeToString(PieceType pieceType){
@@ -183,47 +267,4 @@ public class PGNTranslator{
         else if(col == ColumnLetter.H) return "h";
         else throw new IllegalArgumentException("Illegal parameter");
     }
-
-    /*preliminary test code
-    import java.util.regex.Pattern;
-    import java.util.regex.Matcher;
-
-    public class Main
-    {
-        public static void main(String[] args) {
-            String pgn= "Qxe7";
-            System.out.println(translatePGNToMove(pgn));
-        }
-        
-        public static String translatePGNToMove(String pgn){
-            String regex=
-                "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
-                "(?<capture>x?)(?<destFile>[a-h])(?<destRank>[1-8])=?(?<pawnPromo>[QRBN]?)" +
-                "(?<enPassant>(\\s?e\\.?p\\.?)?)(?<check>\\+?)(?<checkmate>[#\\+]?)" +
-                "(?<expression>\\s*[\\!\\?]+?)|(?<castle>O-?O(-?O)?)(?<castleCheck>\\+?)" +
-                "(?<castleCheckmate>[#\\+]?)(?<castleExpression>\\s*[\\!\\?]+?)";
-                
-            Pattern pattern= Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            Matcher matcher= pattern.matcher(pgn);
-            
-            if(matcher.find()){
-                String str= "";
-                str += "Piece=" + matcher.group("piece") + "\n";
-                str += "DisambFile=" + matcher.group("disambFile") + "\n";
-                str += "DisambRank=" + matcher.group("disambRank") + "\n";
-                str += "Capture=" + matcher.group("capture") + "\n";
-                str += "DestFile=" + matcher.group("destFile") + "\n";
-                str += "DestRank=" + matcher.group("destRank") + "\n";
-                str += "PawnPromo=" + matcher.group("pawnPromo") + "\n";
-                str += "EnPassant=" + matcher.group("enPassant") + "\n";
-                str += "Check=" + matcher.group("check") + "\n";
-                str += "Checkmate=" + matcher.group("checkmate") + "\n";
-                str += "Castle=" + matcher.group("castle") + "\n";
-                str += "CastleCheck=" + matcher.group("castleCheck") + "\n";
-                str += "CastleCheckmate=" + matcher.group("castleCheckmate") + "\n";
-                return str;
-            }
-            return null;
-        }
-    }*/
 }
