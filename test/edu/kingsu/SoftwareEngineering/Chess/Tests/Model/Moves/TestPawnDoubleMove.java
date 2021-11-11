@@ -32,12 +32,13 @@ public class TestPawnDoubleMove {
 
     private void movePieceAndCheck(PawnDoubleMove m) {
         Board board = new Board();
-        Piece startPiece = board.getPiece(m.getRowFrom(), m.getColFrom());
+        Pawn startPiece = (Pawn)board.getPiece(m.getRowFrom(), m.getColFrom());
         m.perform(board);
-        Piece endPiece = board.getPiece(m.getRowTo(), m.getColTo());
+        Pawn endPiece = (Pawn)board.getPiece(m.getRowTo(), m.getColTo());
         assertSame("Piece was not moved to new location.", startPiece, endPiece);
         assertNull("Board returns the moved piece at the starting location.", board.getPiece(m.getRowFrom(), m.getColFrom()));
         assertTrue("Board is not enpassantable after pawn double move.", board.getEnPassantable());
+        assertTrue("Pawn double move completion flag not set after double move.", startPiece.isDoneDoubleMove());
     }
 
     @Test

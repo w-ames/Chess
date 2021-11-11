@@ -32,6 +32,17 @@ public class TestBoard {
         {' ',' ',' ','r','k','b',' ','r'}
     };
 
+    private static final char[][] castleBoard = {
+        {'R',' ',' ',' ','K',' ',' ','R'},
+        {'P',' ',' ',' ','p',' ',' ','P'},
+        {' ',' ',' ','p','p','p',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {'p',' ',' ',' ',' ',' ',' ','p'},
+        {'r',' ',' ',' ','k',' ',' ','r'}
+    };
+
     private static final char[][] checkBoard = {
         {'R','N','B','Q','K','B','N','R'},
         {'P','P','P',' ',' ',' ','P','P'},
@@ -101,12 +112,13 @@ public class TestBoard {
                     // check relies on using the initial board layout!!
                     assertEquals("Whiteness of piece on new Board instance is incorrect.", i>initialBoard.ROWS/2, p.isWhite());
                     // we check the types of pieces
-                    PieceType expectedPieceType;
+                    PieceType expectedPieceType = null;
                     if (i == 1 || i == 6) {
                         expectedPieceType = PieceType.PAWN;
                     } else {
                         if (j == 0 || j == 7) {
                             expectedPieceType = PieceType.ROOK;
+                            assertFalse("New rook at standard initial location row: "+i+" column: "+j+" unable to castle.", ((Rook)p).isDoneCastling());
                         } else if (j == 1 || j == 6) {
                             expectedPieceType = PieceType.KNIGHT;
                         } else if (j == 2 || j == 5) {
@@ -115,8 +127,10 @@ public class TestBoard {
                             expectedPieceType = PieceType.QUEEN;
                         } else if (j == 4) {
                             expectedPieceType = PieceType.KING;
+                            assertFalse("New king at standard initial location row: "+i+" column: "+j+" unable to castle.", ((King)p).isDoneCastling());
                         }
                     }
+                    assertEquals("Unexpected Type of piece found at row: "+i+" column: "+j, expectedPieceType, p.getPieceType());
                 } else {
                     assertNull("Piece was found on new Board instance at row: "+i+" column: "+j, null);
                 }
@@ -201,6 +215,15 @@ public class TestBoard {
         assertMoves(2, 7, 4);
         assertMoves(2, 7, 5);
         assertMoves(1, 7, 7);
+
+        initialBoard.initializeBoard();
+        assertMoves(2, 6, 4);
+        (new Move(6, 4, 5, 4)).perform(initialBoard);
+        assertMoves(1, 5, 4);
+
+        initialBoard.initializeBoard(castleBoard);
+        assertMoves(7, 7, 4);
+        assertMoves(0, 0, 4);
     }
 
     private void assertMoves(int expected, int r, int c) {

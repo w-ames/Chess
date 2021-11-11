@@ -16,8 +16,8 @@ public class PlayerAI extends Player {
                     while (getChessGame().getPlayerTurn() != this) {
                         getChessGame().wait();
                     }
-                    // setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
-                    setAIThread(ChessAI.bestMove(getChessGame().getBoard(), 4, isWhite()));
+                    setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+                    // setAIThread(ChessAI.bestMove(getChessGame().getBoard(), 4, isWhite()));
                     getAIThread().start();
                     Move aiMove = getAIThread().getResult();
                     getChessGame().performMove(aiMove, isHuman()); // notifies all, and by the time it does so the turn is not this player's

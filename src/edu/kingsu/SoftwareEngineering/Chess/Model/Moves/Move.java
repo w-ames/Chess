@@ -57,6 +57,9 @@ public class Move {
      */
     public void perform(Board board) {
         Piece movingPiece = board.getPiece(rowFrom, colFrom);
+        if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
+            ((Pawn)movingPiece).doneDoubleMove();
+        }
         board.setPiece(rowTo, colTo, movingPiece);
         board.setPiece(rowFrom, colFrom, null);
         board.setEnPassantable();
