@@ -88,7 +88,7 @@ public class MainMenu extends JPanel {
         forBackGround.gridy = 1;
         forBackGround.weightx = 1;
         forBackGround.weighty = 0.90;
-        forBackGround.insets = new Insets(23, 500, 25, 500);
+        forBackGround.insets = new Insets(23, 500, 50, 500);
         buttonContainer.setMinimumSize(new Dimension(300, 300));
         buttonContainer.setPreferredSize(new Dimension(300, 300));
         buttonContainer.setMaximumSize(new Dimension(300, 300));
