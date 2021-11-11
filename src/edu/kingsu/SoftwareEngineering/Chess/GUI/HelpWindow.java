@@ -5,4 +5,8 @@ import javax.swing.*;
 public class HelpWindow extends JFrame {
     public HelpWindow() {
     }
+
+    public HelpWindow(String orgin){
+
+    }
 }
