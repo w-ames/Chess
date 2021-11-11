@@ -28,6 +28,7 @@ public class GameSetUp extends JPanel {
         JLabel timerLabel2 = new JLabel("0:10");
         JLabel settingsLabel = new JLabel("Settings");
         String[] playerList = { "Human", "AI(Easy)", "AI(Medium)", "AI(Hard)" };
+        int[] playerDepthList = { -1, 0, 2, 4 };
 
         int minTime = 10;
         int maxTime = 600;
@@ -61,16 +62,6 @@ public class GameSetUp extends JPanel {
         });
 
         JButton startGame = new JButton("Start Game");
-        startGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // here
-                ChessGame chessGame = new ChessGame(true, false, -1, -1);
-                container.initializeChessPanel(chessGame);
-                chessGame.start();
-                container.show("chesspanel");
-            }
-        });
 
 
         ////First Row
@@ -297,6 +288,15 @@ public class GameSetUp extends JPanel {
         setup.insets = new Insets(25,100,100,100);
         this.add(settingContainer,setup);
 
+        startGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()], playerDepthList[player2Box.getSelectedIndex()], -1, -1);
+                container.initializeChessPanel(chessGame);
+                chessGame.start();
+                container.show("chesspanel");
+            }
+        });
         
 
     }

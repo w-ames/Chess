@@ -12,7 +12,7 @@ public class TestChessGame {
 
     @Before
     public void setUp() {
-        testGame = new ChessGame(true, false, -1, -1);
+        testGame = new ChessGame(-1, 0, -1, -1);
     }
 
     @After

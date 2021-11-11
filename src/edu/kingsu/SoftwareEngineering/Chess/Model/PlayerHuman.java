@@ -3,7 +3,7 @@ package edu.kingsu.SoftwareEngineering.Chess.Model;
 public class PlayerHuman extends Player {
 
     public PlayerHuman(ChessGame chessGame, boolean isWhite, int interval, int increment) {
-        super(chessGame, isWhite, true, interval, increment);
+        super(chessGame, isWhite, true, interval, increment, Player.MAX_AI_DEPTH);
     }
 
     public void run() {
@@ -14,7 +14,11 @@ public class PlayerHuman extends Player {
                     while (getChessGame().getPlayerTurn() != this) {
                         getChessGame().wait();
                     }
-                    setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+                    if (getAIDepth() <= 0) {
+                        setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+                    } else {
+                        setAIThread(ChessAI.bestMove(getChessGame().getBoard(), getAIDepth(), isWhite()));
+                    }
                     getAIThread().start();
                     while (getChessGame().getPlayerTurn() == this) {
                         getChessGame().wait();

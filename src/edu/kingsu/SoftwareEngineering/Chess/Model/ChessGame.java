@@ -28,30 +28,30 @@ public class ChessGame {
     private int interval;
     private Timer timer;
 
-    public ChessGame(boolean whiteIsHuman, boolean blackIsHuman, int playerInterval, int playerIncrement) {
+    public ChessGame(int whiteAI, int blackAI, int playerInterval, int playerIncrement) {
         playerTurnLock = new Object();
         views = new ArrayList<ChessGameView>();
-        initialize(whiteIsHuman, blackIsHuman, playerInterval, playerIncrement);
+        initialize(whiteAI, blackAI, playerInterval, playerIncrement);
     }
 
     public void initialize() {
-        initialize(true, false, -1, -1);
+        initialize(-1, 0, -1, -1);
     }
 
-    public void initialize(boolean whiteIsHuman, boolean blackIsHuman, int playerInterval, int playerIncrement) {
+    public void initialize(int whiteAI, int blackAI, int playerInterval, int playerIncrement) {
         moveHistory = new ArrayList<Move>();
         algebraicHistory = new ArrayList<String>();
         this.playerInterval = playerInterval;
         this.playerIncrement = playerIncrement;
-        if (whiteIsHuman) {
+        if (whiteAI == -1) {
             whitePlayer = new PlayerHuman(this, true, playerInterval, playerIncrement);
         } else {
-            whitePlayer = new PlayerAI(this, true, playerInterval, playerIncrement);
+            whitePlayer = new PlayerAI(this, true, playerInterval, playerIncrement, whiteAI);
         }
-        if (blackIsHuman) {
+        if (blackAI == -1) {
             blackPlayer = new PlayerHuman(this, false, playerInterval, playerIncrement);
         } else {
-            blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement);
+            blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement, blackAI);
         }
         playerTurn = whitePlayer;
         whitePlayerThread = new Thread(whitePlayer);

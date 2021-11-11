@@ -4,8 +4,8 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 public class PlayerAI extends Player {
 
-    public PlayerAI(ChessGame chessGame, boolean isWhite, int interval, int increment) {
-        super(chessGame, isWhite, false, interval, increment);
+    public PlayerAI(ChessGame chessGame, boolean isWhite, int interval, int increment, int aiDepth) {
+        super(chessGame, isWhite, false, interval, increment, aiDepth);
     }
 
     public void run() {
@@ -16,8 +16,11 @@ public class PlayerAI extends Player {
                     while (getChessGame().getPlayerTurn() != this) {
                         getChessGame().wait();
                     }
-                    setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
-                    // setAIThread(ChessAI.bestMove(getChessGame().getBoard(), 4, isWhite()));
+                    if (getAIDepth() <= 0) {
+                        setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
+                    } else {
+                        setAIThread(ChessAI.bestMove(getChessGame().getBoard(), getAIDepth(), isWhite()));
+                    }
                     getAIThread().start();
                     Move aiMove = getAIThread().getResult();
                     getChessGame().performMove(aiMove, isHuman()); // notifies all, and by the time it does so the turn is not this player's
