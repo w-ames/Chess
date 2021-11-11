@@ -68,6 +68,7 @@ public class MainMenu extends JPanel {
         });
 
         this.setLayout(new GridBagLayout());
+
         GridBagConstraints forBackGround = new GridBagConstraints();
         forBackGround.fill = GridBagConstraints.BOTH;
         forBackGround.gridx = 0;
@@ -76,12 +77,14 @@ public class MainMenu extends JPanel {
         forBackGround.weighty = 1;
         this.add(background, forBackGround);
 
+        JPanel invisbleContainer = new JPanel();
+        invisbleContainer.setLayout(new GridBagLayout());
         background.setLayout(new GridBagLayout());
         forBackGround.gridx = 0;
         forBackGround.gridy = 0;
         forBackGround.weightx = 1;
         forBackGround.weighty = 0.10;
-        background.add(chessTitle, forBackGround);
+        invisbleContainer.add(chessTitle, forBackGround);
 
         forBackGround.fill = GridBagConstraints.VERTICAL;
         forBackGround.gridx = 0;
@@ -89,46 +92,67 @@ public class MainMenu extends JPanel {
         forBackGround.weightx = 1;
         forBackGround.weighty = 0.90;
         forBackGround.insets = new Insets(23, 500, 50, 500);
-        buttonContainer.setMinimumSize(new Dimension(300, 300));
-        buttonContainer.setPreferredSize(new Dimension(300, 300));
-        buttonContainer.setMaximumSize(new Dimension(300, 300));
-        background.add(buttonContainer, forBackGround);
+        buttonContainer.setMinimumSize(new Dimension(300, 500));
+        buttonContainer.setPreferredSize(new Dimension(300, 500));
+        buttonContainer.setMaximumSize(new Dimension(300, 500));
+        invisbleContainer.add(buttonContainer, forBackGround);
 
         GridBagConstraints c = new GridBagConstraints();
         buttonContainer.setLayout(new GridBagLayout());
 
-        c.fill = GridBagConstraints.BOTH;
+        JPanel invisibleButtonHolder = new JPanel();
+        invisibleButtonHolder.setLayout(new GridBagLayout());
+
+        c.fill = GridBagConstraints.NONE;
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 1;
         c.weighty = 1;
         c.insets = new Insets(10, 10, 10, 10);
-        buttonContainer.add(newGameButton, c);
+        newGameButton.setMinimumSize(new Dimension(150, 50));
+        newGameButton.setPreferredSize(new Dimension(150, 50));
+        newGameButton.setMaximumSize(new Dimension(150, 50));
+        invisibleButtonHolder.add(newGameButton, c);
 
         c.gridx = 0;
         c.gridy = 1;
-        // c.gridheight = 1;
-        // c.gridwidth = 1;
-
-        buttonContainer.add(loadGameButton, c);
+        loadGameButton.setMinimumSize(new Dimension(150, 50));
+        loadGameButton.setPreferredSize(new Dimension(150, 50));
+        loadGameButton.setMaximumSize(new Dimension(150, 50));
+        invisibleButtonHolder.add(loadGameButton, c);
 
         c.gridx = 0;
         c.gridy = 2;
-        // c.gridheight = 1;
-        // c.gridwidth = 1;
-        buttonContainer.add(tutorialButton, c);
+        tutorialButton.setMinimumSize(new Dimension(150, 50));
+        tutorialButton.setPreferredSize(new Dimension(150, 50));
+        tutorialButton.setMaximumSize(new Dimension(150, 50));
+        invisibleButtonHolder.add(tutorialButton, c);
 
         c.gridx = 0;
         c.gridy = 3;
-        // c.gridheight = 1;
-        // c.gridwidth = 1;
-        buttonContainer.add(helpButton, c);
+        helpButton.setMinimumSize(new Dimension(150, 50));
+        helpButton.setPreferredSize(new Dimension(150, 50));
+        helpButton.setMaximumSize(new Dimension(150, 50));
+        invisibleButtonHolder.add(helpButton, c);
 
         c.gridx = 0;
         c.gridy = 5;
-        // c.gridheight = 1;
-        // c.gridwidth = 1;
-        buttonContainer.add(exitButton, c);
+        exitButton.setMinimumSize(new Dimension(150, 50));
+        exitButton.setPreferredSize(new Dimension(150, 50));
+        exitButton.setMaximumSize(new Dimension(150, 50));
+        invisibleButtonHolder.add(exitButton, c);
+
+        GridBagConstraints gb = new GridBagConstraints();
+        gb.gridx = 0;
+        gb.gridy = 0;
+        gb.fill = GridBagConstraints.NONE;
+        invisibleButtonHolder.setOpaque(false);
+        buttonContainer.add(invisibleButtonHolder, gb);
+
+        gb.weightx = 1;
+        gb.weighty = 1;
+        invisbleContainer.setOpaque(false);
+        background.add(invisbleContainer, gb);
 
         // button = new JButton("Button 2");
         // c.fill = GridBagConstraints.HORIZONTAL;
