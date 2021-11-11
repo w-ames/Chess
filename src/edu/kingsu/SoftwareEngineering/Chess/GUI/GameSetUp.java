@@ -2,11 +2,14 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.plaf.DimensionUIResource;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Insets;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
     private ApplicationFrame container;
@@ -23,14 +26,14 @@ public class GameSetUp extends JPanel {
         ButtonContainer timePanel = new ButtonContainer();
         ButtonContainer settingsPanel = new ButtonContainer();
         ButtonContainer setupPanel = new ButtonContainer();
-        JLabel player1Label = new JLabel("Player 1");
-        JLabel player2Label = new JLabel("Player 2");
-        JLabel timeLabel = new JLabel("Time");
+        JLabel player1Label = new JLabel("Player 1", SwingConstants.CENTER);
+        JLabel player2Label = new JLabel("Player 2", SwingConstants.CENTER);
+        JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
         JLabel timerLabel1 = new JLabel("10:00");
-        JLabel incrementLabel = new JLabel("Increment");
+        JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
         JLabel timerLabel2 = new JLabel("0:10");
-        JLabel settingsLabel = new JLabel("Settings");
-        String[] playerList = { "Human", "AI(Easy)", "AI(Medium)", "AI(Hard)" };
+        JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
+        String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
 
         int minTime = 10;
         int maxTime = 600;
@@ -54,6 +57,7 @@ public class GameSetUp extends JPanel {
         timerLabel2.setFont(new Font("Arial", Font.PLAIN, 35));
         timerLabel2.setForeground(new Color(16, 46, 60));
         settingsLabel.setFont(new Font("Arial", Font.PLAIN, 35));
+
         settingsLabel.setForeground(new Color(16, 46, 60));
 
         this.setLayout(new GridBagLayout());
@@ -103,6 +107,9 @@ public class GameSetUp extends JPanel {
         player1Constraints.fill = GridBagConstraints.BOTH;
         player1Constraints.gridx = 0;
         player1Constraints.gridy = 0;
+        player1Constraints.weightx = 1;
+        player1Constraints.weighty = 0.70;
+        player1Constraints.insets = new Insets(3, 3, 3, 3);
         player1Panel.add(player1Label, player1Constraints);
 
         JComboBox player1Box = new JComboBox(playerList);
@@ -112,6 +119,8 @@ public class GameSetUp extends JPanel {
         player1Constraints.gridy = 1;
         player1Constraints.weightx = 1;
         player1Constraints.weighty = 1;
+        player1Constraints.weightx = 1;
+        player1Constraints.weighty = 0.30;
         player1Panel.add(player1Box, player1Constraints);
 
         pc.gridx = 0;
@@ -127,6 +136,9 @@ public class GameSetUp extends JPanel {
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
         player2Constraints.gridy = 0;
+        player2Constraints.weightx = 1;
+        player2Constraints.weighty = 0.70;
+        player2Constraints.insets = new Insets(3, 3, 3, 3);
         player2Panel.add(player2Label, player2Constraints);
 
         JComboBox player2Box = new JComboBox(playerList);
@@ -136,6 +148,8 @@ public class GameSetUp extends JPanel {
         player2Constraints.gridy = 1;
         player2Constraints.weightx = 1;
         player2Constraints.weighty = 1;
+        player2Constraints.weightx = 1;
+        player2Constraints.weighty = 0.30;
         player2Panel.add(player2Box, player2Constraints);
 
         pc.gridx = 1;
@@ -150,9 +164,12 @@ public class GameSetUp extends JPanel {
         setup.gridx = 0;
         setup.gridy = 0;
         setup.weightx = 1;
-        setup.weighty = 0.15;
+        setup.weighty = 0.10;
         setup.insets = new Insets(25, 250, 5, 250);
         playerContainer.setOpaque(false);
+        playerContainer.setMinimumSize(new Dimension(300, 100));
+        playerContainer.setPreferredSize(new Dimension(300, 100));
+        playerContainer.setMaximumSize(new Dimension(300, 100));
         background.add(playerContainer, setup);
 
         // playerContainer.add(Player1Panel,gb)
@@ -171,18 +188,26 @@ public class GameSetUp extends JPanel {
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 0;
+        timeConstraints.insets = new Insets(3, 3, 3, 3);
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.3;
         timePanel.add(timeLabel, timeConstraints);
 
         JRadioButton timeOn = new JRadioButton("On");
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 1;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.05;
+        timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn, timeConstraints);
 
         JRadioButton timeOff = new JRadioButton("Off");
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 2;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.05;
         timePanel.add(timeOff, timeConstraints);
 
         ButtonGroup timeGroup1 = new ButtonGroup();
@@ -192,29 +217,42 @@ public class GameSetUp extends JPanel {
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 3;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel1, timeConstraints);
 
         JSlider timeSlider = new JSlider(minTime, maxTime);
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 4;
+        timeConstraints.insets = new Insets(3, 3, 15, 3);
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.1;
         timePanel.add(timeSlider, timeConstraints);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 5;
+        timeConstraints.insets = new Insets(3, 3, 3, 3);
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.3;
         timePanel.add(incrementLabel, timeConstraints);
 
         JRadioButton timeOn2 = new JRadioButton("On");
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 6;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.05;
+        timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn2, timeConstraints);
 
         JRadioButton timeOff2 = new JRadioButton("Off");
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 7;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.05;
         timePanel.add(timeOff2, timeConstraints);
 
         ButtonGroup timeGroup2 = new ButtonGroup();
@@ -224,12 +262,17 @@ public class GameSetUp extends JPanel {
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 8;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel2, timeConstraints);
 
         JSlider timeSlider2 = new JSlider(minTime, maxTime);
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 9;
+        timeConstraints.weightx = 1;
+        timeConstraints.weighty = 0.1;
+        timeConstraints.insets = new Insets(3, 10, 3, 3);
         timePanel.add(timeSlider2, timeConstraints);
 
         sc.gridx = 0;
@@ -249,39 +292,69 @@ public class GameSetUp extends JPanel {
         JCheckBox notification = new JCheckBox("Notifications");
 
         settingsConstraints.fill = GridBagConstraints.BOTH;
+        settingsConstraints.anchor = GridBagConstraints.CENTER;
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 0;
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.3;
+        settingsConstraints.insets = new Insets(1, 1, 1, 1);
         settingsPanel.add(settingsLabel, settingsConstraints);
 
-        settingsConstraints.fill = GridBagConstraints.BOTH;
+        JPanel checkBoxHolder = new JPanel();
+        checkBoxHolder.setLayout(new GridBagLayout());
+        settingsConstraints.gridx = 0;
+        settingsConstraints.gridy = 0;
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.25;
+        settingsConstraints.insets = new Insets(1, 1, 1, 1);
+        checkBoxHolder.add(highlightMove, settingsConstraints);
+
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 1;
-        settingsPanel.add(highlightMove, settingsConstraints);
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.25;
+        settingsConstraints.insets = new Insets(1, 1, 1, 1);
+        checkBoxHolder.add(moveHint, settingsConstraints);
 
-        settingsConstraints.fill = GridBagConstraints.BOTH;
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 2;
-        settingsPanel.add(moveHint, settingsConstraints);
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.25;
+        settingsConstraints.insets = new Insets(1, 1, 1, 1);
+        checkBoxHolder.add(undoRedo, settingsConstraints);
 
-        settingsConstraints.fill = GridBagConstraints.BOTH;
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 3;
-        settingsPanel.add(undoRedo, settingsConstraints);
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.25;
+        settingsConstraints.insets = new Insets(2, 2, 2, 2);
+        checkBoxHolder.add(notification, settingsConstraints);
 
-        settingsConstraints.fill = GridBagConstraints.BOTH;
         settingsConstraints.gridx = 0;
-        settingsConstraints.gridy = 4;
-        settingsPanel.add(notification, settingsConstraints);
+        settingsConstraints.gridy = 2;
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.4;
+        settingsConstraints.anchor = GridBagConstraints.CENTER;
+        settingsConstraints.fill = GridBagConstraints.VERTICAL;
+        checkBoxHolder.setOpaque(false);
+        settingsPanel.add(checkBoxHolder, settingsConstraints);
 
-        CustomButton checkAll = new CustomButton("Check all / Uncheck All");
-        timeConstraints.fill = GridBagConstraints.BOTH;
-        timeConstraints.gridx = 0;
-        timeConstraints.gridy = 5;
-        timePanel.add(checkAll, timeConstraints);
-        settingsConstraints.fill = GridBagConstraints.BOTH;
+        CustomButton checkAll = new CustomButton("Select All");
+        // timeConstraints.fill = GridBagConstraints.BOTH;
+        // timeConstraints.gridx = 0;
+        // timeConstraints.gridy = 5;
+        // timePanel.add(checkAll, timeConstraints);
+
+        settingsConstraints.fill = GridBagConstraints.NONE;
         settingsConstraints.gridx = 0;
-        settingsConstraints.gridy = 5;
-        settingsPanel.add(checkAll, timeConstraints);
+        settingsConstraints.gridy = 3;
+        settingsConstraints.weightx = 1;
+        settingsConstraints.weighty = 0.3;
+        settingsConstraints.insets = new Insets(3, 3, 10, 3);
+        checkAll.setMinimumSize(new Dimension(150, 50));
+        checkAll.setPreferredSize(new Dimension(150, 50));
+        checkAll.setMaximumSize(new Dimension(150, 50));
+        settingsPanel.add(checkAll, settingsConstraints);
 
         sc.gridx = 1;
         sc.gridy = 0;
@@ -292,23 +365,42 @@ public class GameSetUp extends JPanel {
 
         CustomButton loadButton = new CustomButton("Load Game");
 
-        setupConstraints.fill = GridBagConstraints.BOTH;
+        JPanel buttonHolder = new JPanel();
+        buttonHolder.setLayout(new GridBagLayout());
+
+        setupConstraints.fill = GridBagConstraints.NONE;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 0;
         setupConstraints.weightx = 1;
         setupConstraints.weighty = 1;
-        setupConstraints.insets = new Insets(120, 25, 5, 25);
-        setupPanel.add(startGame, setupConstraints);
+        setupConstraints.insets = new Insets(120, 5, 5, 5);
+        startGame.setMinimumSize(new Dimension(150, 50));
+        startGame.setPreferredSize(new Dimension(150, 50));
+        startGame.setMaximumSize(new Dimension(150, 50));
+        buttonHolder.add(startGame, setupConstraints);
 
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 1;
-        setupConstraints.insets = new Insets(5, 25, 5, 25);
-        setupPanel.add(loadButton, setupConstraints);
+        setupConstraints.insets = new Insets(5, 5, 5, 5);
+        loadButton.setMinimumSize(new Dimension(150, 50));
+        loadButton.setPreferredSize(new Dimension(150, 50));
+        loadButton.setMaximumSize(new Dimension(150, 50));
+        buttonHolder.add(loadButton, setupConstraints);
 
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 2;
-        setupConstraints.insets = new Insets(5, 25, 120, 25);
-        setupPanel.add(goToMainMenu, setupConstraints);
+        setupConstraints.insets = new Insets(5, 5, 120, 5);
+        goToMainMenu.setMinimumSize(new Dimension(150, 50));
+        goToMainMenu.setPreferredSize(new Dimension(150, 50));
+        goToMainMenu.setMaximumSize(new Dimension(150, 50));
+        buttonHolder.add(goToMainMenu, setupConstraints);
+
+        setupConstraints.fill = GridBagConstraints.HORIZONTAL;
+        setupConstraints.gridx = 0;
+        setupConstraints.gridy = 0;
+        setupConstraints.insets = new Insets(0, 0, 0, 0);
+        buttonHolder.setOpaque(false);
+        setupPanel.add(buttonHolder, setupConstraints);
 
         sc.gridx = 2;
         sc.gridy = 0;
@@ -320,7 +412,7 @@ public class GameSetUp extends JPanel {
         setup.gridx = 0;
         setup.gridy = 1;
         setup.weightx = 1;
-        setup.weighty = 0.85;
+        setup.weighty = 0.90;
         setup.insets = new Insets(5, 150, 25, 150);
         settingContainer.setOpaque(false);
         background.add(settingContainer, setup);
