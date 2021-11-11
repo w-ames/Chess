@@ -64,10 +64,15 @@ public class ChessPanel extends JPanel implements MouseListener {
     private boolean endGameState = false;
 
     private ApplicationFrame container;
+    private int containerHeight;
+    private int containerWidth;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
+     * 
+     * @author Chelsie Bajic
+     * @since 10/2021
      */
     public ChessPanel(ApplicationFrame container) {
 
@@ -336,22 +341,6 @@ public class ChessPanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Makes the chess pieces resizable by listening for changes to the application
-     * frame size and then sending information about the size of the applicaiton
-     * frame to guiView
-     */
-    public void makePiecesResizable() {
-
-        container.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                guiView.setContainerSize(container.getBounds().height, container.getBounds().width);
-                guiView.update();
-            }
-        });
-    }
-
-    /**
      * Responsible for dynamically resizing the popup layers (endGameOptions &
      * pawnPromotionScreen) if the user resizes the application frame.
      */
@@ -377,6 +366,19 @@ public class ChessPanel extends JPanel implements MouseListener {
                 layeredPane.repaint();
             }
         });
+    }
+
+    public void updateContainerDimensions(int width, int height) {
+
+        this.containerWidth = width;
+        this.containerHeight = height;
+        updatePieceSizes();
+
+    }
+
+    public void updatePieceSizes() {
+        guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
+        guiView.update();
     }
 
     // The following are unused but required to implement MouseListener.

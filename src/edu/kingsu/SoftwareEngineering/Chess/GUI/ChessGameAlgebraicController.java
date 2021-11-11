@@ -9,6 +9,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * model.
  * 
  * @author
+ * @since 10/2021
  */
 public class ChessGameAlgebraicController implements ActionListener {
 

@@ -26,14 +26,20 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
+/**
+ * Creates seperate window frame for help and about dialog for java chess game.
+ * 
+ * @author Chelsie Bajic
+ * @since 10/2021
+ */
 public class HelpWindow extends JFrame {
 
-    MainLayer background = new MainLayer(); 
+    MainLayer background = new MainLayer();
 
     public HelpWindow() {
     }
 
-    public HelpWindow(String orgin){
+    public HelpWindow(String orgin) {
 
         this.setLayout(new GridLayout(0, 1));
         this.add(background);

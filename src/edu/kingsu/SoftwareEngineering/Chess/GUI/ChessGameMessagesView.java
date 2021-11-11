@@ -19,6 +19,7 @@ import java.awt.Font;
  * gameplay to the user.
  * 
  * @author Chelsie Bajic
+ * @since 10/2021
  */
 public class ChessGameMessagesView extends ChessGameView {
 

@@ -28,6 +28,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * 
  * @author Chelsie Bajic
  * @author Nikolas Haugrud
+ * @since 10/2021
  */
 public class ChessGameGUIView extends ChessGameView {
 
@@ -153,10 +154,17 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
 
-        // Allows
-        boardHolder.setMinimumSize(new Dimension(350, 350));
-        boardHolder.setPreferredSize(new Dimension(650, 650));
-        boardHolder.setMaximumSize(new Dimension(650, 650));
+        // Dynamic board resizing when frame is resized by user is controlled here.
+
+        if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+            boardHolder.setMinimumSize(new Dimension(650, 650));
+            boardHolder.setPreferredSize(new Dimension(650, 650));
+            boardHolder.setMaximumSize(new Dimension(650, 650));
+        } else {
+            boardHolder.setMinimumSize(new Dimension(350, 350));
+            boardHolder.setPreferredSize(new Dimension(350, 350));
+            boardHolder.setMaximumSize(new Dimension(350, 350));
+        }
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -188,8 +196,88 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // For 350 x 350 board size.
-        if (currentFrameWidth < 1000 || currentFrameHeight < 1000) {
+        // For 650 x 650 board size.
+        if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+
+            paintBoard(); // Makes sure board is correct size for current frame.
+
+            for (int i = 0; i < pieces.length; i++) {
+                for (int j = 0; j < pieces[0].length; j++) {
+
+                    switch (pieces[i][j]) {
+                    case 'P':
+                        // Add black pawns.
+                        putPieceImageOnSquare(largeBlackPawnIcon, i, j);
+                        break;
+
+                    case 'p':
+                        // Add white pawns.
+                        putPieceImageOnSquare(largeWhitePawnIcon, i, j);
+                        break;
+
+                    case 'K':
+                        // Add black king.
+                        putPieceImageOnSquare(largeBlackKingIcon, i, j);
+                        break;
+
+                    case 'k':
+                        // Add white king.
+                        putPieceImageOnSquare(largeWhiteKingIcon, i, j);
+                        break;
+
+                    case 'Q':
+                        // Add black queen.
+                        putPieceImageOnSquare(largeBlackQueenIcon, i, j);
+                        break;
+
+                    case 'q':
+                        // Add white queen.
+                        putPieceImageOnSquare(largeWhiteQueenIcon, i, j);
+                        break;
+
+                    case 'R':
+                        // Add black rook.
+                        putPieceImageOnSquare(largeBlackRookIcon, i, j);
+                        break;
+
+                    case 'r':
+                        // Add white rook.
+                        putPieceImageOnSquare(largeWhiteRookIcon, i, j);
+                        break;
+
+                    case 'B':
+                        // Add black bishop.
+                        putPieceImageOnSquare(largeBlackBishopIcon, i, j);
+                        break;
+
+                    case 'b':
+                        // Add white bishop.
+                        putPieceImageOnSquare(largeWhiteBishopIcon, i, j);
+                        break;
+
+                    case 'N':
+                        // Add black knight.
+                        putPieceImageOnSquare(largeBlackKnightIcon, i, j);
+                        break;
+
+                    case 'n':
+                        // Add white knight.
+                        putPieceImageOnSquare(largeWhiteKnightIcon, i, j);
+                        break;
+
+                    case ' ':
+                        // Update empty square.
+                        this.getSquares(i, j).setIcon(null);
+                        break;
+                    }
+                }
+            }
+
+            // Else if application frame size is larger than 1000 x 1000, load the large
+            // pieces for the 350 x 350 board size.
+        } else {
+
+            paintBoard(); // Makes sure board is correct size for current frame.
 
             // Lower case == white, upper case == black.
             for (int i = 0; i < pieces.length; i++) {
@@ -263,81 +351,7 @@ public class ChessGameGUIView extends ChessGameView {
                     }
                 }
             }
-            // Else if application frame size is larger than 1000 x 1000, load the large
-            // pieces for the 650 x 650 board size.
-        } else {
 
-            for (int i = 0; i < pieces.length; i++) {
-                for (int j = 0; j < pieces[0].length; j++) {
-
-                    switch (pieces[i][j]) {
-                    case 'P':
-                        // Add black pawns.
-                        putPieceImageOnSquare(largeBlackPawnIcon, i, j);
-                        break;
-
-                    case 'p':
-                        // Add white pawns.
-                        putPieceImageOnSquare(largeWhitePawnIcon, i, j);
-                        break;
-
-                    case 'K':
-                        // Add black king.
-                        putPieceImageOnSquare(largeBlackKingIcon, i, j);
-                        break;
-
-                    case 'k':
-                        // Add white king.
-                        putPieceImageOnSquare(largeWhiteKingIcon, i, j);
-                        break;
-
-                    case 'Q':
-                        // Add black queen.
-                        putPieceImageOnSquare(largeBlackQueenIcon, i, j);
-                        break;
-
-                    case 'q':
-                        // Add white queen.
-                        putPieceImageOnSquare(largeWhiteQueenIcon, i, j);
-                        break;
-
-                    case 'R':
-                        // Add black rook.
-                        putPieceImageOnSquare(largeBlackRookIcon, i, j);
-                        break;
-
-                    case 'r':
-                        // Add white rook.
-                        putPieceImageOnSquare(largeWhiteRookIcon, i, j);
-                        break;
-
-                    case 'B':
-                        // Add black bishop.
-                        putPieceImageOnSquare(largeBlackBishopIcon, i, j);
-                        break;
-
-                    case 'b':
-                        // Add white bishop.
-                        putPieceImageOnSquare(largeWhiteBishopIcon, i, j);
-                        break;
-
-                    case 'N':
-                        // Add black knight.
-                        putPieceImageOnSquare(largeBlackKnightIcon, i, j);
-                        break;
-
-                    case 'n':
-                        // Add white knight.
-                        putPieceImageOnSquare(largeWhiteKnightIcon, i, j);
-                        break;
-
-                    case ' ':
-                        // Update empty square.
-                        this.getSquares(i, j).setIcon(null);
-                        break;
-                    }
-                }
-            }
         }
     }
 
