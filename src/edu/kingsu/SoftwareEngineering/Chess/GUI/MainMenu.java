@@ -5,6 +5,7 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Insets;
+import java.awt.Dimension;
 
 public class MainMenu extends JPanel {
 
@@ -82,12 +83,15 @@ public class MainMenu extends JPanel {
         forBackGround.weighty = 0.10;
         background.add(chessTitle, forBackGround);
 
-        forBackGround.fill = GridBagConstraints.BOTH;
+        forBackGround.fill = GridBagConstraints.VERTICAL;
         forBackGround.gridx = 0;
         forBackGround.gridy = 1;
         forBackGround.weightx = 1;
         forBackGround.weighty = 0.90;
         forBackGround.insets = new Insets(23, 500, 25, 500);
+        buttonContainer.setMinimumSize(new Dimension(300, 300));
+        buttonContainer.setPreferredSize(new Dimension(300, 300));
+        buttonContainer.setMaximumSize(new Dimension(300, 300));
         background.add(buttonContainer, forBackGround);
 
         GridBagConstraints c = new GridBagConstraints();
