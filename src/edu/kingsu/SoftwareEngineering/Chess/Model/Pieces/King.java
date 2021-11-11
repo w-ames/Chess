@@ -25,6 +25,9 @@ public class King extends Piece {
         this.doneCastling = false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Piece copyPiece() {
         King copy = new King(isWhite());

@@ -28,6 +28,10 @@ public class TestKnight {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("Knight returned incorrect PieceType.", PieceType.KNIGHT, whiteKnight.getPieceType());
     }

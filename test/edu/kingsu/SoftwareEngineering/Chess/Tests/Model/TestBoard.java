@@ -2,6 +2,10 @@ package edu.kingsu.SoftwareEngineering.Chess.Tests.Model;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
@@ -236,6 +240,27 @@ public class TestBoard {
         assertEquals("An incorrect number of possible moves was returned.", 20, initialBoard.getAllMoves(false).size());
         initialBoard.initializeBoard(testPosition);
         assertEquals("An incorrect number of possible moves was returned.", 46, initialBoard.getAllMoves(true).size());
+    }
+
+    @Test
+    public void testGetAttackers() {
+        initialBoard.initializeBoard(testPosition);
+        ArrayList<List<Integer>> expectedAttackers = new ArrayList<List<Integer>>();
+        ArrayList<Integer> expectedAttacker = new ArrayList<Integer>();
+        expectedAttacker.add(4);
+        expectedAttacker.add(2);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        expectedAttacker.add(5);
+        expectedAttacker.add(2);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        expectedAttacker.add(7);
+        expectedAttacker.add(3);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        assertEquals("Incorrect number of attackers calculated.", expectedAttackers.size(), initialBoard.getAttackers(false, 3, 3).size());
+        assertTrue("Incorrect attacking squares calculated.", expectedAttackers.containsAll(initialBoard.getAttackers(false, 3, 3)));
     }
 
     @Test
