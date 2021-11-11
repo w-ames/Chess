@@ -6,8 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,7 +39,7 @@ public class ChessGameGUIView extends ChessGameView {
     private int currentFrameHeight;
     private int currentFrameWidth;
 
-    // Large screen pieces
+    // Pieces for large screen sizes.
     private ImageIcon largeWhitePawnIcon;
     private ImageIcon largeBlackPawnIcon;
 
@@ -60,7 +58,7 @@ public class ChessGameGUIView extends ChessGameView {
     private ImageIcon largeWhiteKingIcon;
     private ImageIcon largeBlackKingIcon;
 
-    // Small screen pieces
+    // Pieces for small screen sizes.
     private ImageIcon smallWhitePawnIcon;
     private ImageIcon smallBlackPawnIcon;
 
@@ -445,7 +443,7 @@ public class ChessGameGUIView extends ChessGameView {
         } catch (Exception e) {
             System.err.println(e);
         }
-        return smallBlackBishopIcon;
+        return smallBlackBishopIcon; // I don't know how to make it compile without doing this?
     }
 
     /**
