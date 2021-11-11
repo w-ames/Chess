@@ -248,7 +248,7 @@ public class ChessGameGUIView extends ChessGameView {
 
                     case 'N':
                         // Add black knight.
-                        putPieceImageOnSquare(smallBlackKingIcon, i, j);
+                        putPieceImageOnSquare(smallBlackKnightIcon, i, j);
                         break;
 
                     case 'n':
