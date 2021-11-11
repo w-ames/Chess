@@ -18,8 +18,6 @@ public class GameSetUp extends JPanel {
         super();
         this.container = container;
 
-        this.setBackground(Color.cyan);
-
         MainLayer background = new MainLayer();
         ButtonContainer player1Panel = new ButtonContainer();
         ButtonContainer player2Panel = new ButtonContainer();
@@ -93,6 +91,10 @@ public class GameSetUp extends JPanel {
         mainLayerGB.weightx = 1;
         mainLayerGB.weighty = 1;
         this.add(background, mainLayerGB);
+
+        JPanel holdAllInCentre = new JPanel();
+        holdAllInCentre.setLayout(new GridBagLayout());
+        GridBagConstraints allGB = new GridBagConstraints();
 
         //// First Row
         JPanel playerContainer = new JPanel();
@@ -170,7 +172,7 @@ public class GameSetUp extends JPanel {
         playerContainer.setMinimumSize(new Dimension(300, 100));
         playerContainer.setPreferredSize(new Dimension(300, 100));
         playerContainer.setMaximumSize(new Dimension(300, 100));
-        background.add(playerContainer, setup);
+        holdAllInCentre.add(playerContainer, setup);
 
         // playerContainer.add(Player1Panel,gb)
 
@@ -279,6 +281,11 @@ public class GameSetUp extends JPanel {
         sc.gridy = 0;
         sc.weightx = 1;
         sc.weighty = 1;
+        sc.fill = GridBagConstraints.NONE;
+        sc.anchor = GridBagConstraints.CENTER;
+        timePanel.setMinimumSize(new Dimension(300, 500));
+        timePanel.setPreferredSize(new Dimension(300, 500));
+        timePanel.setMaximumSize(new Dimension(300, 500));
         settingContainer.add(timePanel, sc);
 
         // Settings Panel
@@ -358,6 +365,11 @@ public class GameSetUp extends JPanel {
 
         sc.gridx = 1;
         sc.gridy = 0;
+        sc.fill = GridBagConstraints.NONE;
+        sc.anchor = GridBagConstraints.CENTER;
+        settingsPanel.setMinimumSize(new Dimension(300, 500));
+        settingsPanel.setPreferredSize(new Dimension(300, 500));
+        settingsPanel.setMaximumSize(new Dimension(300, 500));
         settingContainer.add(settingsPanel, sc);
 
         // Load
@@ -406,6 +418,11 @@ public class GameSetUp extends JPanel {
         sc.gridy = 0;
         sc.weightx = 1;
         sc.weighty = 1;
+        sc.fill = GridBagConstraints.NONE;
+        sc.anchor = GridBagConstraints.CENTER;
+        setupPanel.setMinimumSize(new Dimension(300, 500));
+        setupPanel.setPreferredSize(new Dimension(300, 500));
+        setupPanel.setMaximumSize(new Dimension(300, 500));
         settingContainer.add(setupPanel, sc);
 
         setup.fill = GridBagConstraints.BOTH;
@@ -415,7 +432,12 @@ public class GameSetUp extends JPanel {
         setup.weighty = 0.90;
         setup.insets = new Insets(5, 150, 25, 150);
         settingContainer.setOpaque(false);
-        background.add(settingContainer, setup);
+        holdAllInCentre.add(settingContainer, setup);
+        allGB.gridx = 0;
+        allGB.gridy = 0;
+        allGB.fill = GridBagConstraints.NONE;
+        holdAllInCentre.setOpaque(false);
+        background.add(holdAllInCentre, allGB);
 
     }
 }
