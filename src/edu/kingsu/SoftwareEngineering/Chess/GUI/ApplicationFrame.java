@@ -46,6 +46,7 @@ public class ApplicationFrame extends JFrame {
      */
     public ApplicationFrame() {
         super(WINDOW_TITLE);
+        this.setMinimumSize(new Dimension(1280, 1024));
         contentPanel = new JPanel();
         add(contentPanel);
         layout = new CardLayout();

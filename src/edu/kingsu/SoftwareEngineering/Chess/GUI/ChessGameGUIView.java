@@ -441,42 +441,42 @@ public class ChessGameGUIView extends ChessGameView {
         // Put the images of the pieces into the image icons.
 
         // Large sizes.
-        largeWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", largePawnSize);
-        largeBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", largePawnSize);
+        largeWhitePawnIcon = openPieceImageFile("piece_images/white_pawn.png", largePawnSize);
+        largeBlackPawnIcon = openPieceImageFile("piece_images/black_pawn.png", largePawnSize);
 
-        largeWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", largeRookSize);
-        largeBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", largeRookSize);
+        largeWhiteRookIcon = openPieceImageFile("piece_images/white_rook.png", largeRookSize);
+        largeBlackRookIcon = openPieceImageFile("piece_images/black_rook.png", largeRookSize);
 
-        largeWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", largeKnightSize);
-        largeBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", largeKnightSize);
+        largeWhiteKnightIcon = openPieceImageFile("piece_images/white_knight.png", largeKnightSize);
+        largeBlackKnightIcon = openPieceImageFile("piece_images/black_knight.png", largeKnightSize);
 
-        largeWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", largeBishopSize);
-        largeBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", largeBishopSize);
+        largeWhiteBishopIcon = openPieceImageFile("piece_images/white_bishop.png", largeBishopSize);
+        largeBlackBishopIcon = openPieceImageFile("piece_images/black_bishop.png", largeBishopSize);
 
-        largeWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", largeQueenSize);
-        largeBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", largeQueenSize);
+        largeWhiteQueenIcon = openPieceImageFile("piece_images/white_queen.png", largeQueenSize);
+        largeBlackQueenIcon = openPieceImageFile("piece_images/black_queen.png", largeQueenSize);
 
-        largeWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", largeKingSize);
-        largeBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", largeKingSize);
+        largeWhiteKingIcon = openPieceImageFile("piece_images/white_king.png", largeKingSize);
+        largeBlackKingIcon = openPieceImageFile("piece_images/black_king.png", largeKingSize);
 
         // Small sizes.
-        smallWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", smallPawnSize);
-        smallBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", smallPawnSize);
+        smallWhitePawnIcon = openPieceImageFile("piece_images/white_pawn.png", smallPawnSize);
+        smallBlackPawnIcon = openPieceImageFile("piece_images/black_pawn.png", smallPawnSize);
 
-        smallWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", smallRookSize);
-        smallBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", smallRookSize);
+        smallWhiteRookIcon = openPieceImageFile("piece_images/white_rook.png", smallRookSize);
+        smallBlackRookIcon = openPieceImageFile("piece_images/black_rook.png", smallRookSize);
 
-        smallWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", smallKnightSize);
-        smallBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", smallKnightSize);
+        smallWhiteKnightIcon = openPieceImageFile("piece_images/white_knight.png", smallKnightSize);
+        smallBlackKnightIcon = openPieceImageFile("piece_images/black_knight.png", smallKnightSize);
 
-        smallWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", smallBishopSize);
-        smallBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", smallBishopSize);
+        smallWhiteBishopIcon = openPieceImageFile("piece_images/white_bishop.png", smallBishopSize);
+        smallBlackBishopIcon = openPieceImageFile("piece_images/black_bishop.png", smallBishopSize);
 
-        smallWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", smallQueenSize);
-        smallBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", smallQueenSize);
+        smallWhiteQueenIcon = openPieceImageFile("piece_images/white_queen.png", smallQueenSize);
+        smallBlackQueenIcon = openPieceImageFile("piece_images/black_queen.png", smallQueenSize);
 
-        smallWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", smallKingSize);
-        smallBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", smallKingSize);
+        smallWhiteKingIcon = openPieceImageFile("piece_images/white_king.png", smallKingSize);
+        smallBlackKingIcon = openPieceImageFile("piece_images/black_king.png", smallKingSize);
 
     }
 
@@ -489,7 +489,7 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public ImageIcon openPieceImageFile(String filePath, int size) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+            BufferedImage bufferedImage = ImageIO.read(getClass().getClassLoader().getResource(filePath));
             Image pieceImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
             return pieceImageIcon;
