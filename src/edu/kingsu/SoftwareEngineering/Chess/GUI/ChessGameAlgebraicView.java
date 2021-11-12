@@ -56,7 +56,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         this.add(algebraicDisplayPanel, gb);
 
         // Adding label to the algraic move input JTextField.
-        JLabel algebraicMoveInputLabel = new JLabel("Enter Algbraic Move: ");
+        JLabel algebraicMoveInputLabel = new JLabel("Enter Algebraic Move: ");
         algebraicMoveInputLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         algebraicMoveInputLabel.setForeground(new Color(16, 46, 60));
         gb.gridy = 1;
