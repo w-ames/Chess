@@ -112,8 +112,8 @@ public class ChessGameGUIView extends ChessGameView {
 
                     // Add white squares.
 
-                    location = String.valueOf(i) + ",";
-                    location += String.valueOf(j);
+                    location = translateNumberLocationToFileLetter(j);
+                    location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, true);
 
                     // For 640 x 640 board size.
@@ -134,8 +134,8 @@ public class ChessGameGUIView extends ChessGameView {
 
                 } else { // Add black squares.
 
-                    location = String.valueOf(i) + ",";
-                    location += String.valueOf(j);
+                    location = translateNumberLocationToFileLetter(j);
+                    location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, false);
 
                     // For 640 x 640 board size.
@@ -770,6 +770,12 @@ public class ChessGameGUIView extends ChessGameView {
         this.add(rankFileAndBoardContainer, gbForThis);
     }
 
+    /**
+     * Translate numbers to letters for building file.
+     * 
+     * @param number x axis number associcated with the square location
+     * @return file letter
+     */
     public String translateNumberCoordinateToLetter(int number) {
         String output = "";
 
@@ -789,6 +795,66 @@ public class ChessGameGUIView extends ChessGameView {
             return output = "g";
         } else if (number == 1) {
             return output = "h";
+        }
+
+        return output;
+    }
+
+    /**
+     * Translate numbers to letters for teching square it's location.
+     * 
+     * @param number x axis number associcated with the square location
+     * @return file letter
+     */
+    public String translateNumberLocationToFileLetter(int number) {
+        String output = "";
+
+        if (number == 0) {
+            return output = "a";
+        } else if (number == 1) {
+            return output = "b";
+        } else if (number == 2) {
+            return output = "c";
+        } else if (number == 3) {
+            return output = "d";
+        } else if (number == 4) {
+            return output = "e";
+        } else if (number == 5) {
+            return output = "f";
+        } else if (number == 6) {
+            return output = "g";
+        } else if (number == 7) {
+            return output = "h";
+        }
+
+        return output;
+    }
+
+    /**
+     * Translate board coordinates to algebraic coordinate.
+     * 
+     * @param number y axis number associcated with the square location
+     * @return rank number
+     */
+    public String translateNumbericalCoordToAlgebraic(int number) {
+        String output = "";
+
+        if (number == 0) {
+            return output = "8";
+        } else if (number == 1) {
+            return output = "7";
+        } else if (number == 2) {
+            return output = "6";
+        } else if (number == 3) {
+            return output = "5";
+        } else if (number == 4) {
+            return output = "4";
+        } else if (number == 5) {
+            return output = "3";
+        } else if (number == 6) {
+            return output = "2";
+        } else if (number == 7) {
+            return output = "1";
         }
 
         return output;
