@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
@@ -79,24 +80,30 @@ public class ChessGameGUIView extends ChessGameView {
     private ImageIcon smallBlackKingIcon;
 
     /**
-     * Constructs the initial graphical representation of the game board (And the
-     * panel behind it). Constructs each square and adds them to a 8x8 2D array,
-     * then calls the paintBoard() function to insert the contents of board (the 2D
-     * array) onto itself for GUI display.
+     * Puts the squares on the graphical representation of the chess board. Loads
+     * the chess piece icons into their respective variables. Paints the inital
+     * chess board with pieces in the appropriate places. builds and adds the rank
+     * and file labeling around the board.
      */
     public ChessGameGUIView() {
 
         selectedCol = -1;
         selectedRow = -1;
 
-        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbForThis = new GridBagConstraints();
-        gbForThis.fill = GridBagConstraints.CENTER;
+        putSquaresOnBoard();
+        loadPieceIconsIntoIconVariables();
+        paintBoard();
+        buildRankAndFileBorder();
 
-        // Instanciates the squares and puts them into the 2D array that holds the
-        // represntation of the board. Also teaches them their location on the board and
-        // determines which color they will be.
+    }
+
+    /**
+     * Instanciates the squares and puts them into the 2D array that holds the
+     * represntation of the board. Also teaches them their location on the board and
+     * determines which color they will be.
+     */
+    public void putSquaresOnBoard() {
+
         String location;
         squareHolderArray = new Square[8][8];
         for (int i = 0; i < 8; i++) {
@@ -110,17 +117,17 @@ public class ChessGameGUIView extends ChessGameView {
                     Square newSquare = new Square(location, true);
 
                     // For 640 x 640 board size.
-                    if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
-
-                        newSquare.setMinimumSize(new Dimension(45, 45));
-                        newSquare.setPreferredSize(new Dimension(45, 45));
-                        newSquare.setMaximumSize(new Dimension(45, 45));
-
-                    } else { // For 360 x 360 board size
+                    if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
                         newSquare.setPreferredSize(new Dimension(80, 80));
                         newSquare.setMaximumSize(new Dimension(80, 80));
+
+                    } else { // For 360 x 360 board size
+
+                        newSquare.setMinimumSize(new Dimension(45, 45));
+                        newSquare.setPreferredSize(new Dimension(45, 45));
+                        newSquare.setMaximumSize(new Dimension(45, 45));
                     }
 
                     squareHolderArray[i][j] = newSquare;
@@ -132,26 +139,23 @@ public class ChessGameGUIView extends ChessGameView {
                     Square newSquare = new Square(location, false);
 
                     // For 640 x 640 board size.
-                    if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
-
-                        newSquare.setMinimumSize(new Dimension(45, 45));
-                        newSquare.setPreferredSize(new Dimension(45, 45));
-                        newSquare.setMaximumSize(new Dimension(45, 45));
-
-                    } else { // For 360 x 360 board size
+                    if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
                         newSquare.setPreferredSize(new Dimension(80, 80));
                         newSquare.setMaximumSize(new Dimension(80, 80));
+
+                    } else { // For 360 x 360 board size
+
+                        newSquare.setMinimumSize(new Dimension(45, 45));
+                        newSquare.setPreferredSize(new Dimension(45, 45));
+                        newSquare.setMaximumSize(new Dimension(45, 45));
                     }
 
                     squareHolderArray[i][j] = newSquare;
                 }
             }
         }
-        loadPieceIconsIntoIconVariables();
-        paintBoard();
-        this.add(boardHolder, gbForThis);
     }
 
     /**
@@ -193,7 +197,7 @@ public class ChessGameGUIView extends ChessGameView {
 
         // Dynamic board resizing when frame is resized by user is controlled here.
 
-        if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+        if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
             boardHolder.setMinimumSize(new Dimension(640, 640));
             boardHolder.setPreferredSize(new Dimension(640, 640));
             boardHolder.setMaximumSize(new Dimension(640, 640));
@@ -234,7 +238,7 @@ public class ChessGameGUIView extends ChessGameView {
         char[][] pieces = getChessGame().getBoardChars();
 
         // For 640 x 640 board size.
-        if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+        if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
             paintBoard(); // Makes sure board is correct size for current frame.
 
@@ -310,7 +314,7 @@ public class ChessGameGUIView extends ChessGameView {
                 }
             }
 
-            // Else if application frame size is larger than 1000 x 1000, load the large
+            // Else if application frame size is larger than 1100 x 1100, load the large
             // pieces for the 360 x 360 board size.
         } else {
 
@@ -543,5 +547,250 @@ public class ChessGameGUIView extends ChessGameView {
                 squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this, getChessGame(), i, j));
             }
         }
+    }
+
+    public void buildRankAndFileBorder() {
+        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbForThis = new GridBagConstraints();
+        gbForThis.fill = GridBagConstraints.CENTER;
+        JPanel rankFileAndBoardContainer = new JPanel();
+        rankFileAndBoardContainer.setLayout(new GridBagLayout());
+        GridBagConstraints containergb = new GridBagConstraints();
+
+        // Build left rank board border.
+        JPanel leftRankHolder = new JPanel();
+        leftRankHolder.setLayout(new GridBagLayout());
+        GridBagConstraints rfgb = new GridBagConstraints();
+        rfgb.fill = GridBagConstraints.BOTH;
+        rfgb.gridx = 0;
+        rfgb.weighty = 1;
+        int j = 0;
+        for (int i = 8; i > 0; i--) {
+            String rankString = String.valueOf(i);
+            JLabel rankLabel = new JLabel(rankString);
+            rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            rankLabel.setForeground(new Color(84, 133, 156));
+            JPanel rankSquare = new JPanel();
+            rankSquare.setBackground(new Color(232, 232, 232));
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setLayout(new GridBagLayout());
+            GridBagConstraints gridBag = new GridBagConstraints();
+            gridBag.fill = GridBagConstraints.BOTH;
+            gridBag.gridx = 0;
+            gridBag.gridy = 0;
+            rankSquare.add(rankLabel, gridBag);
+            rfgb.gridy = j;
+            j++;
+
+            // For 640 x 640 board size.
+            if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+
+                rankSquare.setMinimumSize(new Dimension(80, 80));
+                rankSquare.setPreferredSize(new Dimension(80, 80));
+                rankSquare.setMaximumSize(new Dimension(80, 80));
+
+            } else { // For 360 x 360 board size
+
+                rankSquare.setMinimumSize(new Dimension(50, 50));
+                rankSquare.setPreferredSize(new Dimension(50, 50));
+                rankSquare.setMaximumSize(new Dimension(50, 50));
+            }
+            leftRankHolder.add(rankSquare, rfgb);
+        }
+        // Add the left rank border to the rank/file & board container.
+        containergb.gridx = 0;
+        containergb.gridy = 1;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 8;
+        containergb.weighty = 1;
+        containergb.weightx = 1;
+        leftRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rankFileAndBoardContainer.add(leftRankHolder, containergb);
+
+        // Build top file board border.
+        JPanel topFileHolder = new JPanel();
+        topFileHolder.setLayout(new GridBagLayout());
+        GridBagConstraints rfgb1 = new GridBagConstraints();
+        rfgb1.fill = GridBagConstraints.BOTH;
+        rfgb1.gridy = 0;
+        rfgb1.weightx = 1;
+        j = 0;
+
+        for (int i = 8; i > 0; i--) {
+            String rankString = translateNumberCoordinateToLetter(i);
+            JLabel rankLabel = new JLabel(rankString);
+            JPanel rankSquare = new JPanel();
+            rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            rankLabel.setForeground(new Color(84, 133, 156));
+            rankSquare.setBackground(new Color(232, 232, 232));
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setLayout(new GridBagLayout());
+            GridBagConstraints gridBag = new GridBagConstraints();
+            gridBag.fill = GridBagConstraints.BOTH;
+            gridBag.gridx = 0;
+            gridBag.gridy = 0;
+            rankSquare.add(rankLabel, gridBag);
+            rfgb1.gridx = j;
+            j++;
+
+            // For 640 x 640 board size.
+            if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+
+                rankSquare.setMinimumSize(new Dimension(80, 80));
+                rankSquare.setPreferredSize(new Dimension(80, 80));
+                rankSquare.setMaximumSize(new Dimension(80, 80));
+
+            } else { // For 360 x 360 board size
+
+                rankSquare.setMinimumSize(new Dimension(45, 45));
+                rankSquare.setPreferredSize(new Dimension(45, 45));
+                rankSquare.setMaximumSize(new Dimension(45, 45));
+            }
+            topFileHolder.add(rankSquare, rfgb1);
+        }
+
+        // Add the top file border to the rank/file & board container.
+        containergb.gridx = 1;
+        containergb.gridy = 0;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 8;
+        containergb.gridheight = 1;
+        topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rankFileAndBoardContainer.add(topFileHolder, containergb);
+
+        // Build right rank board border.
+        JPanel rightRankHolder = new JPanel();
+        rightRankHolder.setLayout(new GridBagLayout());
+        GridBagConstraints rfgb2 = new GridBagConstraints();
+        rfgb2.fill = GridBagConstraints.BOTH;
+        rfgb2.gridx = 0;
+        rfgb2.weighty = 1;
+        j = 0;
+        for (int i = 8; i > 0; i--) {
+            String rankString = String.valueOf(i);
+            JLabel rankLabel = new JLabel(rankString);
+            JPanel rankSquare = new JPanel();
+            rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            rankLabel.setForeground(new Color(84, 133, 156));
+            rankSquare.setBackground(new Color(232, 232, 232));
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setLayout(new GridBagLayout());
+            GridBagConstraints gridBag = new GridBagConstraints();
+            gridBag.fill = GridBagConstraints.BOTH;
+            gridBag.gridx = 0;
+            gridBag.gridy = 0;
+            rankSquare.add(rankLabel, gridBag);
+            rfgb2.gridy = j;
+            j++;
+
+            // For 640 x 640 board size.
+            if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+
+                rankSquare.setMinimumSize(new Dimension(80, 80));
+                rankSquare.setPreferredSize(new Dimension(80, 80));
+                rankSquare.setMaximumSize(new Dimension(80, 80));
+
+            } else { // For 360 x 360 board size
+
+                rankSquare.setMinimumSize(new Dimension(45, 45));
+                rankSquare.setPreferredSize(new Dimension(45, 45));
+                rankSquare.setMaximumSize(new Dimension(45, 45));
+            }
+            rightRankHolder.add(rankSquare, rfgb2);
+        }
+
+        // Add the right rank border to the rank/file & board container.
+        containergb.gridx = 9;
+        containergb.gridy = 1;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 8;
+        containergb.fill = GridBagConstraints.BOTH;
+        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rankFileAndBoardContainer.add(rightRankHolder, containergb);
+
+        containergb.gridx = 1;
+        containergb.gridy = 1;
+        containergb.gridwidth = 8;
+        containergb.gridheight = 8;
+        rankFileAndBoardContainer.add(boardHolder, containergb);
+
+        // Build bottom file board border.
+        JPanel bottomFileHolder = new JPanel();
+        bottomFileHolder.setLayout(new GridBagLayout());
+        GridBagConstraints rfgb4 = new GridBagConstraints();
+        rfgb4.fill = GridBagConstraints.BOTH;
+        rfgb4.gridy = 0;
+        rfgb4.weightx = 1;
+        j = 0;
+        for (int i = 8; i > 0; i--) {
+            String rankString = translateNumberCoordinateToLetter(i);
+            JLabel rankLabel = new JLabel(rankString);
+            JPanel rankSquare = new JPanel();
+            rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            rankLabel.setForeground(new Color(84, 133, 156));
+            rankSquare.setBackground(new Color(232, 232, 232));
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setLayout(new GridBagLayout());
+            GridBagConstraints gridBag = new GridBagConstraints();
+            gridBag.fill = GridBagConstraints.BOTH;
+            gridBag.gridx = 0;
+            gridBag.gridy = 0;
+            rankSquare.add(rankLabel, gridBag);
+            rfgb1.gridx = j;
+            j++;
+
+            // For 640 x 640 board size.
+            if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+
+                rankSquare.setMinimumSize(new Dimension(80, 80));
+                rankSquare.setPreferredSize(new Dimension(80, 80));
+                rankSquare.setMaximumSize(new Dimension(80, 80));
+
+            } else { // For 360 x 360 board size
+
+                rankSquare.setMinimumSize(new Dimension(45, 45));
+                rankSquare.setPreferredSize(new Dimension(45, 45));
+                rankSquare.setMaximumSize(new Dimension(45, 45));
+            }
+            bottomFileHolder.add(rankSquare, rfgb4);
+        }
+
+        // Add the bottom file border to the rank/file & board container.
+        containergb.gridx = 1;
+        containergb.gridy = 9;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 8;
+        containergb.gridheight = 1;
+        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rankFileAndBoardContainer.add(bottomFileHolder, containergb);
+
+        rankFileAndBoardContainer.setOpaque(false);
+        this.add(rankFileAndBoardContainer, gbForThis);
+    }
+
+    public String translateNumberCoordinateToLetter(int number) {
+        String output = "";
+
+        if (number == 8) {
+            return output = "a";
+        } else if (number == 7) {
+            return output = "b";
+        } else if (number == 6) {
+            return output = "c";
+        } else if (number == 5) {
+            return output = "d";
+        } else if (number == 4) {
+            return output = "e";
+        } else if (number == 3) {
+            return output = "f";
+        } else if (number == 2) {
+            return output = "g";
+        } else if (number == 1) {
+            return output = "h";
+        }
+
+        return output;
     }
 }

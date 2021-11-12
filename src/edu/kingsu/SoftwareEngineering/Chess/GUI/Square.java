@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet.ColorAttribute;
+
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
@@ -58,6 +60,22 @@ public class Square extends JButton implements MouseListener {
             this.setBackground(new Color(248, 248, 248));
             this.setOpaque(true);
         }
+
+    }
+
+    public Square(String rankOrFile) {
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gb = new GridBagConstraints();
+        gb.gridx = 0;
+        gb.gridy = 0;
+        gb.fill = GridBagConstraints.BOTH;
+        JLabel rankFileLabel = new JLabel(rankOrFile);
+        rankFileLabel.setBackground(Color.GRAY);
+        rankFileLabel.setFont(new Font("Arial", Font.PLAIN, 25));
+        rankFileLabel.setForeground(new Color(16, 46, 60));
+        this.add(rankFileLabel, gb);
+        this.setFocusPainted(false);
+        this.setBackground(Color.GRAY);
 
     }
 

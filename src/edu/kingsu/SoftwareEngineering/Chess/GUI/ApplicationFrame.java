@@ -109,6 +109,7 @@ public class ApplicationFrame extends JFrame {
         file.add(exitMenuItem);
 
         help.add(about);
+        help.add(appHelp);
         help.add(chessRules);
         help.add(pieceInfo);
 
@@ -181,5 +182,4 @@ public class ApplicationFrame extends JFrame {
 
         });
     }
-
 }
