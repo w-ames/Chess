@@ -29,6 +29,10 @@ public class TestQueen {
 
     @Test
     public void testCopyPiece() {
+        Queen whiteCopy = (Queen)whiteQueen.copyPiece();
+        assertEquals("Copy of Queen did not have same whiteness.", whiteQueen.isWhite(), whiteCopy.isWhite());
+        Queen blackCopy = (Queen)blackQueen.copyPiece();
+        assertEquals("Copy of Queen did not have same whiteness.", blackQueen.isWhite(), blackCopy.isWhite());
     }
 
     @Test

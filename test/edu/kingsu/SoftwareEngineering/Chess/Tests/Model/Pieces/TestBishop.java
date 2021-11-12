@@ -29,6 +29,10 @@ public class TestBishop {
 
     @Test
     public void testCopyPiece() {
+        Bishop whiteCopy = (Bishop)whiteBishop.copyPiece();
+        assertEquals("Copy of Bishop did not have same whiteness.", whiteBishop.isWhite(), whiteCopy.isWhite());
+        Bishop blackCopy = (Bishop)blackBishop.copyPiece();
+        assertEquals("Copy of Bishop did not have same whiteness.", blackBishop.isWhite(), blackCopy.isWhite());
     }
 
     @Test
