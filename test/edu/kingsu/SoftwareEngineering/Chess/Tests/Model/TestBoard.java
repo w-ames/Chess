@@ -2,6 +2,10 @@ package edu.kingsu.SoftwareEngineering.Chess.Tests.Model;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
@@ -30,6 +34,17 @@ public class TestBoard {
         {'p',' ','n',' ','p','n',' ',' '},
         {' ','p','q',' ',' ','p','p','p'},
         {' ',' ',' ','r','k','b',' ','r'}
+    };
+
+    private static final char[][] castleBoard = {
+        {'R',' ',' ',' ','K',' ',' ','R'},
+        {'P',' ',' ',' ','p',' ',' ','P'},
+        {' ',' ',' ','p','p','p',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {'p',' ',' ',' ',' ',' ',' ','p'},
+        {'r',' ',' ',' ','k',' ',' ','r'}
     };
 
     private static final char[][] checkBoard = {
@@ -101,12 +116,13 @@ public class TestBoard {
                     // check relies on using the initial board layout!!
                     assertEquals("Whiteness of piece on new Board instance is incorrect.", i>initialBoard.ROWS/2, p.isWhite());
                     // we check the types of pieces
-                    PieceType expectedPieceType;
+                    PieceType expectedPieceType = null;
                     if (i == 1 || i == 6) {
                         expectedPieceType = PieceType.PAWN;
                     } else {
                         if (j == 0 || j == 7) {
                             expectedPieceType = PieceType.ROOK;
+                            assertFalse("New rook at standard initial location row: "+i+" column: "+j+" unable to castle.", ((Rook)p).isDoneCastling());
                         } else if (j == 1 || j == 6) {
                             expectedPieceType = PieceType.KNIGHT;
                         } else if (j == 2 || j == 5) {
@@ -115,8 +131,10 @@ public class TestBoard {
                             expectedPieceType = PieceType.QUEEN;
                         } else if (j == 4) {
                             expectedPieceType = PieceType.KING;
+                            assertFalse("New king at standard initial location row: "+i+" column: "+j+" unable to castle.", ((King)p).isDoneCastling());
                         }
                     }
+                    assertEquals("Unexpected Type of piece found at row: "+i+" column: "+j, expectedPieceType, p.getPieceType());
                 } else {
                     assertNull("Piece was found on new Board instance at row: "+i+" column: "+j, null);
                 }
@@ -201,6 +219,15 @@ public class TestBoard {
         assertMoves(2, 7, 4);
         assertMoves(2, 7, 5);
         assertMoves(1, 7, 7);
+
+        initialBoard.initializeBoard();
+        assertMoves(2, 6, 4);
+        (new Move(6, 4, 5, 4)).perform(initialBoard);
+        assertMoves(1, 5, 4);
+
+        initialBoard.initializeBoard(castleBoard);
+        assertMoves(7, 7, 4);
+        assertMoves(0, 0, 4);
     }
 
     private void assertMoves(int expected, int r, int c) {
@@ -213,6 +240,27 @@ public class TestBoard {
         assertEquals("An incorrect number of possible moves was returned.", 20, initialBoard.getAllMoves(false).size());
         initialBoard.initializeBoard(testPosition);
         assertEquals("An incorrect number of possible moves was returned.", 46, initialBoard.getAllMoves(true).size());
+    }
+
+    @Test
+    public void testGetAttackers() {
+        initialBoard.initializeBoard(testPosition);
+        ArrayList<List<Integer>> expectedAttackers = new ArrayList<List<Integer>>();
+        ArrayList<Integer> expectedAttacker = new ArrayList<Integer>();
+        expectedAttacker.add(4);
+        expectedAttacker.add(2);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        expectedAttacker.add(5);
+        expectedAttacker.add(2);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        expectedAttacker.add(7);
+        expectedAttacker.add(3);
+        expectedAttackers.add(new ArrayList<Integer>(expectedAttacker));
+        expectedAttacker.clear();
+        assertEquals("Incorrect number of attackers calculated.", expectedAttackers.size(), initialBoard.getAttackers(false, 3, 3).size());
+        assertTrue("Incorrect attacking squares calculated.", expectedAttackers.containsAll(initialBoard.getAttackers(false, 3, 3)));
     }
 
     @Test

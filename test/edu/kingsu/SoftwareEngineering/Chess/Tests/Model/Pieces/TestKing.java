@@ -30,6 +30,10 @@ public class TestKing {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("King returned incorrect PieceType.", PieceType.KING, whiteKing.getPieceType());
     }

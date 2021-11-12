@@ -12,13 +12,16 @@ public abstract class Player implements Runnable {
     private int interval;
     private int increment;
     private Timer timer;
+    public static final int MAX_AI_DEPTH = 4;
+    private int aiDepth;
 
-    public Player(ChessGame chessGame, boolean isWhite, boolean isHuman, int interval, int increment) {
+    public Player(ChessGame chessGame, boolean isWhite, boolean isHuman, int interval, int increment, int aiDepth) {
         this.chessGame = chessGame;
         this.isWhite = isWhite;
         this.isHuman = isHuman;
         this.interval = interval;
         this.increment = increment;
+        this.aiDepth = aiDepth;
     }
 
     public ChessGame getChessGame() { return chessGame; }
@@ -54,5 +57,9 @@ public abstract class Player implements Runnable {
 
     public void resetTimer() {
     }
+
+    public int getAIDepth() { return aiDepth; }
+
+    public void setAIDepth(int depth) { aiDepth = depth; }
 
 }

@@ -126,7 +126,7 @@ public class Board {
                         break;
                     case 'k':
                         King newKing = new King(whitePiece);
-                        if (whitePiece && i==ROWS-1 && j==4 || !whitePiece && i==0 && j==4) {
+                        if (!((j==4) && (whitePiece && i==ROWS-1 || !whitePiece && i==0 ))) {
                             newKing.doneCastling();
                         }
                         newPiece = newKing;
@@ -312,11 +312,32 @@ public class Board {
                 break;
             case KING:
                 King movingKing = (King)movingPiece;
+                boolean castleLeft = false;
+                boolean castleRight = false;
                 for (int[] offset : kingOffsets) {
                     int toRow = fromRow+offset[0];
                     int toCol = fromCol+offset[1];
                     if (validDestination(movingWhite, toRow, toCol)) {
                         moveList.add(new Move(fromRow, fromCol, toRow, toCol));
+                        if (!movingKing.isDoneCastling() && toRow==fromRow) {
+                            if (toCol-fromCol==-1) {
+                                castleLeft = true;
+                            } else if (toCol-fromCol==1) {
+                                castleRight = true;
+                            }
+                        }
+                    }
+                }
+                if (castleLeft && isOnBoard(fromRow, fromCol-2) && squares[fromRow][fromCol-2] == null) {
+                    Piece lRook = squares[fromRow][0];
+                    if (lRook!=null && lRook.getPieceType()==PieceType.ROOK && !((Rook)lRook).isDoneCastling() && squares[fromRow][1]==null) {
+                        moveList.add(new CastlingMove(fromRow, fromCol, fromRow, fromCol-2, fromRow, 0, fromRow, fromCol-1));
+                    }
+                }
+                if (castleRight && isOnBoard(fromRow, fromCol+2) && squares[fromRow][fromCol+2] == null) {
+                    Piece rRook = squares[fromRow][COLS-1];
+                    if (rRook!=null && rRook.getPieceType()==PieceType.ROOK && !((Rook)rRook).isDoneCastling()) {
+                        moveList.add(new CastlingMove(fromRow, fromCol, fromRow, fromCol+2, fromRow, COLS-1, fromRow, fromCol+1));
                     }
                 }
                 break;
@@ -329,13 +350,23 @@ public class Board {
 
     private List<Move> pruneMoves(boolean forWhite, List<Move> moves) {
         ArrayList<Move> prunedMoves = new ArrayList<Move>();
+        ArrayList<Move> extraCastleChecks = new ArrayList<Move>();
         Board aCopy;
         for (Move move : moves) {
             aCopy = new Board(this);
             move.perform(aCopy);
             if (!aCopy.getCheck(!forWhite)) {
                 // there is not check for the other side if we do this move
-                prunedMoves.add(move);
+                if (move.getType() == MoveType.CASTLING) {
+                    extraCastleChecks.add(move);
+                } else {
+                    prunedMoves.add(move);
+                }
+            }
+        }
+        for (Move castleMove : extraCastleChecks) {
+            if (prunedMoves.contains(new Move(castleMove.getRowFrom(), castleMove.getColFrom(), castleMove.getRowTo(), (castleMove.getColFrom()+castleMove.getColTo())/2))) {
+                prunedMoves.add(castleMove);
             }
         }
         return prunedMoves;
@@ -458,24 +489,32 @@ public class Board {
             promotionRank = ROWS-1;
         }
         // does not check that 'from' and 'to' are compatible
-        if (toRow == promotionRank) { // promotion move
-            return MoveType.PAWN_PROMOTION;
-        }
+        // if (toRow == promotionRank) { // promotion move
+        //     return MoveType.PAWN_PROMOTION;
+        // }
         if (fromCol == toCol && squares[toRow][toCol] == null) { // same column moves
             if (Math.abs(fromRow-toRow) == 2) { // double push
-                if (pawn.isDoneDoubleMove()) {
+                if (pawn.isDoneDoubleMove() || squares[(fromRow+toRow)/2][toCol] != null) {
                     return null;
                 } else {
                     return MoveType.PAWN_DOUBLE;
                 }
             } else { // single push
-                return MoveType.NORMAL;
+                if (toRow != promotionRank) {
+                    return MoveType.NORMAL;
+                } else {
+                    return MoveType.PAWN_PROMOTION;
+                }
             }
         }
         if (Math.abs(fromCol-toCol) == 1 && squares[toRow][toCol] != null && squares[toRow][toCol].isWhite() != pawn.isWhite()) { // diagonal captures
-            return MoveType.NORMAL;
+            if (toRow != promotionRank) {
+                return MoveType.NORMAL;
+            } else {
+                return MoveType.PAWN_PROMOTION;
+            }
         }
-        if (toRow == enPassantableRow && toCol == enPassantableCol) { // en passant
+        if (Math.abs(fromCol-toCol) == 1 && toRow == enPassantableRow && toCol == enPassantableCol) { // en passant
             return MoveType.EN_PASSANT;
         }
         return null;

@@ -26,6 +26,10 @@ public abstract class Piece {
         this(color.equalsIgnoreCase("white"));
     }
 
+    /**
+     * Creates a copy of the piece instance.
+     * @return A deep-copy of this piece
+     */
     public abstract Piece copyPiece();
 
     /**

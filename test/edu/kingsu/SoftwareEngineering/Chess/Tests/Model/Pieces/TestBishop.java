@@ -28,6 +28,10 @@ public class TestBishop {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("Bishop returned incorrect PieceType.", PieceType.BISHOP, whiteBishop.getPieceType());
     }

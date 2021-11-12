@@ -24,6 +24,9 @@ public class Pawn extends Piece {
         super(color);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Piece copyPiece() {
         Pawn copy = new Pawn(isWhite());

@@ -32,6 +32,7 @@ public class GameSetUp extends JPanel {
         JLabel timerLabel2 = new JLabel("0:10");
         JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
         String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
+        int[] playerDepthList = { -1, 0, 2, 4 };
 
         int minTime = 10;
         int maxTime = 600;
@@ -72,16 +73,6 @@ public class GameSetUp extends JPanel {
         });
 
         CustomButton startGame = new CustomButton("Start Game");
-        startGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // here
-                ChessGame chessGame = new ChessGame(true, false, -1, -1);
-                container.initializeChessPanel(chessGame);
-                chessGame.start();
-                container.show("chesspanel");
-            }
-        });
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints mainLayerGB = new GridBagConstraints();
@@ -438,6 +429,15 @@ public class GameSetUp extends JPanel {
         allGB.fill = GridBagConstraints.NONE;
         holdAllInCentre.setOpaque(false);
         background.add(holdAllInCentre, allGB);
+        startGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()], playerDepthList[player2Box.getSelectedIndex()], -1, -1);
+                container.initializeChessPanel(chessGame);
+                chessGame.start();
+                container.show("chesspanel");
+            }
+        });
 
     }
 }

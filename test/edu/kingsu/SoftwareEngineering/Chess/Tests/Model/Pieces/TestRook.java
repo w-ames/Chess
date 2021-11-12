@@ -28,6 +28,10 @@ public class TestRook {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("Rook returned incorrect PieceType.", PieceType.ROOK, whiteRook.getPieceType());
     }

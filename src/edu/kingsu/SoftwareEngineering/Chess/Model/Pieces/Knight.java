@@ -21,6 +21,9 @@ public class Knight extends Piece {
         super(color);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Piece copyPiece() {
         return new Knight(isWhite());

@@ -28,6 +28,10 @@ public class TestQueen {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("Queen returned incorrect PieceType.", PieceType.QUEEN, whiteQueen.getPieceType());
     }

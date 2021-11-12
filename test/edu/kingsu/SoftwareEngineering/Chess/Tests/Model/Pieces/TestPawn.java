@@ -28,6 +28,10 @@ public class TestPawn {
     }
 
     @Test
+    public void testCopyPiece() {
+    }
+
+    @Test
     public void testGetPieceType() {
         assertEquals("Pawn returned incorrect PieceType.", PieceType.PAWN, whitePawn.getPieceType());
     }

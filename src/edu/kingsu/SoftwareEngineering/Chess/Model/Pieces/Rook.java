@@ -24,6 +24,9 @@ public class Rook extends Piece {
         super(color);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Piece copyPiece() {
         Rook copy = new Rook(isWhite());

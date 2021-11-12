@@ -21,6 +21,9 @@ public class Bishop extends Piece {
         super(color);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Piece copyPiece() {
         return new Bishop(isWhite());
