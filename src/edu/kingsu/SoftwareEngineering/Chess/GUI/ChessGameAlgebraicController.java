@@ -14,6 +14,12 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 public class ChessGameAlgebraicController implements ActionListener {
 
     private ChessGame chessGame;
+    private ChessGameAlgebraicView view;
+
+    public ChessGameAlgebraicController(ChessGameAlgebraicView view, ChessGame chessGame) {
+        this.view = view;
+        this.chessGame = chessGame;
+    }
 
     // Submit the algebraic move
     public void actionPerformed(ActionEvent e) {
