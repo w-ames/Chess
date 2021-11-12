@@ -182,7 +182,7 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * paintBoard() paints the current state of the board. (The current version held
+     * Paints the current state of the board. (The current version held
      * in the 2D array board).
      */
     public void paintBoard() {
@@ -195,8 +195,7 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
 
-        // Dynamic board resizing when frame is resized by user is controlled here.
-
+        // Dynamic board resizing when frame is resized by user.
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
             boardHolder.setMinimumSize(new Dimension(640, 640));
             boardHolder.setPreferredSize(new Dimension(640, 640));
@@ -217,7 +216,7 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * To look at the current size of the application frame
+     * To look at the current size of the application frame, used for board resizing.
      * 
      * @param container
      */
@@ -314,7 +313,7 @@ public class ChessGameGUIView extends ChessGameView {
                 }
             }
 
-            // Else if application frame size is larger than 1100 x 1100, load the large
+            // Else if application frame size is smaller than 1750 x 1100, load the large
             // pieces for the 360 x 360 board size.
         } else {
 
@@ -549,6 +548,9 @@ public class ChessGameGUIView extends ChessGameView {
         }
     }
 
+    /**
+     * Builds and inserts the rank and file chess board border. 
+     */
     public void buildRankAndFileBorder() {
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
         this.setLayout(new GridBagLayout());
@@ -590,7 +592,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 360 x 360 board size
+            } else { // For 440 x 440 board size
 
                 rankSquare.setMinimumSize(new Dimension(50, 50));
                 rankSquare.setPreferredSize(new Dimension(50, 50));
@@ -642,7 +644,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 360 x 360 board size
+            } else { // For 440 x 440 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
@@ -692,7 +694,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 360 x 360 board size
+            } else { // For 440 x 440 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
@@ -748,7 +750,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 360 x 360 board size
+            } else { // For 440 x 440 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
@@ -771,7 +773,7 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * Translate numbers to letters for building file.
+     * Translate numbers to letters for building the file border.
      * 
      * @param number x axis number associcated with the square location
      * @return file letter
