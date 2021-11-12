@@ -35,7 +35,9 @@ public class GameSetUp extends JPanel {
         int[] playerDepthList = { -1, 0, 2, 4 };
 
         int minTime = 10;
+        int minTime2 = 10;
         int maxTime = 600;
+        int maxTime2 = 600;
 
         GridBagConstraints player1Constraints = new GridBagConstraints();
         GridBagConstraints player2Constraints = new GridBagConstraints();
@@ -183,24 +185,26 @@ public class GameSetUp extends JPanel {
         timeConstraints.gridy = 0;
         timeConstraints.insets = new Insets(3, 3, 3, 3);
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.3;
+        timeConstraints.weighty = 0.25;
         timePanel.add(timeLabel, timeConstraints);
 
         JRadioButton timeOn = new JRadioButton("On");
+        timeOn.setBackground(new Color(0,0,0,0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 1;
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.05;
+        timeConstraints.weighty = 0.025;
         timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn, timeConstraints);
 
         JRadioButton timeOff = new JRadioButton("Off");
+        timeOff.setBackground(new Color(0,0,0,0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 2;
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.05;
+        timeConstraints.weighty = 0.025;
         timePanel.add(timeOff, timeConstraints);
 
         ButtonGroup timeGroup1 = new ButtonGroup();
@@ -214,13 +218,16 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel1, timeConstraints);
 
+        //FIX BUG: After image shows up when background set to 0,0,0,0
         JSlider timeSlider = new JSlider(minTime, maxTime);
         timeConstraints.fill = GridBagConstraints.BOTH;
+        timeSlider.setBackground(Color.GRAY);
+        timeSlider.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(101, 101, 101)));
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 4;
-        timeConstraints.insets = new Insets(3, 3, 15, 3);
         timeConstraints.weightx = 1;
         timeConstraints.weighty = 0.1;
+        timeConstraints.insets = new Insets(3, 10, 3, 3);
         timePanel.add(timeSlider, timeConstraints);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
@@ -228,24 +235,26 @@ public class GameSetUp extends JPanel {
         timeConstraints.gridy = 5;
         timeConstraints.insets = new Insets(3, 3, 3, 3);
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.3;
+        timeConstraints.weighty = 0.25;
         timePanel.add(incrementLabel, timeConstraints);
 
         JRadioButton timeOn2 = new JRadioButton("On");
+        timeOn2.setBackground(new Color(0,0,0,0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 6;
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.05;
+        timeConstraints.weighty = 0.025;
         timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn2, timeConstraints);
 
         JRadioButton timeOff2 = new JRadioButton("Off");
+        timeOff2.setBackground(new Color(0,0,0,0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 7;
         timeConstraints.weightx = 1;
-        timeConstraints.weighty = 0.05;
+        timeConstraints.weighty = 0.025;
         timePanel.add(timeOff2, timeConstraints);
 
         ButtonGroup timeGroup2 = new ButtonGroup();
@@ -259,8 +268,10 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel2, timeConstraints);
 
-        JSlider timeSlider2 = new JSlider(minTime, maxTime);
+        JSlider timeSlider2 = new JSlider(minTime2, maxTime2);
         timeConstraints.fill = GridBagConstraints.BOTH;
+        timeSlider2.setBackground(Color.GRAY);
+        timeSlider2.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(101, 101, 101)));
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 9;
         timeConstraints.weightx = 1;
@@ -297,9 +308,10 @@ public class GameSetUp extends JPanel {
         settingsConstraints.weighty = 0.3;
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         settingsPanel.add(settingsLabel, settingsConstraints);
-
+        
         JPanel checkBoxHolder = new JPanel();
         checkBoxHolder.setLayout(new GridBagLayout());
+        highlightMove.setBackground(new Color(0,0,0,0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 0;
         settingsConstraints.weightx = 1;
@@ -307,6 +319,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(highlightMove, settingsConstraints);
 
+        moveHint.setBackground(new Color(0,0,0,0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 1;
         settingsConstraints.weightx = 1;
@@ -314,6 +327,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(moveHint, settingsConstraints);
 
+        undoRedo.setBackground(new Color(0,0,0,0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 2;
         settingsConstraints.weightx = 1;
@@ -321,6 +335,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(undoRedo, settingsConstraints);
 
+        notification.setBackground(new Color(0,0,0,0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 3;
         settingsConstraints.weightx = 1;
@@ -338,10 +353,6 @@ public class GameSetUp extends JPanel {
         settingsPanel.add(checkBoxHolder, settingsConstraints);
 
         CustomButton checkAll = new CustomButton("Select All");
-        // timeConstraints.fill = GridBagConstraints.BOTH;
-        // timeConstraints.gridx = 0;
-        // timeConstraints.gridy = 5;
-        // timePanel.add(checkAll, timeConstraints);
 
         settingsConstraints.fill = GridBagConstraints.NONE;
         settingsConstraints.gridx = 0;
