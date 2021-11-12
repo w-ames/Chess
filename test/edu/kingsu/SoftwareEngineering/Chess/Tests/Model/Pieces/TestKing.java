@@ -31,6 +31,19 @@ public class TestKing {
 
     @Test
     public void testCopyPiece() {
+        King whiteCopy = (King)whiteKing.copyPiece();
+        assertEquals("Copy of King did not have same whiteness.", whiteKing.isWhite(), whiteCopy.isWhite());
+        assertEquals("Copy of King did not have same castling status.", whiteKing.isDoneCastling(), whiteCopy.isDoneCastling());
+        whiteKing.doneCastling();
+        whiteCopy = (King)whiteKing.copyPiece();
+        assertEquals("Copy of King did not have same castling status after setting.", whiteKing.isDoneCastling(), whiteCopy.isDoneCastling());
+
+        King blackCopy = (King)blackKing.copyPiece();
+        assertEquals("Copy of King did not have same whiteness.", blackKing.isWhite(), blackCopy.isWhite());
+        assertEquals("Copy of King did not have same castling status.", blackKing.isDoneCastling(), blackCopy.isDoneCastling());
+        blackKing.doneCastling();
+        blackCopy = (King)blackKing.copyPiece();
+        assertEquals("Copy of King did not have same castling status after setting.", blackKing.isDoneCastling(), blackCopy.isDoneCastling());
     }
 
     @Test
