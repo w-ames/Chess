@@ -199,7 +199,7 @@ public class ChessGame {
                 synchronized (playerTurnLock) {
                     move.perform(board);
                     moveHistory.add(move);
-                    // algebraicHistory.add("");
+                    algebraicHistory.add("<Move>");
                     // (new Thread(new Runnable() {
                     //     public void run() {
                     //         playerTurn.stop();
