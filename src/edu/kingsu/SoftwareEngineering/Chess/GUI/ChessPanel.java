@@ -41,7 +41,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     private ChessGameGUIView guiView = new ChessGameGUIView();
     private ChessGameAlgebraicView algebraicView = new ChessGameAlgebraicView();
     // private ChessGameSaveView saveView;
-    private ChessGameMessagesView messagesView = new ChessGameMessagesView();
+    private ChessGameMessagesView messagesView;
     // private ChessGameLoadView loadView;
 
     private ClockView player1Clock = new ClockView();
@@ -167,6 +167,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         mainLayer.add(algebraicView, gridBagForMainLayer);
 
         // Add messagesView to mainLayer.
+        messagesView = new ChessGameMessagesView(); 
         gridBagForMainLayer.gridy = 5;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.7;
@@ -275,10 +276,11 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
+        messagesView.setChessGame(chessGame);
 
         chessGame.registerView(guiView);
         chessGame.registerView(algebraicView);
-
+        chessGame.registerView(messagesView);
     }
 
     /**
@@ -388,6 +390,11 @@ public class ChessPanel extends JPanel implements MouseListener {
         });
     }
 
+    /**
+     * Updates the variables representing the current size of the application frame.
+     * @param width Current frame width.
+     * @param height Current frame height. 
+     */
     public void updateContainerDimensions(int width, int height) {
 
         this.containerWidth = width;
@@ -396,6 +403,9 @@ public class ChessPanel extends JPanel implements MouseListener {
 
     }
 
+    /**
+     * If the user changes the application frame size, this function updates the piece sizes. 
+     */
     public void updatePieceSizes() {
         guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
         guiView.update();

@@ -2,6 +2,9 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import java.awt.Color;
 import javax.swing.*;
+
+import org.w3c.dom.Text;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
@@ -13,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
  * Represents the view of notifications that communicates information about
@@ -25,6 +29,10 @@ public class ChessGameMessagesView extends ChessGameView {
 
     private JPanel notificationDisplayPanel = new JPanel();
     JLabel addNotification = new JLabel();
+    JLabel addTurnUpdateNotification = new JLabel(); 
+    boolean turn = true; 
+    boolean firstNotification = true;
+    
 
     /**
      * Constructs the notifications JPanel.
@@ -91,27 +99,56 @@ public class ChessGameMessagesView extends ChessGameView {
      * @param add The String notification to be added.
      */
     public void addToNotifications(String add) {
-
+      
         addNotification.setText(add);
+        String turnString = ""; 
+        
+
+        //Check who's turn it is
+        if(turn){
+            turnString = "white's ";
+        } else {
+            turnString = "black's ";
+        }
+
+        addTurnUpdateNotification.setText("It is " + turnString + "turn!");
+
 
         // This removes the last notification if there was one.
         notificationDisplayPanel.remove(addNotification);
+        notificationDisplayPanel.remove(addTurnUpdateNotification);
 
         // Styles and adds the new notification to the notification display panel.
         addNotification.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        addTurnUpdateNotification.setFont(new Font("Monospaced", Font.PLAIN, 15));
         addNotification.setForeground(new Color(0, 204, 0));
+        addTurnUpdateNotification.setForeground(new Color(0, 204, 0));
+
         notificationDisplayPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbForInsideNotificationsPanel = new GridBagConstraints();
         gbForInsideNotificationsPanel.anchor = GridBagConstraints.NORTHWEST;
+      
+
+        addNotification.setMinimumSize(new Dimension(600, 50));
+        addNotification.setMaximumSize(new Dimension(600, 50));
+        addNotification.setPreferredSize(new Dimension(600, 50));
+
+        addTurnUpdateNotification.setMinimumSize(new Dimension(600, 50));
+        addTurnUpdateNotification.setMaximumSize(new Dimension(600, 50));
+        addTurnUpdateNotification.setPreferredSize(new Dimension(600, 50));
+
         gbForInsideNotificationsPanel.gridx = 0;
         gbForInsideNotificationsPanel.gridy = 0;
         gbForInsideNotificationsPanel.weightx = 1;
         gbForInsideNotificationsPanel.weighty = 1;
-        addNotification.setMinimumSize(new Dimension(600, 50));
-        addNotification.setMaximumSize(new Dimension(600, 50));
-        addNotification.setPreferredSize(new Dimension(600, 50));
         notificationDisplayPanel.add(addNotification, gbForInsideNotificationsPanel);
+
+        gbForInsideNotificationsPanel.gridy = 1;
+        notificationDisplayPanel.add(addTurnUpdateNotification, gbForInsideNotificationsPanel);         
+
         notificationDisplayPanel.repaint();
+        firstNotification = false;
+        
     }
 
     // Mandatory override to inherit from ChessGameView.
@@ -119,8 +156,10 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
-    // Mandatory override to inherit from ChessGameView.
+   
     public void update() {
-
+        ChessGame chessGame = getChessGame();
+        // True == white, false == black
+        turn = chessGame.getPlayerTurn().isWhite(); 
     }
 }

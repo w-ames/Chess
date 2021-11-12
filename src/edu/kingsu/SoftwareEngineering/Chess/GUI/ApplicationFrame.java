@@ -43,7 +43,6 @@ public class ApplicationFrame extends JFrame {
     /**
      * Creates the main application frame for Java Chess.
      * 
-     * @since 10/2021
      */
     public ApplicationFrame() {
         super(WINDOW_TITLE);
