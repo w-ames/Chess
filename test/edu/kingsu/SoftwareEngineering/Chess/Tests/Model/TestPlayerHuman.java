@@ -10,18 +10,23 @@ public class TestPlayerHuman {
 
     @Before
     public void setUp() {
+        testPlayer = new PlayerHuman(null, true, -1, -1);
     }
 
     @After
     public void tearDown() {
+        testPlayer = null;
     }
     
     @Test
     public void testPlayerHuman() {
+        assertNotNull("New Human player is null.", testPlayer);
     }
 
+    @Ignore
     @Test
     public void testRun() {
+        // tested by chessgame
     }
 
 }
