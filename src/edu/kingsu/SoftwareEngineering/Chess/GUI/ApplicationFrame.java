@@ -24,6 +24,10 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
+    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
+    private JMenuItem exitMenuItem = new JMenuItem("Quit");
+
     private JMenuItem about = new JMenuItem("About");
     private JMenuItem appHelp = new JMenuItem("Application Help");
     private JMenuItem chessRules = new JMenuItem("Game Rules");
@@ -100,6 +104,10 @@ public class ApplicationFrame extends JFrame {
      */
     public void addMenuBar() {
 
+        file.add(newGameMenuItem);
+        file.add(loadGameMenuItem);
+        file.add(exitMenuItem);
+
         help.add(about);
         help.add(chessRules);
         help.add(pieceInfo);
@@ -160,6 +168,15 @@ public class ApplicationFrame extends JFrame {
                 HelpWindow helpWindow = new HelpWindow("about");
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+            }
+
+        });
+
+        exitMenuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
 
         });
