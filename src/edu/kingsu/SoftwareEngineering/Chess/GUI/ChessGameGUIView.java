@@ -116,7 +116,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, true);
 
-                    // For 640 x 640 board size.
+                    // For 900 x 900 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -138,7 +138,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, false);
 
-                    // For 640 x 640 board size.
+                    // For 900 x 900 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -197,9 +197,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         // Dynamic board resizing when frame is resized by user.
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
-            boardHolder.setMinimumSize(new Dimension(640, 640));
-            boardHolder.setPreferredSize(new Dimension(640, 640));
-            boardHolder.setMaximumSize(new Dimension(640, 640));
+            boardHolder.setMinimumSize(new Dimension(900, 900));
+            boardHolder.setPreferredSize(new Dimension(900, 900));
+            boardHolder.setMaximumSize(new Dimension(900, 900));
         } else {
             boardHolder.setMinimumSize(new Dimension(440, 440));
             boardHolder.setPreferredSize(new Dimension(440, 440));
@@ -236,7 +236,7 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // For 640 x 640 board size.
+        // For 900 x 900 board size.
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
             paintBoard(); // Makes sure board is correct size for current frame.
@@ -422,13 +422,13 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public void loadPieceIconsIntoIconVariables() {
 
-        // For 640 x 640 board size.
-        int largeKingSize = 110;
-        int largeQueenSize = 90;
-        int largeKnightSize = 80;
-        int largeBishopSize = 85;
-        int largeRookSize = 70;
-        int largePawnSize = 60;
+        // For 900 x 900 board size.
+        int largeKingSize = 120;
+        int largeQueenSize = 100;
+        int largeKnightSize = 90;
+        int largeBishopSize = 95;
+        int largeRookSize = 80;
+        int largePawnSize = 70;
 
         // For 440 x 440 board size.
         int smallKingSize = 68;
@@ -585,7 +585,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb.gridy = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 900 x 900 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -637,7 +637,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 900 x 900 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -687,7 +687,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb2.gridy = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 900 x 900 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -743,7 +743,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 900 x 900 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
