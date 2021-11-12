@@ -167,7 +167,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         mainLayer.add(algebraicView, gridBagForMainLayer);
 
         // Add messagesView to mainLayer.
-        messagesView = new ChessGameMessagesView(); 
+        messagesView = new ChessGameMessagesView();
         gridBagForMainLayer.gridy = 5;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.7;
@@ -262,7 +262,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         pawnPromotionScreen.setVisible(false);
 
         // First notification.
-        addNotification("Select a chess piece to begin...");
+        addNotification("Select a chess piece to begin...", "firstMessage");
 
         layeredPane.revalidate();
         layeredPane.repaint();
@@ -335,8 +335,8 @@ public class ChessPanel extends JPanel implements MouseListener {
      * 
      * @param notificationToAdd the notification string to add.
      */
-    public void addNotification(String notificationToAdd) {
-        messagesView.addToNotifications(notificationToAdd);
+    public void addNotification(String notificationToAdd, String origin) {
+        messagesView.addToNotifications(notificationToAdd, origin);
     }
 
     // public void disableNotifications(){}
@@ -358,7 +358,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
 
-        addNotification("You have selected square: " + copyButton.getSquareLocation());
+        addNotification("You have selected square: " + copyButton.getSquareLocation(), "fromClick");
 
     }
 
@@ -392,8 +392,9 @@ public class ChessPanel extends JPanel implements MouseListener {
 
     /**
      * Updates the variables representing the current size of the application frame.
-     * @param width Current frame width.
-     * @param height Current frame height. 
+     * 
+     * @param width  Current frame width.
+     * @param height Current frame height.
      */
     public void updateContainerDimensions(int width, int height) {
 
@@ -404,7 +405,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     }
 
     /**
-     * If the user changes the application frame size, this function updates the piece sizes. 
+     * If the user changes the application frame size, this function updates the
+     * piece sizes.
      */
     public void updatePieceSizes() {
         guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
