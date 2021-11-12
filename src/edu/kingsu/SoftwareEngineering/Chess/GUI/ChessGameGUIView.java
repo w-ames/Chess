@@ -102,13 +102,50 @@ public class ChessGameGUIView extends ChessGameView {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (((i + j) % 2 == 0)) {
+
+                    // Add white squares.
+
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
-                    squareHolderArray[i][j] = new Square(location, true);
-                } else {
+                    Square newSquare = new Square(location, true);
+
+                    // For 640 x 640 board size.
+                    if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+
+                        newSquare.setMinimumSize(new Dimension(45, 45));
+                        newSquare.setPreferredSize(new Dimension(45, 45));
+                        newSquare.setMaximumSize(new Dimension(45, 45));
+
+                    } else { // For 360 x 360 board size
+
+                        newSquare.setMinimumSize(new Dimension(80, 80));
+                        newSquare.setPreferredSize(new Dimension(80, 80));
+                        newSquare.setMaximumSize(new Dimension(80, 80));
+                    }
+
+                    squareHolderArray[i][j] = newSquare;
+
+                } else { // Add black squares.
+
                     location = String.valueOf(i) + ",";
                     location += String.valueOf(j);
-                    squareHolderArray[i][j] = new Square(location, false);
+                    Square newSquare = new Square(location, false);
+
+                    // For 640 x 640 board size.
+                    if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
+
+                        newSquare.setMinimumSize(new Dimension(45, 45));
+                        newSquare.setPreferredSize(new Dimension(45, 45));
+                        newSquare.setMaximumSize(new Dimension(45, 45));
+
+                    } else { // For 360 x 360 board size
+
+                        newSquare.setMinimumSize(new Dimension(80, 80));
+                        newSquare.setPreferredSize(new Dimension(80, 80));
+                        newSquare.setMaximumSize(new Dimension(80, 80));
+                    }
+
+                    squareHolderArray[i][j] = newSquare;
                 }
             }
         }
@@ -157,13 +194,13 @@ public class ChessGameGUIView extends ChessGameView {
         // Dynamic board resizing when frame is resized by user is controlled here.
 
         if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
-            boardHolder.setMinimumSize(new Dimension(650, 650));
-            boardHolder.setPreferredSize(new Dimension(650, 650));
-            boardHolder.setMaximumSize(new Dimension(650, 650));
+            boardHolder.setMinimumSize(new Dimension(640, 640));
+            boardHolder.setPreferredSize(new Dimension(640, 640));
+            boardHolder.setMaximumSize(new Dimension(640, 640));
         } else {
-            boardHolder.setMinimumSize(new Dimension(350, 350));
-            boardHolder.setPreferredSize(new Dimension(350, 350));
-            boardHolder.setMaximumSize(new Dimension(350, 350));
+            boardHolder.setMinimumSize(new Dimension(440, 440));
+            boardHolder.setPreferredSize(new Dimension(440, 440));
+            boardHolder.setMaximumSize(new Dimension(440, 440));
         }
 
         for (int i = 0; i < 8; i++) {
@@ -196,7 +233,7 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // For 650 x 650 board size.
+        // For 640 x 640 board size.
         if (currentFrameWidth > 1300 || currentFrameHeight > 900) {
 
             paintBoard(); // Makes sure board is correct size for current frame.
@@ -274,7 +311,7 @@ public class ChessGameGUIView extends ChessGameView {
             }
 
             // Else if application frame size is larger than 1000 x 1000, load the large
-            // pieces for the 350 x 350 board size.
+            // pieces for the 360 x 360 board size.
         } else {
 
             paintBoard(); // Makes sure board is correct size for current frame.
@@ -382,7 +419,7 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public void loadPieceIconsIntoIconVariables() {
 
-        // For 650 x 650 board size.
+        // For 640 x 640 board size.
         int largeKingSize = 110;
         int largeQueenSize = 90;
         int largeKnightSize = 80;
@@ -390,13 +427,13 @@ public class ChessGameGUIView extends ChessGameView {
         int largeRookSize = 70;
         int largePawnSize = 60;
 
-        // For 350 x 350 board size.
-        int smallKingSize = 58;
-        int smallQueenSize = 49;
-        int smallKnightSize = 40;
-        int smallBishopSize = 40;
-        int smallRookSize = 35;
-        int smallPawnSize = 30;
+        // For 440 x 440 board size.
+        int smallKingSize = 68;
+        int smallQueenSize = 59;
+        int smallKnightSize = 50;
+        int smallBishopSize = 50;
+        int smallRookSize = 45;
+        int smallPawnSize = 40;
 
         // Put the images of the pieces into the image icons.
 

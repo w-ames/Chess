@@ -44,8 +44,6 @@ public class Square extends JButton implements MouseListener {
     public Square(String location, boolean color) {
 
         addMouseListener(this);// For square border highlight upon hover.
-        this.setMinimumSize(new Dimension(70, 70));
-        this.setMaximumSize(new Dimension(70, 70));
         this.color = color;
         this.location = location;
 
