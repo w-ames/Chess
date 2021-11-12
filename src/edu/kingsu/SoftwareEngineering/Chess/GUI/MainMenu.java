@@ -89,8 +89,8 @@ public class MainMenu extends JPanel {
         forBackGround.fill = GridBagConstraints.VERTICAL;
         forBackGround.gridx = 0;
         forBackGround.gridy = 1;
-        forBackGround.weightx = 1;
-        forBackGround.weighty = 0.90;
+        // forBackGround.weightx = 1;
+        // forBackGround.weighty = 0.90;
         forBackGround.insets = new Insets(23, 500, 50, 500);
         buttonContainer.setMinimumSize(new Dimension(300, 500));
         buttonContainer.setPreferredSize(new Dimension(300, 500));
