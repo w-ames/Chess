@@ -8,6 +8,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * 
  * @author Nikolas Haugrud
  * @author Chelsie Bajic
+ * @since 10/2021
  */
 public abstract class ChessGameView extends JPanel {
 
