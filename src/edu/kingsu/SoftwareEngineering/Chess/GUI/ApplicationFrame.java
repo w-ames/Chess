@@ -28,6 +28,10 @@ public class ApplicationFrame extends JFrame {
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
 
+    private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
+    private JMenuItem turnOnOffNotifications = new JMenuItem("Notifications (on/off)");
+    private JMenuItem turnOnOffMoveHints = new JMenuItem("Move Hints (on/off)");
+
     private JMenuItem about = new JMenuItem("About");
     private JMenuItem appHelp = new JMenuItem("Application Help");
     private JMenuItem chessRules = new JMenuItem("Game Rules");
@@ -107,6 +111,10 @@ public class ApplicationFrame extends JFrame {
         file.add(newGameMenuItem);
         file.add(loadGameMenuItem);
         file.add(exitMenuItem);
+
+        options.add(turnOnOffBoardHighlight);
+        options.add(turnOnOffNotifications);
+        options.add(turnOnOffMoveHints);
 
         help.add(about);
         help.add(appHelp);
