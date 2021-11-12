@@ -6,6 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 
+/**
+ * This class contains methods relating to automatically determining moves
+ * with varying levels of artificial intelligence.
+ */
 public class ChessAI {
     // https://www.freecodecamp.org/news/simple-chess-ai-step-by-step-1d55a9266977/
     private static final int[][] PAWN_WEIGHTS = {
@@ -48,6 +52,17 @@ public class ChessAI {
     private static final int QUEEN = 900;
     private static final int KING = 9000;
 
+    /**
+     * Calculates the best move on the given board for the given side using the
+     * given minimax depth of search.
+     * @param board the board on which to search for moves
+     * @param depth the depth at which to search the board using minimax
+     *  algorithm
+     * @param forWhite <code>true</code> if searching for a move for the white
+     *  side, <code>false</code> if searching for black
+     * @return a thread that when ran will calculate the desired best move
+     *  considering the inputs given
+     */
     public static ChessAIThread bestMove(Board board, int depth, boolean forWhite) {
         return new ChessAIThread() {
             public Move calculateMove() {
@@ -56,6 +71,13 @@ public class ChessAI {
         };
     }
 
+    /**
+     * Calculates a random move on the give board for the given side.
+     * @param board the board on which to find a random move
+     * @param forWhite <code>true</code> if searching for a move for white,
+     *  <code>false</code> if searching for a move for black
+     * @return a thread that when ran will calculate a random move considering
+     *  the inputs given */
     public static ChessAIThread randomMove(Board board, boolean forWhite) {
         return new ChessAIThread() {
             public Move calculateMove() {
@@ -65,6 +87,15 @@ public class ChessAI {
         };
     }
 
+    /**
+     * A minimax algorithm with alpha beta pruning that returns the best
+     * move on a board for a side given a depth of search.
+     * @param board the board on which to search for a move
+     * @param depth the depth at which to search for the move
+     * @param forWhite <code>true</code> if searching for a move for white,
+     *  <code>false</code> if searching for a move for black
+     * @return the best move on the board considering the inputs given
+     */
     private static Move minimaxMove(Board board, int depth, boolean forWhite) {
         if (depth == 0) {
             return null;
@@ -112,6 +143,18 @@ public class ChessAI {
         }
     }
 
+    /**
+     * A minimax algorithm with alpha beta pruning that returns the score of the
+     * best move on a board for a side given a depth of search.
+     * @param board the board on which to search for a move
+     * @param depth the depth at which to search for the move
+     * @param a the alpha beta pruning alpha cutoff value
+     * @param b the alpha beta pruning beta cutoff value
+     * @param forWhite <code>true</code> if searching for a move for white,
+     *  <code>false</code> if searching for a move for black
+     * @return the score of the best move on the board considering the inputs
+     *  given
+     */
     private static int minimax(Board board, int depth, int a, int b, boolean forWhite) {
         if (depth == 0) {
             return scoreBoard(board, forWhite);
@@ -148,6 +191,18 @@ public class ChessAI {
         }
     }
 
+    /**
+     * Calculates a board heuristic value for the state of the game considering
+     * the presence of pieces on the board. A large positive value means the
+     * board indicates white has the upper hand, and a large negative value
+     * means that black has the upper hand.
+     * @param board the board to calculate a value for
+     * @param forWhite <code>true</code> if the board should be scored from the
+     *  perspective of white, <code>false</code> if from the persepective of
+     *  black
+     * @return an integer heuristic indicating the state of the game, positive
+     *  values favoring white, and negative values favoring black
+     */
     private static int scoreBoard(Board board, boolean forWhite) {
         int score = 0;
         for (int i=0; i<board.ROWS; i++) {

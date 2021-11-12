@@ -1,5 +1,8 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
+/**
+ * This enumeration indicates the state of a game of chess.
+ */
 public enum GameState {
     ACTIVE,
     STALEMATE_50MOVES,
