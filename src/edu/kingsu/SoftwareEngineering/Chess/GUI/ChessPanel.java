@@ -41,7 +41,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     private ChessGameGUIView guiView = new ChessGameGUIView();
     private ChessGameAlgebraicView algebraicView = new ChessGameAlgebraicView();
     // private ChessGameSaveView saveView;
-    private ChessGameMessagesView messagesView = new ChessGameMessagesView();
+    private ChessGameMessagesView messagesView;
     // private ChessGameLoadView loadView;
 
     private ClockView player1Clock = new ClockView();
@@ -167,6 +167,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         mainLayer.add(algebraicView, gridBagForMainLayer);
 
         // Add messagesView to mainLayer.
+        messagesView = new ChessGameMessagesView(); 
         gridBagForMainLayer.gridy = 5;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.7;
@@ -275,10 +276,11 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
+        messagesView.setChessGame(chessGame);
 
         chessGame.registerView(guiView);
         chessGame.registerView(algebraicView);
-
+        chessGame.registerView(messagesView);
     }
 
     /**
