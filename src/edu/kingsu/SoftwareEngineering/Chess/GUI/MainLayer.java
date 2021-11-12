@@ -3,20 +3,13 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.*;
-import javax.swing.JLayeredPane;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 /**
- * MainLayer creates the JPanel that provides the color of the background for
- * gameplay mode and holds all of the gameplay components.
+ * MainLayer creates a JPanel that provides the background color of the
+ * application's style theme. (Blue gradient)
  * 
  * @author Chelsie Bajic
  * @since 10/2021

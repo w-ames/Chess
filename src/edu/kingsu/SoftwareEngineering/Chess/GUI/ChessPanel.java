@@ -388,6 +388,11 @@ public class ChessPanel extends JPanel implements MouseListener {
         });
     }
 
+    /**
+     * Updates the variables representing the current size of the application frame.
+     * @param width Current frame width.
+     * @param height Current frame height. 
+     */
     public void updateContainerDimensions(int width, int height) {
 
         this.containerWidth = width;
@@ -396,6 +401,9 @@ public class ChessPanel extends JPanel implements MouseListener {
 
     }
 
+    /**
+     * If the user changes the application frame size, this function updates the piece sizes. 
+     */
     public void updatePieceSizes() {
         guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
         guiView.update();
