@@ -3,6 +3,8 @@ package edu.kingsu.SoftwareEngineering.Chess.Tests.PGN;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNTranslator;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
+import org.junit.Test;
+import org.junit.Assert;
 
 
 public class TestPGNTranslator {

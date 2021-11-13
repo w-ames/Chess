@@ -15,19 +15,29 @@ public class PGNTranslator{
         Board newBoard= new Board(board);
         move.perform(newBoard);
 
+        //get the piece that was moved
+        int originCol= move.getColFrom();
+        int originRow= move.getRowFrom();
+
+        if(originCol < 0 || originCol > 7) throw new IllegalStateException("Illegal origin column");
+        if(originRow < 0 || originRow > 7) throw new IllegalStateException("Illegal origin row");
+
+        Piece movedPiece= board.getPiece(originRow, originCol);
+        if(movedPiece == null) throw new IllegalStateException("No piece at origin square");
+
         //get the player's colour (true if white)
         boolean isWhite= movedPiece.isWhite();
 
         //special case: move is castle
         MoveType moveType= move.getType();  //must modify for other stuff (e.g. check)
         if(moveType == MoveType.CASTLING){
-            if(move.getColTo() == ColumnLetter.B){
+            if(move.getColTo() == ColumnLetter.B.ordinal()){
                 if(board.getCheckmate(isWhite)) return "O-O-O#";
                 else if(board.getCheck(isWhite)) return "O-O-O+";
                 else return "O-O-O";
             }
 
-            if(move.getColTo() == ColumnLetter.G){
+            if(move.getColTo() == ColumnLetter.G.ordinal()){
                 if(board.getCheckmate(isWhite)) return "O-O#";
                 else if(board.getCheck(isWhite)) return "O-O+";
                 else return "O-O";
@@ -48,22 +58,12 @@ public class PGNTranslator{
         String check= "";
         String checkmate= "";
 
-        //get the piece that was moved
-        int originCol= move.getColFrom();
-        int originRow= move.getRowFrom();
-
-        if(originCol < 0 || originCol > 7) throw new IllegalStateException("Illegal origin column");
-        if(originRow < 0 || originRow > 7) throw new IllegalStateException("Illegal origin row");
-
-        Piece movedPiece= board.getPiece(originRow, originCol);
-        if(movedPiece == null) throw new IllegalStateException("No piece at origin square");
-
         PieceType pieceType= movedPiece.getPieceType();
         piece= convertPieceTypeToString(pieceType);
 
         //get the square the piece moved to
-        int destRow= move.rowTo();
-        int destCol= move.colTo();
+        int destRow= move.getRowTo();
+        int destCol= move.getColTo();
 
         if(destRow < 0 || destRow > 7) throw new IllegalStateException("Illegal destination row");
         if(destCol < 0 || destCol > 7) throw new IllegalStateException("Illegal destination column");
@@ -106,7 +106,7 @@ public class PGNTranslator{
 
         //find out if a pawn got promoted
         if(moveType == MoveType.PAWN_PROMOTION)
-            pawnPromo= "=" + convertPieceTypeToString(move.getPromotionType());
+            pawnPromo= "=" + convertPieceTypeToString(((PawnPromotionMove)move).getPromotionType());
         
 
         //check if en passant occurred
@@ -200,7 +200,7 @@ public class PGNTranslator{
             int toCol= -1;
             for(ColumnLetter colLet: ColumnLetter.values()){
                 if(colLet.toString().equalsIgnoreCase(destFile)){
-                    toCol= colLet;
+                    toCol= colLet.ordinal();
                 }
             }
             if(toCol == -1) throw new IllegalArgumentException("Illegal destination file");
@@ -224,13 +224,13 @@ public class PGNTranslator{
             }
 
             //use the disambiguation to further refine this list to a single element, if necessary
-            List<List<Integer>> matchDisamb;
+            List<List<Integer>> matchDisamb= new ArrayList<List<Integer>>();
 
             //convert string disambFile to int fromCol
             int fromCol= -1;
             for(ColumnLetter colLet: ColumnLetter.values()){
                 if(colLet.toString().equalsIgnoreCase(disambFile)){
-                    fromCol= colLet;
+                    fromCol= colLet.ordinal();
                 }
             }
 
@@ -241,8 +241,8 @@ public class PGNTranslator{
                 }
             }
 
-            if(matchDisamb.length == 0) throw new IllegalArgumentException("No piece matches this move");
-            else if(matchDisamb.length > 1) throw new IllegalArgumentException("Ambiguous move");
+            if(matchDisamb.size() == 0) throw new IllegalArgumentException("No piece matches this move");
+            else if(matchDisamb.size() > 1) throw new IllegalArgumentException("Ambiguous move");
 
             List<Integer> originSquare= matchDisamb.get(0);
             // get the move from the calculated list of moves, since the calculated list of
@@ -256,9 +256,9 @@ public class PGNTranslator{
 
     private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol) {
         Move translatedMove = null;
-        List<Move> movesList = board.getMoves(originSquare.get(0), originSquare.get(1));
+        List<Move> movesList = board.getMoves(startRow, startCol);
         for (int i=0; i<movesList.size(); i++) {
-            if (movesList.get(i).hasDestination(Integer.parseInt(destRank) - 1, toCol)) {
+            if (movesList.get(i).hasDestination(endRow, endCol)) {
                 translatedMove = movesList.get(i);
                 break;
             }
