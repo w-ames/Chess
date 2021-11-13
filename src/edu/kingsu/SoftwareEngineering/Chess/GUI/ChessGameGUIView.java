@@ -552,7 +552,11 @@ public class ChessGameGUIView extends ChessGameView {
      * Builds and inserts the rank and file chess board border. 
      */
     public void buildRankAndFileBorder() {
-        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
+
+        Color borderColor = new Color(230, 235, 237);
+        Color borderBorderColor = new Color(199, 208, 212); // Color of the border's boarder
+
+        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, borderBorderColor));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForThis = new GridBagConstraints();
         gbForThis.fill = GridBagConstraints.CENTER;
@@ -562,9 +566,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         //Add a filler square to the top left of the board border corner. 
         JPanel topLeftBoardFillerSquare = new JPanel();
-        topLeftBoardFillerSquare.setBackground(new Color(232, 232, 232));
+        topLeftBoardFillerSquare.setBackground(borderColor);
         topLeftBoardFillerSquare.setOpaque(true);
-        topLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        topLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         containergb.gridx = 0;
         containergb.gridy = 0;
         containergb.fill = GridBagConstraints.BOTH;
@@ -588,8 +592,8 @@ public class ChessGameGUIView extends ChessGameView {
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
             JPanel rankSquare = new JPanel();
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -622,7 +626,7 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridheight = 8;
         containergb.weighty = 1;
         containergb.weightx = 1;
-        leftRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        leftRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(leftRankHolder, containergb);
 
         // Build top file board border.
@@ -640,8 +644,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -673,14 +677,14 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.fill = GridBagConstraints.BOTH;
         containergb.gridwidth = 8;
         containergb.gridheight = 1;
-        topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(topFileHolder, containergb);
 
         //Add a filler square to the top left of the board border corner. 
         JPanel topRightBoardFillerSquare = new JPanel();
-        topRightBoardFillerSquare.setBackground(new Color(232, 232, 232));
+        topRightBoardFillerSquare.setBackground(borderColor);
         topRightBoardFillerSquare.setOpaque(true);
-        topRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        topRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         containergb.gridx = 9;
         containergb.gridy = 0;
         containergb.fill = GridBagConstraints.BOTH;
@@ -704,8 +708,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -737,7 +741,7 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridwidth = 1;
         containergb.gridheight = 8;
         containergb.fill = GridBagConstraints.BOTH;
-        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(rightRankHolder, containergb);
 
         containergb.gridx = 1;
@@ -748,9 +752,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         //Add a filler square to the bottom right of the board border corner. 
         JPanel bottomRightBoardFillerSquare = new JPanel();
-        bottomRightBoardFillerSquare.setBackground(new Color(232, 232, 232));
+        bottomRightBoardFillerSquare.setBackground(borderColor);
         bottomRightBoardFillerSquare.setOpaque(true);
-        bottomRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        bottomRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         containergb.gridx = 9;
         containergb.gridy = 9;
         containergb.fill = GridBagConstraints.BOTH;
@@ -774,8 +778,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -807,14 +811,14 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.fill = GridBagConstraints.BOTH;
         containergb.gridwidth = 8;
         containergb.gridheight = 1;
-        bottomFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        bottomFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(bottomFileHolder, containergb);
 
          //Add a filler square to the bottom left of the board border corner. 
          JPanel bottomLeftBoardFillerSquare = new JPanel();
-         bottomLeftBoardFillerSquare.setBackground(new Color(232, 232, 232));
+         bottomLeftBoardFillerSquare.setBackground(borderColor);
          bottomLeftBoardFillerSquare.setOpaque(true);
-         bottomLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+         bottomLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
          containergb.gridx = 0;
          containergb.gridy = 9;
          containergb.fill = GridBagConstraints.BOTH;
