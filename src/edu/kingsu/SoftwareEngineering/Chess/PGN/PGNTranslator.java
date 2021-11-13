@@ -132,8 +132,8 @@ public class PGNTranslator{
             "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]+?";
 
         //this pattern DOES NOT take into account the number of a move, more than
-        //one move (e.g. a white move and a black move), a comment {in curly braces},
-        //a branch (in parentheses), or any whitespace before or after a move
+        //one move (e.g. a white move and a black move), a comment {in curly braces}
+        //or a comment after a ;, a branch (in parentheses), or any whitespace before or after a move
 
         //this pattern DOES take into account any number of ! and ? separated from
         //the move by a space
@@ -172,16 +172,20 @@ public class PGNTranslator{
             Move move;
             if(castle.equalsIgnoreCase("O-O") || castle.equalsIgnoreCase("OO")){
                 if(playerIsWhite){
-                    move= new Move(0, 4, 0, 6);
+                    // move= new Move(0, 4, 0, 6);
+                    move = getMoveWithMoveType(board, 0, 4, 0, 6);
                     
                 }else{
-                    move= new Move(7, 4, 7, 6);
+                    // move= new Move(7, 4, 7, 6);
+                    move = getMoveWithMoveType(board, 7, 4, 7, 6);
                 }
             }else if(castle.equalsIgnoreCase("O-O-O") || castle.equalsIgnoreCase("OOO")){
                 if(playerIsWhite){
-                    move= new Move(0, 4, 0, 2);
+                    // move= new Move(0, 4, 0, 2);
+                    move = getMoveWithMoveType(board, 0, 4, 0, 2);
                 }else{
-                    move= new Move(7, 4, 7, 2);
+                    // move= new Move(7, 4, 7, 2);
+                    move = getMoveWithMoveType(board, 7, 4, 7, 2);
                 }
             }else throw new IllegalArgumentException("Incorrect castling move format");
 
@@ -241,9 +245,25 @@ public class PGNTranslator{
             else if(matchDisamb.length > 1) throw new IllegalArgumentException("Ambiguous move");
 
             List<Integer> originSquare= matchDisamb.get(0);
-            return new Move(originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
+            // get the move from the calculated list of moves, since the calculated list of
+            // moves includes the correct move type
+            Move translatedMove = getMoveWithMoveType(board, originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
+            return translatedMove;
+            // return new Move(originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
 
         }else throw new IllegalStateException("Cannot perform normal move and castling move at same time");
+    }
+
+    private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol) {
+        Move translatedMove = null;
+        List<Move> movesList = board.getMoves(originSquare.get(0), originSquare.get(1));
+        for (int i=0; i<movesList.size(); i++) {
+            if (movesList.get(i).hasDestination(Integer.parseInt(destRank) - 1, toCol)) {
+                translatedMove = movesList.get(i);
+                break;
+            }
+        }
+        return translatedMove;
     }
 
     private static String convertPieceTypeToString(PieceType pieceType){
