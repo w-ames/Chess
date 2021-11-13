@@ -41,7 +41,7 @@ public class ChessPanel extends JPanel implements MouseListener {
     private ChessGameGUIView guiView = new ChessGameGUIView();
     private ChessGameAlgebraicView algebraicView = new ChessGameAlgebraicView();
     // private ChessGameSaveView saveView;
-    private ChessGameMessagesView messagesView = new ChessGameMessagesView();
+    private ChessGameMessagesView messagesView;
     // private ChessGameLoadView loadView;
 
     private ClockView player1Clock = new ClockView();
@@ -64,10 +64,15 @@ public class ChessPanel extends JPanel implements MouseListener {
     private boolean endGameState = false;
 
     private ApplicationFrame container;
+    private int containerHeight;
+    private int containerWidth;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
+     * 
+     * @author Chelsie Bajic
+     * @since 10/2021
      */
     public ChessPanel(ApplicationFrame container) {
 
@@ -108,30 +113,30 @@ public class ChessPanel extends JPanel implements MouseListener {
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.35;
-        gridBagForMainLayer.weighty = 0.025;
+        gridBagForMainLayer.weighty = 0;
         gridBagForMainLayer.gridwidth = 1;
         gridBagForMainLayer.gridheight = 1;
-        gridBagForMainLayer.insets = new Insets(30, 30, 5, 5);
+        gridBagForMainLayer.insets = new Insets(5, 30, 5, 5);
         mainLayer.add(player1Clock, gridBagForMainLayer);
 
         // Add Player 2 clock to mainLayer.
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 1;
         gridBagForMainLayer.weightx = 0.35;
-        gridBagForMainLayer.weighty = 0.025;
+        gridBagForMainLayer.weighty = 0;
         gridBagForMainLayer.gridwidth = 1;
         gridBagForMainLayer.gridheight = 1;
-        gridBagForMainLayer.insets = new Insets(30, 5, 5, 5);
+        gridBagForMainLayer.insets = new Insets(5, 5, 5, 5);
         mainLayer.add(player2Clock, gridBagForMainLayer);
 
         // Add total game clock to mainLayer.
         gridBagForMainLayer.gridy = 0;
         gridBagForMainLayer.gridx = 2;
         gridBagForMainLayer.weightx = 0.3;
-        gridBagForMainLayer.weighty = 0.025;
+        gridBagForMainLayer.weighty = 0;
         gridBagForMainLayer.gridwidth = 1;
         gridBagForMainLayer.gridheight = 1;
-        gridBagForMainLayer.insets = new Insets(30, 30, 5, 30);
+        gridBagForMainLayer.insets = new Insets(5, 30, 5, 30);
         mainLayer.add(totalGameTime, gridBagForMainLayer);
 
         // Add guiView to mainLayer.
@@ -144,35 +149,32 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 0;
-        gridBagForMainLayer.weightx = 0.875;
-        gridBagForMainLayer.weighty = 0.7;
         gridBagForMainLayer.gridwidth = 2;
-        gridBagForMainLayer.gridheight = 2;
-        gridBagForMainLayer.insets = new Insets(30, 30, 30, 5);
+        gridBagForMainLayer.gridheight = 4;
+        gridBagForMainLayer.insets = new Insets(20, 30, 20, 5);
         mainLayer.add(guiView, gridBagForMainLayer);
 
         // Add algebraicView to mainLayer.
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 2;
-        gridBagForMainLayer.weightx = 0.3;
-        gridBagForMainLayer.weighty = 0.875;
-        gridBagForMainLayer.gridwidth = 1;
-        gridBagForMainLayer.gridheight = 2;
-        gridBagForMainLayer.insets = new Insets(30, 30, 30, 30);
+        gridBagForMainLayer.gridheight = 4;
+        gridBagForMainLayer.insets = new Insets(20, 30, 20, 30);
         mainLayer.add(algebraicView, gridBagForMainLayer);
 
         // Add messagesView to mainLayer.
-        gridBagForMainLayer.gridy = 3;
+        messagesView = new ChessGameMessagesView();
+        gridBagForMainLayer.gridy = 5;
         gridBagForMainLayer.gridx = 0;
         gridBagForMainLayer.weightx = 0.7;
-        gridBagForMainLayer.weighty = 0.1;
+        gridBagForMainLayer.weighty = 0;
         gridBagForMainLayer.gridwidth = 2;
         gridBagForMainLayer.gridheight = 1;
-        gridBagForMainLayer.insets = new Insets(5, 30, 30, 5);
+        gridBagForMainLayer.insets = new Insets(5, 30, 5, 5);
         mainLayer.add(messagesView, gridBagForMainLayer);
 
         // Add buttons to button panel.
-        buttonContainer.setLayout(new GridBagLayout());
+        JPanel invisbleButtonContainer = new JPanel();
+        invisbleButtonContainer.setLayout(new GridBagLayout());
         GridBagConstraints gbForButtonPanel = new GridBagConstraints();
         gbForButtonPanel.fill = GridBagConstraints.BOTH;
         gbForButtonPanel.gridy = 0;
@@ -182,7 +184,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        buttonContainer.add(undoButton, gbForButtonPanel);
+        invisbleButtonContainer.add(undoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
         gbForButtonPanel.gridx = 1;
@@ -191,7 +193,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 2;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        buttonContainer.add(moveHintButton, gbForButtonPanel);
+        invisbleButtonContainer.add(moveHintButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
         gbForButtonPanel.gridx = 3;
@@ -200,7 +202,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        buttonContainer.add(redoButton, gbForButtonPanel);
+        invisbleButtonContainer.add(redoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 1;
         gbForButtonPanel.gridx = 0;
@@ -209,7 +211,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 4;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        buttonContainer.add(pieceInfo, gbForButtonPanel);
+        invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 2;
         gbForButtonPanel.gridx = 0;
@@ -218,16 +220,35 @@ public class ChessPanel extends JPanel implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 4;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        buttonContainer.add(resignButton, gbForButtonPanel);
+        invisbleButtonContainer.add(resignButton, gbForButtonPanel);
+
+        buttonContainer.setLayout(new GridBagLayout());
+        GridBagConstraints igb = new GridBagConstraints();
+        igb.fill = GridBagConstraints.BOTH;
+        igb.gridx = 0;
+        igb.gridy = 0;
+        igb.weightx = 0.25;
+        invisbleButtonContainer.setOpaque(false);
+        JPanel buttonSpacer1 = new JPanel();
+        buttonSpacer1.setOpaque(false);
+        JPanel buttonSpacer2 = new JPanel();
+        buttonSpacer2.setOpaque(false);
+        buttonContainer.add(buttonSpacer1, igb);
+        igb.gridx = 1;
+        igb.weightx = 0.5;
+        buttonContainer.add(invisbleButtonContainer, igb);
+        igb.gridx = 2;
+        igb.weightx = 0.25;
+        buttonContainer.add(buttonSpacer2, igb);
 
         // Add button panel to mainLayer.
-        gridBagForMainLayer.gridy = 3;
+        gridBagForMainLayer.gridy = 5;
         gridBagForMainLayer.gridx = 2;
         gridBagForMainLayer.weightx = 0.3;
-        gridBagForMainLayer.weighty = 0.05;
+        gridBagForMainLayer.weighty = 0;
         gridBagForMainLayer.gridwidth = 1;
         gridBagForMainLayer.gridheight = 1;
-        gridBagForMainLayer.insets = new Insets(5, 30, 30, 30);
+        gridBagForMainLayer.insets = new Insets(5, 30, 5, 30);
         mainLayer.add(buttonContainer, gridBagForMainLayer);
 
         makePopupsResizeable();
@@ -250,10 +271,11 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
+        messagesView.setChessGame(chessGame);
 
         chessGame.registerView(guiView);
         chessGame.registerView(algebraicView);
-
+        chessGame.registerView(messagesView);
     }
 
     /**
@@ -330,25 +352,9 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
+        String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
+        addNotification(squareNotification);
 
-        addNotification("You have selected square: " + copyButton.getSquareLocation());
-
-    }
-
-    /**
-     * Makes the chess pieces resizable by listening for changes to the application
-     * frame size and then sending information about the size of the applicaiton
-     * frame to guiView
-     */
-    public void makePiecesResizable() {
-
-        container.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                guiView.setContainerSize(container.getBounds().height, container.getBounds().width);
-                guiView.update();
-            }
-        });
     }
 
     /**
@@ -377,6 +383,29 @@ public class ChessPanel extends JPanel implements MouseListener {
                 layeredPane.repaint();
             }
         });
+    }
+
+    /**
+     * Updates the variables representing the current size of the application frame.
+     * 
+     * @param width  Current frame width.
+     * @param height Current frame height.
+     */
+    public void updateContainerDimensions(int width, int height) {
+
+        this.containerWidth = width;
+        this.containerHeight = height;
+        updatePieceSizes();
+
+    }
+
+    /**
+     * If the user changes the application frame size, this function updates the
+     * piece sizes.
+     */
+    public void updatePieceSizes() {
+        guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
+        guiView.update();
     }
 
     // The following are unused but required to implement MouseListener.

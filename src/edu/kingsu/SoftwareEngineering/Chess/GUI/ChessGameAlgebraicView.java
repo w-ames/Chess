@@ -8,21 +8,22 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.List;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.FlowLayout;
 
 /**
  * ChessGameAlgebraicView class holds the graphical view of the game board.
  * 
- * @author Chelsie Baic
  * @author Greg Cal
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
-    private JPanel algebraicDisplayPanel = new JPanel();
+    private JTextArea algebraicDisplayPanel = new JTextArea();
     private JTextField algebricInputPanel = new JTextField();
     private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
 
@@ -31,6 +32,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
      * 
      */
     public ChessGameAlgebraicView() {
+        algebraicDisplayPanel.setLayout(new FlowLayout());
         this.setBackground(Color.WHITE);
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
@@ -50,10 +52,11 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.weighty = 0.95;
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 10, 5, 10);
-        this.add(algebraicDisplayPanel, gb);
+        JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(scrollNotifications, gb);
 
         // Adding label to the algraic move input JTextField.
-        JLabel algebraicMoveInputLabel = new JLabel("Enter Algbraic Move: ");
+        JLabel algebraicMoveInputLabel = new JLabel("Enter Algebraic Move: ");
         algebraicMoveInputLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         algebraicMoveInputLabel.setForeground(new Color(16, 46, 60));
         gb.gridy = 1;
@@ -111,12 +114,16 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
     @Override
     public void update() {
-
+        algebraicDisplayPanel.setText("");// Remove all 
+        List<String> pgnMoves = getChessGame().getAlgebraicHistory();
+        for (String move : pgnMoves) {
+            algebraicDisplayPanel.append(move + "\n");
+        }
     }
 
     @Override
     public void addListeners() {
-
+        algebricInputPanel.addActionListener(new ChessGameAlgebraicController(this, getChessGame()));
     }
 
 }

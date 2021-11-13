@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.*; 
+import java.awt.event.*;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
@@ -24,13 +24,29 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
+    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
+    private JMenuItem exitMenuItem = new JMenuItem("Quit");
+
+    private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
+    private JMenuItem turnOnOffNotifications = new JMenuItem("Notifications (on/off)");
+    private JMenuItem turnOnOffMoveHints = new JMenuItem("Move Hints (on/off)");
+
     private JMenuItem about = new JMenuItem("About");
     private JMenuItem appHelp = new JMenuItem("Application Help");
     private JMenuItem chessRules = new JMenuItem("Game Rules");
-    private JMenuItem pieceInfo = new JMenuItem("Piece Information"); 
+    private JMenuItem pieceInfo = new JMenuItem("Piece Information");
 
+    private int width;
+    private int height;
+
+    /**
+     * Creates the main application frame for Java Chess.
+     * 
+     */
     public ApplicationFrame() {
         super(WINDOW_TITLE);
+        this.setMinimumSize(new Dimension(1250, 850));
         contentPanel = new JPanel();
         add(contentPanel);
         layout = new CardLayout();
@@ -49,6 +65,7 @@ public class ApplicationFrame extends JFrame {
 
         setPreferredSize(WINDOW_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         addMenuBar();
         addActionListenersToMenuBar();
 
@@ -56,23 +73,51 @@ public class ApplicationFrame extends JFrame {
         setVisible(true);
     }
 
-    public void test() {
-        // layout.show(contentPanel,"gamesetup");
-        System.out.println("TEST");
-    }
-
+    /**
+     * Tells the layout which card view to show (menu, gamesetup, or chesspanel).
+     * 
+     * @param card The string name of the card to show.
+     */
     public void show(String card) {
         layout.show(contentPanel, card);
     }
 
+    /**
+     * Initializes the ChessPanel object. Checks and sets the size of the current
+     * frame height and width so that the chess pieces can be sized accordingly when
+     * the ChessPanel is first instanciated.
+     * 
+     * Calls the make PiecesResizable() function so that the chess pieces sizes can
+     * dynamically resize if the user resizes the application frame during gameplay
+     * mode.
+     * 
+     * @param chessGame The chessGame to be represented by this chess panel.
+     */
     public void initializeChessPanel(ChessGame chessGame) {
+
+        this.width = (int) this.getBounds().getWidth();
+        this.height = (int) this.getBounds().getHeight();
+
         chessPanel.initialize(chessGame);
-        chessPanel.makePiecesResizable();
+        chessPanel.updateContainerDimensions(width, height);
+        makePiecesResizeable();
     }
 
-    public void addMenuBar(){ 
+    /**
+     * Builds and adds the menu bar to the application frame.
+     */
+    public void addMenuBar() {
+
+        file.add(newGameMenuItem);
+        file.add(loadGameMenuItem);
+        file.add(exitMenuItem);
+
+        options.add(turnOnOffBoardHighlight);
+        options.add(turnOnOffNotifications);
+        options.add(turnOnOffMoveHints);
 
         help.add(about);
+        help.add(appHelp);
         help.add(chessRules);
         help.add(pieceInfo);
 
@@ -82,27 +127,87 @@ public class ApplicationFrame extends JFrame {
         this.setJMenuBar(menuBar);
     }
 
-    // Add action listeners to the menu bar items. 
-    public void addActionListenersToMenuBar(){
+    /**
+     * Makes the chess pieces resize when the application frame is resized by the
+     * user.
+     */
+    public void makePiecesResizeable() {
 
-        chessRules.addActionListener(new ActionListener() {
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+
+                chessPanel.updatePieceSizes();
+            }
+        });
+    }
+
+    /**
+     * Adds action listeners to the menu bar.
+     */
+    public void addActionListenersToMenuBar() {
+
+        newGameMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("chessRules");
-                helpWindow.setVisible(true);
-                helpWindow.setSize(new Dimension(600, 800)); 
+
+                // Add code for when "New Game" is selected from menu bar
+
             }
 
         });
 
-        pieceInfo.addActionListener(new ActionListener() {
+        loadGameMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               HelpWindow helpWindow = new HelpWindow("pieceInfo");
-               helpWindow.setVisible(true);
-               helpWindow.setSize(new Dimension(600, 800)); 
+
+                // Add code for when "Load Game" is selected from menu bar
+
+            }
+
+        });
+
+        exitMenuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+
+        });
+
+        turnOnOffBoardHighlight.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Board Highlight (On/Off)" is selected from menu bar
+
+            }
+
+        });
+
+        turnOnOffNotifications.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Notifications On/Off" is selected from menu bar
+
+            }
+
+        });
+
+        turnOnOffMoveHints.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Move Hint On/Off" is selected from menu bar
+
             }
 
         });
@@ -112,13 +217,49 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HelpWindow helpWindow = new HelpWindow("about");
+                helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
-                helpWindow.setSize(new Dimension(600, 800)); 
+                helpWindow.setSize(new Dimension(600, 800));
             }
 
         });
-    }
 
-    
-   
+        appHelp.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("about");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+
+        });
+
+        chessRules.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("chessRules");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+
+            }
+
+        });
+
+        pieceInfo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("pieceInfo");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+
+        });
+
+    }
 }

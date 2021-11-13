@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet.ColorAttribute;
+
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
@@ -25,6 +27,7 @@ import java.awt.Image;
  * aware of their location.
  * 
  * @author Chelsie Bajic
+ * @since 10/2021
  */
 public class Square extends JButton implements MouseListener {
 
@@ -43,8 +46,6 @@ public class Square extends JButton implements MouseListener {
     public Square(String location, boolean color) {
 
         addMouseListener(this);// For square border highlight upon hover.
-        this.setMinimumSize(new Dimension(70, 70));
-        this.setMaximumSize(new Dimension(70, 70));
         this.color = color;
         this.location = location;
 
@@ -59,6 +60,22 @@ public class Square extends JButton implements MouseListener {
             this.setBackground(new Color(248, 248, 248));
             this.setOpaque(true);
         }
+
+    }
+
+    public Square(String rankOrFile) {
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gb = new GridBagConstraints();
+        gb.gridx = 0;
+        gb.gridy = 0;
+        gb.fill = GridBagConstraints.BOTH;
+        JLabel rankFileLabel = new JLabel(rankOrFile);
+        rankFileLabel.setBackground(Color.GRAY);
+        rankFileLabel.setFont(new Font("Arial", Font.PLAIN, 25));
+        rankFileLabel.setForeground(new Color(16, 46, 60));
+        this.add(rankFileLabel, gb);
+        this.setFocusPainted(false);
+        this.setBackground(Color.GRAY);
 
     }
 

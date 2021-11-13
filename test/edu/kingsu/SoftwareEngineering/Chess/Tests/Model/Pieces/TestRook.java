@@ -29,6 +29,19 @@ public class TestRook {
 
     @Test
     public void testCopyPiece() {
+        Rook whiteCopy = (Rook)whiteRook.copyPiece();
+        assertEquals("Copy of Rook did not have same whiteness.", whiteRook.isWhite(), whiteCopy.isWhite());
+        assertEquals("Copy of Rook did not have same castling status.", whiteRook.isDoneCastling(), whiteCopy.isDoneCastling());
+        whiteRook.doneCastling();
+        whiteCopy = (Rook)whiteRook.copyPiece();
+        assertEquals("Copy of Rook did not have same castling status after setting.", whiteRook.isDoneCastling(), whiteCopy.isDoneCastling());
+
+        Rook blackCopy = (Rook)blackRook.copyPiece();
+        assertEquals("Copy of Rook did not have same whiteness.", blackRook.isWhite(), blackCopy.isWhite());
+        assertEquals("Copy of Rook did not have same castling status.", blackRook.isDoneCastling(), blackCopy.isDoneCastling());
+        blackRook.doneCastling();
+        blackCopy = (Rook)blackRook.copyPiece();
+        assertEquals("Copy of Rook did not have same castling status after setting.", blackRook.isDoneCastling(), blackCopy.isDoneCastling());
     }
 
     @Test

@@ -23,6 +23,7 @@ import java.awt.Dimension;
  * pawn promotion popup screen.
  * 
  * @author Chelsie Bajic
+ * @since 10/2021
  */
 public class PopupLayer extends JPanel implements MouseListener {
 
@@ -156,14 +157,10 @@ public class PopupLayer extends JPanel implements MouseListener {
         // This if/else block specifies how each button behaves.
         if (name.equals("Submit")) {
 
-            this.setBorder(BorderFactory.createMatteBorder(3, 2, 3, 3, Color.RED));
-            display.add(new JLabel(userPawnPromotionChoice)); // Print to notifications
-            // this.setVisible(false);
+            // User input upon submit can be found in the variable: userPawnPromotionChoice.
 
         } else if (name.equals("View Board")) {
-            this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 4, Color.RED));
-            display.add(new JLabel("HI"));
-
+            // Hide end game options here.
         } else if (name.equals("Rematch")) {
             // Call rematch here
 
