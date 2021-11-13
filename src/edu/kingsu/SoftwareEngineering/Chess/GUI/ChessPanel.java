@@ -257,7 +257,7 @@ public class ChessPanel extends JPanel implements MouseListener {
         pawnPromotionScreen.setVisible(false);
 
         // First notification.
-        addNotification("Select a chess piece to begin...", "firstMessage");
+        addNotification("Select a chess piece to begin...");
 
         layeredPane.revalidate();
         layeredPane.repaint();
@@ -330,8 +330,8 @@ public class ChessPanel extends JPanel implements MouseListener {
      * 
      * @param notificationToAdd the notification string to add.
      */
-    public void addNotification(String notificationToAdd, String origin) {
-        messagesView.addToNotifications(notificationToAdd, origin);
+    public void addNotification(String notificationToAdd) {
+        messagesView.addToNotifications(notificationToAdd);
     }
 
     // public void disableNotifications(){}
@@ -352,8 +352,8 @@ public class ChessPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Square copyButton = (Square) e.getSource();
-
-        addNotification("You have selected square: " + copyButton.getSquareLocation(), "fromClick");
+        String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
+        addNotification(squareNotification);
 
     }
 

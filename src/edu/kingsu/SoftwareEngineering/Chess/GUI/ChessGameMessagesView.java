@@ -2,6 +2,7 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import java.awt.Color;
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 import org.w3c.dom.Text;
 
@@ -16,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
+import javax.swing.text.*; 
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
@@ -27,10 +29,9 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  */
 public class ChessGameMessagesView extends ChessGameView {
 
-    private JPanel notificationDisplayPanel = new JPanel();
-    JLabel addNotification = new JLabel();
-    JLabel addTurnUpdateNotification = new JLabel();
-    boolean turn = true;
+    private JTextArea notificaionDisplayArea = new JTextArea();
+    private boolean turn = true;
+    
 
     /**
      * Constructs the notifications JPanel.
@@ -54,15 +55,16 @@ public class ChessGameMessagesView extends ChessGameView {
         notificationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         notificationsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         notificationsLabel.setForeground(new Color(16, 46, 60));
-        notificationDisplayPanel.setOpaque(true);
-        notificationDisplayPanel.setMinimumSize(new Dimension(300, 100));
-        notificationDisplayPanel.setPreferredSize(new Dimension(300, 100));
-        notificationDisplayPanel.setMaximumSize(new Dimension(300, 100));
+        notificaionDisplayArea.setOpaque(true);
+        // notificaionDisplayArea.setMinimumSize(new Dimension(300, 100));
+        // notificaionDisplayArea.setPreferredSize(new Dimension(300, 100));
+        // notificaionDisplayArea.setMaximumSize(new Dimension(300, 100));
         this.add(notificationsLabel, gb);
 
-        // Add the first notification to the notification display panel.
-        notificationDisplayPanel.setBackground(new Color(40, 40, 40));
-        addToNotifications("To begin, select a piece...", "firstMessage");
+        // Make background of notification display black, and font green to look like terminal. 
+        notificaionDisplayArea.setBackground(new Color(40, 40, 40));
+        notificaionDisplayArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        notificaionDisplayArea.setForeground(new Color(0, 204, 0)); // Font color
 
         // Add the notifications display panel to this component.
         gb.fill = GridBagConstraints.BOTH;
@@ -73,7 +75,10 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridheight = 3;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
-        this.add(notificationDisplayPanel, gb);
+        JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        DefaultCaret caret = (DefaultCaret) notificaionDisplayArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        this.add(scrollNotifications, gb);
     }
 
     /**
@@ -94,14 +99,22 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
-    /**
-     * Add a notification to the notifications screen.
-     * 
-     * @param add The String notification to be added.
-     */
-    public void addToNotifications(String add, String origin) {
+   /**
+    * Adds a notification to the notifications screen
+    * @param add String containing the notificaiton to add.
+    * 
+    */
+    public void addToNotifications(String add) {
+        
+        notificaionDisplayArea.append(add + "\n");
 
-        addNotification.setText(add);
+    }
+
+    /**
+     * Prints a notification stating who's turn it is. 
+     * @param turn true = white, false = black
+     */
+    public void addTurnNotification(boolean turn){
         String turnString = "";
 
         // Check who's turn it is
@@ -111,56 +124,10 @@ public class ChessGameMessagesView extends ChessGameView {
             turnString = "black's ";
         }
 
-        addTurnUpdateNotification.setText("It is " + turnString + "turn!");
+        String turnNotification = "It is " + turnString + "turn!" + "\n";
 
-        // This removes the last notification if there was one.
-        notificationDisplayPanel.remove(addNotification);
-
-        // Styles the notifications
-        addNotification.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        addTurnUpdateNotification.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        addNotification.setForeground(new Color(0, 204, 0));
-        addTurnUpdateNotification.setForeground(new Color(0, 204, 0));
-
-        addNotification.setMinimumSize(new Dimension(600, 50));
-        addNotification.setMaximumSize(new Dimension(600, 50));
-        addNotification.setPreferredSize(new Dimension(600, 50));
-
-        addTurnUpdateNotification.setMinimumSize(new Dimension(600, 50));
-        addTurnUpdateNotification.setMaximumSize(new Dimension(600, 50));
-        addTurnUpdateNotification.setPreferredSize(new Dimension(600, 50));
-        JLabel spacer = new JLabel(" ");
-
-        notificationDisplayPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbForInsideNotificationsPanel = new GridBagConstraints();
-
-        gbForInsideNotificationsPanel.gridx = 0;
-        gbForInsideNotificationsPanel.gridy = 0;
-        gbForInsideNotificationsPanel.weightx = 1;
-        gbForInsideNotificationsPanel.weighty = 1;
-        gbForInsideNotificationsPanel.anchor = GridBagConstraints.NORTHWEST;
-        gbForInsideNotificationsPanel.fill = GridBagConstraints.BOTH;
-
-        notificationDisplayPanel.add(addNotification, gbForInsideNotificationsPanel);
-
-        gbForInsideNotificationsPanel.gridx = 0;
-        gbForInsideNotificationsPanel.weightx = 1;
-        // gbForInsideNotificationsPanel.weighty = 1;
-        gbForInsideNotificationsPanel.anchor = GridBagConstraints.NORTHWEST;
-        gbForInsideNotificationsPanel.fill = GridBagConstraints.BOTH;
-        // if (origin.equals("fromUpdate")) {
-        notificationDisplayPanel.remove(addTurnUpdateNotification);
-        // notificationDisplayPanel.remove(spacer);
-
-        // gbForInsideNotificationsPanel.gridy = 1;
-        // notificationDisplayPanel.add(spacer, gbForInsideNotificationsPanel);
-
-        gbForInsideNotificationsPanel.gridy = 1;
-        notificationDisplayPanel.add(addTurnUpdateNotification, gbForInsideNotificationsPanel);
-
-        // }
-
-        notificationDisplayPanel.repaint();
+        notificaionDisplayArea.append(turnNotification);
+       
     }
 
     // Mandatory override to inherit from ChessGameView.
@@ -173,7 +140,8 @@ public class ChessGameMessagesView extends ChessGameView {
 
         // True == white, false == black
         turn = chessGame.getPlayerTurn().isWhite();
-        this.addToNotifications("", "fromUpdate");
+
+       addTurnNotification(turn);
     }
 
 }

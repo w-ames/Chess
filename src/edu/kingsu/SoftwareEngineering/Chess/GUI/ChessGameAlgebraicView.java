@@ -23,7 +23,7 @@ import java.awt.FlowLayout;
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
-    private JPanel algebraicDisplayPanel = new JPanel();
+    private JTextArea algebraicDisplayPanel = new JTextArea();
     private JTextField algebricInputPanel = new JTextField();
     private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
 
@@ -52,7 +52,8 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.weighty = 0.95;
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 10, 5, 10);
-        this.add(algebraicDisplayPanel, gb);
+        JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(scrollNotifications, gb);
 
         // Adding label to the algraic move input JTextField.
         JLabel algebraicMoveInputLabel = new JLabel("Enter Algebraic Move: ");
@@ -113,10 +114,10 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
     @Override
     public void update() {
-        algebraicDisplayPanel.removeAll();
+        algebraicDisplayPanel.setText("");// Remove all 
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
         for (String move : pgnMoves) {
-            algebraicDisplayPanel.add(new JLabel(move));
+            algebraicDisplayPanel.append(move + "\n");
         }
     }
 
