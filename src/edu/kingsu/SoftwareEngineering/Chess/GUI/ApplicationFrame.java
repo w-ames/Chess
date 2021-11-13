@@ -153,8 +153,10 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HelpWindow helpWindow = new HelpWindow("chessRules");
+                helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+             
             }
 
         });
@@ -164,6 +166,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HelpWindow helpWindow = new HelpWindow("pieceInfo");
+                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
             }
@@ -175,6 +178,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HelpWindow helpWindow = new HelpWindow("about");
+                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
             }
@@ -186,6 +190,19 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+
+        });
+
+
+        appHelp.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                   HelpWindow helpWindow = new HelpWindow("about");
+                    helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
             }
 
         });
