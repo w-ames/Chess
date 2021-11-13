@@ -148,39 +148,24 @@ public class ApplicationFrame extends JFrame {
      */
     public void addActionListenersToMenuBar() {
 
-        chessRules.addActionListener(new ActionListener() {
+        newGameMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("chessRules");
-                helpWindow.setLocation(1200, 300);
-                helpWindow.setVisible(true);
-                helpWindow.setSize(new Dimension(600, 800));
-             
+
+                // Add code for when "New Game" is selected from menu bar
+
             }
 
         });
 
-        pieceInfo.addActionListener(new ActionListener() {
+        loadGameMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("pieceInfo");
-                 helpWindow.setLocation(1200, 300);
-                helpWindow.setVisible(true);
-                helpWindow.setSize(new Dimension(600, 800));
-            }
 
-        });
+                // Add code for when "Load Game" is selected from menu bar
 
-        about.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("about");
-                 helpWindow.setLocation(1200, 300);
-                helpWindow.setVisible(true);
-                helpWindow.setSize(new Dimension(600, 800));
             }
 
         });
@@ -194,17 +179,87 @@ public class ApplicationFrame extends JFrame {
 
         });
 
-
-        appHelp.addActionListener(new ActionListener() {
+        turnOnOffBoardHighlight.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                   HelpWindow helpWindow = new HelpWindow("about");
-                    helpWindow.setLocation(1200, 300);
+
+                // Add code for when "Board Highlight (On/Off)" is selected from menu bar
+
+            }
+
+        });
+
+        turnOnOffNotifications.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Notifications On/Off" is selected from menu bar
+
+            }
+
+        });
+
+        turnOnOffMoveHints.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Move Hint On/Off" is selected from menu bar
+
+            }
+
+        });
+
+        about.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("about");
+                helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
             }
 
         });
+
+        appHelp.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("about");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+
+        });
+
+        chessRules.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("chessRules");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+
+            }
+
+        });
+
+        pieceInfo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpWindow helpWindow = new HelpWindow("pieceInfo");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+
+        });
+
     }
 }

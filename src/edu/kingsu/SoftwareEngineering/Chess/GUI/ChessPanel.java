@@ -149,8 +149,6 @@ public class ChessPanel extends JPanel implements MouseListener {
 
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 0;
-        // gridBagForMainLayer.weightx = 0.7;
-        // gridBagForMainLayer.weighty = 1;
         gridBagForMainLayer.gridwidth = 2;
         gridBagForMainLayer.gridheight = 4;
         gridBagForMainLayer.insets = new Insets(20, 30, 20, 5);
@@ -159,9 +157,6 @@ public class ChessPanel extends JPanel implements MouseListener {
         // Add algebraicView to mainLayer.
         gridBagForMainLayer.gridy = 1;
         gridBagForMainLayer.gridx = 2;
-        // gridBagForMainLayer.weightx = 0.3;
-        // gridBagForMainLayer.weighty = 1;
-        // gridBagForMainLayer.gridwidth = 1;
         gridBagForMainLayer.gridheight = 4;
         gridBagForMainLayer.insets = new Insets(20, 30, 20, 30);
         mainLayer.add(algebraicView, gridBagForMainLayer);
