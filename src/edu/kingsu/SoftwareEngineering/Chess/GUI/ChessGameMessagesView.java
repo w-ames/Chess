@@ -4,8 +4,6 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
-import org.w3c.dom.Text;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
@@ -56,9 +54,6 @@ public class ChessGameMessagesView extends ChessGameView {
         notificationsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         notificationsLabel.setForeground(new Color(16, 46, 60));
         notificaionDisplayArea.setOpaque(true);
-        // notificaionDisplayArea.setMinimumSize(new Dimension(300, 100));
-        // notificaionDisplayArea.setPreferredSize(new Dimension(300, 100));
-        // notificaionDisplayArea.setMaximumSize(new Dimension(300, 100));
         this.add(notificationsLabel, gb);
 
         // Make background of notification display black, and font green to look like terminal. 
@@ -135,6 +130,9 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
+    /**
+     * Updates information about the current state of the game. 
+     */
     public void update() {
         ChessGame chessGame = getChessGame();
 
