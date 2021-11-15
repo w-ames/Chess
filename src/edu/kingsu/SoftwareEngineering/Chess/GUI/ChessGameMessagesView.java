@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.text.*; 
+import javax.swing.JViewport;
+import java.awt.Rectangle; 
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
@@ -71,6 +73,9 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
         JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollNotifications.setMaximumSize(new Dimension(10, 100));
+        scrollNotifications.setPreferredSize(new Dimension(10, 100));
+        scrollNotifications.setMinimumSize(new Dimension(10, 100));
         DefaultCaret caret = (DefaultCaret) notificaionDisplayArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         this.add(scrollNotifications, gb);
