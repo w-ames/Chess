@@ -236,7 +236,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
+        //
         // For 650 x 650 board size.
+        //
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
             paintBoard(); // Makes sure board is correct size for current frame.
