@@ -24,9 +24,12 @@ import java.awt.FlowLayout;
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
-    private JPanel algebraicDisplayPanel = new JPanel();
+    private JTextArea algebraicDisplayPanel = new JTextArea();
     private JTextField algebricInputPanel = new JTextField();
     private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
+    private GridBagConstraints dp = new GridBagConstraints();
+    private int counter = 0;
+    
 
     /**
      * Draws the algebraic view panel to be added to ChessPanel.
@@ -116,9 +119,13 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void update() {
         algebraicDisplayPanel.removeAll();
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
-        for (String move : pgnMoves) {
-            algebraicDisplayPanel.add(new JLabel(move));
+        for (int i=0; i<pgnMoves.size(); i++) {
+            algebraicDisplayPanel.append(pgnMoves.get(counter));
         }
+        // for (String move : pgnMoves) {
+        //     // algebraicDisplayPanel.setText("");
+        //     algebraicDisplayPanel.append(pgnMoves.get(counter));
+        // }
     }
 
     @Override
