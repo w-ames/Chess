@@ -87,18 +87,50 @@ public class PGNTranslator{
         }
 
         //disambiguate from these pieces
+        List<Integer> nonMoveCols= new ArrayList<Integer>(); //used to check if disambiguating a row is necessary
+        List<Integer> nonMoveRows= new ArrayList<Integer>();
         for(int i=0; i < samePieceType.size(); i++){
-            if(samePieceType.get(i).get(1) == originCol){
-                //if the piece is in the same column as the piece which was moved,
+            int col= samePieceType.get(i).get(1);
+            int row= samePieceType.get(i).get(0);
+
+            //check if the current piece matches a column or row with another disambiguation piece that wasn't moved
+            boolean colMatchNonMovePiece= false;
+            for(int c : nonMoveCols){
+                if(c == col) colMatchNonMovePiece= true;
+            }
+
+            nonMoveCols.add(col);
+
+            boolean rowMatchNonMovePiece= false;
+            for(int r : nonMoveRows){
+                if(r == row) rowMatchNonMovePiece= true;
+            }
+
+            nonMoveRows.add(row);
+
+            //if(col == originCol || colMatchNonMovePiece) throw new IllegalArgumentException("colMatchNonMovePiece is true, as expected; i=" + i); //this if statement evaluates to true
+            //if(i == 1) throw new IllegalArgumentException("rowMatchNonMovePiece=" + rowMatchNonMovePiece + " colMatchNonMovePiece=" + colMatchNonMovePiece);
+
+            if(row == originRow || rowMatchNonMovePiece){
+                //if the piece is in the same row as the piece which was moved or another disambiguation piece,
                 //disambiguate the column
                 disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
-            }
-            if(samePieceType.get(i).get(0) == originRow){
-                //if the piece is in the same row as the piece which was moved,
+                //if(true) throw new IllegalArgumentException("disambFile=" + disambFile);
+            }else if(col == originCol || colMatchNonMovePiece){                                                     //not entering here!!!!!!!!!!!!!Why not?????????
+                //if the piece is in the same column as the piece which was moved or another disambiguation piece,
                 //disambiguate the row
-                disambRank= "" + (originRow + 1);
+                if(true) throw new IllegalArgumentException("HERE!! disambRank=" + disambRank);
+                disambRank= "" + convertRowToRank(originRow);
+                
+            }else{
+                //disambiguate file
+                //if(true) throw new IllegalArgumentException("Shouldn't be here");
+                disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
             }
+            
         }
+
+        //if(true) throw new IllegalArgumentException("disambFile=" + disambFile + " disambRank=" + disambRank);
 
         //find out if a capture occurred
         Piece destPiece= board.getPiece(destRow, move.getColTo());
@@ -127,8 +159,8 @@ public class PGNTranslator{
             "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
             "(?<capture>x?)(?<destFile>[a-h])(?<destRank>[1-8])=?(?<pawnPromo>[QRBN]?)" +
             "(?<enPassant>(\\s?e\\.?p\\.?)?)(?<check>\\+?)(?<checkmate>[#\\+]?)" +
-            "\\s*[\\!\\?]+?|(?<castle>O-?O(-?O)?)(?<castleCheck>\\+?)" +
-            "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]+?";
+            "\\s*[\\!\\?]*|(?<castle>O-?O(-?O)?)(?<castleCheck>\\+?)" +
+            "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]*";
 
         //this pattern DOES NOT take into account the number of a move, more than
         //one move (e.g. a white move and a black move), a comment {in curly braces}
@@ -205,14 +237,15 @@ public class PGNTranslator{
             if(toCol == -1) throw new IllegalArgumentException("Illegal destination file");
 
             //get a list of all squares containing pieces which can move to the destination square
-            List<List<Integer>> attackers= board.getAttackers(!playerIsWhite, Integer.parseInt(destRank) - 1, toCol);
+            List<List<Integer>> attackers= board.getAttackers(!playerIsWhite, convertRankToRow(destRank), toCol);
 
+            //if(true) throw new IllegalArgumentException("attackers.size()=" + attackers.size());
             //refine to a list containing only attackers of the same piece type
             List<List<Integer>> samePieceType= new ArrayList<List<Integer>>();
 
             for(int i=0; i < attackers.size(); i++){
-                int col= attackers.get(i).get(0);
-                int row= attackers.get(i).get(1);
+                int row= attackers.get(i).get(0);
+                int col= attackers.get(i).get(1);
                 PieceType pieceType= board.getPiece(row, col).getPieceType();
 
                 //if the piece at this square is the same piece type as the piece which was moved,
@@ -234,10 +267,10 @@ public class PGNTranslator{
             }
 
             for(int i=0; i < samePieceType.size(); i++){
-                if(fromCol != -1 || fromCol == samePieceType.get(i).get(1)){
-                    if(disambRank.equals("") || Integer.parseInt(disambRank) - 1 == samePieceType.get(i).get(0))
-                        matchDisamb.add(samePieceType.get(i));
-                }
+                if((fromCol != -1 && fromCol == samePieceType.get(i).get(1)) || fromCol == -1){ //if (the disamb col is not blank and the disamb col matches this square's col) OR the disamb col is blank
+                    if((!disambRank.equals("") && convertRankToRow(disambRank) == samePieceType.get(i).get(0)) || disambRank.equals(""))    //if (the disamb row is not blank and the disamb row matches this square's row) OR the disamb row is blank
+                        matchDisamb.add(samePieceType.get(i));  //add this square to matchDisamb
+                }    
             }
 
             if(matchDisamb.size() == 0) throw new IllegalArgumentException("No piece matches this move");
@@ -246,9 +279,8 @@ public class PGNTranslator{
             List<Integer> originSquare= matchDisamb.get(0);
             // get the move from the calculated list of moves, since the calculated list of
             // moves includes the correct move type
-            Move translatedMove = getMoveWithMoveType(board, originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
+            Move translatedMove = getMoveWithMoveType(board, originSquare.get(0), originSquare.get(1), convertRankToRow(destRank), toCol);
             return translatedMove;
-            // return new Move(originSquare.get(0), originSquare.get(1), Integer.parseInt(destRank) - 1, toCol);
 
         }else throw new IllegalStateException("Cannot perform normal move and castling move at same time");
     }
@@ -289,5 +321,9 @@ public class PGNTranslator{
 
     private static int convertRowToRank(int row){
         return 8 - row;
+    }
+
+    private static int convertRankToRow(String rank){
+        return 8 - Integer.parseInt(rank);
     }
 }

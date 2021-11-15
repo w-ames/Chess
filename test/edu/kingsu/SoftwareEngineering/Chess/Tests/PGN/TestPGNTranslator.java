@@ -232,7 +232,7 @@ public class TestPGNTranslator {
         assertEquals("Incorrect Move returned for disambiguation rank move", new Move(6,7,5,7), PGNTranslator.translatePGNToMove("R2h3", testBoard, true));
     }
 
-    private static final char[][] DISAMB_BOTH_MOVE = { //capital=black, lowercase=white
+    private static final char[][] DISAMB_BOTH_QUEEN_MOVE = { //capital=black, lowercase=white
         {' ',' ',' ','K',' ',' ',' ',' '},
         {' ',' ',' ','P','P','P',' ',' '},
         {' ',' ',' ',' ',' ',' ',' ',' '},
@@ -244,15 +244,38 @@ public class TestPGNTranslator {
     };
 
     @Test
-    public void testDisambBothMoveToPGN() {
-        testBoard.initializeBoard(DISAMB_BOTH_MOVE);
+    public void testDisambBothQueenMoveToPGN() {
+        testBoard.initializeBoard(DISAMB_BOTH_QUEEN_MOVE);
         assertEquals("Incorrect PGN String returned for disambiguation both move", "Qh2h4", PGNTranslator.translateMoveToPGN(new Move(6,7,4,7), testBoard));
     }
 
     @Test
-    public void testDisambBothPGNToMove(){
-        testBoard.initializeBoard(DISAMB_BOTH_MOVE);
+    public void testDisambBothQueenPGNToMove(){
+        testBoard.initializeBoard(DISAMB_BOTH_QUEEN_MOVE);
         assertEquals("Incorrect Move returned for disambiguation both move", new Move(6,7,4,7), PGNTranslator.translatePGNToMove("Qh2h4", testBoard, true));
+    }
+
+    private static final char[][] DISAMB_BOTH_KNIGHT_MOVE = { //capital=black, lowercase=white
+        {' ',' ',' ','K',' ',' ',' ',' '},
+        {' ',' ',' ','P','P','P',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ','n'},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ','n',' ',' '},
+        {' ',' ',' ','k',' ',' ',' ',' '},
+    };
+
+    @Test
+    public void testDisambBothKnightMoveToPGN() {
+        testBoard.initializeBoard(DISAMB_BOTH_KNIGHT_MOVE);
+        assertEquals("Incorrect PGN String returned for disambiguation both move", "Nh6g4", PGNTranslator.translateMoveToPGN(new Move(2,7,4,6), testBoard));
+    }
+
+    @Test
+    public void testDisambBothKnightPGNToMove(){
+        testBoard.initializeBoard(DISAMB_BOTH_KNIGHT_MOVE);
+        assertEquals("Incorrect Move returned for disambiguation both move", new Move(2,7,4,6), PGNTranslator.translatePGNToMove("Nh6g4", testBoard, true));
     }
 
     private static final char[][] PAWN_PROMO_MOVE = { //capital=black, lowercase=white
