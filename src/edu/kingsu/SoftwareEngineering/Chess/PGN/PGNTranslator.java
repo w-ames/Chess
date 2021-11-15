@@ -31,19 +31,15 @@ public class PGNTranslator{
         //special case: move is castle
         MoveType moveType= move.getType();
         if(moveType == MoveType.CASTLING){
-            if(move.getColTo() == ColumnLetter.B.ordinal()){
-                if(board.getCheckmate(isWhite)) return "O-O-O#";
-                else if(board.getCheck(isWhite)) return "O-O-O+";
+            if(move.getColTo()  == ColumnLetter.C.ordinal()){
+                if(newBoard.getCheckmate(isWhite)) return "O-O-O#";
+                else if(newBoard.getCheck(isWhite)) return "O-O-O+";
                 else return "O-O-O";
-            }
-
-            if(move.getColTo() == ColumnLetter.G.ordinal()){
-                if(board.getCheckmate(isWhite)) return "O-O#";
-                else if(board.getCheck(isWhite)) return "O-O+";
+            }else if(move.getColTo() == ColumnLetter.G.ordinal()){
+                if(newBoard.getCheckmate(isWhite)) return "O-O#";
+                else if(newBoard.getCheck(isWhite)) return "O-O+";
                 else return "O-O";
-            }
-
-            throw new IllegalStateException("Castling move to an illegal column");
+            }else throw new IllegalStateException("Castling move to an illegal column");
         }
 
         //strings representing each component of the algebraic move
@@ -87,47 +83,16 @@ public class PGNTranslator{
         }
 
         //disambiguate from these pieces
-        List<Integer> nonMoveCols= new ArrayList<Integer>(); //used to check if disambiguating a row is necessary
-        List<Integer> nonMoveRows= new ArrayList<Integer>();
         for(int i=0; i < samePieceType.size(); i++){
-            int col= samePieceType.get(i).get(1);
-            int row= samePieceType.get(i).get(0);
 
-            //check if the current piece matches a column or row with another disambiguation piece that wasn't moved
-            boolean colMatchNonMovePiece= false;
-            for(int c : nonMoveCols){
-                if(c == col) colMatchNonMovePiece= true;
-            }
-
-            nonMoveCols.add(col);
-
-            boolean rowMatchNonMovePiece= false;
-            for(int r : nonMoveRows){
-                if(r == row) rowMatchNonMovePiece= true;
-            }
-
-            nonMoveRows.add(row);
-
-            //if(col == originCol || colMatchNonMovePiece) throw new IllegalArgumentException("colMatchNonMovePiece is true, as expected; i=" + i); //this if statement evaluates to true
-            //if(i == 1) throw new IllegalArgumentException("rowMatchNonMovePiece=" + rowMatchNonMovePiece + " colMatchNonMovePiece=" + colMatchNonMovePiece);
-
-            if(row == originRow || rowMatchNonMovePiece){
-                //if the piece is in the same row as the piece which was moved or another disambiguation piece,
-                //disambiguate the column
-                disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
-                //if(true) throw new IllegalArgumentException("disambFile=" + disambFile);
-            }else if(col == originCol || colMatchNonMovePiece){                                                     //not entering here!!!!!!!!!!!!!Why not?????????
+            if(samePieceType.get(i).get(1) == originCol){                                                     //not entering here!!!!!!!!!!!!!Why not?????????
                 //if the piece is in the same column as the piece which was moved or another disambiguation piece,
                 //disambiguate the row
-                if(true) throw new IllegalArgumentException("HERE!! disambRank=" + disambRank);
                 disambRank= "" + convertRowToRank(originRow);
-                
             }else{
                 //disambiguate file
-                //if(true) throw new IllegalArgumentException("Shouldn't be here");
                 disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
             }
-            
         }
 
         //if(true) throw new IllegalArgumentException("disambFile=" + disambFile + " disambRank=" + disambRank);
@@ -141,13 +106,14 @@ public class PGNTranslator{
             pawnPromo= "=" + convertPieceTypeToString(((PawnPromotionMove)move).getPromotionType());
         
         //check if en passant occurred
-        if(moveType == MoveType.EN_PASSANT)
+        if(moveType == MoveType.EN_PASSANT){
             enPassant= " e.p.";
+            capture= "x";
+        }
 
         //find out if opponent's king is in check/checkmate
-        if(board.getCheckmate(isWhite)) checkmate= "#";
-        else if(board.getCheck(isWhite)) check= "+";
-
+        if(newBoard.getCheckmate(isWhite)) checkmate= "#";
+        else if(newBoard.getCheck(isWhite)) check= "+";
 
         return piece + disambFile + disambRank + capture + destFile + destRank +
             pawnPromo + enPassant + check + checkmate;
@@ -155,11 +121,13 @@ public class PGNTranslator{
 
     public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
+
+        System.err.println("pgn= " + pgn);
         String regex=
             "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
             "(?<capture>x?)(?<destFile>[a-h])(?<destRank>[1-8])=?(?<pawnPromo>[QRBN]?)" +
             "(?<enPassant>(\\s?e\\.?p\\.?)?)(?<check>\\+?)(?<checkmate>[#\\+]?)" +
-            "\\s*[\\!\\?]*|(?<castle>O-?O(-?O)?)(?<castleCheck>\\+?)" +
+            "\\s*[\\!\\?]*|(?<castle>O-?O((-?O)?)?)(?<castleCheck>\\+?)" +
             "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]*";
 
         //this pattern DOES NOT take into account the number of a move, more than
@@ -178,7 +146,7 @@ public class PGNTranslator{
         //put the capture groups into their own strings
         String piece= matcher.group("piece");
         //if piece is "p" or "P", convert it to an empty string for later logic
-        if(piece.equalsIgnoreCase("p")) piece= "";
+        if(piece != null && piece.equalsIgnoreCase("p")) piece= "";
 
         String disambFile= matcher.group("disambFile");
         String disambRank= matcher.group("disambRank");
@@ -193,30 +161,48 @@ public class PGNTranslator{
         String castleCheck= matcher.group("castleCheck");
         String castleCheckmate= matcher.group("castleCheckmate");
 
+        System.err.println("piece= " + piece);
+        System.err.println("disambFile= " + disambFile);
+        System.err.println("disambRank= " + disambRank);
+        System.err.println("capture= " + capture);
+        System.err.println("destFile= " + destFile);
+        System.err.println("destRank= " + destRank);
+        System.err.println("pawnPromo= " + pawnPromo);
+        System.err.println("enPassant= " + enPassant);
+        System.err.println("check= " + check);
+        System.err.println("checkmate= " + checkmate);
+        System.err.println("castle= " + castle);
+        System.err.println("castleCheck= " + castleCheck);
+        System.err.println("castleCheckmate= " + castleCheckmate);
+        System.err.println();
         
+
         if(piece == null && disambFile == null && disambRank == null && capture == null &&
         destFile == null && destRank == null && pawnPromo == null && enPassant == null &&
         check == null && checkmate == null && castle != null && castleCheck != null &&
         castleCheckmate != null){
             //if the form was castling, do castling stuff
 
+            System.err.println("Entered here");
+            //causing null pointer exception
             Move move;
             if(castle.equalsIgnoreCase("O-O") || castle.equalsIgnoreCase("OO")){
+                System.err.println("Move is O-O");
                 if(playerIsWhite){
-                    // move= new Move(0, 4, 0, 6);
-                    move = getMoveWithMoveType(board, 0, 4, 0, 6);
-                    
+                    System.err.println("Player is white");
+                    move = getMoveWithMoveType(board, 7, 4, 7, 6, pawnPromo);
                 }else{
-                    // move= new Move(7, 4, 7, 6);
-                    move = getMoveWithMoveType(board, 7, 4, 7, 6);
+                    System.err.println("Player is black");
+                    move = getMoveWithMoveType(board, 0, 4, 0, 6, pawnPromo);
                 }
             }else if(castle.equalsIgnoreCase("O-O-O") || castle.equalsIgnoreCase("OOO")){
+                System.err.println("Move is O-O-O");
                 if(playerIsWhite){
-                    // move= new Move(0, 4, 0, 2);
-                    move = getMoveWithMoveType(board, 0, 4, 0, 2);
+                    System.err.println("Player is white");
+                    move = getMoveWithMoveType(board, 7, 4, 7, 2, pawnPromo);
                 }else{
-                    // move= new Move(7, 4, 7, 2);
-                    move = getMoveWithMoveType(board, 7, 4, 7, 2);
+                    System.err.println("Player is black");
+                    move = getMoveWithMoveType(board, 0, 4, 0, 2, pawnPromo);
                 }
             }else throw new IllegalArgumentException("Incorrect castling move format");
 
@@ -279,19 +265,29 @@ public class PGNTranslator{
             List<Integer> originSquare= matchDisamb.get(0);
             // get the move from the calculated list of moves, since the calculated list of
             // moves includes the correct move type
-            Move translatedMove = getMoveWithMoveType(board, originSquare.get(0), originSquare.get(1), convertRankToRow(destRank), toCol);
+            Move translatedMove = getMoveWithMoveType(board, originSquare.get(0), originSquare.get(1), convertRankToRow(destRank), toCol, pawnPromo);
             return translatedMove;
 
         }else throw new IllegalStateException("Cannot perform normal move and castling move at same time");
     }
 
-    private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol) {
+    private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol, String pawnPromo) {
+        //System.err.println("Entered getMoveWithMoveType");
         Move translatedMove = null;
         List<Move> movesList = board.getMoves(startRow, startCol);
-        for (int i=0; i<movesList.size(); i++) {
-            if (movesList.get(i).hasDestination(endRow, endCol)) {
-                translatedMove = movesList.get(i);
-                break;
+        System.err.println("movesList.size()= " + movesList.size());
+        for (int i=0; i < movesList.size(); i++) {
+            Move move= movesList.get(i);
+            if (move.hasDestination(endRow, endCol)) {
+                if(pawnPromo != null && !pawnPromo.equals("")){
+                    if(convertPieceTypeToString(((PawnPromotionMove)move).getPromotionType()).equalsIgnoreCase(pawnPromo)){
+                        translatedMove = move;
+                        break;
+                    }
+                }else{
+                    translatedMove = move;
+                    break;
+                }
             }
         }
         return translatedMove;

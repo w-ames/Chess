@@ -246,16 +246,16 @@ public class TestPGNTranslator {
     @Test
     public void testDisambBothQueenMoveToPGN() {
         testBoard.initializeBoard(DISAMB_BOTH_QUEEN_MOVE);
-        assertEquals("Incorrect PGN String returned for disambiguation both move", "Qh2h4", PGNTranslator.translateMoveToPGN(new Move(6,7,4,7), testBoard));
+        assertEquals("Incorrect PGN String returned for disambiguation both move", "Qf2h4", PGNTranslator.translateMoveToPGN(new Move(6,5,4,7), testBoard));
     }
 
     @Test
     public void testDisambBothQueenPGNToMove(){
         testBoard.initializeBoard(DISAMB_BOTH_QUEEN_MOVE);
-        assertEquals("Incorrect Move returned for disambiguation both move", new Move(6,7,4,7), PGNTranslator.translatePGNToMove("Qh2h4", testBoard, true));
+        assertEquals("Incorrect Move returned for disambiguation both move", new Move(6,5,4,7), PGNTranslator.translatePGNToMove("Qf2h4", testBoard, true));
     }
 
-    private static final char[][] DISAMB_BOTH_KNIGHT_MOVE = { //capital=black, lowercase=white
+    private static final char[][] DISAMB_FILE_KNIGHT_MOVE = { //capital=black, lowercase=white
         {' ',' ',' ','K',' ',' ',' ',' '},
         {' ',' ',' ','P','P','P',' ',' '},
         {' ',' ',' ',' ',' ',' ',' ','n'},
@@ -267,15 +267,38 @@ public class TestPGNTranslator {
     };
 
     @Test
-    public void testDisambBothKnightMoveToPGN() {
-        testBoard.initializeBoard(DISAMB_BOTH_KNIGHT_MOVE);
-        assertEquals("Incorrect PGN String returned for disambiguation both move", "Nh6g4", PGNTranslator.translateMoveToPGN(new Move(2,7,4,6), testBoard));
+    public void testDisambFileKnightMoveToPGN() {
+        testBoard.initializeBoard(DISAMB_FILE_KNIGHT_MOVE);
+        assertEquals("Incorrect PGN String returned for disambiguation both move", "Nhg4", PGNTranslator.translateMoveToPGN(new Move(2,7,4,6), testBoard));
     }
 
     @Test
-    public void testDisambBothKnightPGNToMove(){
-        testBoard.initializeBoard(DISAMB_BOTH_KNIGHT_MOVE);
-        assertEquals("Incorrect Move returned for disambiguation both move", new Move(2,7,4,6), PGNTranslator.translatePGNToMove("Nh6g4", testBoard, true));
+    public void testDisambFileKnightPGNToMove(){
+        testBoard.initializeBoard(DISAMB_FILE_KNIGHT_MOVE);
+        assertEquals("Incorrect Move returned for disambiguation both move", new Move(2,7,4,6), PGNTranslator.translatePGNToMove("Nhg4", testBoard, true));
+    }
+
+    private static final char[][] DISAMB_RANK_KNIGHT_MOVE = { //capital=black, lowercase=white
+        {' ',' ',' ','K',' ',' ',' ',' '},
+        {' ',' ',' ','P','P','P',' ',' '},
+        {'n',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',' ',' '},
+        {'n',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ','k',' ',' ',' ',' '},
+    };
+
+    @Test
+    public void testDisambRankKnightMoveToPGN() {
+        testBoard.initializeBoard(DISAMB_RANK_KNIGHT_MOVE);
+        assertEquals("Incorrect PGN String returned for disambiguation both move", "N2b4", PGNTranslator.translateMoveToPGN(new Move(6,0,4,1), testBoard));
+    }
+
+    @Test
+    public void testDisambRankKnightPGNToMove(){
+        testBoard.initializeBoard(DISAMB_RANK_KNIGHT_MOVE);
+        assertEquals("Incorrect Move returned for disambiguation both move", new Move(6,0,4,1), PGNTranslator.translatePGNToMove("N2b4", testBoard, true));
     }
 
     private static final char[][] PAWN_PROMO_MOVE = { //capital=black, lowercase=white
@@ -367,30 +390,35 @@ public class TestPGNTranslator {
     @Test
     public void testEnPassantMoveToPGN() {
         testBoard.initializeBoard(EN_PASSANT_MOVE);
+        testBoard.setEnPassantable(2,4);
         assertEquals("Incorrect PGN String returned for en passant move", "xe6 e.p.", PGNTranslator.translateMoveToPGN(new EnPassantMove(3,5,2,4,3,4), testBoard));
     }
 
     @Test
     public void testEnPassantVariation1PGNToMove(){
         testBoard.initializeBoard(EN_PASSANT_MOVE);
+        testBoard.setEnPassantable(2,4);
         assertEquals("Incorrect Move returned for en passant move", new EnPassantMove(3,5,2,4,3,4), PGNTranslator.translatePGNToMove("xe6 e.p.", testBoard, true));
     }
 
     @Test
     public void testEnPassantVariation2PGNToMove(){
         testBoard.initializeBoard(EN_PASSANT_MOVE);
+        testBoard.setEnPassantable(2,4);
         assertEquals("Incorrect Move returned for en passant move", new EnPassantMove(3,5,2,4,3,4), PGNTranslator.translatePGNToMove("xe6 ep", testBoard, true));
     }
 
     @Test
     public void testEnPassantVariation3PGNToMove(){
         testBoard.initializeBoard(EN_PASSANT_MOVE);
+        testBoard.setEnPassantable(2,4);
         assertEquals("Incorrect Move returned for en passant move", new EnPassantMove(3,5,2,4,3,4), PGNTranslator.translatePGNToMove("xe6e.p.", testBoard, true));
     }
 
     @Test
     public void testEnPassantVariation4PGNToMove(){
         testBoard.initializeBoard(EN_PASSANT_MOVE);
+        testBoard.setEnPassantable(2,4);
         assertEquals("Incorrect Move returned for en passant move", new EnPassantMove(3,5,2,4,3,4), PGNTranslator.translatePGNToMove("xe6ep", testBoard, true));
     }
 
@@ -419,6 +447,7 @@ public class TestPGNTranslator {
 
     @Test
     public void testCastleVariation1PGNToMove(){
+        System.err.println("Castle test");
         testBoard.initializeBoard(CASTLE_MOVE);
         assertEquals("Incorrect Move returned for castle move", new CastlingMove(7,4,7,2,7,0,7,3), PGNTranslator.translatePGNToMove("O-O-O", testBoard, true));
     }
