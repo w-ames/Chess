@@ -443,7 +443,8 @@ public class GameSetUp extends JPanel {
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()], playerDepthList[player2Box.getSelectedIndex()], -1, -1);
+                ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()],
+                        playerDepthList[player2Box.getSelectedIndex()], -1, -1);
                 container.initializeChessPanel(chessGame);
                 chessGame.start();
                 container.show("chesspanel");
@@ -451,4 +452,5 @@ public class GameSetUp extends JPanel {
         });
 
     }
+
 }

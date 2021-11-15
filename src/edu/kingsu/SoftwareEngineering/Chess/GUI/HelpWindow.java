@@ -36,7 +36,10 @@ public class HelpWindow extends JFrame {
 
     MainLayer background = new MainLayer();
 
-    public HelpWindow() {
+/**
+* HelpWindow()
+ */
+ public HelpWindow() {
     }
 
     public HelpWindow(String orgin) {

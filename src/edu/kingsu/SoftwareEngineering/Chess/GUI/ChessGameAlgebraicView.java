@@ -19,7 +19,6 @@ import java.awt.FlowLayout;
 /**
  * ChessGameAlgebraicView class holds the graphical view of the game board.
  * 
- * @author Chelsie Baic
  * @author Greg Cal
  */
 public class ChessGameAlgebraicView extends ChessGameView {
@@ -56,10 +55,11 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.weighty = 0.95;
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 10, 5, 10);
-        this.add(algebraicDisplayPanel, gb);
+        JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(scrollNotifications, gb);
 
         // Adding label to the algraic move input JTextField.
-        JLabel algebraicMoveInputLabel = new JLabel("Enter Algbraic Move: ");
+        JLabel algebraicMoveInputLabel = new JLabel("Enter Algebraic Move: ");
         algebraicMoveInputLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         algebraicMoveInputLabel.setForeground(new Color(16, 46, 60));
         gb.gridy = 1;
@@ -117,10 +117,15 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
     @Override
     public void update() {
-        algebraicDisplayPanel.removeAll();
+        algebraicDisplayPanel.setText("");// Remove all 
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
-        for (int i=0; i<pgnMoves.size(); i++) {
-            algebraicDisplayPanel.append(pgnMoves.get(counter));
+
+        // for (int i=0; i<pgnMoves.size(); i++) {
+        //     algebraicDisplayPanel.append(pgnMoves.get(counter));
+
+        for (String move : pgnMoves) {
+            algebraicDisplayPanel.append(move + "\n");
+
         }
         // for (String move : pgnMoves) {
         //     // algebraicDisplayPanel.setText("");

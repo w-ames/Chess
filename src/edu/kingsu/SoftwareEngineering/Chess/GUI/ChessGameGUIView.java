@@ -116,7 +116,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, true);
 
-                    // For 640 x 640 board size.
+                    // For 650 x 650 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -138,7 +138,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, false);
 
-                    // For 640 x 640 board size.
+                    // For 650 x 650 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -197,9 +197,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         // Dynamic board resizing when frame is resized by user.
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
-            boardHolder.setMinimumSize(new Dimension(640, 640));
-            boardHolder.setPreferredSize(new Dimension(640, 640));
-            boardHolder.setMaximumSize(new Dimension(640, 640));
+            boardHolder.setMinimumSize(new Dimension(650, 650));
+            boardHolder.setPreferredSize(new Dimension(650, 650));
+            boardHolder.setMaximumSize(new Dimension(650, 650));
         } else {
             boardHolder.setMinimumSize(new Dimension(440, 440));
             boardHolder.setPreferredSize(new Dimension(440, 440));
@@ -236,7 +236,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         char[][] pieces = getChessGame().getBoardChars();
 
-        // For 640 x 640 board size.
+        //
+        // For 650 x 650 board size.
+        //
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
             paintBoard(); // Makes sure board is correct size for current frame.
@@ -422,13 +424,13 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public void loadPieceIconsIntoIconVariables() {
 
-        // For 640 x 640 board size.
-        int largeKingSize = 110;
-        int largeQueenSize = 90;
-        int largeKnightSize = 80;
-        int largeBishopSize = 85;
-        int largeRookSize = 70;
-        int largePawnSize = 60;
+        // For 650 x 650 board size.
+        int largeKingSize = 120;
+        int largeQueenSize = 100;
+        int largeKnightSize = 90;
+        int largeBishopSize = 95;
+        int largeRookSize = 80;
+        int largePawnSize = 70;
 
         // For 440 x 440 board size.
         int smallKingSize = 68;
@@ -441,42 +443,42 @@ public class ChessGameGUIView extends ChessGameView {
         // Put the images of the pieces into the image icons.
 
         // Large sizes.
-        largeWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", largePawnSize);
-        largeBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", largePawnSize);
+        largeWhitePawnIcon = openPieceImageFile("piece_images/white_pawn.png", largePawnSize);
+        largeBlackPawnIcon = openPieceImageFile("piece_images/black_pawn.png", largePawnSize);
 
-        largeWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", largeRookSize);
-        largeBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", largeRookSize);
+        largeWhiteRookIcon = openPieceImageFile("piece_images/white_rook.png", largeRookSize);
+        largeBlackRookIcon = openPieceImageFile("piece_images/black_rook.png", largeRookSize);
 
-        largeWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", largeKnightSize);
-        largeBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", largeKnightSize);
+        largeWhiteKnightIcon = openPieceImageFile("piece_images/white_knight.png", largeKnightSize);
+        largeBlackKnightIcon = openPieceImageFile("piece_images/black_knight.png", largeKnightSize);
 
-        largeWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", largeBishopSize);
-        largeBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", largeBishopSize);
+        largeWhiteBishopIcon = openPieceImageFile("piece_images/white_bishop.png", largeBishopSize);
+        largeBlackBishopIcon = openPieceImageFile("piece_images/black_bishop.png", largeBishopSize);
 
-        largeWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", largeQueenSize);
-        largeBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", largeQueenSize);
+        largeWhiteQueenIcon = openPieceImageFile("piece_images/white_queen.png", largeQueenSize);
+        largeBlackQueenIcon = openPieceImageFile("piece_images/black_queen.png", largeQueenSize);
 
-        largeWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", largeKingSize);
-        largeBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", largeKingSize);
+        largeWhiteKingIcon = openPieceImageFile("piece_images/white_king.png", largeKingSize);
+        largeBlackKingIcon = openPieceImageFile("piece_images/black_king.png", largeKingSize);
 
         // Small sizes.
-        smallWhitePawnIcon = openPieceImageFile("src/assets/piece_images/white_pawn.png", smallPawnSize);
-        smallBlackPawnIcon = openPieceImageFile("src/assets/piece_images/black_pawn.png", smallPawnSize);
+        smallWhitePawnIcon = openPieceImageFile("piece_images/white_pawn.png", smallPawnSize);
+        smallBlackPawnIcon = openPieceImageFile("piece_images/black_pawn.png", smallPawnSize);
 
-        smallWhiteRookIcon = openPieceImageFile("src/assets/piece_images/white_rook.png", smallRookSize);
-        smallBlackRookIcon = openPieceImageFile("src/assets/piece_images/black_rook.png", smallRookSize);
+        smallWhiteRookIcon = openPieceImageFile("piece_images/white_rook.png", smallRookSize);
+        smallBlackRookIcon = openPieceImageFile("piece_images/black_rook.png", smallRookSize);
 
-        smallWhiteKnightIcon = openPieceImageFile("src/assets/piece_images/white_knight.png", smallKnightSize);
-        smallBlackKnightIcon = openPieceImageFile("src/assets/piece_images/black_knight.png", smallKnightSize);
+        smallWhiteKnightIcon = openPieceImageFile("piece_images/white_knight.png", smallKnightSize);
+        smallBlackKnightIcon = openPieceImageFile("piece_images/black_knight.png", smallKnightSize);
 
-        smallWhiteBishopIcon = openPieceImageFile("src/assets/piece_images/white_bishop.png", smallBishopSize);
-        smallBlackBishopIcon = openPieceImageFile("src/assets/piece_images/black_bishop.png", smallBishopSize);
+        smallWhiteBishopIcon = openPieceImageFile("piece_images/white_bishop.png", smallBishopSize);
+        smallBlackBishopIcon = openPieceImageFile("piece_images/black_bishop.png", smallBishopSize);
 
-        smallWhiteQueenIcon = openPieceImageFile("src/assets/piece_images/white_queen.png", smallQueenSize);
-        smallBlackQueenIcon = openPieceImageFile("src/assets/piece_images/black_queen.png", smallQueenSize);
+        smallWhiteQueenIcon = openPieceImageFile("piece_images/white_queen.png", smallQueenSize);
+        smallBlackQueenIcon = openPieceImageFile("piece_images/black_queen.png", smallQueenSize);
 
-        smallWhiteKingIcon = openPieceImageFile("src/assets/piece_images/white_king.png", smallKingSize);
-        smallBlackKingIcon = openPieceImageFile("src/assets/piece_images/black_king.png", smallKingSize);
+        smallWhiteKingIcon = openPieceImageFile("piece_images/white_king.png", smallKingSize);
+        smallBlackKingIcon = openPieceImageFile("piece_images/black_king.png", smallKingSize);
 
     }
 
@@ -489,7 +491,7 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public ImageIcon openPieceImageFile(String filePath, int size) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+            BufferedImage bufferedImage = ImageIO.read(getClass().getClassLoader().getResource(filePath));
             Image pieceImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
             ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
             return pieceImageIcon;
@@ -552,13 +554,31 @@ public class ChessGameGUIView extends ChessGameView {
      * Builds and inserts the rank and file chess board border. 
      */
     public void buildRankAndFileBorder() {
-        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
+
+        Color borderColor = new Color(230, 235, 237);
+        Color borderBorderColor = new Color(199, 208, 212); // Color of the border's boarder
+
+        this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, borderBorderColor));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbForThis = new GridBagConstraints();
         gbForThis.fill = GridBagConstraints.CENTER;
         JPanel rankFileAndBoardContainer = new JPanel();
         rankFileAndBoardContainer.setLayout(new GridBagLayout());
         GridBagConstraints containergb = new GridBagConstraints();
+
+        //Add a filler square to the top left of the board border corner. 
+        JPanel topLeftBoardFillerSquare = new JPanel();
+        topLeftBoardFillerSquare.setBackground(borderColor);
+        topLeftBoardFillerSquare.setOpaque(true);
+        topLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
+        containergb.gridx = 0;
+        containergb.gridy = 0;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 1;
+        containergb.weighty = 1;
+        containergb.weightx = 1;
+        rankFileAndBoardContainer.add(topLeftBoardFillerSquare, containergb);
 
         // Build left rank board border.
         JPanel leftRankHolder = new JPanel();
@@ -574,8 +594,8 @@ public class ChessGameGUIView extends ChessGameView {
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
             JPanel rankSquare = new JPanel();
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -585,7 +605,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb.gridy = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 650 x 650 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -608,7 +628,7 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridheight = 8;
         containergb.weighty = 1;
         containergb.weightx = 1;
-        leftRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        leftRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(leftRankHolder, containergb);
 
         // Build top file board border.
@@ -626,8 +646,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -637,7 +657,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 650 x 650 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -659,8 +679,22 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.fill = GridBagConstraints.BOTH;
         containergb.gridwidth = 8;
         containergb.gridheight = 1;
-        topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(topFileHolder, containergb);
+
+        //Add a filler square to the top left of the board border corner. 
+        JPanel topRightBoardFillerSquare = new JPanel();
+        topRightBoardFillerSquare.setBackground(borderColor);
+        topRightBoardFillerSquare.setOpaque(true);
+        topRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
+        containergb.gridx = 9;
+        containergb.gridy = 0;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 1;
+        containergb.weighty = 1;
+        containergb.weightx = 1;
+        rankFileAndBoardContainer.add(topRightBoardFillerSquare, containergb);
 
         // Build right rank board border.
         JPanel rightRankHolder = new JPanel();
@@ -676,8 +710,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -687,7 +721,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb2.gridy = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 650 x 650 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -709,7 +743,7 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridwidth = 1;
         containergb.gridheight = 8;
         containergb.fill = GridBagConstraints.BOTH;
-        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(rightRankHolder, containergb);
 
         containergb.gridx = 1;
@@ -717,6 +751,20 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridwidth = 8;
         containergb.gridheight = 8;
         rankFileAndBoardContainer.add(boardHolder, containergb);
+
+        //Add a filler square to the bottom right of the board border corner. 
+        JPanel bottomRightBoardFillerSquare = new JPanel();
+        bottomRightBoardFillerSquare.setBackground(borderColor);
+        bottomRightBoardFillerSquare.setOpaque(true);
+        bottomRightBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
+        containergb.gridx = 9;
+        containergb.gridy = 9;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 1;
+        containergb.weighty = 1;
+        containergb.weightx = 1;
+        rankFileAndBoardContainer.add(bottomRightBoardFillerSquare, containergb);
 
         // Build bottom file board border.
         JPanel bottomFileHolder = new JPanel();
@@ -732,8 +780,8 @@ public class ChessGameGUIView extends ChessGameView {
             JPanel rankSquare = new JPanel();
             rankLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             rankLabel.setForeground(new Color(84, 133, 156));
-            rankSquare.setBackground(new Color(232, 232, 232));
-            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+            rankSquare.setBackground(borderColor);
+            rankSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderColor));
             rankSquare.setLayout(new GridBagLayout());
             GridBagConstraints gridBag = new GridBagConstraints();
             gridBag.fill = GridBagConstraints.BOTH;
@@ -743,7 +791,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 640 x 640 board size.
+            // For 650 x 650 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -765,8 +813,22 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.fill = GridBagConstraints.BOTH;
         containergb.gridwidth = 8;
         containergb.gridheight = 1;
-        rightRankHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(220, 220, 220)));
+        bottomFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(bottomFileHolder, containergb);
+
+         //Add a filler square to the bottom left of the board border corner. 
+         JPanel bottomLeftBoardFillerSquare = new JPanel();
+         bottomLeftBoardFillerSquare.setBackground(borderColor);
+         bottomLeftBoardFillerSquare.setOpaque(true);
+         bottomLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
+         containergb.gridx = 0;
+         containergb.gridy = 9;
+         containergb.fill = GridBagConstraints.BOTH;
+         containergb.gridwidth = 1;
+         containergb.gridheight = 1;
+         containergb.weighty = 1;
+         containergb.weightx = 1;
+         rankFileAndBoardContainer.add(bottomLeftBoardFillerSquare, containergb);
 
         rankFileAndBoardContainer.setOpaque(false);
         this.add(rankFileAndBoardContainer, gbForThis);
