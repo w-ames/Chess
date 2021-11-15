@@ -29,7 +29,7 @@ public class PGNTranslator{
         boolean isWhite= movedPiece.isWhite();
 
         //special case: move is castle
-        MoveType moveType= move.getType();  //must modify for other stuff (e.g. check)
+        MoveType moveType= move.getType();
         if(moveType == MoveType.CASTLING){
             if(move.getColTo() == ColumnLetter.B.ordinal()){
                 if(board.getCheckmate(isWhite)) return "O-O-O#";
@@ -68,7 +68,7 @@ public class PGNTranslator{
         if(destRow < 0 || destRow > 7) throw new IllegalStateException("Illegal destination row");
         if(destCol < 0 || destCol > 7) throw new IllegalStateException("Illegal destination column");
 
-        destRank= "" + (destRow + 1);
+        destRank= "" + convertRowToRank(destRow);
         destFile= convertColLetterToString(ColumnLetter.values()[destCol]);
 
         //disambiguate
@@ -108,7 +108,6 @@ public class PGNTranslator{
         if(moveType == MoveType.PAWN_PROMOTION)
             pawnPromo= "=" + convertPieceTypeToString(((PawnPromotionMove)move).getPromotionType());
         
-
         //check if en passant occurred
         if(moveType == MoveType.EN_PASSANT)
             enPassant= " e.p.";
@@ -286,5 +285,9 @@ public class PGNTranslator{
         else if(col == ColumnLetter.G) return "g";
         else if(col == ColumnLetter.H) return "h";
         else throw new IllegalArgumentException("Illegal parameter");
+    }
+
+    private static int convertRowToRank(int row){
+        return 8 - row;
     }
 }
