@@ -3,6 +3,7 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 
 /**
  * ChessGameGUIController holds the graphical controller for the chessGame
@@ -39,17 +40,23 @@ public class ChessGameGUIController implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
 
+        boolean isWhiteTurn = chessGame.getPlayerTurn().isWhite();
+        boolean isHumanTurn = chessGame.getPlayerTurn().isHuman();
         int selectedRow = guiView.getSelectedRow();
         int selectedCol = guiView.getSelectedCol();
+        Piece thisPiece = chessGame.getBoard().getPiece(row, col);
+        boolean thisPieceIsPlayerColor = (thisPiece != null) ? thisPiece.isWhite() == isWhiteTurn : false;
+        Piece selectedPiece = chessGame.getBoard().getPiece(selectedRow, selectedCol);
+        boolean selectedPieceIsPlayerColor = (selectedPiece != null) ? selectedPiece.isWhite() == isWhiteTurn : false;
 
-        if (selectedRow == -1 || selectedCol == -1) {
-            guiView.setSelectedRow(row);
-            guiView.setSelectedCol(col);
-
-        } else {
-            chessGame.performMove(selectedRow, selectedCol, row, col, true);
-            guiView.setSelectedRow(-1);
-            guiView.setSelectedCol(-1);
+        if (isHumanTurn) {
+            if (thisPieceIsPlayerColor) {
+                guiView.setSelected(row, col);
+            } else if (selectedPieceIsPlayerColor) {
+                chessGame.performMove(selectedRow, selectedCol, row, col, true);
+                guiView.setSelected(-1, -1);
+            }
         }
     }
+
 }

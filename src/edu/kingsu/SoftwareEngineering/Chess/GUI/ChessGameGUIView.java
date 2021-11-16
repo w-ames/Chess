@@ -523,8 +523,9 @@ public class ChessGameGUIView extends ChessGameView {
     /**
      * Sets the selected row.
      * 
-     * @param The row to be the "selected row".
+     * @param row The row to be the "selected row".
      */
+    @Deprecated
     public void setSelectedRow(int row) {
         selectedRow = row;
     }
@@ -534,7 +535,19 @@ public class ChessGameGUIView extends ChessGameView {
      * 
      * @param col The row to be the "selected column".
      */
+    @Deprecated
     public void setSelectedCol(int col) {
+        selectedCol = col;
+    }
+
+    /**
+     * Sets the selected row and column.
+     * 
+     * @param row The row to be the "selected row".
+     * @param col The row to be the "selected column".
+     */
+    public void setSelected(int row, int col) {
+        selectedRow = row;
         selectedCol = col;
     }
 
