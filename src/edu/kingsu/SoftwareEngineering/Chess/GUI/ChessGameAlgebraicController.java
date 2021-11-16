@@ -2,6 +2,9 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.swing.*;
+
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
@@ -23,7 +26,9 @@ public class ChessGameAlgebraicController implements ActionListener {
 
     // Submit the algebraic move
     public void actionPerformed(ActionEvent e) {
-
+        JTextField textField = (JTextField)e.getSource();
+        chessGame.performMove(textField.getText().trim(), true);
+        textField.setText("");
     }
 
 }

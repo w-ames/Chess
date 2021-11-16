@@ -220,7 +220,13 @@ public class ChessGame {
      *  <code>false</code> otherwise
      */
     public boolean performMove(String movePgn, boolean humanMoveMaker) {
-        return true;
+        Move move = null;
+        try {
+            move = PGNTranslator.translatePGNToMove(movePgn, board, getPlayerTurn().isWhite());
+        } catch(Exception e){
+            return false;
+        }
+        return performMove(move, humanMoveMaker);
     }
 
     /**
