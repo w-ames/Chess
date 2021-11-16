@@ -228,6 +228,11 @@ public class TestBoard {
         initialBoard.initializeBoard(castleBoard);
         assertMoves(7, 7, 4);
         assertMoves(0, 0, 4);
+
+        initialBoard.initializeBoard(castleBoard);
+        (new Move(7,4,6,4)).perform(initialBoard);
+        (new Move(6,4,7,4)).perform(initialBoard);
+        assertMoves(5, 7, 4);
     }
 
     private void assertMoves(int expected, int r, int c) {
