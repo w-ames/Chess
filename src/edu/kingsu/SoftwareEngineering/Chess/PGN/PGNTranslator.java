@@ -121,8 +121,6 @@ public class PGNTranslator{
 
     public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
-
-        System.err.println("pgn= " + pgn);
         String regex=
             "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
             "(?<capture>x?)(?<destFile>[a-h])(?<destRank>[1-8])=?(?<pawnPromo>[QRBN]?)" +
@@ -159,23 +157,7 @@ public class PGNTranslator{
         String checkmate= matcher.group("checkmate");
         String castle= matcher.group("castle");
         String castleCheck= matcher.group("castleCheck");
-        String castleCheckmate= matcher.group("castleCheckmate");
-
-        System.err.println("piece= " + piece);
-        System.err.println("disambFile= " + disambFile);
-        System.err.println("disambRank= " + disambRank);
-        System.err.println("capture= " + capture);
-        System.err.println("destFile= " + destFile);
-        System.err.println("destRank= " + destRank);
-        System.err.println("pawnPromo= " + pawnPromo);
-        System.err.println("enPassant= " + enPassant);
-        System.err.println("check= " + check);
-        System.err.println("checkmate= " + checkmate);
-        System.err.println("castle= " + castle);
-        System.err.println("castleCheck= " + castleCheck);
-        System.err.println("castleCheckmate= " + castleCheckmate);
-        System.err.println();
-        
+        String castleCheckmate= matcher.group("castleCheckmate");      
 
         if(piece == null && disambFile == null && disambRank == null && capture == null &&
         destFile == null && destRank == null && pawnPromo == null && enPassant == null &&
@@ -183,25 +165,17 @@ public class PGNTranslator{
         castleCheckmate != null){
             //if the form was castling, do castling stuff
 
-            System.err.println("Entered here");
-            //causing null pointer exception
             Move move;
             if(castle.equalsIgnoreCase("O-O") || castle.equalsIgnoreCase("OO")){
-                System.err.println("Move is O-O");
                 if(playerIsWhite){
-                    System.err.println("Player is white");
                     move = getMoveWithMoveType(board, 7, 4, 7, 6, pawnPromo);
                 }else{
-                    System.err.println("Player is black");
                     move = getMoveWithMoveType(board, 0, 4, 0, 6, pawnPromo);
                 }
             }else if(castle.equalsIgnoreCase("O-O-O") || castle.equalsIgnoreCase("OOO")){
-                System.err.println("Move is O-O-O");
                 if(playerIsWhite){
-                    System.err.println("Player is white");
                     move = getMoveWithMoveType(board, 7, 4, 7, 2, pawnPromo);
                 }else{
-                    System.err.println("Player is black");
                     move = getMoveWithMoveType(board, 0, 4, 0, 2, pawnPromo);
                 }
             }else throw new IllegalArgumentException("Incorrect castling move format");
@@ -272,10 +246,8 @@ public class PGNTranslator{
     }
 
     private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol, String pawnPromo) {
-        //System.err.println("Entered getMoveWithMoveType");
         Move translatedMove = null;
         List<Move> movesList = board.getMoves(startRow, startCol);
-        System.err.println("movesList.size()= " + movesList.size());
         for (int i=0; i < movesList.size(); i++) {
             Move move= movesList.get(i);
             if (move.hasDestination(endRow, endCol)) {
