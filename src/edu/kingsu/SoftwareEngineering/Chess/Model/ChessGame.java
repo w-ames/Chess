@@ -199,7 +199,7 @@ public class ChessGame {
         synchronized (this) {
             if (humanMoveMaker == getPlayerTurn().isHuman() && validateMove(move)) {
                 synchronized (playerTurnLock) {
-                    performMove(true, move);
+                    performMove(move);
                     notifyViews();
                     this.notifyAll();
                 }
@@ -229,7 +229,7 @@ public class ChessGame {
      *  the history list of moves, <code>false</code> otherwise
      * @param move the move to perform on the board
      */
-    private void performMove(boolean addToHistory, Move move) {
+    private void performMove(Move move) {
         // if (addToHistory) {
         //     if (moveNo < moveHistory.size()) {
         //         moveHistory = moveHistory.subList(0, moveNo);
@@ -339,7 +339,7 @@ public class ChessGame {
                 playerTurn = whitePlayer;
             }
             for (int i=0; i<endMoveNo; i++) {
-                performMove(false, moveHistory.get(i));
+                performMove(moveHistory.get(i));
             }
         }
         start();
@@ -367,7 +367,7 @@ public class ChessGame {
             }
             stop();
             for (int i=moveNo; i<endMoveNo; i++) {
-                performMove(false, moveHistory.get(i));
+                performMove(moveHistory.get(i));
             }
         }
         start();
