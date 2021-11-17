@@ -254,4 +254,63 @@ public class TestChessGame {
     @Test
     public void testResetTimers() {
     }
+
+    @Test
+    public void testGetMoveHighlights() {
+        char[][] pawnTestExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','d',' ',' ',' '},
+            {' ',' ',' ',' ','t',' ',' ',' '},
+            {' ',' ',' ',' ','f',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] pawnTestResult = testGame.getMoveHighlights(6, 4);
+        assertHighlights(pawnTestExpected, pawnTestResult);
+        char[][] knightTestExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {'t',' ','t',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ','f',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] knightTestResult = testGame.getMoveHighlights(7, 1);
+        assertHighlights(knightTestExpected, knightTestResult);
+    }
+
+    @Test
+    public void testGetHumanHint() {
+        // TODO this sometimes fails...
+        ChessGame cg = new ChessGame(-1, -1 , -1, -1);
+        cg.start();
+        cg.performMove(6, 4, 4, 4, true);
+        cg.performMove(1, 4, 3, 4, true);
+        cg.performMove(6, 6, 5, 6, true);
+        cg.performMove(0, 3, 4, 7, true);
+        char[][] queenTakeExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ','x'},
+            {' ',' ',' ',' ',' ',' ','f',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] queenTakeResult = cg.getHumanHint();
+        assertHighlights(queenTakeExpected, queenTakeResult);
+        cg.stop();
+    }
+
+    private void assertHighlights(char[][] expected, char[][] given) {
+        assertEquals("2 dimensional character array has an incorrect number of rows.", expected.length, given.length);
+        for (int i=0; i<expected.length; i++) {
+            assertArrayEquals("Row "+i+" of 2 dimensional character array does not return the correct character array", expected[i], given[i]);
+        }
+    }
 }
