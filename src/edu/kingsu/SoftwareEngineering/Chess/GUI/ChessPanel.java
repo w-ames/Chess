@@ -435,8 +435,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         GameState currentGameState = guiView.returnCurrentGameState();
 
-        System.err.println(currentGameState);
-
         if (false) { // Check if pawn promotion here.
 
             addNotification("Pawn promotion!");
