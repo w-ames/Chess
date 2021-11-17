@@ -37,13 +37,11 @@ public class PlayerAI extends Player {
                     } else {
                         setAIThread(ChessAI.bestMove(getChessGame().getBoard(), getAIDepth(), isWhite()));
                     }
-                    getAIThread().start();
+                    // getAIThread().start();
                     Move aiMove = getAIThread().getResult();
                     getChessGame().performMove(aiMove, isHuman()); // notifies all, and by the time it does so the turn is not this player's
                 } catch(InterruptedException e){
-                    if (getAIThread() != null) {
-                        getAIThread().interrupt();
-                    }
+                    resetAIThread();
                     break;
                 }
             }

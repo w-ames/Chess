@@ -303,6 +303,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '}
         };
         char[][] queenTakeResult = cg.getHumanHint();
+        assertNotNull("Hint function returned null.", queenTakeResult);
         assertHighlights(queenTakeExpected, queenTakeResult);
         cg.stop();
     }

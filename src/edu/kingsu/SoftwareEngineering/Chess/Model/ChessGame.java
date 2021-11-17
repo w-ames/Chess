@@ -28,7 +28,7 @@ public class ChessGame {
     private List<String> algebraicHistory;
     private int moveNo;
     private List<ChessGameView> views;
-    private static final int HINT_THREAD_ATTEMPT_MAX = 5;
+    private static final int HINT_THREAD_ATTEMPT_MAX = 10;
     private static final int HINT_THREAD_ATTEMPT_SLEEP = 1000;
 
     // Overall game time
@@ -271,6 +271,8 @@ public class ChessGame {
         //         playerTurn.stop();
         //     }
         // })).start();
+        playerTurn.resetAIThread();
+        // playerTurn.notifyAll();
         playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
     }
 
@@ -450,24 +452,52 @@ public class ChessGame {
         };
         ChessAIThread hintThread = null;
         try {
-            int attempts = HINT_THREAD_ATTEMPT_MAX;
-            while (hintThread == null) {
-                // System.err.println("GONNA GET THREAD! (1)");
-                hintThread = getPlayerTurn().getAIThread();
-                // System.err.println("GONNA GET THREAD! (2)");
-                attempts--;
-                if (attempts > 0) {
-                    Thread.sleep(HINT_THREAD_ATTEMPT_SLEEP);
-                } else {
-                    throw new InterruptedException();
+            // int attempts = HINT_THREAD_ATTEMPT_MAX;
+            // while (hintThread == null) {
+            //     System.err.println("ATTEMPTS "+attempts);
+            //     // synchronized (this) {
+            //     //     hintThread = getPlayerTurn().getStartedAIThread();
+            //     // }
+            //     // hintThread = getPlayerTurn().getStartedAIThread();
+            //     hintThread = getPlayerTurn().getAIThread();
+            //     attempts--;
+            //     if (attempts > 0) {
+            //         if (hintThread == null) {
+            //             Thread.sleep(HINT_THREAD_ATTEMPT_SLEEP);
+            //         }
+            //     } else {
+            //         throw new InterruptedException();
+            //     }
+            // }
+
+            // synchronized (playerTurnLock) {
+            //     Player curPlayer = getPlayerTurn();
+            //     synchronized (curPlayer) {
+            //         if (curPlayer.getAIThread() == null) {
+            //             curPlayer.wait();
+            //         }
+            //         hintThread = curPlayer.getAIThread();
+            //         if (hintThread == null) {
+            //             return null;
+            //         }
+            //     }
+            // }
+
+            // synchronized (playerTurnLock) {
+                synchronized (playerTurn) {
+                    if (playerTurn.getAIThread() == null) {
+                        playerTurn.wait();
+                    }
+                    hintThread = playerTurn.getAIThread();
                 }
+            // }
+            if (hintThread == null) {
+                return null;
             }
-            getPlayerTurn().getAIThread().join();
         } catch(InterruptedException e) {
-            // System.err.println("INTERRUPT");
+            System.err.println("Error: Was interrupted/timed out during move calculation thread retrieval.");
             return null;
         }
-        // System.err.println("GONNA GET RESULT");
         Move hintMove = hintThread.getResult();
         highlights[hintMove.getRowFrom()][hintMove.getColFrom()] = 'f';
         highlights[hintMove.getRowTo()][hintMove.getColTo()] = getHighlightChar(hintMove);
