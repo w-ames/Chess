@@ -76,7 +76,7 @@ public class PopupLayer extends JPanel implements MouseListener {
         display.add(pawnPromotionLabel, gb);
 
         // Customize JComboBox.
-        String[] pawnPromotionOptions = new String[] { "Queen", "King", "Rook", "Bishop", "Knight", "None" };
+        String[] pawnPromotionOptions = new String[] { "Queen", "King", "Rook", "Bishop", "Knight", "Pawn" };
         choosePawnPromotion = new JComboBox<String>(pawnPromotionOptions);
 
         // Add pawn promotion JComboBox.
@@ -150,24 +150,50 @@ public class PopupLayer extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        String userPawnPromotionChoice = String.valueOf(choosePawnPromotion.getSelectedItem());
         JButton copyButton = (JButton) e.getSource();
         String name = copyButton.getText();
 
         // This if/else block specifies how each button behaves.
         if (name.equals("Submit")) {
 
+            String userPawnPromotionChoice = String.valueOf(choosePawnPromotion.getSelectedItem());
+
             // User input upon submit can be found in the variable: userPawnPromotionChoice.
+            // ******
+            // Put code to use pawn promotion choice here
+            // *****
+
+            if (userPawnPromotionChoice.equals("Queen")) {
+
+            } else if (userPawnPromotionChoice.equals("King")) {
+
+            } else if (userPawnPromotionChoice.equals("Rook")) {
+
+            } else if (userPawnPromotionChoice.equals("Knight")) {
+
+            } else if (userPawnPromotionChoice.equals("Bishop")) {
+
+            } else if (userPawnPromotionChoice.equals("Pawn")) {
+
+            }
+
+            this.setVisible(false);
 
         } else if (name.equals("View Board")) {
-            // Hide end game options here.
+
+            // Hide end game options.
+            this.setVisible(false);
+
         } else if (name.equals("Rematch")) {
+
             // Call rematch here
 
         } else if (name.equals("New Game")) {
+
             // Call new game here
 
         } else if (name.equals("Main Menu")) {
+
             // Call back to main menu here
         }
     }
