@@ -7,6 +7,7 @@ import java.util.Timer;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ChessGameView;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.*;
 
 /**
  * This class fully represents a game of chess involving all its components.
@@ -70,6 +71,7 @@ public class ChessGame {
      *  upon making a move
      */
     public void initialize(int whiteAI, int blackAI, int playerInterval, int playerIncrement) {
+        moveNo = 0;
         moveHistory = new ArrayList<Move>();
         algebraicHistory = new ArrayList<String>();
         this.playerInterval = playerInterval;
@@ -85,8 +87,8 @@ public class ChessGame {
             blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement, blackAI);
         }
         playerTurn = whitePlayer;
-        whitePlayerThread = new Thread(whitePlayer);
-        blackPlayerThread = new Thread(blackPlayer);
+        // whitePlayerThread = new Thread(whitePlayer);
+        // blackPlayerThread = new Thread(blackPlayer);
         board = new Board();
     }
 
@@ -197,15 +199,7 @@ public class ChessGame {
         synchronized (this) {
             if (humanMoveMaker == getPlayerTurn().isHuman() && validateMove(move)) {
                 synchronized (playerTurnLock) {
-                    move.perform(board);
-                    moveHistory.add(move);
-                    algebraicHistory.add("<Move>");
-                    // (new Thread(new Runnable() {
-                    //     public void run() {
-                    //         playerTurn.stop();
-                    //     }
-                    // })).start();
-                    playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
+                    performMove(move);
                     notifyViews();
                     this.notifyAll();
                 }
@@ -226,7 +220,55 @@ public class ChessGame {
      *  <code>false</code> otherwise
      */
     public boolean performMove(String movePgn, boolean humanMoveMaker) {
-        return true;
+        Move move = null;
+        try {
+            move = PGNTranslator.translatePGNToMove(movePgn, board, getPlayerTurn().isWhite());
+        } catch(Exception e){
+            return false;
+        }
+        return performMove(move, humanMoveMaker);
+    }
+
+    /**
+     * Performs a move on the chess board.
+     * @param addToHistory <code>true</code> if the given move should be added to
+     *  the history list of moves, <code>false</code> otherwise
+     * @param move the move to perform on the board
+     */
+    private void performMove(Move move) {
+        // if (addToHistory) {
+        //     if (moveNo < moveHistory.size()) {
+        //         moveHistory = moveHistory.subList(0, moveNo);
+        //         algebraicHistory = algebraicHistory.subList(0, moveNo);
+        //     }
+        //     moveHistory.add(move);
+        //     algebraicHistory.add(PGNTranslator.translateMoveToPGN(move, board));
+        // }
+        boolean appendToHistory = true;
+        if (0 <= moveNo && moveNo < moveHistory.size()) {
+            // the history position tracker is in the middle of our move history
+            if (moveHistory.get(moveNo).equals(move)) {
+                // redoing the next move in our list
+                appendToHistory = false;
+            } else {
+                // rewrite history
+                appendToHistory = true;
+                moveHistory = moveHistory.subList(0, moveNo);
+                algebraicHistory = algebraicHistory.subList(0, moveNo);
+            }
+        }
+        if (appendToHistory) {
+            moveHistory.add(move);
+            algebraicHistory.add(PGNTranslator.translateMoveToPGN(move, board));
+        }
+        move.perform(board);
+        moveNo++;
+        // (new Thread(new Runnable() {
+        //     public void run() {
+        //         playerTurn.stop();
+        //     }
+        // })).start();
+        playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
     }
 
     /**
@@ -247,7 +289,9 @@ public class ChessGame {
     public void start() {
         synchronized (this) {
             notifyViews();
+            whitePlayerThread = new Thread(whitePlayer);
             whitePlayerThread.start();
+            blackPlayerThread = new Thread(blackPlayer);
             blackPlayerThread.start();
             this.notifyAll();
         }
@@ -258,8 +302,12 @@ public class ChessGame {
      * tick down, and AI players do not move on their turn.
      */
     public void stop() {
-        whitePlayerThread.interrupt();
-        blackPlayerThread.interrupt();
+        if (whitePlayerThread != null) {
+            whitePlayerThread.interrupt();
+        }
+        if (blackPlayerThread != null) {
+            blackPlayerThread.interrupt();
+        }
     }
 
     /**
@@ -278,6 +326,29 @@ public class ChessGame {
      *  moves to undo
      */
     public boolean undo() {
+        synchronized(this) {
+            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+                return false;
+            }
+            Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
+            int endMoveNo = moveNo-1;
+            if (!otherPlayer.isHuman()) {
+                endMoveNo--;
+            }
+            if (endMoveNo < 0) {
+                return false;
+            }
+            stop();
+            board = new Board();
+            moveNo = 0;
+            synchronized(playerTurnLock) {
+                playerTurn = whitePlayer;
+            }
+            for (int i=0; i<endMoveNo; i++) {
+                performMove(moveHistory.get(i));
+            }
+        }
+        start();
         return true;
     }
 
@@ -288,6 +359,24 @@ public class ChessGame {
      *  moves to redo
      */
     public boolean redo() {
+        synchronized(this) {
+            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+                return false;
+            }
+            Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
+            int endMoveNo = moveNo+1;
+            if (!otherPlayer.isHuman()) {
+                endMoveNo++;
+            }
+            if (endMoveNo > moveHistory.size()) {
+                return false;
+            }
+            stop();
+            for (int i=moveNo; i<endMoveNo; i++) {
+                performMove(moveHistory.get(i));
+            }
+        }
+        start();
         return true;
     }
 

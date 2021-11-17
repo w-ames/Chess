@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ComponentAdapter;
@@ -31,7 +33,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * 
  * @author Chelsie Bajic
  */
-public class ChessPanel extends JPanel implements MouseListener {
+public class ChessPanel extends ChessGameView implements MouseListener {
 
     private JLayeredPane layeredPane = new JLayeredPane();
     private MainLayer mainLayer = new MainLayer();
@@ -55,9 +57,6 @@ public class ChessPanel extends JPanel implements MouseListener {
     private CustomButton resignButton = new CustomButton("Resign");
     private CustomButton pieceInfo = new CustomButton("About Piece");
     private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
-
-    // private ChessGameGUIController guiController = new
-    // ChessGameGUIController(guiView, chessGame);
 
     // endGameState is used to determine if the main panel should display the "View
     // End Game Options" button instead of the "Resign" button.
@@ -272,10 +271,29 @@ public class ChessPanel extends JPanel implements MouseListener {
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
         messagesView.setChessGame(chessGame);
+        this.setChessGame(chessGame);
 
         chessGame.registerView(guiView);
         chessGame.registerView(algebraicView);
         chessGame.registerView(messagesView);
+        chessGame.registerView(this);
+
+        for (ActionListener al : undoButton.getActionListeners()) {
+            undoButton.removeActionListener(al);
+        }
+        undoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessGame.undo();
+            }
+        });
+        for (ActionListener al : redoButton.getActionListeners()) {
+            redoButton.removeActionListener(al);
+        }
+        redoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessGame.redo();
+            }
+        });
     }
 
     /**
@@ -406,6 +424,76 @@ public class ChessPanel extends JPanel implements MouseListener {
     public void updatePieceSizes() {
         guiView.setContainerSize((int) container.getBounds().getWidth(), (int) container.getBounds().getHeight());
         guiView.update();
+    }
+
+    /**
+     * Checks the state of the game to see if ChessPanel needs to display pawn
+     * promotion pop up screen or end game options pop up screen.
+     */
+    @Override
+    public void update() {
+
+        GameState currentGameState = guiView.returnCurrentGameState();
+
+        System.err.println(currentGameState);
+
+        if (false) { // Check if pawn promotion here.
+
+            addNotification("Pawn promotion!");
+            this.showPawnPromotionScreen();
+
+        } else if (false) { // Check if 50 moves stalemate here.
+
+            addNotification("50 move stalemate");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if no moves stalemate here.
+
+            addNotification("Stalemate");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if repetition stalemate here.
+
+            addNotification("Repetition stalemate");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if white check here.
+
+            addNotification("White is in check!");
+            // Add code for white check here.
+
+        } else if (false) { // Check if black check here.
+
+            addNotification("Black is in check!");
+            // Add code for black check here.
+
+        } else if (false) { // Check if white checkmate here.
+
+            addNotification("Checkmate!");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if black checkmate here.
+
+            addNotification("Checkmate!");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if white resign here.
+
+            addNotification("White has resigned");
+            this.showEndGameOptions();
+
+        } else if (false) { // Check if black resign here.
+
+            addNotification("Black has resigned");
+            this.showEndGameOptions();
+
+        }
+
+    }
+
+    @Override
+    public void addListeners() {
+
     }
 
     // The following are unused but required to implement MouseListener.

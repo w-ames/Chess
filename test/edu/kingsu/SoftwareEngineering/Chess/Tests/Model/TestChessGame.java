@@ -201,14 +201,53 @@ public class TestChessGame {
     public void testSetInterval() {
     }
 
-    @Ignore
     @Test
     public void testUndo() {
+        ChessGame cg = new ChessGame(-1, -1, -1, -1);
+        cg.start();
+        cg.performMove(6,4,4,4,true); // e4
+        assertTrue("Unable to undo first move.", cg.undo());
+        cg.performMove(6,4,4,4,true); // e4
+        cg.performMove(1,4,3,4,true); // e5
+        cg.performMove(6,3,4,3,true); // d4
+        cg.performMove(1,3,3,3,true); // d5
+        assertTrue("Unable to undo 4/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 3/4 move (white).", cg.undo());
+        assertTrue("Unable to undo 2/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 1/4 move (white).", cg.undo());
+        cg.stop();
     }
 
-    @Ignore
     @Test
     public void testRedo() {
+        ChessGame cg = new ChessGame(-1, -1, -1, -1);
+        cg.start();
+        cg.performMove(6,4,4,4,true); // e4
+        assertTrue("Unable to undo first move.", cg.undo());
+        assertTrue("Unable to redo first move.", cg.redo());
+        cg.performMove(6,4,4,4,true); // e4
+        cg.performMove(1,4,3,4,true); // e5
+        cg.performMove(6,3,4,3,true); // d4
+        cg.performMove(1,3,3,3,true); // d5
+
+        assertTrue("Unable to undo 4/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 3/4 move (white).", cg.undo());
+        assertTrue("Unable to undo 2/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 1/4 move (white).", cg.undo());
+        assertTrue("Unable to redo 1/4 move (white).", cg.redo());
+        assertTrue("Unable to redo 2/4 move (black).", cg.redo());
+        assertTrue("Unable to redo 3/4 move (white).", cg.redo());
+        assertTrue("Unable to redo 4/4 move (black).", cg.redo());
+
+        assertTrue("Unable to undo 4/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 3/4 move (white).", cg.undo());
+        assertTrue("Unable to undo 2/4 move (black).", cg.undo());
+        assertTrue("Unable to undo 1/4 move (white).", cg.undo());
+        cg.performMove(6,4,4,4,true); // e4
+        assertTrue("Unable to redo 2/4 move (black) after manual redo.", cg.redo());
+        assertTrue("Unable to redo 3/4 move (white) after manual redo.", cg.redo());
+        assertTrue("Unable to redo 4/4 move (black) after manual redo.", cg.redo());
+        cg.stop();
     }
 
     @Ignore

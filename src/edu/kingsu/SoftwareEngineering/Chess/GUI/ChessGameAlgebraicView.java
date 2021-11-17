@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.Insets;
+import javax.swing.text.DefaultCaret;
 import java.awt.FlowLayout;
 
 /**
@@ -58,7 +59,13 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.weighty = 0.95;
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 10, 5, 10);
-        JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollNotifications.setMaximumSize(new Dimension(10, 100));
+        scrollNotifications.setPreferredSize(new Dimension(10, 100));
+        scrollNotifications.setMinimumSize(new Dimension(10, 100));
+        DefaultCaret caret = (DefaultCaret) algebraicDisplayPanel.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         this.add(scrollNotifications, gb);
 
         // Adding label to the algraic move input JTextField.
@@ -120,7 +127,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
     @Override
     public void update() {
-        algebraicDisplayPanel.setText("");// Remove all 
+        algebraicDisplayPanel.setText("");// Remove all
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
         
         // if(moveSet == false ){

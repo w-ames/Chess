@@ -57,8 +57,14 @@ public class Move {
      */
     public void perform(Board board) {
         Piece movingPiece = board.getPiece(rowFrom, colFrom);
-        if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
-            ((Pawn)movingPiece).doneDoubleMove();
+        if (movingPiece != null) {
+            if (movingPiece.getPieceType() == PieceType.PAWN) {
+                ((Pawn)movingPiece).doneDoubleMove();
+            } else if (movingPiece.getPieceType() == PieceType.KING) {
+                ((King)movingPiece).doneCastling();
+            } else if (movingPiece.getPieceType() == PieceType.ROOK) {
+                ((Rook)movingPiece).doneCastling();
+            }
         }
         board.setPiece(rowTo, colTo, movingPiece);
         board.setPiece(rowFrom, colFrom, null);
