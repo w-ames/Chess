@@ -28,6 +28,9 @@ public class ChessGameAlgebraicView extends ChessGameView {
     private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
     private GridBagConstraints dp = new GridBagConstraints();
     private int counter = 0;
+    private int moveCounter = 0;
+    private boolean moveSet = false;
+
     
 
     /**
@@ -119,12 +122,28 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all 
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
+        
+        // if(moveSet == false ){
+        //     moveCounter++;
+        //     algebraicDisplayPanel.append(moveCounter+".");
+        //     moveSet = true;
+        // }
+        // else if(moveSet == true){
+        //     algebraicDisplayPanel.append("\n");
+        //     moveSet = false;
+        // }
 
-        // for (int i=0; i<pgnMoves.size(); i++) {
+        // for (int i=0; i<pgnMoves.size(); i++) { 
         //     algebraicDisplayPanel.append(pgnMoves.get(counter));
+        // }        
+       
+        
 
         for (String move : pgnMoves) {
-            algebraicDisplayPanel.append(move + "\n");
+            int sizePGN = pgnMoves.size();
+            // algebraicDisplayPanel.append(sizePGN/2);
+            algebraicDisplayPanel.append(move);
+            algebraicDisplayPanel.append("\n");
 
         }
         // for (String move : pgnMoves) {
