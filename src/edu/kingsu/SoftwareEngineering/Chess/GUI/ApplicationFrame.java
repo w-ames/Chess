@@ -116,10 +116,10 @@ public class ApplicationFrame extends JFrame {
         options.add(turnOnOffNotifications);
         options.add(turnOnOffMoveHints);
 
-        help.add(about);
-        help.add(appHelp);
         help.add(chessRules);
         help.add(pieceInfo);
+        help.add(appHelp);
+        help.add(about);
 
         menuBar.add(file);
         menuBar.add(options);
