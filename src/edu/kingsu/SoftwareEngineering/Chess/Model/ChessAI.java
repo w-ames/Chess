@@ -65,8 +65,12 @@ public class ChessAI {
      */
     public static ChessAIThread bestMove(Board board, int depth, boolean forWhite) {
         return new ChessAIThread() {
-            public Move calculateMove() {
-                return ChessAI.minimaxMove(board, depth, forWhite);
+            public Move calculateMove() throws InterruptedException {
+                try {
+                    return ChessAI.minimaxMove(board, depth, forWhite);
+                } catch(NullPointerException e){
+                    throw new InterruptedException();
+                }
             }
         };
     }
@@ -96,7 +100,10 @@ public class ChessAI {
      *  <code>false</code> if searching for a move for black
      * @return the best move on the board considering the inputs given
      */
-    private static Move minimaxMove(Board board, int depth, boolean forWhite) {
+    private static Move minimaxMove(Board board, int depth, boolean forWhite) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         if (depth == 0) {
             return null;
         }
@@ -155,7 +162,10 @@ public class ChessAI {
      * @return the score of the best move on the board considering the inputs
      *  given
      */
-    private static int minimax(Board board, int depth, int a, int b, boolean forWhite) {
+    private static int minimax(Board board, int depth, int a, int b, boolean forWhite) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         if (depth == 0) {
             return scoreBoard(board, forWhite);
         }
