@@ -604,7 +604,7 @@ public class Board {
      *  favor of the given side
      */
     public boolean getCheckmate(boolean forWhite) {
-        return getAllMoves(!forWhite).isEmpty();
+        return getCheck(forWhite) && getAllMoves(!forWhite).isEmpty();
     }
 
     /**

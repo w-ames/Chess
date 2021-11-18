@@ -136,6 +136,20 @@ public class ChessGame {
     }
 
     /**
+     * Forcibly sets the player whose turn it currently is.
+     * @param toWhite <code>true</code> if the current turn should be given
+     *  to white, <code>false</code> if black
+     */
+    public void forceSetPlayerTurn(boolean toWhite) {
+        // TODO test
+        System.err.println("ENTERING PLAYERTURN LOCK");
+        synchronized (playerTurnLock) {
+            System.err.println("ENTERED PLAYERTURN LOCK");
+            playerTurn = toWhite ? whitePlayer : blackPlayer;
+        }
+    }
+
+    /**
      * Returns the list of moves performed in this game, in order of occurrence.
      * @return the list of moves performed in this game, in order of occurrence.
      */
@@ -151,7 +165,18 @@ public class ChessGame {
      * Returns the current state of the game.
      * @return the current state of the game.
      */
-    public GameState getState() { return GameState.ACTIVE; }
+    public GameState getState() {
+        boolean isWhiteTurn = getPlayerTurn().isWhite();
+        if (board.getCheckmate(!isWhiteTurn)) {
+            return isWhiteTurn == true ? GameState.BLACK_CHECKMATE : GameState.WHITE_CHECKMATE;
+        } else if (board.getCheck(!isWhiteTurn)) {
+            return isWhiteTurn == true ? GameState.BLACK_CHECK : GameState.WHITE_CHECK;
+        } else if (board.getAllMoves(isWhiteTurn).isEmpty()) {
+            return GameState.STALEMATE_NOMOVES;
+        } else {
+            return GameState.ACTIVE;
+        }
+    }
 
     /**
      * Registers a view with the board, to be notified of changes.
@@ -309,9 +334,11 @@ public class ChessGame {
     public void stop() {
         if (whitePlayerThread != null) {
             whitePlayerThread.interrupt();
+            whitePlayerThread = null;
         }
         if (blackPlayerThread != null) {
             blackPlayerThread.interrupt();
+            blackPlayerThread = null;
         }
     }
 
@@ -539,4 +566,5 @@ public class ChessGame {
         }
         return highlight;
     }
+
 }

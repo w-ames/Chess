@@ -117,9 +117,79 @@ public class TestChessGame {
     public void testGetAlgebraicHistory() {
     }
 
-    @Ignore
     @Test
     public void testGetState() {
+        ChessGame cg = new ChessGame(-1,-1,-1,-1);
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ','Q',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in black checkmate did not return correct enum.", GameState.BLACK_CHECKMATE, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K',' ','Q',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in black check did not return correct enum.", GameState.BLACK_CHECK, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K','Q',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in stalemate (white has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ','q',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in white checkmate did not return correct enum.", GameState.WHITE_CHECKMATE, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ','q',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in white check did not return correct enum.", GameState.WHITE_CHECK, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k','q',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in stalemate (black has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
+        // TODO 50 move, 3-fold, material
     }
 
     @Ignore
