@@ -2,6 +2,8 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import java.awt.Color;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
@@ -24,9 +26,13 @@ import java.awt.FlowLayout;
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
-    private JTextArea algebraicDisplayPanel = new JTextArea();
+    private JEditorPane algebraicDisplayPanel = new JEditorPane();
+    // private JTextArea algebraicDisplayPanel = new JTextArea();
     private JTextField algebricInputPanel = new JTextField();
     private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
+    private GridBagConstraints dp = new GridBagConstraints();
+    private int counter = 0;
+    private int moveCounter = 0;
 
     /**
      * Draws the algebraic view panel to be added to ChessPanel.
@@ -34,6 +40,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
      */
     public ChessGameAlgebraicView() {
         algebraicDisplayPanel.setLayout(new FlowLayout());
+        algebraicDisplayPanel.setContentType("text/html");
         this.setBackground(Color.WHITE);
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
@@ -44,6 +51,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         algebraicDisplayPanel.setBackground(new Color(232, 232, 232));
         algebraicDisplayPanel.setOpaque(true);
         algebraicDisplayPanel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
+        // algebraicDisplayPanel.setFont(new Font("Arial", Font.PLAIN, 40));
 
         GridBagConstraints gb = new GridBagConstraints();
         gb.fill = GridBagConstraints.BOTH;
@@ -123,14 +131,115 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
-        for (String move : pgnMoves) {
-            algebraicDisplayPanel.append(move + "\n");
+        int lastMoveIndex = getChessGame().latestMoveIndex();
+        counter = 0;
+        moveCounter = 0;
+        String moveString = "";
+        String unicodeMove = "";
+        char moveChar = ' ';
+        boolean isWhite = true;
+        String test = "";
+
+        for (int i = 0; i < pgnMoves.size(); i++) {
+            
+            moveString += "<font style=\"font-family:\'Arial\'\" size = \"6\">";
+
+            if (i % 2 == 0) {
+                moveCounter++;
+                moveString += (Integer.toString(moveCounter) + ".");
+
+            }
+            if (i == lastMoveIndex) {
+                moveString += "<i><b><font size =\"+20\">"+addChessUni(pgnMoves.get(i),isWhite)+"</font></b></i>";
+                if(isWhite == true){
+                isWhite = false;
+                }
+                else if(isWhite == false){
+                isWhite = true;
+                }
+
+            } else {
+                moveString += " " + addChessUni(pgnMoves.get(i),isWhite);
+
+                if(isWhite == true){
+                isWhite = false;
+                }
+                else if(isWhite == false) { 
+                isWhite = true;
+                }
+            }
+           if (i % 2 != 0) {
+                moveString += ("<br>");
+            }
         }
+        algebraicDisplayPanel.setText(moveString + "</font>");
+
     }
 
     @Override
     public void addListeners() {
         algebricInputPanel.addActionListener(new ChessGameAlgebraicController(this, getChessGame()));
     }
+
+    public String addChessUni(String move, boolean isWhite) {
+        String whiteKing = "&#9812";
+        String whiteQueen = "&#9813";
+        String whiteKnight = "&#9816";
+        String whiteRook = "&#9814";
+        String whiteBishop = "&#9815";
+        String whitePawn = "&#9817";
+        String blackKing = "&#9818";
+        String blackQueen = "&#9819";
+        String blackKnight = "&#9822";
+        String blackRook = "&#9820";
+        String blackPawn = "&#9823";
+        String blackBishop = "&#9821";
+
+        String newmove = "";
+        
+        char c = move.charAt(0);
+
+
+  
+        if (isWhite == true) {
+            if (c == 'K' || c == 'O') {
+                newmove = whiteKing+move.substring(1);
+                return newmove;
+            } else if (c == 'Q') {
+                newmove = whiteQueen+move.substring(1);
+                return newmove;
+            } else if (c == 'N') {
+                newmove = whiteKnight+move.substring(1);
+                return newmove;
+            } else if (c == 'R') {
+                newmove = whiteRook+move.substring(1);
+                return newmove;
+            } else if (c == 'B') {
+                newmove = whiteBishop+move.substring(1);
+                return newmove;
+            } else
+                return whitePawn+move;
+        }
+        else if(isWhite == false){
+            if (c == 'K' || c == 'O') {
+                newmove = blackKing+move.substring(1);
+                return newmove;
+            } else if (c == 'Q') {
+                newmove = blackQueen+move.substring(1);
+                return newmove;
+            } else if (c == 'N') {
+                newmove = blackKnight+move.substring(1);
+                return newmove;
+            } else if (c == 'R') {
+                newmove = blackRook+move.substring(1);
+                return newmove;
+            } else if (c == 'B') {
+                newmove = blackBishop+move.substring(1);
+                return newmove;
+            } else
+                return blackPawn+move;
+        }
+            return newmove+"error";
+    }   
 
 }
