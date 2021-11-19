@@ -7,9 +7,10 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class PGNFile implements Iterable<String>{
-    public static final String PLAYERTYPE_TAG= "PlayerTypes";   //change the value to something more appropriate
+    public static final String PLAYERTYPE_TAG= "PlayerTypes";   //white player is human/easyAI/etc, black player is human/etc.
     private Map<String, String> tagPairs;
     private List<String> moveText;
+    private String result;
 
     public PGNFile(File file) throws IllegalArgumentException, FileNotFoundException{
         //Check that file is correct filetype
@@ -23,6 +24,7 @@ public class PGNFile implements Iterable<String>{
         tagPairs= new LinkedHashMap<String, String>();
         moveText= new ArrayList<String>();
 
+        /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         Scanner scanner= new Scanner(file);
 
         String line;
@@ -39,7 +41,7 @@ public class PGNFile implements Iterable<String>{
             if(!scanner.hasNextLine()) return;
             line= scanner.nextLine();
             matcher= pattern.matcher(line);
-        }
+        }*/
 
         //ensure that the mandatory tag pairs are present
         if(!tagPairs.containsKey("Event")) throw new IllegalArgumentException("No Event tag present");
@@ -50,19 +52,24 @@ public class PGNFile implements Iterable<String>{
         if(!tagPairs.containsKey("Black")) throw new IllegalArgumentException("No Black tag present");
         if(!tagPairs.containsKey("Result")) throw new IllegalArgumentException("No Result tag present");
 
+        /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         //skip the blank lines, if necessary
         regex= "\\n";
         matcher= pattern.matcher(line);
 
         while(matcher.find() && scanner.hasNextLine()){
 
-        }
+        }*/
+
         //Read moves in body, store them in moveText
+
+        //Read the result, store it in result (if the game is still in progress, result is *)
     }
 
-    public PGNFile(Map<String, String> tagPairs, List<String> moves){
+    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result){
         this.tagPairs= tagPairs;
         moveText= moves;
+        this.result= result;
     }
 
     public Iterator<String> iterator(){
@@ -123,7 +130,8 @@ public class PGNFile implements Iterable<String>{
             fileText += moveText.get(i);
         }
 
-        //Write the result at the end (how do I know the result? What if the game isn't over yet?)
+        //Write the result at the end
+        fileText += result;
 
         return fileText;
     }
