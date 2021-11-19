@@ -443,7 +443,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     @Override
     public void update() {
 
-        if (true) { // Check if pawn promotion here.
+        if (false) { // Check if pawn promotion here.
 
             addNotification("Pawn promotion!");
             // this.showPawnPromotionScreen();
