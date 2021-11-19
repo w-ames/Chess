@@ -96,10 +96,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         this.add(layeredPane);
         layeredPane.add(mainLayer, Integer.valueOf(0));
-        endGameOptions.makeIntoEndGameOptionsScreen("Game Over!");
-        layeredPane.add(endGameOptions, Integer.valueOf(1));
-        pawnPromotionScreen.makeIntoPawnPromotionScreen();
-        layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         // mainLayer layout.
         mainLayer.setLayout(new GridBagLayout());
@@ -278,6 +274,17 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         chessGame.registerView(messagesView);
         chessGame.registerView(this);
 
+        endGameOptions.setChessGame(chessGame);
+        pawnPromotionScreen.setChessGame(chessGame);
+        endGameOptions.setChessPanel(this);
+        pawnPromotionScreen.setChessPanel(this);
+        guiView.setChessPanel(this);
+
+        endGameOptions.makeIntoEndGameOptionsScreen("Game Over!");
+        layeredPane.add(endGameOptions, Integer.valueOf(1));
+        pawnPromotionScreen.makeIntoPawnPromotionScreen();
+        layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
+
         for (ActionListener al : undoButton.getActionListeners()) {
             undoButton.removeActionListener(al);
         }
@@ -331,8 +338,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     /**
      * Displays the pawn promotion popup screen.
      */
-    public void showPawnPromotionScreen() {
-        pawnPromotionScreen.setVisible(true);
+    public void showPawnPromotionScreen(int fromRow, int fromCol, int toRow, int toCol) {
+        if (pawnPromotionScreen != null) {
+            pawnPromotionScreen.showPawnPromotionScreen(fromRow, fromCol, toRow, toCol);
+            pawnPromotionScreen.setVisible(true);
+        }
     }
 
     /**
@@ -435,10 +445,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         GameState currentGameState = guiView.returnCurrentGameState();
 
-        if (false) { // Check if pawn promotion here.
+        if (true) { // Check if pawn promotion here.
 
             addNotification("Pawn promotion!");
-            this.showPawnPromotionScreen();
+            // this.showPawnPromotionScreen();
 
         } else if (false) { // Check if 50 moves stalemate here.
 

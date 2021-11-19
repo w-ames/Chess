@@ -79,6 +79,8 @@ public class ChessGameGUIView extends ChessGameView {
     private ImageIcon smallWhiteKingIcon;
     private ImageIcon smallBlackKingIcon;
 
+    private ChessPanel chessPanel;
+
     /**
      * Puts the squares on the graphical representation of the chess board. Loads
      * the chess piece icons into their respective variables. Paints the inital
@@ -946,5 +948,18 @@ public class ChessGameGUIView extends ChessGameView {
         }
 
         return output;
+    }
+
+    public void setChessPanel(ChessPanel chessPanel) {
+        this.chessPanel = chessPanel;
+    }
+
+    /**
+     * Displays the pawn promotion popup screen.
+     */
+    public void showPawnPromotionScreen(int fromRow, int fromCol, int toRow, int toCol) {
+        if (chessPanel != null) {
+            chessPanel.showPawnPromotionScreen(fromRow, fromCol, toRow, toCol);
+        }
     }
 }

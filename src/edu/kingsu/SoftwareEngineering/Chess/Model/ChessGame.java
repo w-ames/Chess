@@ -207,9 +207,27 @@ public class ChessGame {
      *  <code>false</code> otherwise
      */
     public boolean performMove(int rowFrom, int colFrom, int rowTo, int colTo, boolean humanMoveMaker) {
+        return performMove(rowFrom, colFrom, rowTo, colTo, humanMoveMaker, null);
+    }
+
+    /**
+     * Attempts to perform a move in this game of chess.
+     * @param rowFrom the row from which to move a piece
+     * @param colFrom the col from which to move a piece
+     * @param rowTo the row to which to move a piece
+     * @param colTo the col to which to move a piece
+     * @param humanMoveMaker <code>true</code> if this move is attempted to be
+     * @param promotionType the type of piece to promote a pawn to
+     *  made by a human, <code>false</code> if AI
+     * @return <code>true</code> if the move attempt is successful,
+     *  <code>false</code> otherwise
+     */
+    public boolean performMove(int rowFrom, int colFrom, int rowTo, int colTo, boolean humanMoveMaker, PieceType promotionType) {
         for (Move m : getBoard().getMoves(rowFrom, colFrom)) {
             if (m.hasDestination(rowTo, colTo)) {
-                return performMove(m, humanMoveMaker);
+                if ((promotionType == null) || (m.getType() == MoveType.PAWN_PROMOTION && ((PawnPromotionMove)m).getPromotionType() == promotionType)) {
+                    return performMove(m, humanMoveMaker);
+                }
             }
         }
         return false;
@@ -565,6 +583,16 @@ public class ChessGame {
             highlight = 'x'; // Tile we go to (capture)
         }
         return highlight;
+    }
+
+    public boolean checkPawnPromotion(int rowFrom, int colFrom, int rowTo, int colTo) {
+        Piece movingPiece = board.getPiece(rowFrom, colFrom);
+        return movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN &&
+            ((movingPiece.isWhite() && rowTo == Board.ROWS-1) || (!movingPiece.isWhite() && rowTo == 0));
+    }
+
+    public int latestMoveIndex() {
+        return moveNo-1;
     }
 
 }
