@@ -44,12 +44,14 @@ public class ChessGamePromotionController implements ActionListener {
     // Submit the Promotion move
     public void actionPerformed(ActionEvent e) {
 
-        // chessGame.performMove(fromRow, fromCol, toRow, toCol, true, pieceType);
+        chessGame.performMove(fromRow, fromCol, toRow, toCol, true, pieceType);
 
         fromRow = -1;
         fromCol = -1;
         toRow = -1;
         toCol = -1;
+
+        chessPanel.hidePawnPromotionScreen();
 
     }
 
