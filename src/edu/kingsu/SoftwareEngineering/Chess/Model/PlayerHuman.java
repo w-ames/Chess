@@ -34,14 +34,12 @@ public class PlayerHuman extends Player {
                     } else {
                         setAIThread(ChessAI.bestMove(getChessGame().getBoard(), getAIDepth(), isWhite()));
                     }
-                    getAIThread().start();
+                    // getAIThread().start();
                     while (getChessGame().getPlayerTurn() == this) {
                         getChessGame().wait();
                     }
                 } catch(InterruptedException e) {
-                    if (getAIThread() != null) {
-                        getAIThread().interrupt();
-                    }
+                    resetAIThread();
                     break;
                 }
             }

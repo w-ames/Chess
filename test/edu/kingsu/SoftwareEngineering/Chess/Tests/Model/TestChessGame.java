@@ -117,9 +117,79 @@ public class TestChessGame {
     public void testGetAlgebraicHistory() {
     }
 
-    @Ignore
     @Test
     public void testGetState() {
+        ChessGame cg = new ChessGame(-1,-1,-1,-1);
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ','Q',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in black checkmate did not return correct enum.", GameState.BLACK_CHECKMATE, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K',' ','Q',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in black check did not return correct enum.", GameState.BLACK_CHECK, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','K','Q',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertEquals("Game in stalemate (white has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ','q',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in white checkmate did not return correct enum.", GameState.WHITE_CHECKMATE, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k',' ','q',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in white check did not return correct enum.", GameState.WHITE_CHECK, cg.getState());
+        cg.getBoard().initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','k','q',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        });
+        cg.forceSetPlayerTurn(false);
+        assertEquals("Game in stalemate (black has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
+        // TODO 50 move, 3-fold, material
     }
 
     @Ignore
@@ -253,5 +323,65 @@ public class TestChessGame {
     @Ignore
     @Test
     public void testResetTimers() {
+    }
+
+    @Test
+    public void testGetMoveHighlights() {
+        char[][] pawnTestExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ','d',' ',' ',' '},
+            {' ',' ',' ',' ','t',' ',' ',' '},
+            {' ',' ',' ',' ','f',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] pawnTestResult = testGame.getMoveHighlights(6, 4);
+        assertHighlights(pawnTestExpected, pawnTestResult);
+        char[][] knightTestExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {'t',' ','t',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ','f',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] knightTestResult = testGame.getMoveHighlights(7, 1);
+        assertHighlights(knightTestExpected, knightTestResult);
+    }
+
+    @Test
+    public void testGetHumanHint() {
+        // TODO this sometimes fails...
+        ChessGame cg = new ChessGame(-1, -1 , -1, -1);
+        cg.start();
+        cg.performMove(6, 4, 4, 4, true);
+        cg.performMove(1, 4, 3, 4, true);
+        cg.performMove(6, 6, 5, 6, true);
+        cg.performMove(0, 3, 4, 7, true);
+        char[][] queenTakeExpected = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ','x'},
+            {' ',' ',' ',' ',' ',' ','f',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        char[][] queenTakeResult = cg.getHumanHint();
+        assertNotNull("Hint function returned null.", queenTakeResult);
+        assertHighlights(queenTakeExpected, queenTakeResult);
+        cg.stop();
+    }
+
+    private void assertHighlights(char[][] expected, char[][] given) {
+        assertEquals("2 dimensional character array has an incorrect number of rows.", expected.length, given.length);
+        for (int i=0; i<expected.length; i++) {
+            assertArrayEquals("Row "+i+" of 2 dimensional character array does not return the correct character array", expected[i], given[i]);
+        }
     }
 }

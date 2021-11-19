@@ -7,6 +7,7 @@ import java.util.Timer;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ChessGameView;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.*;
 
 /**
@@ -27,6 +28,8 @@ public class ChessGame {
     private List<String> algebraicHistory;
     private int moveNo;
     private List<ChessGameView> views;
+    private static final int HINT_THREAD_ATTEMPT_MAX = 10;
+    private static final int HINT_THREAD_ATTEMPT_SLEEP = 1000;
 
     // Overall game time
     private int interval;
@@ -133,6 +136,20 @@ public class ChessGame {
     }
 
     /**
+     * Forcibly sets the player whose turn it currently is.
+     * @param toWhite <code>true</code> if the current turn should be given
+     *  to white, <code>false</code> if black
+     */
+    public void forceSetPlayerTurn(boolean toWhite) {
+        // TODO test
+        System.err.println("ENTERING PLAYERTURN LOCK");
+        synchronized (playerTurnLock) {
+            System.err.println("ENTERED PLAYERTURN LOCK");
+            playerTurn = toWhite ? whitePlayer : blackPlayer;
+        }
+    }
+
+    /**
      * Returns the list of moves performed in this game, in order of occurrence.
      * @return the list of moves performed in this game, in order of occurrence.
      */
@@ -148,7 +165,18 @@ public class ChessGame {
      * Returns the current state of the game.
      * @return the current state of the game.
      */
-    public GameState getState() { return GameState.ACTIVE; }
+    public GameState getState() {
+        boolean isWhiteTurn = getPlayerTurn().isWhite();
+        if (board.getCheckmate(!isWhiteTurn)) {
+            return isWhiteTurn == true ? GameState.BLACK_CHECKMATE : GameState.WHITE_CHECKMATE;
+        } else if (board.getCheck(!isWhiteTurn)) {
+            return isWhiteTurn == true ? GameState.BLACK_CHECK : GameState.WHITE_CHECK;
+        } else if (board.getAllMoves(isWhiteTurn).isEmpty()) {
+            return GameState.STALEMATE_NOMOVES;
+        } else {
+            return GameState.ACTIVE;
+        }
+    }
 
     /**
      * Registers a view with the board, to be notified of changes.
@@ -268,6 +296,8 @@ public class ChessGame {
         //         playerTurn.stop();
         //     }
         // })).start();
+        playerTurn.resetAIThread();
+        // playerTurn.notifyAll();
         playerTurn = playerTurn == whitePlayer ? blackPlayer : whitePlayer;
     }
 
@@ -304,9 +334,11 @@ public class ChessGame {
     public void stop() {
         if (whitePlayerThread != null) {
             whitePlayerThread.interrupt();
+            whitePlayerThread = null;
         }
         if (blackPlayerThread != null) {
             blackPlayerThread.interrupt();
+            blackPlayerThread = null;
         }
     }
 
@@ -385,4 +417,154 @@ public class ChessGame {
      */
     public void resetTimers() {
     }
+
+    /**
+     * Returns a 2 dimensional character array signifing the possible moves
+     * available from a particular location on the board for the current player.
+     * @param r the row from which possible moves should be considered
+     * @param c the column from which possible moves should be considered
+     * @return a 2 dimensional character array signifing the possible moves
+     *  available from a particular location on the board for the current player.
+     *  <code>null</code> is returned if an invalid start location is given,
+     *  the start location does not have a piece of the current player's
+     *  color, or the current player is AI.
+     */
+    public char[][] getMoveHighlights(int r, int c) {
+        if (r < 0 || r >= Board.ROWS || c < 0 || c >= Board.COLS || getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
+            return null;
+        }
+        boolean playerIsWhite = getPlayerTurn().isWhite();
+        Piece fromPiece = board.getPiece(r, c);
+        if (fromPiece == null || playerIsWhite != fromPiece.isWhite()) {
+            return null;
+        }
+        char[][] highlights = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        highlights[r][c] = 'f'; // Tile we come from
+        for (Move move : board.getMoves(r, c)) {
+            highlights[move.getRowTo()][move.getColTo()] = getHighlightChar(move);
+        }
+        return highlights;
+    }
+
+    /**
+     * Returns a 2 dimensional character array signifing the calculated best
+     * moves available on the board for the current human player.
+     * @return a 2 dimensional character array signifing the best move
+     *  available on the board for the current human player. <code>null</code>
+     *  is returned if the current player is AI, or the the thread is
+     *  interrupted or times out
+     */
+    public char[][] getHumanHint() {
+        if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
+            return null;
+        }
+        char[][] highlights = {
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '}
+        };
+        ChessAIThread hintThread = null;
+        try {
+            // int attempts = HINT_THREAD_ATTEMPT_MAX;
+            // while (hintThread == null) {
+            //     System.err.println("ATTEMPTS "+attempts);
+            //     // synchronized (this) {
+            //     //     hintThread = getPlayerTurn().getStartedAIThread();
+            //     // }
+            //     // hintThread = getPlayerTurn().getStartedAIThread();
+            //     hintThread = getPlayerTurn().getAIThread();
+            //     attempts--;
+            //     if (attempts > 0) {
+            //         if (hintThread == null) {
+            //             Thread.sleep(HINT_THREAD_ATTEMPT_SLEEP);
+            //         }
+            //     } else {
+            //         throw new InterruptedException();
+            //     }
+            // }
+
+            // synchronized (playerTurnLock) {
+            //     Player curPlayer = getPlayerTurn();
+            //     synchronized (curPlayer) {
+            //         if (curPlayer.getAIThread() == null) {
+            //             curPlayer.wait();
+            //         }
+            //         hintThread = curPlayer.getAIThread();
+            //         if (hintThread == null) {
+            //             return null;
+            //         }
+            //     }
+            // }
+
+            // synchronized (playerTurnLock) {
+                synchronized (playerTurn) {
+                    if (playerTurn.getAIThread() == null) {
+                        playerTurn.wait();
+                    }
+                    hintThread = playerTurn.getAIThread();
+                }
+            // }
+            if (hintThread == null) {
+                return null;
+            }
+        } catch(InterruptedException e) {
+            System.err.println("Error: Was interrupted/timed out during move calculation thread retrieval.");
+            return null;
+        }
+        Move hintMove = hintThread.getResult();
+        highlights[hintMove.getRowFrom()][hintMove.getColFrom()] = 'f';
+        highlights[hintMove.getRowTo()][hintMove.getColTo()] = getHighlightChar(hintMove);
+        return highlights;
+    }
+
+    /**
+     * Returns a character representing the action of this move on the current
+     * board.
+     * @param move the move whose effect should be queried and returned via
+     *  a character representation.
+     * @return 'c' if the move is castling, 'e' if the move is en passant,
+     *  'd' if the move is a double pawn move, 'p' if the move is a pawn
+     *  promotion, 'x' if the move is a capturing move, 't' if the move is
+     *  a regular non-capturing move, and ' ' otherwise (invalid moves will
+     *  return ' ')
+     */
+    private char getHighlightChar(Move move) {
+        Piece pieceMoving = board.getPiece(move.getRowFrom(), move.getColFrom());
+        if (pieceMoving == null) {
+            return ' ';
+        }
+        Piece pieceTarget = board.getPiece(move.getRowTo(), move.getColTo());
+        char highlight = ' ';
+        if (pieceTarget == null) {
+            if (move.getType() == MoveType.NORMAL) {
+                highlight = 't'; // Tile we go to (normal)
+            } else if (move.getType() == MoveType.CASTLING) {
+                highlight = 'c'; // Tile we go to (castling)
+            } else if (move.getType() == MoveType.EN_PASSANT) {
+                highlight = 'e'; // Tile we go to (en passant)
+            } else if (move.getType() == MoveType.PAWN_DOUBLE) {
+                highlight = 'd'; // Tile we go to (pawn double)
+            } else if (move.getType() == MoveType.PAWN_PROMOTION) {
+                highlight = 'p'; // Tile we go to (pawn promo)
+            }
+        } else if (pieceTarget.isWhite() != pieceMoving.isWhite()) {
+            highlight = 'x'; // Tile we go to (capture)
+        }
+        return highlight;
+    }
+
 }

@@ -15,9 +15,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Font;
-import javax.swing.text.*; 
+import javax.swing.text.*;
 import javax.swing.JViewport;
-import java.awt.Rectangle; 
+import java.awt.Rectangle;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 
 /**
@@ -31,7 +31,6 @@ public class ChessGameMessagesView extends ChessGameView {
 
     private JTextArea notificaionDisplayArea = new JTextArea();
     private boolean turn = true;
-    
 
     /**
      * Constructs the notifications JPanel.
@@ -58,10 +57,11 @@ public class ChessGameMessagesView extends ChessGameView {
         notificaionDisplayArea.setOpaque(true);
         this.add(notificationsLabel, gb);
 
-        // Make background of notification display black, and font green to look like terminal. 
+        // Make background of notification display black, and font green to look like
+        // terminal.
         notificaionDisplayArea.setBackground(new Color(40, 40, 40));
         notificaionDisplayArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        notificaionDisplayArea.setForeground(new Color(0, 204, 0)); // Font color
+        notificaionDisplayArea.setForeground(new Color(245, 245, 245)); // Font color
 
         // Add the notifications display panel to this component.
         gb.fill = GridBagConstraints.BOTH;
@@ -72,7 +72,8 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridheight = 3;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
-        JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollNotifications.setMaximumSize(new Dimension(10, 100));
         scrollNotifications.setPreferredSize(new Dimension(10, 100));
         scrollNotifications.setMinimumSize(new Dimension(10, 100));
@@ -99,22 +100,24 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
-   /**
-    * Adds a notification to the notifications screen
-    * @param add String containing the notificaiton to add.
-    * 
-    */
+    /**
+     * Adds a notification to the notifications screen
+     * 
+     * @param add String containing the notificaiton to add.
+     * 
+     */
     public void addToNotifications(String add) {
-        
+
         notificaionDisplayArea.append(add + "\n");
 
     }
 
     /**
-     * Prints a notification stating who's turn it is. 
+     * Prints a notification stating who's turn it is.
+     * 
      * @param turn true = white, false = black
      */
-    public void addTurnNotification(boolean turn){
+    public void addTurnNotification(boolean turn) {
         String turnString = "";
 
         // Check who's turn it is
@@ -127,7 +130,7 @@ public class ChessGameMessagesView extends ChessGameView {
         String turnNotification = "It is " + turnString + "turn!" + "\n";
 
         notificaionDisplayArea.append(turnNotification);
-       
+
     }
 
     // Mandatory override to inherit from ChessGameView.
@@ -136,7 +139,7 @@ public class ChessGameMessagesView extends ChessGameView {
     }
 
     /**
-     * Updates information about the current state of the game. 
+     * Updates information about the current state of the game.
      */
     public void update() {
         ChessGame chessGame = getChessGame();
@@ -144,7 +147,7 @@ public class ChessGameMessagesView extends ChessGameView {
         // True == white, false == black
         turn = chessGame.getPlayerTurn().isWhite();
 
-       addTurnNotification(turn);
+        addTurnNotification(turn);
     }
 
 }
