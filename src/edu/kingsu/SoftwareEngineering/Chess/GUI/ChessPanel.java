@@ -443,8 +443,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     @Override
     public void update() {
 
-        GameState currentGameState = guiView.returnCurrentGameState();
-
         if (true) { // Check if pawn promotion here.
 
             addNotification("Pawn promotion!");

@@ -81,6 +81,8 @@ public class ChessGameGUIView extends ChessGameView {
 
     private ChessPanel chessPanel;
 
+    private boolean boardHighlightOnOff = true;
+
     /**
      * Puts the squares on the graphical representation of the chess board. Loads
      * the chess piece icons into their respective variables. Paints the inital
@@ -176,10 +178,6 @@ public class ChessGameGUIView extends ChessGameView {
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
         g2d.dispose();
-
-    }
-
-    public void highlightSquare(int row, int col, Color color) {
 
     }
 
@@ -399,15 +397,90 @@ public class ChessGameGUIView extends ChessGameView {
 
         }
 
+        if (boardHighlightOnOff == true) {
+
+            // Return all squares back to their normal color.
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    removeHighlightSquare(i, j);
+                }
+            }
+
+            char[][] getMoveHighlights = getChessGame().getMoveHighlights(selectedRow, selectedCol);
+
+            if (getMoveHighlights != null) {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+
+                        // Highlight legal normal moves.
+                        if (getMoveHighlights[i][j] == 't' || getMoveHighlights[i][j] == 'd') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(181, 225, 245)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(134, 198, 227)); // Black
+                            }
+
+                        }
+
+                        // Highlight castling moves.
+                        if (getMoveHighlights[i][j] == 'c') {
+                            highlightSquare(i, j, new Color(255, 179, 179));
+                        }
+
+                        // Highlight en passant moves.
+                        if (getMoveHighlights[i][j] == 'e') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(242, 237, 189)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 232, 158)); // Black
+                            }
+                        }
+
+                        // Highlight pawn promotion moves.
+                        if (getMoveHighlights[i][j] == 'p') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(190, 247, 199)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(152, 235, 165)); // Black
+                            }
+                        }
+
+                        // Highlight capture moves.
+                        if (getMoveHighlights[i][j] == 'x') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(247, 190, 190)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 156, 156)); // Black
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 
-    /**
-     * Returns the current state of the game.
-     * 
-     * @return
-     */
-    public GameState returnCurrentGameState() {
-        return chessGame.getState();
+    public void turnBoardHighlightOff() {
+        boardHighlightOnOff = false;
+    }
+
+    public void highlightSquare(int row, int col, Color color) {
+        squareHolderArray[row][col].setBackground(color);
+        squareHolderArray[row][col].setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+
+    }
+
+    public void removeHighlightSquare(int row, int col) {
+        if (squareHolderArray[row][col].returnColor() == true) {
+            squareHolderArray[row][col].setBackground(new Color(248, 248, 248));
+            squareHolderArray[row][col]
+                    .setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+        } else {
+            squareHolderArray[row][col].setBackground(new Color(152, 152, 152));
+            squareHolderArray[row][col]
+                    .setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(144, 144, 144)));
+        }
     }
 
     /**
