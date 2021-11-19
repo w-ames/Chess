@@ -61,6 +61,7 @@ public class ChessGameGUIController implements ActionListener {
                 guiView.setSelected(-1, -1);
             }
         }
+        guiView.update();
     }
 
 }
