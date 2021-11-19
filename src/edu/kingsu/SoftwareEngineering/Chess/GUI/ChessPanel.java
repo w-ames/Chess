@@ -66,6 +66,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private int containerHeight;
     private int containerWidth;
 
+    private boolean boardHighlightOnOff;
+
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
@@ -495,6 +497,19 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         }
 
+    }
+
+    public void boardHighlightOnOff() {
+
+        if (boardHighlightOnOff == true) {
+            this.boardHighlightOnOff = false;
+            addNotification("Board Highlight OFF");
+        } else {
+            this.boardHighlightOnOff = true;
+            addNotification("Board Highlight ON");
+        }
+
+        guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
     }
 
     @Override

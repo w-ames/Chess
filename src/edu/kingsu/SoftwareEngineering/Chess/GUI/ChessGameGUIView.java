@@ -461,8 +461,8 @@ public class ChessGameGUIView extends ChessGameView {
 
     }
 
-    public void turnBoardHighlightOff() {
-        boardHighlightOnOff = false;
+    public void turnBoardHighlightOff(boolean highlightSwitch) {
+        boardHighlightOnOff = highlightSwitch;
     }
 
     public void highlightSquare(int row, int col, Color color) {
