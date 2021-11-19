@@ -142,7 +142,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
         for (int i = 0; i < pgnMoves.size(); i++) {
             
-            moveString += "<font style=\"font-family:\'Arial\'\" size = \"6\">";
+            moveString += "<font style=\"font-family:\'Arial\'\" size = \"5\">";
 
             if (i % 2 == 0) {
                 moveCounter++;
@@ -150,7 +150,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
             }
             if (i == lastMoveIndex) {
-                moveString += "<i><b><font size =\"+20\">"+addChessUni(pgnMoves.get(i),isWhite)+"</font></b></i>";
+                moveString += "<i><b><font size =\"6\">"+addChessUni(pgnMoves.get(i),isWhite)+"</font></b></i>";
                 if(isWhite == true){
                 isWhite = false;
                 }
