@@ -588,7 +588,7 @@ public class ChessGame {
     public boolean checkPawnPromotion(int rowFrom, int colFrom, int rowTo, int colTo) {
         Piece movingPiece = board.getPiece(rowFrom, colFrom);
         return movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN &&
-            ((movingPiece.isWhite() && rowTo == Board.ROWS-1) || (!movingPiece.isWhite() && rowTo == 0));
+            ((movingPiece.isWhite() && rowTo == 0) || (!movingPiece.isWhite() && rowTo == Board.ROWS-1));
     }
 
     public int latestMoveIndex() {
