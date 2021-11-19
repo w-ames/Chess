@@ -180,7 +180,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void addListeners() {
         algebricInputPanel.addActionListener(new ChessGameAlgebraicController(this, getChessGame()));
     }
-    
+
     public String addChessUni(String move, boolean isWhite) {
         String whiteKing = "&#9812";
         String whiteQueen = "&#9813";
