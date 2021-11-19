@@ -2,6 +2,8 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import java.awt.Color;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
@@ -30,7 +32,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
     private GridBagConstraints dp = new GridBagConstraints();
     private int counter = 0;
     private int moveCounter = 0;
-    private boolean moveSet = false;
 
     
 
@@ -50,6 +51,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         algebraicDisplayPanel.setBackground(new Color(232, 232, 232));
         algebraicDisplayPanel.setOpaque(true);
         algebraicDisplayPanel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
+        algebraicDisplayPanel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         GridBagConstraints gb = new GridBagConstraints();
         gb.fill = GridBagConstraints.BOTH;
@@ -128,35 +130,21 @@ public class ChessGameAlgebraicView extends ChessGameView {
     @Override
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all
-        List<String> pgnMoves = getChessGame().getAlgebraicHistory();
-        
-        // if(moveSet == false ){
-        //     moveCounter++;
-        //     algebraicDisplayPanel.append(moveCounter+".");
-        //     moveSet = true;
-        // }
-        // else if(moveSet == true){
-        //     algebraicDisplayPanel.append("\n");
-        //     moveSet = false;
-        // }
-
-        // for (int i=0; i<pgnMoves.size(); i++) { 
-        //     algebraicDisplayPanel.append(pgnMoves.get(counter));
-        // }        
-       
-        
-
+        List<String> pgnMoves = getChessGame().getAlgebraicHistory();       
+        counter = 0;
+        moveCounter = 0;
         for (String move : pgnMoves) {
             int sizePGN = pgnMoves.size();
-            // algebraicDisplayPanel.append(sizePGN/2);
-            algebraicDisplayPanel.append(move);
-            algebraicDisplayPanel.append("\n");
-
+            if (counter%2==0){
+                moveCounter++;
+                algebraicDisplayPanel.append(Integer.toString(moveCounter)+"."+move+" ");
+                counter++;
+            }
+            else if(counter%2==1){
+                algebraicDisplayPanel.append(move+"\n");
+                counter++;
+            }
         }
-        // for (String move : pgnMoves) {
-        //     // algebraicDisplayPanel.setText("");
-        //     algebraicDisplayPanel.append(pgnMoves.get(counter));
-        // }
     }
 
     @Override
