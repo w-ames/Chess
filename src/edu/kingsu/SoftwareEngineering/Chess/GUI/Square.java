@@ -85,7 +85,8 @@ public class Square extends JButton implements MouseListener {
      */
     public void mouseEntered(MouseEvent e) {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(49, 209, 245)));
+        // this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(49, 209,
+        // 245)));
     }
 
     /**
@@ -97,16 +98,22 @@ public class Square extends JButton implements MouseListener {
         return location;
     }
 
+    public boolean returnColor() {
+        return color;
+    }
+
     /**
      * When the mouse leaves the square, changes it back to its original border
      * color.
      */
     public void mouseExited(MouseEvent e) {
-        if (color == false) {
-            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(144, 144, 144)));
-        } else {
-            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
-        }
+        // if (color == false) {
+        // this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(144,
+        // 144, 144)));
+        // } else {
+        // this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232,
+        // 232, 232)));
+        // }
 
     }
 

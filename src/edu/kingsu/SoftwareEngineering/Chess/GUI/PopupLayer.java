@@ -17,6 +17,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.String;
 import java.awt.Dimension;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 
 /**
  * Popuplayer is used to create both the end game options popup screen, and the
@@ -25,15 +28,26 @@ import java.awt.Dimension;
  * @author Chelsie Bajic
  * @since 10/2021
  */
-public class PopupLayer extends JPanel implements MouseListener {
+public class PopupLayer extends JPanel {
 
     private ButtonContainer display = new ButtonContainer();
     private CustomButton endGameViewBoardButton = new CustomButton("View Board");
     private CustomButton rematchButton = new CustomButton("Rematch");
     private CustomButton newGameButton = new CustomButton("New Game");
     private CustomButton mainMenuButton = new CustomButton("Main Menu");
-    private CustomButton submitPawnPromotion = new CustomButton("Submit");
-    private JComboBox<String> choosePawnPromotion;
+
+    private CustomButton chooseQueen = new CustomButton("Queen");
+    private CustomButton chooseKnight = new CustomButton("Knight");
+    private CustomButton chooseRook = new CustomButton("Rook");
+    private CustomButton chooseBishop = new CustomButton("Bishop");
+
+    private ChessGamePromotionController chooseQueenListener = new ChessGamePromotionController(PieceType.QUEEN);
+    private ChessGamePromotionController chooseKnightListener = new ChessGamePromotionController(PieceType.KNIGHT);
+    private ChessGamePromotionController chooseRookListener = new ChessGamePromotionController(PieceType.ROOK);
+    private ChessGamePromotionController chooseBishopListener = new ChessGamePromotionController(PieceType.BISHOP);
+
+    private ChessPanel chessPanel;
+    private ChessGame chessGame;
 
     /**
      * Builds the popup screen and adds a mouse listener to all buttons.
@@ -51,12 +65,16 @@ public class PopupLayer extends JPanel implements MouseListener {
         gb.insets = new Insets(20, 20, 20, 20);
         this.add(display, gb);
 
-        // Add mouse listener to the submit button for pawn promotion screen.
-        submitPawnPromotion.addMouseListener(this);
-        rematchButton.addMouseListener(this);
-        newGameButton.addMouseListener(this);
-        mainMenuButton.addMouseListener(this);
-        endGameViewBoardButton.addMouseListener(this);
+        chooseQueenListener.setChessGame(chessGame);
+        chooseKnightListener.setChessGame(chessGame);
+        chooseBishopListener.setChessGame(chessGame);
+        chooseRookListener.setChessGame(chessGame);
+
+        chooseQueenListener.setChessPanel(chessPanel);
+        chooseKnightListener.setChessPanel(chessPanel);
+        chooseRookListener.setChessPanel(chessPanel);
+        chooseBishopListener.setChessPanel(chessPanel);
+
     }
 
     /**
@@ -73,30 +91,46 @@ public class PopupLayer extends JPanel implements MouseListener {
         gb.gridy = 0;
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 0, 15, 0);
-        display.add(pawnPromotionLabel, gb);
+        // display.add(pawnPromotionLabel, gb);
 
-        // Customize JComboBox.
-        String[] pawnPromotionOptions = new String[] { "Queen", "King", "Rook", "Bishop", "Knight", "None" };
-        choosePawnPromotion = new JComboBox<String>(pawnPromotionOptions);
-
-        // Add pawn promotion JComboBox.
+        // Add choose queen button.
         gb.fill = GridBagConstraints.NONE;
-        gb.gridx = 0;
+        gb.gridx = 1;
+        gb.gridy = 0;
+        gb.weightx = 0.5;
+        gb.gridwidth = 1;
+        gb.insets = new Insets(5, 5, 15, 5);
+        display.add(chooseQueen, gb);
+
+        // Add choose rook button.
+        gb.fill = GridBagConstraints.NONE;
+        gb.gridx = 1;
         gb.gridy = 1;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 15, 5);
-        display.add(choosePawnPromotion, gb);
+        display.add(chooseRook, gb);
 
-        // Add pawn promotion submit button.
+        // Add choose bishop button.
+        gb.fill = GridBagConstraints.NONE;
+        gb.gridx = 2;
+        gb.gridy = 0;
+        gb.weightx = 0.5;
+        gb.gridwidth = 1;
+        gb.insets = new Insets(5, 5, 15, 5);
+        display.add(chooseBishop, gb);
+
+        // Add choose knight button.
         gb.fill = GridBagConstraints.NONE;
         gb.anchor = GridBagConstraints.CENTER;
-        gb.gridx = 0;
-        gb.gridy = 2;
+        gb.gridx = 2;
+        gb.gridy = 1;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
-        display.add(submitPawnPromotion, gb);
+        display.add(chooseKnight, gb);
+
+        assignChessGameAndChessPanelToControllers();
 
     }
 
@@ -141,54 +175,90 @@ public class PopupLayer extends JPanel implements MouseListener {
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(mainMenuButton, gb);
+
+        assignChessGameAndChessPanelToControllers();
+    }
+
+    public void setChessGame(ChessGame chessGame) {
+        this.chessGame = chessGame;
+    }
+
+    public void setChessPanel(ChessPanel chessPanel) {
+        this.chessPanel = chessPanel;
+    }
+
+    private void assignChessGameAndChessPanelToControllers() {
+        chooseQueenListener.setChessGame(chessGame);
+        chooseKnightListener.setChessGame(chessGame);
+        chooseBishopListener.setChessGame(chessGame);
+        chooseRookListener.setChessGame(chessGame);
+
+        chooseQueenListener.setChessPanel(chessPanel);
+        chooseKnightListener.setChessPanel(chessPanel);
+        chooseRookListener.setChessPanel(chessPanel);
+        chooseBishopListener.setChessPanel(chessPanel);
+
+        chooseQueen.addActionListener(chooseQueenListener);
+        chooseRook.addActionListener(chooseRookListener);
+        chooseBishop.addActionListener(chooseBishopListener);
+        chooseKnight.addActionListener(chooseKnightListener);
+    }
+
+    /**
+     * Displays the pawn promotion popup screen.
+     */
+    public void showPawnPromotionScreen(int fromRow, int fromCol, int toRow, int toCol) {
+        chooseQueenListener.setMovement(fromRow, fromCol, toRow, toCol);
+        chooseBishopListener.setMovement(fromRow, fromCol, toRow, toCol);
+        chooseKnightListener.setMovement(fromRow, fromCol, toRow, toCol);
+        chooseRookListener.setMovement(fromRow, fromCol, toRow, toCol);
     }
 
     /**
      * Adds mouse click funtionality to pawn promotion screen button and end game
      * options screen buttons.
      */
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    // @Override
+    // public void mouseReleased(MouseEvent e) {
 
-        String userPawnPromotionChoice = String.valueOf(choosePawnPromotion.getSelectedItem());
-        JButton copyButton = (JButton) e.getSource();
-        String name = copyButton.getText();
+    // JButton copyButton = (JButton) e.getSource();
+    // String name = copyButton.getText();
 
-        // This if/else block specifies how each button behaves.
-        if (name.equals("Submit")) {
+    // // This if/else block specifies how each button behaves.
+    // if (name.equals("Queen")) {
 
-            // User input upon submit can be found in the variable: userPawnPromotionChoice.
+    // System.err.println("Queen");
 
-        } else if (name.equals("View Board")) {
-            // Hide end game options here.
-        } else if (name.equals("Rematch")) {
-            // Call rematch here
+    // // User input upon submit can be found in the variable:
+    // userPawnPromotionChoice.
+    // // ******
+    // // Put code to use pawn promotion choice here
+    // // *****
 
-        } else if (name.equals("New Game")) {
-            // Call new game here
+    // this.setVisible(false);
+    // } else if (name.equals("Rook")) {
 
-        } else if (name.equals("Main Menu")) {
-            // Call back to main menu here
-        }
-    }
+    // } else if (name.equals("Bishop")) {
 
-    // The following are required to implement MouseListener but not used.
-    public void mouseClicked(MouseEvent e) {
+    // } else if (name.equals("Knight")) {
 
-    }
+    // } else if (name.equals("View Board")) {
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    // // Hide end game options.
+    // this.setVisible(false);
 
-    }
+    // } else if (name.equals("Rematch")) {
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    // // Call rematch here
 
-    }
+    // } else if (name.equals("New Game")) {
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+    // // Call new game here
 
-    }
+    // } else if (name.equals("Main Menu")) {
+
+    // // Call back to main menu here
+    // }
+    // }
+
 }

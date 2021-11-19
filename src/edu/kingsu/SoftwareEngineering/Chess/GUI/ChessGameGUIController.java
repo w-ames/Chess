@@ -53,10 +53,15 @@ public class ChessGameGUIController implements ActionListener {
             if (thisPieceIsPlayerColor) {
                 guiView.setSelected(row, col);
             } else if (selectedPieceIsPlayerColor) {
-                chessGame.performMove(selectedRow, selectedCol, row, col, true);
+                if (chessGame.checkPawnPromotion(selectedRow, selectedCol, row, col)) {
+                    guiView.showPawnPromotionScreen(selectedRow, selectedCol, row, col);
+                } else {
+                    chessGame.performMove(selectedRow, selectedCol, row, col, true);
+                }
                 guiView.setSelected(-1, -1);
             }
         }
+        guiView.update();
     }
 
 }

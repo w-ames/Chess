@@ -79,6 +79,10 @@ public class ChessGameGUIView extends ChessGameView {
     private ImageIcon smallWhiteKingIcon;
     private ImageIcon smallBlackKingIcon;
 
+    private ChessPanel chessPanel;
+
+    private boolean boardHighlightOnOff = true;
+
     /**
      * Puts the squares on the graphical representation of the chess board. Loads
      * the chess piece icons into their respective variables. Paints the inital
@@ -177,13 +181,9 @@ public class ChessGameGUIView extends ChessGameView {
 
     }
 
-    public void highlightSquare(int row, int col, Color color) {
-
-    }
-
     /**
-     * Paints the current state of the board. (The current version held
-     * in the 2D array board).
+     * Paints the current state of the board. (The current version held in the 2D
+     * array board).
      */
     public void paintBoard() {
 
@@ -216,7 +216,8 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * To look at the current size of the application frame, used for board resizing.
+     * To look at the current size of the application frame, used for board
+     * resizing.
      * 
      * @param container
      */
@@ -395,6 +396,91 @@ public class ChessGameGUIView extends ChessGameView {
             }
 
         }
+
+        if (boardHighlightOnOff == true) {
+
+            // Return all squares back to their normal color.
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    removeHighlightSquare(i, j);
+                }
+            }
+
+            char[][] getMoveHighlights = getChessGame().getMoveHighlights(selectedRow, selectedCol);
+
+            if (getMoveHighlights != null) {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+
+                        // Highlight legal normal moves.
+                        if (getMoveHighlights[i][j] == 't' || getMoveHighlights[i][j] == 'd') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(181, 225, 245)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(134, 198, 227)); // Black
+                            }
+
+                        }
+
+                        // Highlight castling moves.
+                        if (getMoveHighlights[i][j] == 'c') {
+                            highlightSquare(i, j, new Color(255, 179, 179));
+                        }
+
+                        // Highlight en passant moves.
+                        if (getMoveHighlights[i][j] == 'e') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(242, 237, 189)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 232, 158)); // Black
+                            }
+                        }
+
+                        // Highlight pawn promotion moves.
+                        if (getMoveHighlights[i][j] == 'p') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(190, 247, 199)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(152, 235, 165)); // Black
+                            }
+                        }
+
+                        // Highlight capture moves.
+                        if (getMoveHighlights[i][j] == 'x') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(247, 190, 190)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 156, 156)); // Black
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    public void turnBoardHighlightOff() {
+        boardHighlightOnOff = false;
+    }
+
+    public void highlightSquare(int row, int col, Color color) {
+        squareHolderArray[row][col].setBackground(color);
+        squareHolderArray[row][col].setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+
+    }
+
+    public void removeHighlightSquare(int row, int col) {
+        if (squareHolderArray[row][col].returnColor() == true) {
+            squareHolderArray[row][col].setBackground(new Color(248, 248, 248));
+            squareHolderArray[row][col]
+                    .setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(232, 232, 232)));
+        } else {
+            squareHolderArray[row][col].setBackground(new Color(152, 152, 152));
+            squareHolderArray[row][col]
+                    .setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(144, 144, 144)));
+        }
     }
 
     /**
@@ -425,16 +511,16 @@ public class ChessGameGUIView extends ChessGameView {
     public void loadPieceIconsIntoIconVariables() {
 
         // For 650 x 650 board size.
-        int largeKingSize = 120;
-        int largeQueenSize = 100;
+        int largeKingSize = 100;
+        int largeQueenSize = 90;
         int largeKnightSize = 90;
         int largeBishopSize = 95;
         int largeRookSize = 80;
         int largePawnSize = 70;
 
         // For 440 x 440 board size.
-        int smallKingSize = 68;
-        int smallQueenSize = 59;
+        int smallKingSize = 48;
+        int smallQueenSize = 49;
         int smallKnightSize = 50;
         int smallBishopSize = 50;
         int smallRookSize = 45;
@@ -564,7 +650,7 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
-     * Builds and inserts the rank and file chess board border. 
+     * Builds and inserts the rank and file chess board border.
      */
     public void buildRankAndFileBorder() {
 
@@ -579,7 +665,7 @@ public class ChessGameGUIView extends ChessGameView {
         rankFileAndBoardContainer.setLayout(new GridBagLayout());
         GridBagConstraints containergb = new GridBagConstraints();
 
-        //Add a filler square to the top left of the board border corner. 
+        // Add a filler square to the top left of the board border corner.
         JPanel topLeftBoardFillerSquare = new JPanel();
         topLeftBoardFillerSquare.setBackground(borderColor);
         topLeftBoardFillerSquare.setOpaque(true);
@@ -695,7 +781,7 @@ public class ChessGameGUIView extends ChessGameView {
         topFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(topFileHolder, containergb);
 
-        //Add a filler square to the top left of the board border corner. 
+        // Add a filler square to the top left of the board border corner.
         JPanel topRightBoardFillerSquare = new JPanel();
         topRightBoardFillerSquare.setBackground(borderColor);
         topRightBoardFillerSquare.setOpaque(true);
@@ -765,7 +851,7 @@ public class ChessGameGUIView extends ChessGameView {
         containergb.gridheight = 8;
         rankFileAndBoardContainer.add(boardHolder, containergb);
 
-        //Add a filler square to the bottom right of the board border corner. 
+        // Add a filler square to the bottom right of the board border corner.
         JPanel bottomRightBoardFillerSquare = new JPanel();
         bottomRightBoardFillerSquare.setBackground(borderColor);
         bottomRightBoardFillerSquare.setOpaque(true);
@@ -829,19 +915,19 @@ public class ChessGameGUIView extends ChessGameView {
         bottomFileHolder.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
         rankFileAndBoardContainer.add(bottomFileHolder, containergb);
 
-         //Add a filler square to the bottom left of the board border corner. 
-         JPanel bottomLeftBoardFillerSquare = new JPanel();
-         bottomLeftBoardFillerSquare.setBackground(borderColor);
-         bottomLeftBoardFillerSquare.setOpaque(true);
-         bottomLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
-         containergb.gridx = 0;
-         containergb.gridy = 9;
-         containergb.fill = GridBagConstraints.BOTH;
-         containergb.gridwidth = 1;
-         containergb.gridheight = 1;
-         containergb.weighty = 1;
-         containergb.weightx = 1;
-         rankFileAndBoardContainer.add(bottomLeftBoardFillerSquare, containergb);
+        // Add a filler square to the bottom left of the board border corner.
+        JPanel bottomLeftBoardFillerSquare = new JPanel();
+        bottomLeftBoardFillerSquare.setBackground(borderColor);
+        bottomLeftBoardFillerSquare.setOpaque(true);
+        bottomLeftBoardFillerSquare.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, borderBorderColor));
+        containergb.gridx = 0;
+        containergb.gridy = 9;
+        containergb.fill = GridBagConstraints.BOTH;
+        containergb.gridwidth = 1;
+        containergb.gridheight = 1;
+        containergb.weighty = 1;
+        containergb.weightx = 1;
+        rankFileAndBoardContainer.add(bottomLeftBoardFillerSquare, containergb);
 
         rankFileAndBoardContainer.setOpaque(false);
         this.add(rankFileAndBoardContainer, gbForThis);
@@ -935,5 +1021,18 @@ public class ChessGameGUIView extends ChessGameView {
         }
 
         return output;
+    }
+
+    public void setChessPanel(ChessPanel chessPanel) {
+        this.chessPanel = chessPanel;
+    }
+
+    /**
+     * Displays the pawn promotion popup screen.
+     */
+    public void showPawnPromotionScreen(int fromRow, int fromCol, int toRow, int toCol) {
+        if (chessPanel != null) {
+            chessPanel.showPawnPromotionScreen(fromRow, fromCol, toRow, toCol);
+        }
     }
 }

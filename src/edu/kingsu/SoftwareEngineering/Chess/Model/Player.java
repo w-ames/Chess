@@ -50,13 +50,44 @@ public abstract class Player implements Runnable {
      * Returns the AI thread used by this player to calculate a move.
      * @return the AI thread used by this player to calculate a move
      */
-    public ChessAIThread getAIThread() { return aiThread; }
+    public ChessAIThread getAIThread() {
+        synchronized (this) {
+            return aiThread;
+        }
+    }
+
+    /**
+     * Returns the AI thread used by this player to calculate a move,
+     * only if it has started executing.
+     * @return the AI thread used by this player to calculate a move
+     *  if it has started executing, otherwise <code>null</code>
+     */
+    // public ChessAIThread getStartedAIThread() { return aiThread!=null && aiThread.getState()!=Thread.State.NEW ? aiThread : null; }
 
     /**
      * Sets the AI thread used by this player to calculate a move.
      * @param t the AI thread used by this player to calculate a move
      */
-    public void setAIThread(ChessAIThread t) { aiThread = t; }
+    public void setAIThread(ChessAIThread t) {
+        synchronized (this) {
+            if (t != null) {
+                t.start();
+            }
+            aiThread = t;
+            notifyAll();
+        }
+    }
+
+    public void resetAIThread() {
+        // TODO test
+        synchronized (this) {
+            if (aiThread != null) {
+                aiThread.interrupt();
+                aiThread = null;
+            }
+            notifyAll();
+        }
+    }
 
     // public Move getAIThreadMove() throws InterruptedException {
     //     Move aiMove = null;

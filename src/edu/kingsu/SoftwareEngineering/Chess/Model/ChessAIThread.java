@@ -26,12 +26,16 @@ public abstract class ChessAIThread extends Thread {
      * Calculates a move result for this thread.
      * @return the move result for this thread
      */
-    public abstract Move calculateMove();
+    public abstract Move calculateMove() throws InterruptedException;
 
     /**
      * {@inheritDoc}
      */
     public void run() {
-        result = calculateMove();
+        try {
+            result = calculateMove();
+        } catch(InterruptedException e){
+            result = null;
+        }
     }
 }
