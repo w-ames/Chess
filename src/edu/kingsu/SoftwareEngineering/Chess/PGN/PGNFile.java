@@ -20,7 +20,7 @@ public class PGNFile implements Iterable<String>{
         if(!fileType.equals(".pgn")) throw new IllegalArgumentException("Illegal file type");
         
         //Read tag pairs in header, store them in tagPairs
-        tagPairs= new HashMap<String, String>();
+        tagPairs= new LinkedHashMap<String, String>();
         moveText= new ArrayList<String>();
 
         Scanner scanner= new Scanner(file);
@@ -80,24 +80,51 @@ public class PGNFile implements Iterable<String>{
     public String getFileText(){    //return the string that will be written into the file
         String fileText= "";
 
-        return fileText;
-    }
+        //Write tagPairs to the header
+        Set<String> keySet= tagPairs.keySet();
+        Iterator it= keySet.iterator();
+        while(it.hasNext()){
+            String key= (String)it.next();
+            fileText += ("[" + key + " \"" + tagPairs.get(key) + "\"]\n");
+        }
 
-    @Deprecated
-    public File toFile(){
-        //Create a new PGN file (where does it go?)
-        //Nik says it would be better to let a file chooser handle this. But
-        //how do I get/write to that file? (Pass it as a parameter?)
-        //Need to work on the mechanics of all this
+        fileText += "\n";
 
-        //Write tagPairs to the file's header
+        //Write moves to the body --> do a maximum of 85 characters to a row without splitting up any entities when creating a new line (let a move number and the moves by both white and black count as one entity)
+        int turnCounter= 1;
+        int lineCounter= 0; //use to constrict a line to a maximum of 85 characters
+        for(int i=0; i < moveText.size(); i++){
+            //if it is white's turn, add the turn counter to the string
+            if(i % 2 == 0){
+                if(turnCounter < 10) lineCounter += 3;
+                else if(turnCounter < 100) lineCounter += 4;
+                else lineCounter += 5; //this will work properly for a game with up to 999 turns
 
-        //Write moves to the file's body
+                //create a new line if at the maximum
+                if(lineCounter > 85){
+                    fileText += "\n";
+                    lineCounter= 0;
+
+                    if(turnCounter < 10) lineCounter += 3;
+                    else if(turnCounter < 100) lineCounter += 4;
+                    else lineCounter += 5;
+                }
+
+                fileText += ("" + turnCounter + ". ");
+                turnCounter++;
+            }
+
+            //add the move to the string
+            if(lineCounter + moveText.get(i).length() > 85){
+                fileText += "\n";
+                lineCounter= 0;
+            }
+
+            fileText += moveText.get(i);
+        }
 
         //Write the result at the end (how do I know the result? What if the game isn't over yet?)
 
-        //return the file
-
-        return null;
+        return fileText;
     }
 }
