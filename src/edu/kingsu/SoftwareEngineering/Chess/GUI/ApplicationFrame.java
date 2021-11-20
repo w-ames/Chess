@@ -197,7 +197,9 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Notifications On/Off" is selected from menu bar
+                if (chessPanel != null) {
+                    chessPanel.notificationsOnOff();
+                }
 
             }
 

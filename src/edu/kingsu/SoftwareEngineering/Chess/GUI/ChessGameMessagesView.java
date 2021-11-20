@@ -31,6 +31,7 @@ public class ChessGameMessagesView extends ChessGameView {
 
     private JTextArea notificaionDisplayArea = new JTextArea();
     private boolean turn = true;
+    private boolean notificationsOnOff;
 
     /**
      * Constructs the notifications JPanel.
@@ -80,6 +81,8 @@ public class ChessGameMessagesView extends ChessGameView {
         DefaultCaret caret = (DefaultCaret) notificaionDisplayArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         this.add(scrollNotifications, gb);
+
+        notificationsOnOff = true;
     }
 
     /**
@@ -107,8 +110,9 @@ public class ChessGameMessagesView extends ChessGameView {
      * 
      */
     public void addToNotifications(String add) {
-
-        notificaionDisplayArea.append(add + "\n");
+        if (notificationsOnOff == true) {
+            notificaionDisplayArea.append(add + "\n");
+        }
 
     }
 
@@ -118,18 +122,22 @@ public class ChessGameMessagesView extends ChessGameView {
      * @param turn true = white, false = black
      */
     public void addTurnNotification(boolean turn) {
-        String turnString = "";
 
-        // Check who's turn it is
-        if (turn) {
-            turnString = "white's ";
-        } else {
-            turnString = "black's ";
+        if (notificationsOnOff == true) {
+
+            String turnString = "";
+
+            // Check who's turn it is
+            if (turn) {
+                turnString = "white's ";
+            } else {
+                turnString = "black's ";
+            }
+
+            String turnNotification = "It is " + turnString + "turn!" + "\n";
+
+            notificaionDisplayArea.append(turnNotification);
         }
-
-        String turnNotification = "It is " + turnString + "turn!" + "\n";
-
-        notificaionDisplayArea.append(turnNotification);
 
     }
 
@@ -148,6 +156,10 @@ public class ChessGameMessagesView extends ChessGameView {
         turn = chessGame.getPlayerTurn().isWhite();
 
         addTurnNotification(turn);
+    }
+
+    public void turnNotificationsOnOff(boolean notificationsSwitch) {
+        notificationsOnOff = notificationsSwitch;
     }
 
 }

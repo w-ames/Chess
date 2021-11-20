@@ -67,6 +67,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private int containerWidth;
 
     private boolean boardHighlightOnOff;
+    private boolean notificationsOnOff;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
@@ -260,6 +261,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         layeredPane.repaint();
 
         boardHighlightOnOff = true;
+        notificationsOnOff = true;
 
     }
 
@@ -366,12 +368,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         messagesView.addToNotifications(notificationToAdd);
     }
 
-    // public void disableNotifications(){}
-
-    // public void disableBoardHighlight(){}
-
-    // public void disableMoveHint(){}
-
     // public void disable_Undo_Redo_Move(){}
 
     // public void loadSavedGame(ChessGameLoadView savedGame){}
@@ -447,12 +443,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     @Override
     public void update() {
 
-        if (false) { // Check if pawn promotion here.
-
-            addNotification("Pawn promotion!");
-            // this.showPawnPromotionScreen();
-
-        } else if (false) { // Check if 50 moves stalemate here.
+        if (false) { // Check if 50 moves stalemate here.
 
             addNotification("50 move stalemate");
             this.showEndGameOptions();
@@ -501,6 +492,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
     }
 
+    /**
+     * Turn the board highlight option on or off.
+     */
     public void boardHighlightOnOff() {
 
         if (boardHighlightOnOff == true) {
@@ -512,6 +506,22 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
+    }
+
+    /**
+     * Turn the notifications on or off.
+     */
+    public void notificationsOnOff() {
+
+        if (notificationsOnOff == true) {
+            this.notificationsOnOff = false;
+            addNotification("Notifications OFF");
+        } else {
+            this.notificationsOnOff = true;
+            addNotification("Notifications ON");
+        }
+
+        messagesView.turnNotificationsOnOff(this.notificationsOnOff);
     }
 
     @Override
