@@ -259,6 +259,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         layeredPane.revalidate();
         layeredPane.repaint();
 
+        boardHighlightOnOff = true;
+
     }
 
     /**
