@@ -511,7 +511,7 @@ public class ChessGameGUIView extends ChessGameView {
     public void loadPieceIconsIntoIconVariables() {
 
         // For 650 x 650 board size.
-        int largeKingSize = 80;
+        int largeKingSize = 75;
         int largeQueenSize = 70;
         int largeKnightSize = 70;
         int largeBishopSize = 75;
