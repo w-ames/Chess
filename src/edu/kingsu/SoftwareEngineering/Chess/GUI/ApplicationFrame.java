@@ -187,9 +187,7 @@ public class ApplicationFrame extends JFrame {
                 if (chessPanel != null) {
                     chessPanel.boardHighlightOnOff();
                 }
-
             }
-
         });
 
         turnOnOffNotifications.addActionListener(new ActionListener() {
@@ -200,9 +198,7 @@ public class ApplicationFrame extends JFrame {
                 if (chessPanel != null) {
                     chessPanel.notificationsOnOff();
                 }
-
             }
-
         });
 
         turnOnOffMoveHints.addActionListener(new ActionListener() {
@@ -212,8 +208,10 @@ public class ApplicationFrame extends JFrame {
 
                 // Add code for when "Move Hint On/Off" is selected from menu bar
 
+                if (chessPanel != null) {
+                    chessPanel.moveHintOnOff();
+                }
             }
-
         });
 
         about.addActionListener(new ActionListener() {

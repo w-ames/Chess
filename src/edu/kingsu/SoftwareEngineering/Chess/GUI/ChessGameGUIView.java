@@ -82,6 +82,7 @@ public class ChessGameGUIView extends ChessGameView {
     private ChessPanel chessPanel;
 
     private boolean boardHighlightOnOff = true;
+    private boolean moveHintSwitch = true;
 
     /**
      * Puts the squares on the graphical representation of the chess board. Loads
@@ -397,6 +398,85 @@ public class ChessGameGUIView extends ChessGameView {
 
         }
 
+        boardHighlight(selectedRow, selectedCol);
+    }
+
+    public void moveHint(int selectedRow, int selectedCol) {
+        if (moveHintSwitch == true) {
+
+            // Return all squares back to their normal color.
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    removeHighlightSquare(i, j);
+                }
+            }
+
+            char[][] getMoveHighlights = getChessGame().getHumanHint();
+
+            if (getMoveHighlights != null) {
+
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+
+                        // Highlight legal normal moves.
+                        if (getMoveHighlights[i][j] == 't' || getMoveHighlights[i][j] == 'd') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(191, 227, 200)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(155, 212, 169)); // Black
+                            }
+
+                        }
+
+                        // Highlight castling moves.
+                        if (getMoveHighlights[i][j] == 'c') {
+                            highlightSquare(i, j, new Color(255, 179, 179));
+                        }
+
+                        // Highlight en passant moves.
+                        if (getMoveHighlights[i][j] == 'e') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(242, 237, 189)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 232, 158)); // Black
+                            }
+                        }
+
+                        // Highlight pawn promotion moves.
+                        if (getMoveHighlights[i][j] == 'p') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(190, 247, 199)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(152, 235, 165)); // Black
+                            }
+                        }
+
+                        // Highlight capture moves.
+                        if (getMoveHighlights[i][j] == 'x') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(247, 190, 190)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(240, 156, 156)); // Black
+                            }
+                        }
+
+                        // Highlight move hint.
+                        if (getMoveHighlights[i][j] == 'f') {
+                            if (squareHolderArray[i][j].returnColor() == true) {
+                                highlightSquare(i, j, new Color(191, 227, 200)); // White
+                            } else {
+                                highlightSquare(i, j, new Color(155, 212, 169)); // Black
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    public void boardHighlight(int selectedRow, int selectedCol) {
+
         if (boardHighlightOnOff == true) {
 
             // Return all squares back to their normal color.
@@ -461,10 +541,10 @@ public class ChessGameGUIView extends ChessGameView {
                                 highlightSquare(i, j, new Color(240, 156, 156)); // Black
                             }
                         }
+
                     }
                 }
             }
-
         }
 
     }
@@ -478,6 +558,17 @@ public class ChessGameGUIView extends ChessGameView {
         }
 
         boardHighlightOnOff = highlightSwitch;
+    }
+
+    public void moveHintSwitch(boolean moveHintSwitch) {
+        // Turn all squares back to normal color
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                removeHighlightSquare(i, j);
+            }
+        }
+
+        this.moveHintSwitch = moveHintSwitch;
     }
 
     public void highlightSquare(int row, int col, Color color) {

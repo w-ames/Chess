@@ -68,6 +68,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
     private boolean boardHighlightOnOff;
     private boolean notificationsOnOff;
+    private boolean moveHintSwitch;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
@@ -262,6 +263,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         boardHighlightOnOff = true;
         notificationsOnOff = true;
+        moveHintSwitch = true;
 
     }
 
@@ -299,6 +301,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 chessGame.undo();
             }
         });
+
         for (ActionListener al : redoButton.getActionListeners()) {
             redoButton.removeActionListener(al);
         }
@@ -307,6 +310,16 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 chessGame.redo();
             }
         });
+
+        for (ActionListener al : moveHintButton.getActionListeners()) {
+            moveHintButton.removeActionListener(al);
+        }
+        moveHintButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                guiView.moveHint(guiView.getSelectedRow(), guiView.getSelectedCol());
+            }
+        });
+
     }
 
     /**
@@ -506,6 +519,22 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
+    }
+
+    /**
+     * Turn the move hint option on or off.
+     */
+    public void moveHintOnOff() {
+
+        if (moveHintSwitch == true) {
+            this.moveHintSwitch = false;
+            addNotification("Move Hints OFF");
+        } else {
+            this.moveHintSwitch = true;
+            addNotification("Move Hints ON");
+        }
+
+        guiView.moveHintSwitch(this.moveHintSwitch);
     }
 
     /**
