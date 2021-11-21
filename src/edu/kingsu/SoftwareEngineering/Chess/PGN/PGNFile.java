@@ -4,6 +4,9 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.regex.Pattern;
+
+import edu.kingsu.SoftwareEngineering.Chess.Model.GameState;
+
 import java.util.regex.Matcher;
 
 public class PGNFile implements Iterable<String>{
@@ -43,14 +46,8 @@ public class PGNFile implements Iterable<String>{
             matcher= pattern.matcher(line);
         }*/
 
-        //ensure that the mandatory tag pairs are present
-        if(!tagPairs.containsKey("Event")) throw new IllegalArgumentException("No Event tag present");
-        if(!tagPairs.containsKey("Site")) throw new IllegalArgumentException("No Site tag present");
-        if(!tagPairs.containsKey("Date")) throw new IllegalArgumentException("No Date tag present");
-        if(!tagPairs.containsKey("Round")) throw new IllegalArgumentException("No Round tag present");
-        if(!tagPairs.containsKey("White")) throw new IllegalArgumentException("No White tag present");
-        if(!tagPairs.containsKey("Black")) throw new IllegalArgumentException("No Black tag present");
-        if(!tagPairs.containsKey("Result")) throw new IllegalArgumentException("No Result tag present");
+        validateTagPairs(tagPairs);
+        validateMoveTextAndResult(moveText, result);
 
         /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         //skip the blank lines, if necessary
@@ -66,7 +63,10 @@ public class PGNFile implements Iterable<String>{
         //Read the result, store it in result (if the game is still in progress, result is *)
     }
 
-    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result){
+    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result) throws IllegalArgumentException{
+        validateTagPairs(tagPairs);
+        validateMoveTextAndResult(moveText, result);
+
         this.tagPairs= tagPairs;
         moveText= moves;
         this.result= result;
@@ -134,5 +134,38 @@ public class PGNFile implements Iterable<String>{
         fileText += result;
 
         return fileText;
+    }
+
+    private void validateTagPairs(Map<String, String> tagPairs) throws IllegalArgumentException{
+        if(!tagPairs.containsKey("Event")) throw new IllegalArgumentException("No Event tag present");
+        if(!tagPairs.containsKey("Site")) throw new IllegalArgumentException("No Site tag present");
+        if(!tagPairs.containsKey("Date")) throw new IllegalArgumentException("No Date tag present");
+        if(!tagPairs.containsKey("Round")) throw new IllegalArgumentException("No Round tag present");
+        if(!tagPairs.containsKey("White")) throw new IllegalArgumentException("No White tag present");
+        if(!tagPairs.containsKey("Black")) throw new IllegalArgumentException("No Black tag present");
+        if(!tagPairs.containsKey("Result")) throw new IllegalArgumentException("No Result tag present");
+
+        for(Map.Entry<String, String> entry : tagPairs.entrySet()){
+            if(entry.getValue().contains("\"")) throw new IllegalArgumentException("Illegal tag pair value: contains \"");
+        }
+    }
+
+    private void validateMoveTextAndResult(List<String> moveText, String result){
+        ChessGame verifyGame= new ChessGame(-1, -1, 0, 0);
+
+        for(int i=0; i < moveText.size(); i++){
+            Move move= PGNTranslator.translatePGNToMove(moveText.get(i));
+            if(!verifyGame.performMove(move, true)) throw new IllegalArgumentException("Illegal move at moveText index " + i);
+        }
+
+        GameState gameState= verifyGame.getState();
+        //allow victories and stalemates outside of the ChessGame explicitly being in checkmate or stalemate
+        //do not allow results which are explicitly contradictory to a ChessGame in an endgame state
+        if(gameState == GameState.BLACK_CHECKMATE && !result.equals("0-1"))
+            throw new IllegalArgumentException("Game result incorrect; should be 0-1");
+        else if(gameState == GameState.WHITE_CHECKMATE && !result.equals("1-0"))
+            throw new IllegalArgumentException("Game result incorrect; should be 1-0");
+        else if(gameState == GameState.STALEMATE_NOMOVES && !result.equals("1/2-1/2"))
+            throw new IllegalArgumentException("Game result incorrect; should be 1/2-1/2");
     }
 }
