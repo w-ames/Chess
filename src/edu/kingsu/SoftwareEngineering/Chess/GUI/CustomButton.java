@@ -48,6 +48,24 @@ public class CustomButton extends JButton implements MouseListener {
     }
 
     /**
+     * Overloaded constructor for adding icons only to buttons (no text).
+     * 
+     * @param buttonIcon The icon to add to the button.
+     */
+    public CustomButton(ImageIcon buttonIcon) {
+
+        this.setOpaque(true);
+        this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+
+        // this.setLayout(new GridBagLayout());
+        // GridBagConstraints gb = new GridBagConstraints();
+
+        this.setIcon(buttonIcon);
+        this.setHorizontalTextPosition(AbstractButton.CENTER);
+        this.setVerticalTextPosition(AbstractButton.CENTER);
+    }
+
+    /**
      * Over rides JPanel's paintComponent to allow for gradient color.
      * 
      * @param g Graphics object to build gradient on.

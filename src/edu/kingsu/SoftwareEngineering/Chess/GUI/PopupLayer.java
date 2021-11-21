@@ -81,54 +81,62 @@ public class PopupLayer extends JPanel {
      * Makes this PopupLayer object into a pawn promotion popup screen.
      */
     public void makeIntoPawnPromotionScreen() {
+
         JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion");
         pawnPromotionLabel.setFont(new Font("Arial", Font.PLAIN, 35));
         pawnPromotionLabel.setForeground(new Color(16, 46, 60));
+        pawnPromotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         display.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
         gb.anchor = GridBagConstraints.NORTH;
+        gb.fill = GridBagConstraints.BOTH;
         gb.gridx = 0;
         gb.gridy = 0;
-        gb.gridwidth = 2;
-        gb.insets = new Insets(10, 0, 15, 0);
-        // display.add(pawnPromotionLabel, gb);
+        gb.weightx = 1;
+        gb.weighty = 0.25;
+        gb.gridheight = 1;
+        display.add(pawnPromotionLabel, gb);
+
+        JPanel invisibleButtonContainer = new JPanel();
+        invisibleButtonContainer.setOpaque(false);
+        invisibleButtonContainer.setLayout(new GridBagLayout());
+        GridBagConstraints buttongb = new GridBagConstraints();
 
         // Add choose queen button.
-        gb.fill = GridBagConstraints.NONE;
-        gb.gridx = 1;
-        gb.gridy = 0;
-        gb.weightx = 0.5;
-        gb.gridwidth = 1;
-        gb.insets = new Insets(5, 5, 15, 5);
-        display.add(chooseQueen, gb);
+        buttongb.fill = GridBagConstraints.BOTH;
+        buttongb.gridx = 0;
+        buttongb.gridy = 0;
+        buttongb.weightx = 0.5;
+        buttongb.weighty = 1;
+        buttongb.gridwidth = 1;
+        buttongb.insets = new Insets(50, 50, 50, 50);
+        invisibleButtonContainer.add(chooseQueen, buttongb);
 
         // Add choose rook button.
-        gb.fill = GridBagConstraints.NONE;
-        gb.gridx = 1;
-        gb.gridy = 1;
-        gb.weightx = 0.5;
-        gb.gridwidth = 1;
-        gb.insets = new Insets(5, 5, 15, 5);
-        display.add(chooseRook, gb);
+        buttongb.gridx = 1;
+        buttongb.gridy = 0;
+        buttongb.weightx = 0.5;
+        buttongb.gridwidth = 1;
+        invisibleButtonContainer.add(chooseRook, buttongb);
 
         // Add choose bishop button.
-        gb.fill = GridBagConstraints.NONE;
-        gb.gridx = 2;
-        gb.gridy = 0;
-        gb.weightx = 0.5;
-        gb.gridwidth = 1;
-        gb.insets = new Insets(5, 5, 15, 5);
-        display.add(chooseBishop, gb);
+        buttongb.gridx = 0;
+        buttongb.gridy = 1;
+        buttongb.weightx = 0.5;
+        buttongb.gridwidth = 1;
+        invisibleButtonContainer.add(chooseBishop, buttongb);
 
         // Add choose knight button.
-        gb.fill = GridBagConstraints.NONE;
-        gb.anchor = GridBagConstraints.CENTER;
-        gb.gridx = 2;
+        buttongb.gridx = 1;
+        buttongb.gridy = 1;
+        buttongb.weightx = 0.5;
+        buttongb.gridwidth = 1;
+        invisibleButtonContainer.add(chooseKnight, buttongb);
+
         gb.gridy = 1;
-        gb.weightx = 0.5;
-        gb.gridwidth = 1;
-        gb.insets = new Insets(5, 5, 5, 5);
-        display.add(chooseKnight, gb);
+        gb.gridheight = 2;
+        gb.weighty = 0.75;
+        display.add(invisibleButtonContainer, gb);
 
         assignChessGameAndChessPanelToControllers();
 
@@ -153,23 +161,26 @@ public class PopupLayer extends JPanel {
         display.add(endGameLabel, gb);
 
         // Add end game option buttons to display.
-        gb.fill = GridBagConstraints.HORIZONTAL;
+        gb.fill = GridBagConstraints.BOTH;
         gb.gridx = 0;
         gb.gridy = 1;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
         display.add(endGameViewBoardButton, gb);
+
         gb.gridx = 1;
         gb.gridy = 1;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(rematchButton, gb);
+
         gb.gridx = 0;
         gb.gridy = 2;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(newGameButton, gb);
+
         gb.gridx = 1;
         gb.gridy = 2;
         gb.weightx = 0.5;
