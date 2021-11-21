@@ -409,6 +409,14 @@ public class ChessGameGUIView extends ChessGameView {
             char[][] getMoveHighlights = getChessGame().getMoveHighlights(selectedRow, selectedCol);
 
             if (getMoveHighlights != null) {
+
+                // Highlight the square of the piece that the user selected to potentially move.
+                if (squareHolderArray[selectedRow][selectedCol].returnColor() == true) {
+                    highlightSquare(selectedRow, selectedCol, new Color(181, 225, 245)); // White
+                } else {
+                    highlightSquare(selectedRow, selectedCol, new Color(134, 198, 227)); // Black
+                }
+
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
 
