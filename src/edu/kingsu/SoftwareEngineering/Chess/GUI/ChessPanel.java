@@ -69,6 +69,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private boolean boardHighlightOnOff;
     private boolean notificationsOnOff;
     private boolean moveHintSwitch;
+    private boolean undoRedoSwitch;
 
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
@@ -255,15 +256,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
 
-        // First notification.
-        addNotification("Select a chess piece to begin...");
-
         layeredPane.revalidate();
         layeredPane.repaint();
 
-        boardHighlightOnOff = true;
-        notificationsOnOff = true;
-        moveHintSwitch = true;
+        if (notificationsOnOff == true) {
+            addNotification("Select a chess piece to begin...");
+        } else {
+            addNotification("Notifications Off");
+        }
 
     }
 
@@ -294,11 +294,15 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         for (ActionListener al : undoButton.getActionListeners()) {
-            undoButton.removeActionListener(al);
+            if (undoRedoSwitch == true) {
+                undoButton.removeActionListener(al);
+            }
         }
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                chessGame.undo();
+                if (undoRedoSwitch == true) {
+                    chessGame.undo();
+                }
             }
         });
 
@@ -380,10 +384,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void addNotification(String notificationToAdd) {
         messagesView.addToNotifications(notificationToAdd);
     }
-
-    // public void disable_Undo_Redo_Move(){}
-
-    // public void loadSavedGame(ChessGameLoadView savedGame){}
 
     /**
      * Prints the location of the selected square to the notifications screen.
@@ -522,6 +522,16 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Checks the current state of the selected tutorial options - whether they are
+     * on or off.
+     */
+    public void checkTutorialSelections() {
+        guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
+        guiView.moveHintSwitch(this.moveHintSwitch);
+        messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
      * Turn the move hint option on or off.
      */
     public void moveHintOnOff() {
@@ -550,6 +560,42 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
+     * Allows other classes (set up screen) to change hint switch.
+     * 
+     * @param hintSwitch true = on, false = off
+     */
+    public void setMoveHintSwitch(boolean hintSwitch) {
+        this.moveHintSwitch = hintSwitch;
+    }
+
+    /**
+     * Allows other classes (set up screen)to change notifications switch
+     * 
+     * @param notificationsSwitch true = on, false = off
+     */
+    public void setNotificationsSwitch(boolean notificationsSwitch) {
+        this.notificationsOnOff = notificationsSwitch;
+    }
+
+    /**
+     * Allows other classes (set up screen)to change board highlight switch
+     * 
+     * @param boardHighlightSwitch true = on, false = off
+     */
+    public void setboardHighlightSwitch(boolean boardHighlightSwitch) {
+        this.boardHighlightOnOff = boardHighlightSwitch;
+    }
+
+    /**
+     * Allows set up screen to turn on or off undo/redo move option.
+     * 
+     * @param undoRedoSwitch true = on, false = off.
+     */
+    public void setundoRedoSwitch(boolean undoRedo_Switch) {
+        this.undoRedoSwitch = undoRedo_Switch;
     }
 
     @Override

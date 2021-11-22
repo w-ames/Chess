@@ -93,9 +93,15 @@ public class ApplicationFrame extends JFrame {
      * dynamically resize if the user resizes the application frame during gameplay
      * mode.
      * 
-     * @param chessGame The chessGame to be represented by this chess panel.
+     * @param chessGame           The chessGame to be represented by this chess
+     *                            panel.
+     * @param highlightMoveSwitch Turns the board highlight tutorial option on or
+     *                            off.
+     * @param notificationsSwitch Turns the notifications tutorial option on or off.
+     * @param moveHintSwitch      Turns the move hint tutorial options on or off.
      */
-    public void initializeChessPanel(ChessGame chessGame) {
+    public void initializeChessPanel(ChessGame chessGame, boolean highlightMoveSwitch, boolean notificationsSwitch,
+            boolean moveHintSwitch, boolean undoRedoSwitch) {
 
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
@@ -103,6 +109,11 @@ public class ApplicationFrame extends JFrame {
         chessPanel.initialize(chessGame);
         chessPanel.updateContainerDimensions(width, height);
         makePiecesResizeable();
+        chessPanel.setMoveHintSwitch(moveHintSwitch);
+        chessPanel.setNotificationsSwitch(notificationsSwitch);
+        chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
+        chessPanel.setundoRedoSwitch(undoRedoSwitch);
+        chessPanel.checkTutorialSelections();
     }
 
     /**
