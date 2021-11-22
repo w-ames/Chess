@@ -14,9 +14,9 @@ public class ApplicationFrame extends JFrame {
     private static final String WINDOW_TITLE = "Chess Game";
     private static final Dimension WINDOW_SIZE = new Dimension(1200, 900);
 
-    private JPanel contentPanel;
-    private CardLayout layout;
-    private MainMenu mainMenu;
+    private JPanel contentPanel = new JPanel();
+    private CardLayout layout = new CardLayout();
+    private MainMenu mainMenu = new MainMenu(this);
     private GameSetUp gameSetUp;
     private ChessPanel chessPanel;
     private JMenuBar menuBar = new JMenuBar();
@@ -49,10 +49,8 @@ public class ApplicationFrame extends JFrame {
         super(WINDOW_TITLE);
         this.setMinimumSize(new Dimension(1250, 850));
         this.setBackground(new Color(16, 46, 60));
-        contentPanel = new JPanel();
         add(contentPanel);
-        layout = new CardLayout();
-        mainMenu = new MainMenu(this);
+    
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
 
@@ -166,7 +164,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "New Game" is selected from menu bar
+                  layout.show(contentPanel, "menu");
 
             }
 
