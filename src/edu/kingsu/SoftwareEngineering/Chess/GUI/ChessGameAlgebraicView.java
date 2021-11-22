@@ -140,17 +140,26 @@ public class ChessGameAlgebraicView extends ChessGameView {
         boolean isWhite = true;
         String test = "";
 
-        for (int i = 0; i < pgnMoves.size(); i++) {
-            
-            moveString += "<font style=\"font-family:\'Roboto\'\" size = \"5\">";
+        moveString += "<style>";
+        moveString +="table, th, td {";
+        moveString +=  "border: 1px solid black;";
+        moveString +=  "border-radius: 10px;";
+        moveString +=  "border-style: groove;";
+        moveString +=  "border-color: #a1b8c2;";
+        moveString +="}";
+        moveString +="th, td {";
+        moveString +=    "background-color: #a1b8c2;";
+        moveString +="}";
+        moveString +="</style><font style=\"font-family:\'Roboto\'\" size = \"6\"> <table>";
+        for (int i = 0; i < pgnMoves.size(); i++) { 
 
             if (i % 2 == 0) {
                 moveCounter++;
-                moveString += (Integer.toString(moveCounter) + ".");
+                moveString +="<tr><td>"+ (Integer.toString(moveCounter) + ".</td>");
 
             }
             if (i == lastMoveIndex) {
-                moveString += "<b><font size =\"6\">"+addChessUni(pgnMoves.get(i),isWhite)+"</font></b>";
+                moveString += "<td><b>"+addChessUni(pgnMoves.get(i),isWhite)+"</b></td>";
                 if(isWhite == true){
                 isWhite = false;
                 }
@@ -159,7 +168,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 }
 
             } else {
-                moveString += " " + addChessUni(pgnMoves.get(i),isWhite);
+                moveString += "<td>" + addChessUni(pgnMoves.get(i),isWhite)+"</td>";
 
                 if(isWhite == true){
                 isWhite = false;
@@ -169,10 +178,13 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 }
             }
            if (i % 2 != 0) {
-                moveString += ("<br>");
+                moveString += ("</tr>");
             }
+
         }
-        algebraicDisplayPanel.setText(moveString + "</font>");
+        
+        moveString+="</font></table>";
+        algebraicDisplayPanel.setText(moveString);
 
     }
 
@@ -217,7 +229,11 @@ public class ChessGameAlgebraicView extends ChessGameView {
             } else if (c == 'B') {
                 newmove = whiteBishop+move.substring(1);
                 return newmove;
-            } else
+            } else if(c =='O'){
+                newmove = whiteKing+move.substring(0);
+                return newmove;
+            }
+            else
                 return whitePawn+move;
         }
         else if(isWhite == false){
@@ -236,7 +252,10 @@ public class ChessGameAlgebraicView extends ChessGameView {
             } else if (c == 'B') {
                 newmove = blackBishop+move.substring(1);
                 return newmove;
-            } else
+            } else if(c =='O'){
+                newmove = blackKing+move.substring(0);
+                return newmove;
+            }else
                 return blackPawn+move;
         }
             return newmove+"error";
