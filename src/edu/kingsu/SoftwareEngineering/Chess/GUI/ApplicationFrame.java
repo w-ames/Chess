@@ -7,15 +7,16 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.*;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import java.awt.Color;
 
 public class ApplicationFrame extends JFrame {
 
     private static final String WINDOW_TITLE = "Chess Game";
     private static final Dimension WINDOW_SIZE = new Dimension(1200, 900);
 
-    private JPanel contentPanel;
-    private CardLayout layout;
-    private MainMenu mainMenu;
+    private JPanel contentPanel = new JPanel();
+    private CardLayout layout = new CardLayout();
+    private MainMenu mainMenu = new MainMenu(this);
     private GameSetUp gameSetUp;
     private ChessPanel chessPanel;
     private JMenuBar menuBar = new JMenuBar();
@@ -47,10 +48,9 @@ public class ApplicationFrame extends JFrame {
     public ApplicationFrame() {
         super(WINDOW_TITLE);
         this.setMinimumSize(new Dimension(1250, 850));
-        contentPanel = new JPanel();
+        this.setBackground(new Color(16, 46, 60));
         add(contentPanel);
-        layout = new CardLayout();
-        mainMenu = new MainMenu(this);
+    
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
 
@@ -91,16 +91,30 @@ public class ApplicationFrame extends JFrame {
      * dynamically resize if the user resizes the application frame during gameplay
      * mode.
      * 
-     * @param chessGame The chessGame to be represented by this chess panel.
+     * @param chessGame           The chessGame to be represented by this chess
+     *                            panel.
+     * @param highlightMoveSwitch Turns the board highlight tutorial option on or
+     *                            off.
+     * @param notificationsSwitch Turns the notifications tutorial option on or off.
+     * @param moveHintSwitch      Turns the move hint tutorial options on or off.
      */
-    public void initializeChessPanel(ChessGame chessGame) {
+    public void initializeChessPanel(ChessGame chessGame, boolean highlightMoveSwitch, boolean notificationsSwitch,
+            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name) {
 
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
 
+        chessPanel.setPlayerNames(player1Name, player2Name);
         chessPanel.initialize(chessGame);
         chessPanel.updateContainerDimensions(width, height);
         makePiecesResizeable();
+        chessPanel.setMoveHintSwitch(moveHintSwitch);
+        chessPanel.setNotificationsSwitch(notificationsSwitch);
+        chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
+        chessPanel.setundoRedoSwitch(undoRedoSwitch);
+        chessPanel.checkTutorialSelections();
+        
+        
     }
 
     /**
@@ -153,7 +167,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "New Game" is selected from menu bar
+                  layout.show(contentPanel, "menu");
 
             }
 
@@ -184,10 +198,10 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Board Highlight (On/Off)" is selected from menu bar
-
+                if (chessPanel != null) {
+                    chessPanel.boardHighlightOnOff();
+                }
             }
-
         });
 
         turnOnOffNotifications.addActionListener(new ActionListener() {
@@ -195,10 +209,10 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Notifications On/Off" is selected from menu bar
-
+                if (chessPanel != null) {
+                    chessPanel.notificationsOnOff();
+                }
             }
-
         });
 
         turnOnOffMoveHints.addActionListener(new ActionListener() {
@@ -208,8 +222,10 @@ public class ApplicationFrame extends JFrame {
 
                 // Add code for when "Move Hint On/Off" is selected from menu bar
 
+                if (chessPanel != null) {
+                    chessPanel.moveHintOnOff();
+                }
             }
-
         });
 
         about.addActionListener(new ActionListener() {

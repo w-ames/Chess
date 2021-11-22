@@ -56,8 +56,10 @@ public class MainMenu extends JPanel {
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
+                HelpWindow helpWindow = new HelpWindow("about");
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
             }
         });
         exitButton.addActionListener(new ActionListener() {

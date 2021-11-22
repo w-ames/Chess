@@ -23,9 +23,16 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.swing.JTabbedPane;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import javax.swing.JEditorPane;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.JScrollPane;
+import java.io.File;
 
 /**
  * Creates seperate window frame for help and about dialog for java chess game.
@@ -103,10 +110,22 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel chessRulesText = new JLabel("<html>" + "Chess Rules Text Area" + "</html>");
+        JEditorPane chessRulesHelpMenu = new JEditorPane();
+        File file = new File("src/assets/chess_rules.html");
+        try {
+            chessRulesHelpMenu.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        chessRulesHelpMenu.setEditable(false);
+        chessRulesHelpMenu.setOpaque(false);
 
-        textArea.add(chessRulesText, gb);
-
+        JScrollPane editorScrollPane = new JScrollPane(chessRulesHelpMenu, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
     }
 
     private void buildPieceInfoPanel() {
@@ -127,11 +146,125 @@ public class HelpWindow extends JFrame {
         pieceInfoBackground.add(silverPanel, gb);
 
         silverPanel.setLayout(new GridBagLayout());
-        JPanel textArea = new JPanel();
-        textArea.setBackground(new Color(232, 232, 232));
-        textArea.setOpaque(true);
-        textArea.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
-        silverPanel.add(textArea, gb);
+        JTabbedPane piecePanel = new JTabbedPane();
+        piecePanel.setBackground(new Color(232, 232, 232));
+        piecePanel.setOpaque(true);
+        piecePanel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
+        silverPanel.add(piecePanel, gb);
+
+        // Pawn Information.
+        JEditorPane pawnInfo = new JEditorPane();
+        File file = new File("src/assets/pawn_info.html");
+        try {
+            pawnInfo.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        pawnInfo.setEditable(false);
+        pawnInfo.setOpaque(false);
+
+        JScrollPane pawnEditorScrollPane = new JScrollPane(pawnInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pawnEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Pawn", pawnEditorScrollPane);
+
+        // Rook information
+        JEditorPane rookInfo = new JEditorPane();
+        File file2 = new File("src/assets/rook_info.html");
+        try {
+            rookInfo.setPage(file2.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        rookInfo.setEditable(false);
+        rookInfo.setOpaque(false);
+
+        JScrollPane rookEditorScrollPane = new JScrollPane(rookInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rookEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Rook", rookEditorScrollPane);
+
+        // Bishop information
+        JEditorPane bishopInfo = new JEditorPane();
+        File file3 = new File("src/assets/bishop_info.html");
+        try {
+            bishopInfo.setPage(file3.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        bishopInfo.setEditable(false);
+        bishopInfo.setOpaque(false);
+
+        JScrollPane bishopEditorScrollPane = new JScrollPane(bishopInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        bishopEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Bishop", bishopEditorScrollPane);
+
+        // Knight information
+        JEditorPane knightInfo = new JEditorPane();
+        File file4 = new File("src/assets/knight_info.html");
+        try {
+            knightInfo.setPage(file4.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        knightInfo.setEditable(false);
+        knightInfo.setOpaque(false);
+
+        JScrollPane knightEditorScrollPane = new JScrollPane(knightInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        knightEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Knight", knightEditorScrollPane);
+
+        // Queen information
+        JEditorPane queenInfo = new JEditorPane();
+        File file5 = new File("src/assets/queen_info.html");
+        try {
+            queenInfo.setPage(file5.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        queenInfo.setEditable(false);
+        queenInfo.setOpaque(false);
+
+        JScrollPane queenEditorScrollPane = new JScrollPane(queenInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        queenEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Queen", queenEditorScrollPane);
+
+        // King information
+        JEditorPane kingInfo = new JEditorPane();
+        File file6 = new File("src/assets/king_info.html");
+        try {
+            kingInfo.setPage(file6.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        kingInfo.setEditable(false);
+        kingInfo.setOpaque(false);
+
+        JScrollPane kingEditorScrollPane = new JScrollPane(kingInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        kingEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("King", kingEditorScrollPane);
 
     }
 
@@ -160,9 +293,24 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel appHelpText = new JLabel("<html>" + "App Help Text Area" + "</html>");
+        JEditorPane licensePane = new JEditorPane();
+        File file = new File("src/assets/application_help.html");
+        try {
+            licensePane.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        licensePane.setEditable(false);
+        licensePane.setOpaque(false);
 
-        textArea.add(appHelpText, gb);
+        JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
+
+        textArea.add(editorScrollPane, gb);
 
     }
 
@@ -191,9 +339,22 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel aboutText = new JLabel("<html>" + "About Text Area" + "</html>");
+        JEditorPane aboutPane = new JEditorPane();
+        File file = new File("src/assets/about.html");
+        try {
+            aboutPane.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        aboutPane.setEditable(false);
+        aboutPane.setOpaque(false);
 
-        textArea.add(aboutText, gb);
+        JScrollPane editorScrollPane = new JScrollPane(aboutPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
 
     }
 
@@ -222,19 +383,22 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel licenseText = new JLabel("<html>" + "<span> Copyright 2021 Java Chess Team</span>" + "<br>" + "<br>"
-                + "<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>"
-                + "<br>"
-                + "<p>1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</p>"
-                + "<br>"
-                + "<p>2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</p>"
-                + "<br"
-                + "<p>3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</p>"
-                + "<br"
-                + "<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>"
-                + "</html>");
+        JEditorPane licensePane = new JEditorPane();
+        File file = new File("src/assets/license.html");
+        try {
+            licensePane.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        licensePane.setEditable(false);
+        licensePane.setOpaque(false);
 
-        textArea.add(licenseText, gb);
+        JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
 
     }
 
