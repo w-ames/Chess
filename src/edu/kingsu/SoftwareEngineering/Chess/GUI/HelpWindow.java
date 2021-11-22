@@ -124,6 +124,7 @@ public class HelpWindow extends JFrame {
 
         JScrollPane editorScrollPane = new JScrollPane(chessRulesHelpMenu, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
         textArea.add(editorScrollPane, gb);
     }
 
