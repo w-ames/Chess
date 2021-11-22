@@ -18,7 +18,7 @@ public class PGNTranslator{
      * algebraic notation, and can be used in a PGN file.
      * @param move  the Move object to translate
      * @param board the board on which the Move will be made. The board must be
-     *              in a state before the Move has been performed
+     *  in a state before the Move has been performed
      * @return the String representation of the move (in algebraic notation)
      * @throws IllegalStateException if the Move is invalid
      */
@@ -132,12 +132,14 @@ public class PGNTranslator{
     /**
      * Translates a String in algebraic notation (used in PGN files)
      * to a Move object.
-     * @param pgn
-     * @param board
-     * @param playerIsWhite
-     * @return
-     * @throws IllegalArgumentException
-     * @throws IllegalStateException
+     * @param pgn the String representation of the move
+     * @param board the board on which the move is to be performed
+     * @param playerIsWhite <code>true</code> if the player making the move is
+     *  white, <code>false</code> if the player is black
+     * @return the Move object which matches the move indicated by the pgn String.
+     * @throws IllegalArgumentException if the move doesn't match the format of an algebraic move, or 
+     *  if the move is invalid on the given board
+     * @throws IllegalStateException if the move matches both the form of a normal move and a castling move
      */
     public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
@@ -265,6 +267,18 @@ public class PGNTranslator{
         }else throw new IllegalStateException("Cannot perform normal move and castling move at same time");
     }
 
+    /**
+     * Retrieves the Move matching the expected MoveType given the board, original square, and destination of
+     * the moved piece.
+     * @param board the board on which the move is to be made
+     * @param startRow the original row the moved piece is on (values 0 through 7 are valid, corresponding to ranks 8 through 1 respectively)
+     * @param startCol the original column the moved piece is on (values 0 through 7 are valid, corresponding to files A through H respectively)
+     * @param endRow the destination row the moved piece will go to (values 0 through 7 are valid, corresponding to ranks 8 through 1 respectively)
+     * @param endCol the destination column the moved piece will go to (values 0 through 7 are valid, corresponding to files A through H respectively)
+     * @param pawnPromo the letter corresponding to the piece a pawn should be promoted to (Q, R, B, and N are valid), or <code>null</code>
+     *  if the move does not result in pawn promotion.
+     * @return the Move which matches the expected MoveType of the given move
+     */
     private static Move getMoveWithMoveType(Board board, int startRow, int startCol, int endRow, int endCol, String pawnPromo) {
         Move translatedMove = null;
         List<Move> movesList = board.getMoves(startRow, startCol);
@@ -285,6 +299,11 @@ public class PGNTranslator{
         return translatedMove;
     }
 
+    /**
+     * Returns the single letter String corresponding to the given PieceType.
+     * @param pieceType the piece type to be converted to a String
+     * @return the String shorthand representation of the given PieceType
+     */
     private static String convertPieceTypeToString(PieceType pieceType){
         if(pieceType == PieceType.KING) return "K";
         else if(pieceType == PieceType.QUEEN) return "Q";
@@ -295,6 +314,11 @@ public class PGNTranslator{
         else throw new IllegalArgumentException("Illegal parameter");
     }
 
+    /**
+     * Returns the String representation of the given ColumnLetter
+     * @param col the ColumnLetter to be converted to a String
+     * @return the String representation of the given ColumnLetter, as a lowercase letter
+     */
     private static String convertColLetterToString(ColumnLetter col){
         if(col == ColumnLetter.A) return "a";
         else if(col == ColumnLetter.B) return "b";
@@ -307,10 +331,22 @@ public class PGNTranslator{
         else throw new IllegalArgumentException("Illegal parameter");
     }
 
+    /**
+     * Returns the numeric rank corresponding to the given row
+     * @param row the row number to be converted to a chess rank
+     * @return the corresponding rank of the given row. For example, if the given row
+     *  is 0, the rank will be 8. If the given row is 7, the rank will be 1.
+     */
     private static int convertRowToRank(int row){
         return 8 - row;
     }
 
+    /**
+     * Returns the row corresponding to the given String rank
+     * @param rank the String chess rank to be converted to a row
+     * @return the corresponding row of the given rank. For example, if the given rank
+     *  is 1, the row will be 7. If the given rank is 8, the row will be 0.
+     */
     private static int convertRankToRow(String rank){
         return 8 - Integer.parseInt(rank);
     }

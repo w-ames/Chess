@@ -11,14 +11,23 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.Parser.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
-
+/**
+ * Represents a PGN file, including all of its constituent parts: tag pairs, list of moves, and result.
+ */
 public class PGNFile implements Iterable<String>{
     public static final String PLAYERTYPE_TAG= "PlayerTypes";   //white player is human/easyAI/etc, black player is human/etc.
     private Map<String, String> tagPairs;
     private List<String> moveText;
     private String result;
 
-    public PGNFile(File file) throws IllegalArgumentException, IllegalStateException, FileNotFoundException{
+    /**
+     * Constructor which parses a PGN file to obtain the tag pairs, list of moves, and result.
+     * @param file the PGN file used to create the object
+     * @throws IllegalArgumentException if the given file contains an invalid tag pair, move, or result,
+     *  or if any of the mandatory tag pairs is missing
+     * @throws FileNotFoundException if the given file cannot be found
+     */
+    public PGNFile(File file) throws IllegalArgumentException, FileNotFoundException{
         //Check that file is correct filetype
         String fileName= file.getName();
         String fileType= "";
@@ -81,7 +90,16 @@ public class PGNFile implements Iterable<String>{
         //Read the result, store it in result (if the game is still in progress, result is *)
     }
 
-    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result) throws IllegalArgumentException, IllegalStateException{
+    /**
+     * Constructor which creates the object from a given set of tag pairs, moves, and the result.
+     * @param tagPairs the tag pairs for this PGNFile
+     * @param moves a list of the moves for this PGNFile
+     * @param result the result of the chess game represented by this PGNFile. Can be any of "1-0" (white win),
+     *  "0-1" (black win), "1/2-1/2" (stalemate), or "*" (in progress)
+     * @throws IllegalArgumentException if any of the mandatory tag pairs is missing, a tag pair value contains
+     *  a quotation mark, any of the moves are invalid, or the result is invalid
+     */
+    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result) throws IllegalArgumentException{
         validateTagPairs(tagPairs);
         this.tagPairs= tagPairs;
 
@@ -89,22 +107,44 @@ public class PGNFile implements Iterable<String>{
         this.result= result;
     }
 
+    /**
+     * Retrieves an Iterator to traverse over the list of moves in this PGNFile
+     * @return the moveText iterator
+     */
     public Iterator<String> iterator(){
         return moveText.iterator();
     }
 
+    /**
+     * Retrieves the tag pair map of this PGNFile
+     * @return the tag pair map
+     */
     public Map<String, String> getTagPairMap(){
         return tagPairs;
     }
 
+    /**
+     * Retrieves the list of moves represented as Strings in algebraic notation for the chess
+     * game represented by this PGNFile
+     * @return the list of moves
+     */
     public List<String> getMoveTextList(){
         return moveText;
     }
 
+    /**
+     * Retrieves the result of the chess game represented by this PGNFile
+     * @return the chess game's result
+     */
     public String getResult(){
         return result;
     }
 
+    /**
+     * Retrieves the text which represents the PGNFile object, which can be used to write to a file
+     * of the PGN filetype
+     * @return the text of the PGN file
+     */
     public String getFileText(){    //return the string that will be written into the file
         String fileText= "";
 
@@ -157,6 +197,12 @@ public class PGNFile implements Iterable<String>{
         return fileText;
     }
 
+    /**
+     * Validates the given tag pairs, throwing an exception if any part of them is invalid.
+     * @param tagPairs the tag pairs to validate
+     * @throws IllegalArgumentException if any of the mandatory tag pairs is missing, or if a tag
+     *  pair value contains a quotation mark
+     */
     private void validateTagPairs(Map<String, String> tagPairs) throws IllegalArgumentException{
         if(!tagPairs.containsKey("Event")) throw new IllegalArgumentException("No Event tag present");
         if(!tagPairs.containsKey("Site")) throw new IllegalArgumentException("No Site tag present");
@@ -172,7 +218,17 @@ public class PGNFile implements Iterable<String>{
     }
 
     //returns the moveText, but corrected so the format matches what we want to have for each move
-    private List<String> validateMoveTextAndResult(List<String> moveText, String result) throws IllegalArgumentException, IllegalStateException{
+    /**
+     * Validates the given list of moves and the end result. It is not required for a checkmate or stalemate
+     * to exist on the game board in order for the game to end in these results, but a result contrary to
+     * a checkmate or stalemate on the board is forbidden.
+     * @param moveText the list of moves in algebraic notation
+     * @param result the end result of the game. Can be any of "1-0" (white win), "0-1" (black win), "1/2-1/2" (stalemate),
+     *  or "*" (in progress)
+     * @return a list of moves which have had their format corrected to match this application's preferred algebraic format
+     * @throws IllegalArgumentException if any of the moves is invalid or if the game result is invalid
+     */
+    private List<String> validateMoveTextAndResult(List<String> moveText, String result) throws IllegalArgumentException{
         List<String> correctedMoves= new ArrayList<String>();
         ChessGame verifyGame= new ChessGame(-1, -1, 0, 0);
 
