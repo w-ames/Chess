@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
 
-import java.net.URL;
+import java.util.*;
 
 public class TestPGNFile{
     //files for using constructor with file param
@@ -279,7 +279,7 @@ public class TestPGNFile{
         assertTrue("adamsFile does not exist", adamsFile.exists());
         assertTrue("checkmateFile does not exist", checkmateFile.exists());
         assertTrue("stalemateFile does not exist", stalemateFile.exists());
-        assertTrue("illegalMove does not exist", illegalMove.exists());
+        assertTrue("illegalMoveFile does not exist", illegalMoveFile.exists());
         assertTrue("missingBlackFile does not exist", missingBlackFile.exists());
         assertTrue("missingWhiteFile does not exist", missingWhiteFile.exists());
         assertTrue("missingDateFile does not exist", missingDateFile.exists());
@@ -303,6 +303,9 @@ public class TestPGNFile{
             PGNFile txt= new PGNFile(txtFile);
             fail("Constructor didn't fail for txtFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for txtFile");
+        }
 
         try{
             adams= new PGNFile(adamsFile);
@@ -344,81 +347,129 @@ public class TestPGNFile{
             PGNFile illegalMove= new PGNFile(illegalMoveFile);
             fail("Constructor didn't fail for illegalMoveFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for illegalMoveFile");
+        }
 
         try{
             PGNFile missingBlack= new PGNFile(missingBlackFile);
             fail("Constructor didn't fail for missingBlackFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingBlackFile");
+        }
 
         try{
             PGNFile missingWhite= new PGNFile(missingWhiteFile);
             fail("Constructor didn't fail for missingWhiteFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingWhiteFile");
+        }
 
         try{
             PGNFile missingDate= new PGNFile(missingDateFile);
             fail("Constructor didn't fail for missingDateFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingDateFile");
+        }
 
         try{
             PGNFile missingEvent= new PGNFile(missingEventFile);
             fail("Constructor didn't fail for missingEventFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingEventFile");
+        }
 
         try{
             PGNFile missingResult= new PGNFile(missingResultFile);
             fail("Constructor didn't fail for missingResultFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingResultFile");
+        }
 
         try{
             PGNFile missingRound= new PGNFile(missingRoundFile);
             fail("Constructor didn't fail for missingRoundFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingRoundFile");
+        }
 
         try{
             PGNFile missingSite= new PGNFile(missingSiteFile);
             fail("Constructor didn't fail for missingSiteFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingSiteFile");
+        }
 
         try{
             PGNFile missingEndGameResult= new PGNFile(missingEndGameResultFile);
             fail("Constructor didn't fail for missingEndGameResultFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingEndGameResultFile");
+        }
 
         try{
             PGNFile nonsenseMove= new PGNFile(nonsenseMoveFile);
             fail("Constructor didn't fail for nonsenseMoveFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for nonsenseMoveFile");
+        }
 
         try{
             PGNFile tooFiewMovesInTurn= new PGNFile(tooFiewMovesInTurnFile);
             fail("Constructor didn't fail for tooFiewMovesInTurnFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for tooFiewMovesInTurnFile");
+        }
 
         try{
             PGNFile tooManyMovesInTurn= new PGNFile(tooManyMovesInTurnFile);
             fail("Constructor didn't fail for tooManyMovesInTurnFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for tooManyMovesInTurnFile");
+        }
 
         try{
             PGNFile wrongPlayerWon= new PGNFile(wrongPlayerWonFile);
             fail("Constructor didn't fail for wrongPlayerWonFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for wrongPlayerWonFile");
+        }
 
         try{
             PGNFile wrongTurnCounter= new PGNFile(wrongTurnCounterFile);
             fail("Constructor didn't fail for wrongTurnCounterFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for missingBlawrongTurnCounterFileckFile");
+        }
 
         try{
             PGNFile wrongFormat= new PGNFile(wrongFormatFile);
             fail("Constructor didn't fail for wrongFormatFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for wrongFormatFile");
+        }
 
         try{
             PGNFile illegalTagPairValue= new PGNFile(illegalTagPairValueFile);
             fail("Constructor didn't fail for illegalTagPairValueFile");
         }catch(IllegalArgumentException e){}
+        catch(FileNotFoundException e){
+            fail("FileNotFoundException for illegalTagPairValueFile");
+        }
     }
 
     @Test
@@ -511,306 +562,306 @@ public class TestPGNFile{
         int moveCounter= 1;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "e4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "e4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "e6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "e6", adamsIterator.next());
         moveCounter++;
         
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "d4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "d4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "d5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "d5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Nd2", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Nd2", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nf6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nf6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "e5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "e5", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nfd7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nfd7", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "f4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "f4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "c5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "c5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "c3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "c3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nc6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nc6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Ndf3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Ndf3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "cxd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "cxd4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "cxd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "cxd4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "f6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "f6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bd3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bd3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Bb4+", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Bb4+", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bd2", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bd2", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Qb6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Qb6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Ne2", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Ne2", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "fxe5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "fxe5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "fxe5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "fxe5", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "O-O", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "O-O", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "a3", adaadamsIteratorms.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "a3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Be7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Be7", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Qc2", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Qc2", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Rxf3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Rxf3", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "gxf3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "gxf3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nxd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nxd4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Nxd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Nxd4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Qxd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Qxd4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "O-O-O", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "O-O-O", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nxe5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nxe5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bxh7+", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bxh7+", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Kh8", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Kh8", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Kb1", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Kb1", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Qh4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Qh4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bc3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bc3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Bf6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Bf6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "f4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "f4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nc4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nc4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bxf6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bxf6", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Qxf6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Qxf6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bd3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bd3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "b5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "b5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Qe2", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Qe2", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Bd7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Bd7", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Rhg1", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Rhg1", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Be8", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Be8", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Rde1", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Rde1", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Bf7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Bf7", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Rg3", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Rg3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Rc8", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Rc8", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Reg1", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Reg1", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nd6", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nd6", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Rxg7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Rxg7", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Nf5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Nf5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "R7g5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "R7g5", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "Rc7", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "Rc7", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Bxf5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Bxf5", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "b incorrect", "exf5", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "exf5", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEqual("adams move " + moveCounter + "w incorrect", "Rh5+", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "Rh5+", adamsIterator.next());
         assertFalse("adams has next move", adamsIterator.hasNext());
 
         Iterator<String> checkmateIterator= checkmate.iterator();
         moveCounter= 1;
 
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "w incorrect", "e4", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "w incorrect", "e4", checkmateIterator.next());
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "b incorrect", "a6", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "b incorrect", "a6", checkmateIterator.next());
         moveCounter++;
 
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "w incorrect", "Qf3", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "w incorrect", "Qf3", checkmateIterator.next());
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "b incorrect", "a5", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "b incorrect", "a5", checkmateIterator.next());
         moveCounter++;
 
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "w incorrect", "Bc4", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "w incorrect", "Bc4", checkmateIterator.next());
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "b incorrect", "a4", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "b incorrect", "a4", checkmateIterator.next());
         moveCounter++;
 
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEqual("checkmate move " + moveCounter + "w incorrect", "Af7#", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "w incorrect", "Af7#", checkmateIterator.next());
         assertFalse("checkmate has next move", checkmateIterator.hasNext());
 
         Iterator<String> stalemateIterator= stalemate.iterator();
         moveCounter= 1;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "e3", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "e3", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "a5", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "a5", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qh5", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qh5", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Ra6", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Ra6", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxa5", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxa5", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "h5", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "h5", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxc7", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxc7", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Rah6", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Rah6", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "h4", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "h4", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "f6", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "f6", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxd7+", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxd7+", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Kf7", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Kf7", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxb7", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxb7", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Qd3", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Qd3", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxb8", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxb8", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Qh7", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Qh7", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qxc8", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qxc8", stalemateIterator.next());
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "b incorrect", "Kg6", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "b incorrect", "Kg6", stalemateIterator.next());
         moveCounter++;
 
         assertTrue("stalemate has no next move", stalemateIterator.hasNext());
-        assertEqual("stalemate move " + moveCounter + "w incorrect", "Qe6", stalemateIterator.next());
+        assertEquals("stalemate move " + moveCounter + "w incorrect", "Qe6", stalemateIterator.next());
         assertFalse("stalemate has next move", stalemateIterator.hasNext());
 
         Iterator<String> noSpaceBWTagPairsAndMovesIterator= noSpaceBWTagPairsAndMoves.iterator();
         moveCounter= 1;
 
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a3", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a3", noSpaceBWTagPairsAndMovesIterator.next());
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "e5", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "e5", noSpaceBWTagPairsAndMovesIterator.next());
         moveCounter++;
 
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a4", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a4", noSpaceBWTagPairsAndMovesIterator.next());
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qf6", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qf6", noSpaceBWTagPairsAndMovesIterator.next());
         moveCounter++;
 
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a5", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a5", noSpaceBWTagPairsAndMovesIterator.next());
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Bc5", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Bc5", noSpaceBWTagPairsAndMovesIterator.next());
         moveCounter++;
 
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a6", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a6", noSpaceBWTagPairsAndMovesIterator.next());
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qf2#", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qf2#", noSpaceBWTagPairsAndMovesIterator.next());
         
         assertFalse("noSpaceBWTagPairsAndMoves has next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
     }
@@ -835,7 +886,7 @@ public class TestPGNFile{
         assertEquals("checkmate Date incorrect", "2021.??.??", checkmateTagPairs.get("Date"));
         assertEquals("checkmate Round incorrect", "", checkmateTagPairs.get("Round"));
         assertEquals("checkmate White incorrect", "Player, White", checkmateTagPairs.get("White"));
-        assertEquals("checkmate Black incorrect", "Player, Black", checkcheckmateTagPairsmate.get("Black"));
+        assertEquals("checkmate Black incorrect", "Player, Black", checkmateTagPairs.get("Black"));
         assertEquals("checkmate Result incorrect", "1-0", checkmateTagPairs.get("Result"));
 
         Map<String, String> stalemateTagPairs= stalemate.getTagPairMap();
@@ -917,399 +968,399 @@ public class TestPGNFile{
     @Test
     public void testGetMoveTextList(){
         List<String> adamsMoveText= adams.getMoveTextList();
-        assertEqual("adamsMoveText wrong size", 63, adamsMoveText.size());
+        assertEquals("adamsMoveText wrong size", 63, adamsMoveText.size());
 
         int moveCounter= 0;
-        assertEqual("adams move " + moveCounter + " incorrect", "e4", adamsMoveText.get(0));
+        assertEquals("adams move " + moveCounter + " incorrect", "e4", adamsMoveText.get(0));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "e6", adamsMoveText.get(1));
+        assertEquals("adams move " + moveCounter + " incorrect", "e6", adamsMoveText.get(1));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "d4", adamsMoveText.get(2));
+        assertEquals("adams move " + moveCounter + " incorrect", "d4", adamsMoveText.get(2));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "d5", adamsMoveText.get(3));
+        assertEquals("adams move " + moveCounter + " incorrect", "d5", adamsMoveText.get(3));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nd2", adamsMoveText.get(4));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nd2", adamsMoveText.get(4));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nf6", adamsMoveText.get(5));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nf6", adamsMoveText.get(5));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "e5", adamsMoveText.get(6));
+        assertEquals("adams move " + moveCounter + " incorrect", "e5", adamsMoveText.get(6));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nfd7", adamsMoveText.get(7));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nfd7", adamsMoveText.get(7));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "f4", adamsMoveText.get(8));
+        assertEquals("adams move " + moveCounter + " incorrect", "f4", adamsMoveText.get(8));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "c5", adamsMoveText.get(9));
+        assertEquals("adams move " + moveCounter + " incorrect", "c5", adamsMoveText.get(9));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "c3", adamsMoveText.get(10));
+        assertEquals("adams move " + moveCounter + " incorrect", "c3", adamsMoveText.get(10));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nc6", adamsMoveText.get(11));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nc6", adamsMoveText.get(11));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Ndf3", adamsMoveText.get(12));
+        assertEquals("adams move " + moveCounter + " incorrect", "Ndf3", adamsMoveText.get(12));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(13));
+        assertEquals("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(13));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(14));
+        assertEquals("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(14));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "f6", adamsMoveText.get(15));
+        assertEquals("adams move " + moveCounter + " incorrect", "f6", adamsMoveText.get(15));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bd3", adamsMoveText.get(16));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bd3", adamsMoveText.get(16));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bb4+", adamsMoveText.get(17));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bb4+", adamsMoveText.get(17));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bd2", adamsMoveText.get(18));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bd2", adamsMoveText.get(18));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qb6", adamsMoveText.get(19));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qb6", adamsMoveText.get(19));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Ne2", adamsMoveText.get(20));
+        assertEquals("adams move " + moveCounter + " incorrect", "Ne2", adamsMoveText.get(20));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(21));
+        assertEquals("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(21));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(22));
+        assertEquals("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(22));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "O-O", adamsMoveText.get(23));
+        assertEquals("adams move " + moveCounter + " incorrect", "O-O", adamsMoveText.get(23));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "a3", adamsMoveText.get(24));
+        assertEquals("adams move " + moveCounter + " incorrect", "a3", adamsMoveText.get(24));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Be7", adamsMoveText.get(25));
+        assertEquals("adams move " + moveCounter + " incorrect", "Be7", adamsMoveText.get(25));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qc2", adamsMoveText.get(26));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qc2", adamsMoveText.get(26));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rxf3", adamsMoveText.get(27));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rxf3", adamsMoveText.get(27));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "gxf3", adamsMoveText.get(28));
+        assertEquals("adams move " + moveCounter + " incorrect", "gxf3", adamsMoveText.get(28));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nxd4", adamsMoveText.get(29));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nxd4", adamsMoveText.get(29));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nxd4", adamsMoveText.get(30));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nxd4", adamsMoveText.get(30));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qxd4", adamsMoveText.get(31));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qxd4", adamsMoveText.get(31));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "O-O-O", adamsMoveText.get(32));
+        assertEquals("adams move " + moveCounter + " incorrect", "O-O-O", adamsMoveText.get(32));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nxe5", adamsMoveText.get(33));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nxe5", adamsMoveText.get(33));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bxh7+", adamsMoveText.get(34));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bxh7+", adamsMoveText.get(34));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Kh8", adamsMoveText.get(35));
+        assertEquals("adams move " + moveCounter + " incorrect", "Kh8", adamsMoveText.get(35));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Kb1", adamsMoveText.get(36));
+        assertEquals("adams move " + moveCounter + " incorrect", "Kb1", adamsMoveText.get(36));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qh4", adamsMoveText.get(37));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qh4", adamsMoveText.get(37));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bc3", adamsMoveText.get(38));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bc3", adamsMoveText.get(38));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bf6", adamsMoveText.get(39));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bf6", adamsMoveText.get(39));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "f4", adamsMoveText.get(40));
+        assertEquals("adams move " + moveCounter + " incorrect", "f4", adamsMoveText.get(40));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nc4", adamsMoveText.get(41));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nc4", adamsMoveText.get(41));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bxf6", adamsMoveText.get(42));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bxf6", adamsMoveText.get(42));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qxf6", adamsMoveText.get(43));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qxf6", adamsMoveText.get(43));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bd3", adamsMoveText.get(44));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bd3", adamsMoveText.get(44));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "b5", adamsMoveText.get(45));
+        assertEquals("adams move " + moveCounter + " incorrect", "b5", adamsMoveText.get(45));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Qe2", adamsMoveText.get(46));
+        assertEquals("adams move " + moveCounter + " incorrect", "Qe2", adamsMoveText.get(46));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bd7", adamsMoveText.get(47));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bd7", adamsMoveText.get(47));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rhg1", adamsMoveText.get(48));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rhg1", adamsMoveText.get(48));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Be8", adamsMoveText.get(49));
+        assertEquals("adams move " + moveCounter + " incorrect", "Be8", adamsMoveText.get(49));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rde1", adamsMoveText.get(50));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rde1", adamsMoveText.get(50));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bf7", adamsMoveText.get(51));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bf7", adamsMoveText.get(51));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rg3", adamsMoveText.get(52));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rg3", adamsMoveText.get(52));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rc8", adamsMoveText.get(53));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rc8", adamsMoveText.get(53));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Reg1", adamsMoveText.get(54));
+        assertEquals("adams move " + moveCounter + " incorrect", "Reg1", adamsMoveText.get(54));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nd6", adamsMoveText.get(55));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nd6", adamsMoveText.get(55));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rxg7", adamsMoveText.get(56));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rxg7", adamsMoveText.get(56));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Nf5", adamsMoveText.get(57));
+        assertEquals("adams move " + moveCounter + " incorrect", "Nf5", adamsMoveText.get(57));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "R7g5", adamsMoveText.get(58));
+        assertEquals("adams move " + moveCounter + " incorrect", "R7g5", adamsMoveText.get(58));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rc7", adamsMoveText.get(59));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rc7", adamsMoveText.get(59));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Bxf5", adamsMoveText.get(60));
+        assertEquals("adams move " + moveCounter + " incorrect", "Bxf5", adamsMoveText.get(60));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "exf5", adamsMoveText.get(61));
+        assertEquals("adams move " + moveCounter + " incorrect", "exf5", adamsMoveText.get(61));
         moveCounter++;
-        assertEqual("adams move " + moveCounter + " incorrect", "Rh5+", adamsMoveText.get(62));
+        assertEquals("adams move " + moveCounter + " incorrect", "Rh5+", adamsMoveText.get(62));
 
         moveCounter= 1;
         List<String> checkmateMoveText= checkmate.getMoveTextList();
-        assertEqual("checkmateMoveText wrong size", 7, checkmateMoveText.size());
+        assertEquals("checkmateMoveText wrong size", 7, checkmateMoveText.size());
         
-        assertEqual("checkmate move " + moveCounter + " incorrect", "e4", checkmateMoveText.get(0));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "e4", checkmateMoveText.get(0));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "a6", checkmateMoveText.get(1));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "a6", checkmateMoveText.get(1));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "Qf3", checkmateMoveText.get(2));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "Qf3", checkmateMoveText.get(2));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "a5", checkmateMoveText.get(3));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "a5", checkmateMoveText.get(3));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "Bc4", checkmateMoveText.get(4));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "Bc4", checkmateMoveText.get(4));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "a4", checkmateMoveText.get(5));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "a4", checkmateMoveText.get(5));
         moveCounter++;
-        assertEqual("checkmate move " + moveCounter + " incorrect", "Qf7#", checkmateMoveText.get(6));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "Qf7#", checkmateMoveText.get(6));
 
         moveCounter= 1;
         List<String> stalemateMoveText= stalemate.getMoveTextList();
-        assertEqual("stalemateMoveText wrong size", 19, stalemateMoveText.size());
+        assertEquals("stalemateMoveText wrong size", 19, stalemateMoveText.size());
 
-        assertEqual("stalemate move " + moveCounter + " incorrect", "e3", stalemateMoveText.get(0));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "e3", stalemateMoveText.get(0));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "a5", stalemateMoveText.get(1));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "a5", stalemateMoveText.get(1));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qh5", stalemateMoveText.get(2));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qh5", stalemateMoveText.get(2));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Ra6", stalemateMoveText.get(3));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Ra6", stalemateMoveText.get(3));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxa5", stalemateMoveText.get(4));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxa5", stalemateMoveText.get(4));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "h5", stalemateMoveText.get(5));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "h5", stalemateMoveText.get(5));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxc7", stalemateMoveText.get(6));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxc7", stalemateMoveText.get(6));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Rah6", stalemateMoveText.get(7));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Rah6", stalemateMoveText.get(7));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "h4", stalemateMoveText.get(8));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "h4", stalemateMoveText.get(8));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "f6", stalemateMoveText.get(9));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "f6", stalemateMoveText.get(9));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxd7+", stalemateMoveText.get(10));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxd7+", stalemateMoveText.get(10));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Kf7", stalemateMoveText.get(11));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Kf7", stalemateMoveText.get(11));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxb7", stalemateMoveText.get(12));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxb7", stalemateMoveText.get(12));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qd3", stalemateMoveText.get(13));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qd3", stalemateMoveText.get(13));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxb8", stalemateMoveText.get(14));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxb8", stalemateMoveText.get(14));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qh7", stalemateMoveText.get(15));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qh7", stalemateMoveText.get(15));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qxc8", stalemateMoveText.get(16));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qxc8", stalemateMoveText.get(16));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Kg6", stalemateMoveText.get(17));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Kg6", stalemateMoveText.get(17));
         moveCounter++;
-        assertEqual("stalemate move " + moveCounter + " incorrect", "Qe6", stalemateMoveText.get(18));
+        assertEquals("stalemate move " + moveCounter + " incorrect", "Qe6", stalemateMoveText.get(18));
         
 
         moveCounter= 1;
         List<String> noSpaceBWTagPairsAndMovesMoveText= noSpaceBWTagPairsAndMoves.getMoveTextList();
-        assertEqual("noSpaceBWTagPairsAndMovesMoveText wrong size", 8, noSpaceBWTagPairsAndMovesMoveText.size());
+        assertEquals("noSpaceBWTagPairsAndMovesMoveText wrong size", 8, noSpaceBWTagPairsAndMovesMoveText.size());
 
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a3", noSpaceBWTagPairsAndMovesMoveText.get(0));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a3", noSpaceBWTagPairsAndMovesMoveText.get(0));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "e5", noSpaceBWTagPairsAndMovesMoveText.get(1));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "e5", noSpaceBWTagPairsAndMovesMoveText.get(1));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a4", noSpaceBWTagPairsAndMovesMoveText.get(2));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a4", noSpaceBWTagPairsAndMovesMoveText.get(2));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qf6", noSpaceBWTagPairsAndMovesMoveText.get(3));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qf6", noSpaceBWTagPairsAndMovesMoveText.get(3));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a5", noSpaceBWTagPairsAndMovesMoveText.get(4));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a5", noSpaceBWTagPairsAndMovesMoveText.get(4));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Bc5", noSpaceBWTagPairsAndMovesMoveText.get(5));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Bc5", noSpaceBWTagPairsAndMovesMoveText.get(5));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a6", noSpaceBWTagPairsAndMovesMoveText.get(6));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a6", noSpaceBWTagPairsAndMovesMoveText.get(6));
         moveCounter++;
-        assertEqual("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qf2#", noSpaceBWTagPairsAndMovesMoveText.get(7));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qf2#", noSpaceBWTagPairsAndMovesMoveText.get(7));
 
         moveCounter= 1;
         List<String> inProgressWithMoves1MoveText= inProgressWithMoves1.getMoveTextList();
-        assertEqual("inProgressWithMoves1MoveText wrong size", 4, inProgressWithMoves1MoveText.size());
+        assertEquals("inProgressWithMoves1MoveText wrong size", 4, inProgressWithMoves1MoveText.size());
 
-        assertEqual("inProgressWithMoves1 move " + moveCounter + " incorrect", "e4", inProgressWithMoves1MoveText.get(0));
+        assertEquals("inProgressWithMoves1 move " + moveCounter + " incorrect", "e4", inProgressWithMoves1MoveText.get(0));
         moveCounter++;
-        assertEqual("inProgressWithMoves1 move " + moveCounter + " incorrect", "a6", inProgressWithMoves1MoveText.get(1));
+        assertEquals("inProgressWithMoves1 move " + moveCounter + " incorrect", "a6", inProgressWithMoves1MoveText.get(1));
         moveCounter++;
-        assertEqual("inProgressWithMoves1 move " + moveCounter + " incorrect", "Qf3", inProgressWithMoves1MoveText.get(2));
+        assertEquals("inProgressWithMoves1 move " + moveCounter + " incorrect", "Qf3", inProgressWithMoves1MoveText.get(2));
         moveCounter++;
-        assertEqual("inProgressWithMoves1 move " + moveCounter + " incorrect", "a5", inProgressWithMoves1MoveText.get(3));
+        assertEquals("inProgressWithMoves1 move " + moveCounter + " incorrect", "a5", inProgressWithMoves1MoveText.get(3));
 
         List<String> inProgressNoMoves1MoveText= inProgressNoMoves1.getMoveTextList();
-        assertEqual("inProgressNoMoves1MoveText wrong size", 0, inProgressNoMoves1MoveText.size());
+        assertEquals("inProgressNoMoves1MoveText wrong size", 0, inProgressNoMoves1MoveText.size());
 
         moveCounter= 1;
         List<String> testGameMoveText= testGame.getMoveTextList();
-        assertEqual("testGameMoveText wrong size", 28, testGameMoveText.size());
+        assertEquals("testGameMoveText wrong size", 28, testGameMoveText.size());
 
-        assertEqual("testGame move " + moveCounter + " incorrect", "e4", testGameMoveText.get(0));
+        assertEquals("testGame move " + moveCounter + " incorrect", "e4", testGameMoveText.get(0));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "e5", testGameMoveText.get(1));
+        assertEquals("testGame move " + moveCounter + " incorrect", "e5", testGameMoveText.get(1));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bc4", testGameMoveText.get(2));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bc4", testGameMoveText.get(2));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bc5", testGameMoveText.get(3));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bc5", testGameMoveText.get(3));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Nf3", testGameMoveText.get(4));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Nf3", testGameMoveText.get(4));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Nf6", testGameMoveText.get(5));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Nf6", testGameMoveText.get(5));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "O-O", testGameMoveText.get(6));
+        assertEquals("testGame move " + moveCounter + " incorrect", "O-O", testGameMoveText.get(6));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "O-O", testGameMoveText.get(7));
+        assertEquals("testGame move " + moveCounter + " incorrect", "O-O", testGameMoveText.get(7));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Ba6", testGameMoveText.get(8));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Ba6", testGameMoveText.get(8));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Be3", testGameMoveText.get(9));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Be3", testGameMoveText.get(9));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "d4", testGameMoveText.get(10));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d4", testGameMoveText.get(10));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "exd4", testGameMoveText.get(11));
+        assertEquals("testGame move " + moveCounter + " incorrect", "exd4", testGameMoveText.get(11));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "e5", testGameMoveText.get(12));
+        assertEquals("testGame move " + moveCounter + " incorrect", "e5", testGameMoveText.get(12));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "d5", testGameMoveText.get(13));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d5", testGameMoveText.get(13));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "exd6 e.p.", testGameMoveText.get(14));
+        assertEquals("testGame move " + moveCounter + " incorrect", "exd6 e.p.", testGameMoveText.get(14));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "d7", testGameMoveText.get(15));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d7", testGameMoveText.get(15));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "c2", testGameMoveText.get(16));
+        assertEquals("testGame move " + moveCounter + " incorrect", "c2", testGameMoveText.get(16));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bd2", testGameMoveText.get(17));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bd2", testGameMoveText.get(17));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "c1=Q", testGameMoveText.get(18));
+        assertEquals("testGame move " + moveCounter + " incorrect", "c1=Q", testGameMoveText.get(18));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "d8=Q", testGameMoveText.get(19));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d8=Q", testGameMoveText.get(19));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Qc6", testGameMoveText.get(20));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qc6", testGameMoveText.get(20));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Qxe7", testGameMoveText.get(21));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe7", testGameMoveText.get(21));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Re8", testGameMoveText.get(22));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Re8", testGameMoveText.get(22));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bb5", testGameMoveText.get(23));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bb5", testGameMoveText.get(23));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Nh5", testGameMoveText.get(24));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Nh5", testGameMoveText.get(24));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bxc6", testGameMoveText.get(25));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bxc6", testGameMoveText.get(25));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Bf4", testGameMoveText.get(26));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bf4", testGameMoveText.get(26));
         moveCounter++;
-        assertEqual("testGame move " + moveCounter + " incorrect", "Qxe8#", testGameMoveText.get(27));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe8#", testGameMoveText.get(27));
 
         moveCounter= 1;
         List<String> testGame2MoveText= testGame2.getMoveTextList();
-        assertEqual("testGame2MoveText wrong size", 22, testGame2MoveText.size());
+        assertEquals("testGame2MoveText wrong size", 22, testGame2MoveText.size());
         
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "d4", testGame2MoveText.get(0));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "d4", testGame2MoveText.get(0));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qd5xe8", testGame2MoveText.get(1));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qd5xe8", testGame2MoveText.get(1));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Bg5", testGame2MoveText.get(2));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Bg5", testGame2MoveText.get(2));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Bg4", testGame2MoveText.get(3));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Bg4", testGame2MoveText.get(3));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qd3", testGame2MoveText.get(4));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qd3", testGame2MoveText.get(4));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qd6", testGame2MoveText.get(5));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qd6", testGame2MoveText.get(5));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Nc3", testGame2MoveText.get(6));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Nc3", testGame2MoveText.get(6));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Nc6", testGame2MoveText.get(7));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Nc6", testGame2MoveText.get(7));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "O-O-O", testGame2MoveText.get(8));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "O-O-O", testGame2MoveText.get(8));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "O-O-O", testGame2MoveText.get(9));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "O-O-O", testGame2MoveText.get(9));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Na4", testGame2MoveText.get(10));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Na4", testGame2MoveText.get(10));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Na5", testGame2MoveText.get(11));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Na5", testGame2MoveText.get(11));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qg6", testGame2MoveText.get(12));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qg6", testGame2MoveText.get(12));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "e5", testGame2MoveText.get(13));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "e5", testGame2MoveText.get(13));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "dxe5", testGame2MoveText.get(14));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "dxe5", testGame2MoveText.get(14));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "d4", testGame2MoveText.get(15));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "d4", testGame2MoveText.get(15));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "c4", testGame2MoveText.get(16));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "c4", testGame2MoveText.get(16));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "dxc3 e.p.", testGame2MoveText.get(17));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "dxc3 e.p.", testGame2MoveText.get(17));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qh6", testGame2MoveText.get(18));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qh6", testGame2MoveText.get(18));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "f5", testGame2MoveText.get(19));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "f5", testGame2MoveText.get(19));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "exf6 e.p.", testGame2MoveText.get(20));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "exf6 e.p.", testGame2MoveText.get(20));
         moveCounter++;
-        assertEqual("testGame2 move " + moveCounter + " incorrect", "Qxd1#", testGame2MoveText.get(21));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qxd1#", testGame2MoveText.get(21));
         
         moveCounter= 1;
         List<String> stalemate1MoveText= stalemate1.getMoveTextList();
-        assertEqual("stalemate1MoveText wrong size", 19, stalemate1MoveText.size());
+        assertEquals("stalemate1MoveText wrong size", 19, stalemate1MoveText.size());
 
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "e3", stalemate1MoveText.get(0));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "e3", stalemate1MoveText.get(0));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "a5", stalemate1MoveText.get(1));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "a5", stalemate1MoveText.get(1));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qh5", stalemate1MoveText.get(2));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qh5", stalemate1MoveText.get(2));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Ra6", stalemate1MoveText.get(3));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Ra6", stalemate1MoveText.get(3));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxa5", stalemate1MoveText.get(4));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxa5", stalemate1MoveText.get(4));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "h5", stalemate1MoveText.get(5));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "h5", stalemate1MoveText.get(5));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxc7", stalemate1MoveText.get(6));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxc7", stalemate1MoveText.get(6));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Rah6", stalemate1MoveText.get(7));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Rah6", stalemate1MoveText.get(7));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "h4", stalemate1MoveText.get(8));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "h4", stalemate1MoveText.get(8));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "f6", stalemate1MoveText.get(9));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "f6", stalemate1MoveText.get(9));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxd7+", stalemate1MoveText.get(10));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxd7+", stalemate1MoveText.get(10));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Kf7", stalemate1MoveText.get(11));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Kf7", stalemate1MoveText.get(11));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxb7", stalemate1MoveText.get(12));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxb7", stalemate1MoveText.get(12));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qd3", stalemate1MoveText.get(13));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qd3", stalemate1MoveText.get(13));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxb8", stalemate1MoveText.get(14));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxb8", stalemate1MoveText.get(14));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qh7", stalemate1MoveText.get(15));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qh7", stalemate1MoveText.get(15));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qxc8", stalemate1MoveText.get(16));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qxc8", stalemate1MoveText.get(16));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Kg6", stalemate1MoveText.get(17));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Kg6", stalemate1MoveText.get(17));
         moveCounter++;
-        assertEqual("stalemate1 move " + moveCounter + " incorrect", "Qe6", stalemate1MoveText.get(18));
+        assertEquals("stalemate1 move " + moveCounter + " incorrect", "Qe6", stalemate1MoveText.get(18));
 
         moveCounter= 1;
         List<String> inProgressWithMovesMoveText= inProgressWithMoves.getMoveTextList();
-        assertEqual("inProgressWithMovesMoveText wrong size", 6, inProgressWithMovesMoveText.size());
+        assertEquals("inProgressWithMovesMoveText wrong size", 6, inProgressWithMovesMoveText.size());
         
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "e3", inProgressWithMovesMoveText.get(0));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "e3", inProgressWithMovesMoveText.get(0));
         moveCounter++;
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "a5", inProgressWithMovesMoveText.get(1));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "a5", inProgressWithMovesMoveText.get(1));
         moveCounter++;
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "Qh5", inProgressWithMovesMoveText.get(2));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "Qh5", inProgressWithMovesMoveText.get(2));
         moveCounter++;
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "Ra6", inProgressWithMovesMoveText.get(3));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "Ra6", inProgressWithMovesMoveText.get(3));
         moveCounter++;
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "Qxa5", inProgressWithMovesMoveText.get(4));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "Qxa5", inProgressWithMovesMoveText.get(4));
         moveCounter++;
-        assertEqual("inProgressWithMoves move " + moveCounter + " incorrect", "h5", inProgressWithMovesMoveText.get(5));
+        assertEquals("inProgressWithMoves move " + moveCounter + " incorrect", "h5", inProgressWithMovesMoveText.get(5));
         
         List<String> inProgressNoMovesMoveText= inProgressNoMoves.getMoveTextList();
-        assertEqual("inProgressNoMovesMoveText wrong size", 0, inProgressNoMovesMoveText.size());
+        assertEquals("inProgressNoMovesMoveText wrong size", 0, inProgressNoMovesMoveText.size());
     }
 
     //PGNFiles for use with constructor with file param
@@ -1321,34 +1372,34 @@ public class TestPGNFile{
     @Test
     public void testGetResult(){
         String adamsResult= adams.getResult();
-        assertEqual("adamsResult wrong", "1-0", adamsResult);
+        assertEquals("adamsResult wrong", "1-0", adamsResult);
 
         String checkmateResult= checkmate.getResult();
-        assertEqual("checkmateResult wrong", "1-0", checkmateResult);
+        assertEquals("checkmateResult wrong", "1-0", checkmateResult);
 
         String stalemateResult= stalemate.getResult();
-        assertEqual("stalemateResult wrong", "1/2-1/2", stalemateResult);
+        assertEquals("stalemateResult wrong", "1/2-1/2", stalemateResult);
 
         String noSpaceBWTagPairsAndMovesResult= noSpaceBWTagPairsAndMoves.getResult();
-        assertEqual("noSpaceBWTagPairsAndMovesResult wrong", "0-1", noSpaceBWTagPairsAndMovesResult);
+        assertEquals("noSpaceBWTagPairsAndMovesResult wrong", "0-1", noSpaceBWTagPairsAndMovesResult);
 
         String inProgressWithMoves1Result= inProgressWithMoves1.getResult();
-        assertEqual("inProgressWithMoves1Result wrong", "*", inProgressWithMoves1Result);
+        assertEquals("inProgressWithMoves1Result wrong", "*", inProgressWithMoves1Result);
 
         String inProgressNoMoves1Result= inProgressNoMoves1.getResult();
-        assertEqual("inProgressNoMoves1Result wrong", "*", inProgressNoMoves1Result);
+        assertEquals("inProgressNoMoves1Result wrong", "*", inProgressNoMoves1Result);
 
         String testGameResult= testGame.getResult();
-        assertEqual("testGameResult wrong", "1-0", testGameResult);
+        assertEquals("testGameResult wrong", "1-0", testGameResult);
 
         String testGame2Result= testGame2.getResult();
-        assertEqual("testGame2Result wrong", "0-1", testGame2Result);
+        assertEquals("testGame2Result wrong", "0-1", testGame2Result);
 
         String inProgressWithMovesResult= inProgressWithMoves.getResult();
-        assertEqual("inProgressWithMovesResult wrong", "*", inProgressWithMovesResult);
+        assertEquals("inProgressWithMovesResult wrong", "*", inProgressWithMovesResult);
 
         String inProgressNoMovesResult= inProgressNoMoves.getResult();
-        assertEqual("inProgressNoMovesResult wrong", "*", inProgressNoMovesResult);
+        assertEquals("inProgressNoMovesResult wrong", "*", inProgressNoMovesResult);
     }
 
     @Test
@@ -1372,7 +1423,7 @@ public class TestPGNFile{
             "21. f4 Nc4 22. Bxf6 Qxf6 23. Bd3 b5 24. Qe2 Bd7 25. Rhg1 Be8 26. Rde1 Bf7 27. Rg3 Rc8\n" +
             "28. Reg1 Nd6 29. Rxg7 Nf5 30. R7g5 Rc7 31. Bxf5 exf5 32 .Rh5+  1-0\n";
 
-        assertEqual("adams file text incorrect", adamsExpectedText, adamsFileText);
+        assertEquals("adams file text incorrect", adamsExpectedText, adamsFileText);
 
         String checkmateFileText= checkmate.getFileText();
         String checkmateExpectedText=
@@ -1386,7 +1437,7 @@ public class TestPGNFile{
             "\n" +
             "1. e4 a6 2. Qf3 a5 3. Bc4 a4 4. Qf7# 1-0";
         
-        assertEqual("checkmate file text incorrect", checkmateExpectedText, checkmateFileText);
+        assertEquals("checkmate file text incorrect", checkmateExpectedText, checkmateFileText);
 
         String stalemateFileText= stalemate.getFileText();
         String stalemateExpectedText=
@@ -1401,7 +1452,7 @@ public class TestPGNFile{
             "1. e3 a5 2. Qh5 Ra6 3. Qxa5 h5 4. Qxc7 Rah6 5. h4 f6 6. Qxd7+ Kf7 7. Qxb7 Qd3\n" +
             "8. Qxb8 Qh7 9. Qxc8 Kg6 10. Qe6 1/2-1/2";
         
-        assertEqual("stalemate file text incorrect", stalemateExpectedText, stalemateFileText);
+        assertEquals("stalemate file text incorrect", stalemateExpectedText, stalemateFileText);
 
         String noSpaceBWTagPairsAndMovesFileText= noSpaceBWTagPairsAndMoves.getFileText();
         String noSpaceBWTagPairsAndMovesExpectedText=
@@ -1415,7 +1466,7 @@ public class TestPGNFile{
             "\n" +
             "1. a3 e5  2. a4 Qf6  3. a5 Bc5  4. a6 Qf2# 0-1";
         
-        assertEqual("noSpaceBWTagPairsAndMoves file text incorrect", noSpaceBWTagPairsAndMovesExpectedText, noSpaceBWTagPairsAndMovesFileText);
+        assertEquals("noSpaceBWTagPairsAndMoves file text incorrect", noSpaceBWTagPairsAndMovesExpectedText, noSpaceBWTagPairsAndMovesFileText);
 
         String inProgressWithMoves1FileText= inProgressWithMoves1.getFileText();
         String inProgressWithMoves1ExpectedText=
@@ -1429,7 +1480,7 @@ public class TestPGNFile{
             "\n" +
             "1. e4 a6 2. Qf3 a5 *";
         
-        assertEqual("inProgressWithMoves1 file text incorrect", inProgressWithMoves1ExpectedText, inProgressWithMoves1FileText);
+        assertEquals("inProgressWithMoves1 file text incorrect", inProgressWithMoves1ExpectedText, inProgressWithMoves1FileText);
 
         String inProgressNoMoves1FileText= inProgressNoMoves1.getFileText();
         String inProgressNoMoves1ExpectedText=
@@ -1443,7 +1494,7 @@ public class TestPGNFile{
             "\n" +
             "*";
         
-        assertEqual("inProgressNoMoves1 file text incorrect", inProgressNoMoves1ExpectedText, inProgressNoMoves1FileText);
+        assertEquals("inProgressNoMoves1 file text incorrect", inProgressNoMoves1ExpectedText, inProgressNoMoves1FileText);
     }
 
     @After

@@ -3,12 +3,10 @@ package edu.kingsu.SoftwareEngineering.Chess.PGN;
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.regex.Pattern;
 
-import edu.kingsu.SoftwareEngineering.Chess.Model.ChessGame;
-import edu.kingsu.SoftwareEngineering.Chess.Model.GameState;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
-import java.util.regex.Matcher;
 
 public class PGNFile implements Iterable<String>{
     public static final String PLAYERTYPE_TAG= "PlayerTypes";   //white player is human/easyAI/etc, black player is human/etc.
@@ -160,7 +158,7 @@ public class PGNFile implements Iterable<String>{
         ChessGame verifyGame= new ChessGame(-1, -1, 0, 0);
 
         for(int i=0; i < moveText.size(); i++){
-            Move move= PGNTranslator.translatePGNToMove(moveText.get(i));
+            Move move= PGNTranslator.translatePGNToMove(moveText.get(i), verifyGame.getBoard(), verifyGame.getPlayerTurn().isWhite());
             String correctedPGN= PGNTranslator.translateMoveToPGN(move, verifyGame.getBoard());
             if(!verifyGame.performMove(move, true)) throw new IllegalArgumentException("Illegal move at moveText index " + i);
             correctedMoves.add(correctedPGN);
