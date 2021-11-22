@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.regex.Pattern;
 
+import edu.kingsu.SoftwareEngineering.Chess.Model.ChessGame;
 import edu.kingsu.SoftwareEngineering.Chess.Model.GameState;
 
 import java.util.regex.Matcher;
@@ -15,7 +16,7 @@ public class PGNFile implements Iterable<String>{
     private List<String> moveText;
     private String result;
 
-    public PGNFile(File file) throws IllegalArgumentException, FileNotFoundException{
+    public PGNFile(File file) throws IllegalArgumentException, IllegalStateException, FileNotFoundException{
         //Check that file is correct filetype
         String fileName= file.getName();
         String fileType= "";
@@ -47,7 +48,7 @@ public class PGNFile implements Iterable<String>{
         }*/
 
         validateTagPairs(tagPairs);
-        validateMoveTextAndResult(moveText, result);
+        moveText= validateMoveTextAndResult(moveText, result);
 
         /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         //skip the blank lines, if necessary
@@ -63,12 +64,11 @@ public class PGNFile implements Iterable<String>{
         //Read the result, store it in result (if the game is still in progress, result is *)
     }
 
-    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result) throws IllegalArgumentException{
+    public PGNFile(Map<String, String> tagPairs, List<String> moves, String result) throws IllegalArgumentException, IllegalStateException{
         validateTagPairs(tagPairs);
-        validateMoveTextAndResult(moveText, result);
-
         this.tagPairs= tagPairs;
-        moveText= moves;
+
+        moveText= validateMoveTextAndResult(moves, result);
         this.result= result;
     }
 
@@ -82,6 +82,10 @@ public class PGNFile implements Iterable<String>{
 
     public List<String> getMoveTextList(){
         return moveText;
+    }
+
+    public String getResult(){
+        return result;
     }
 
     public String getFileText(){    //return the string that will be written into the file
@@ -150,12 +154,16 @@ public class PGNFile implements Iterable<String>{
         }
     }
 
-    private void validateMoveTextAndResult(List<String> moveText, String result){
+    //returns the moveText, but corrected so the format matches what we want to have for each move
+    private List<String> validateMoveTextAndResult(List<String> moveText, String result) throws IllegalArgumentException, IllegalStateException{
+        List<String> correctedMoves= new ArrayList<String>();
         ChessGame verifyGame= new ChessGame(-1, -1, 0, 0);
 
         for(int i=0; i < moveText.size(); i++){
             Move move= PGNTranslator.translatePGNToMove(moveText.get(i));
+            String correctedPGN= PGNTranslator.translateMoveToPGN(move, verifyGame.getBoard());
             if(!verifyGame.performMove(move, true)) throw new IllegalArgumentException("Illegal move at moveText index " + i);
+            correctedMoves.add(correctedPGN);
         }
 
         GameState gameState= verifyGame.getState();
@@ -167,5 +175,10 @@ public class PGNFile implements Iterable<String>{
             throw new IllegalArgumentException("Game result incorrect; should be 1-0");
         else if(gameState == GameState.STALEMATE_NOMOVES && !result.equals("1/2-1/2"))
             throw new IllegalArgumentException("Game result incorrect; should be 1/2-1/2");
+        
+        if(!result.equals("1-0") && !result.equals("0-1") && !result.equals("1/2-1/2") && !result.equals("*"))
+            throw new IllegalArgumentException("Game result invalid; must be one of \"1-0\", \"0-1\", \"1/2-1/2\", or \"*\"");
+
+        return correctedMoves;
     }
 }
