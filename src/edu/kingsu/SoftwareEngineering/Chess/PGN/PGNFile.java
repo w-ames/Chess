@@ -3,9 +3,13 @@ package edu.kingsu.SoftwareEngineering.Chess.PGN;
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.Parser.*;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.*;
 
 
 public class PGNFile implements Iterable<String>{
@@ -25,6 +29,21 @@ public class PGNFile implements Iterable<String>{
         //Read tag pairs in header, store them in tagPairs
         tagPairs= new LinkedHashMap<String, String>();
         moveText= new ArrayList<String>();
+
+        PGNFileLexer lexer= null;
+        try{
+            lexer= new PGNFileLexer(new FileReader(file));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        CommonTokenStream tokens= new CommonTokenStream(lexer);
+        PGNFileParser parser= new PGNFileParser(tokens);
+        ParseTree tree= parser.parse();
+        ParseTreeWalker walker= new ParseTreeWalker();
+        PGNFileEvalListener listener= new PGNFileEvalListener();
+        walker.walk(listener, tree);
+        listener.getPGNFile();
 
         /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         Scanner scanner= new Scanner(file);
