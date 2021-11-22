@@ -179,9 +179,24 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel appHelpText = new JLabel("<html>" + "App Help Text Area" + "</html>");
+        JEditorPane licensePane = new JEditorPane();
+        File file = new File("src/assets/application_help.html");
+        try {
+            licensePane.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        licensePane.setEditable(false);
+        licensePane.setOpaque(false);
 
-        textArea.add(appHelpText, gb);
+        JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
+
+        textArea.add(editorScrollPane, gb);
 
     }
 
@@ -210,9 +225,22 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel aboutText = new JLabel("<html>" + "About Text Area" + "</html>");
+        JEditorPane licensePane = new JEditorPane();
+        File file = new File("src/assets/about.html");
+        try {
+            licensePane.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        licensePane.setEditable(false);
+        licensePane.setOpaque(false);
 
-        textArea.add(aboutText, gb);
+        JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        editorScrollPane.setOpaque(false);
+        textArea.add(editorScrollPane, gb);
 
     }
 
@@ -256,8 +284,6 @@ public class HelpWindow extends JFrame {
         JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         editorScrollPane.setOpaque(false);
-        textArea.add(editorScrollPane, gb);
-
         textArea.add(editorScrollPane, gb);
 
     }
