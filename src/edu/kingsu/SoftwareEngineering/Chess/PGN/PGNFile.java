@@ -52,7 +52,13 @@ public class PGNFile implements Iterable<String>{
         ParseTreeWalker walker= new ParseTreeWalker();
         PGNFileEvalListener listener= new PGNFileEvalListener();
         walker.walk(listener, tree);
-        listener.getPGNFile();
+        PGNFile parsedFile = listener.getPGNFile();
+        getMoveTextList().addAll(parsedFile.getMoveTextList());
+        getTagPairMap().putAll(parsedFile.getTagPairMap());
+        setResult(parsedFile.getResult());
+
+        validateTagPairs(tagPairs);
+        moveText= validateMoveTextAndResult(moveText, result);
 
         /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         Scanner scanner= new Scanner(file);
@@ -73,8 +79,7 @@ public class PGNFile implements Iterable<String>{
             matcher= pattern.matcher(line);
         }*/
 
-        validateTagPairs(tagPairs);
-        moveText= validateMoveTextAndResult(moveText, result);
+        
 
         /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
         //skip the blank lines, if necessary
