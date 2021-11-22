@@ -99,11 +99,12 @@ public class ApplicationFrame extends JFrame {
      * @param moveHintSwitch      Turns the move hint tutorial options on or off.
      */
     public void initializeChessPanel(ChessGame chessGame, boolean highlightMoveSwitch, boolean notificationsSwitch,
-            boolean moveHintSwitch, boolean undoRedoSwitch) {
+            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name) {
 
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
 
+        chessPanel.setPlayerNames(player1Name, player2Name);
         chessPanel.initialize(chessGame);
         chessPanel.updateContainerDimensions(width, height);
         makePiecesResizeable();
@@ -112,6 +113,8 @@ public class ApplicationFrame extends JFrame {
         chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
         chessPanel.setundoRedoSwitch(undoRedoSwitch);
         chessPanel.checkTutorialSelections();
+        
+        
     }
 
     /**

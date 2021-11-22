@@ -65,6 +65,9 @@ public class GameSetUp extends JPanel {
     boolean undoRedoSwitch;
     boolean notificationsSwitch;
 
+    String player1Name;
+    String player2Name; 
+
     public GameSetUp(ApplicationFrame container) {
         super();
         this.container = container;
@@ -497,13 +500,14 @@ public class GameSetUp extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
+                getPlayerNamesFromComboBox();
 
                 ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()],
                         playerDepthList[player2Box.getSelectedIndex()], -1, -1);
 
                 // Switches allow tutorial options to be turned on or off.
                 container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
-                        undoRedoSwitch);
+                        undoRedoSwitch, player1Name, player2Name);
                 chessGame.start();
                 container.show("chesspanel");
             }
@@ -547,6 +551,16 @@ public class GameSetUp extends JPanel {
         moveHint.setSelected(moveHintSwitch);
         undoRedo.setSelected(undoRedoSwitch);
         notification.setSelected(notificationsSwitch);
+    }
+
+    /**
+    * Sets the player name data members in this class to what ever the 
+    * user selected from the drop down boxes in the set up menu, to be used to
+    * display the choices within the player clocks in ChessPanel. 
+    */
+    public void getPlayerNamesFromComboBox(){
+        this.player1Name = player1Box.getSelectedItem().toString();
+        this.player2Name = player2Box.getSelectedItem().toString();
     }
 
     /**

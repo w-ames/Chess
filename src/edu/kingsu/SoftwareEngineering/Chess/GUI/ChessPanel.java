@@ -71,6 +71,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private boolean moveHintSwitch;
     private boolean undoRedoSwitch;
 
+    private String player1Name;
+    private String player2Name;
+
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
@@ -82,17 +85,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         this.container = container;
 
-        //////////////// For Skeleton only //////////////////
-
-        player1Clock.addPlayerName("Player"); // ***ATTENTION*** To dynamically set these names, get info from ChessGame
-        player2Clock.addPlayerName("A.I. (Easy)");
-
-        // *** These are for skeleton view only, time needs to be made dynamic *****
-        player1Clock.updatePlayerTime("5:01   ");
-        player2Clock.updatePlayerTime("1:08   ");
-        totalGameTime.updateTotalGameTime("23:00");
-
-        /////////////////////////////////////////////////////////
 
         // Set layout for layeredPanes.
         // LayeredPane is used to give z index for mainLayer and the two popuplayers:
@@ -272,6 +264,19 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
+
+        // Sets player names on clock 
+        player1Clock.addPlayerName(player1Name); 
+        player2Clock.addPlayerName(player2Name);
+
+        // *** These are for skeleton view only, time needs to be made dynamic *****
+        player1Clock.updatePlayerTime("5:01   ");
+        player2Clock.updatePlayerTime("1:08   ");
+        totalGameTime.updateTotalGameTime("23:00");
+
+        /////////////////////////////////////////////////////////
+ 
+
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
         messagesView.setChessGame(chessGame);
@@ -323,6 +328,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 guiView.moveHint(guiView.getSelectedRow(), guiView.getSelectedCol());
             }
         });
+
+        
 
     }
 
@@ -560,6 +567,16 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
+    * Allows the player names to be set for use in the player game clock display
+    * @param player1 The name of the first player. 
+    * @param player2 the name of the second player.
+    */
+    public void setPlayerNames(String player1, String player2){
+        this.player1Name = player1;
+        this.player2Name = player2; 
     }
 
     /**
