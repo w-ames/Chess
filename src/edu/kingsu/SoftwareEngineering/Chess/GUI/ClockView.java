@@ -22,6 +22,9 @@ import javax.swing.border.EmptyBorder;
  */
 public class ClockView extends JPanel {
 
+    JLabel playername = new JLabel();
+    JLabel updateTime = new JLabel();
+
     /**
      * Constructs ClockView objects and specifices their border, sets them to opaque
      * (visible).
@@ -64,7 +67,7 @@ public class ClockView extends JPanel {
         gb.weightx = 1;
         gb.weighty = 1;
         gb.anchor = GridBagConstraints.NORTHWEST;
-        JLabel playername = new JLabel("   " + name);
+        playername.setText("   " + name);
         playername.setFont(new Font("Arial", Font.PLAIN, 25));
         playername.setForeground(new Color(16, 46, 60));
         this.add(playername, gb);
@@ -82,7 +85,7 @@ public class ClockView extends JPanel {
         gb.gridy = 0;
         gb.weightx = 1;
         gb.weighty = 1;
-        JLabel updateTime = new JLabel(time);
+        updateTime.setText(time);
         updateTime.setFont(new Font("Arial", Font.PLAIN, 25));
         updateTime.setForeground(new Color(16, 46, 60));
         this.add(updateTime);
@@ -95,7 +98,7 @@ public class ClockView extends JPanel {
      */
     void updateTotalGameTime(String time) {
         this.setLayout(new GridBagLayout());
-        JLabel updateTime = new JLabel(time);
+        updateTime.setText(time);
         updateTime.setFont(new Font("Arial", Font.PLAIN, 35));
         updateTime.setForeground(new Color(16, 46, 60));
         this.add(updateTime);
