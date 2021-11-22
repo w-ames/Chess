@@ -41,7 +41,7 @@ public class PGNFile implements Iterable<String>{
 
         PGNFileLexer lexer= null;
         try{
-            lexer= new PGNFileLexer(new FileReader(file));
+            lexer= new PGNFileLexer(CharStreams.fromReader(new FileReader(file)));
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -138,6 +138,14 @@ public class PGNFile implements Iterable<String>{
      */
     public String getResult(){
         return result;
+    }
+
+    /**
+     * Sets the result of the chess game represented by this PGNFile
+     * @param newResult the chess game's result
+     */
+    public void setResult(String newResult){
+        result = newResult;
     }
 
     /**
