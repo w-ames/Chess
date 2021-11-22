@@ -140,15 +140,15 @@ public class ChessGameAlgebraicView extends ChessGameView {
         boolean isWhite = true;
         String test = "";
 
-        moveString += " <style>";
+        moveString += "<style>";
         moveString +="table, th, td {";
         moveString +=  "border: 1px solid black;";
         moveString +=  "border-radius: 10px;";
         moveString +=  "border-style: groove;";
+        moveString +=  "border-color: #a1b8c2;";
         moveString +="}";
         moveString +="th, td {";
         moveString +=    "background-color: #a1b8c2;";
-        moveString +=    "border-color: #a1b8c2;";
         moveString +="}";
         moveString +="</style><font style=\"font-family:\'Roboto\'\" size = \"6\"> <table>";
         for (int i = 0; i < pgnMoves.size(); i++) { 
