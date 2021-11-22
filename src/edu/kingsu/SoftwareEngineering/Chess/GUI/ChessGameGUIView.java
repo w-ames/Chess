@@ -549,6 +549,9 @@ public class ChessGameGUIView extends ChessGameView {
 
     }
 
+    /**
+     * Turns board hightlight on and off.
+     */
     public void turnBoardHighlightOff(boolean highlightSwitch) {
         // Turn all squares back to normal color
         for (int i = 0; i < 8; i++) {
@@ -560,6 +563,11 @@ public class ChessGameGUIView extends ChessGameView {
         boardHighlightOnOff = highlightSwitch;
     }
 
+    /**
+     * Turns move hint tutorial option on and off.
+     * 
+     * @param moveHintSwitch
+     */
     public void moveHintSwitch(boolean moveHintSwitch) {
         // Turn all squares back to normal color
         for (int i = 0; i < 8; i++) {

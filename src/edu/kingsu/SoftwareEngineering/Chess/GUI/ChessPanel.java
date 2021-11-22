@@ -533,7 +533,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             this.moveHintSwitch = true;
             addNotification("Move Hints ON");
         }
-
         guiView.moveHintSwitch(this.moveHintSwitch);
     }
 

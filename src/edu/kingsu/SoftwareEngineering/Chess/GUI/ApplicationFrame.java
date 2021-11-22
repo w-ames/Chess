@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.*;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import java.awt.Color;
 
 public class ApplicationFrame extends JFrame {
 
@@ -47,6 +48,7 @@ public class ApplicationFrame extends JFrame {
     public ApplicationFrame() {
         super(WINDOW_TITLE);
         this.setMinimumSize(new Dimension(1250, 850));
+        this.setBackground(new Color(16, 46, 60));
         contentPanel = new JPanel();
         add(contentPanel);
         layout = new CardLayout();

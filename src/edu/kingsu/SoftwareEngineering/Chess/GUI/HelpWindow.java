@@ -23,9 +23,16 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.swing.JTabbedPane;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import javax.swing.JEditorPane;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.JScrollPane;
+import java.io.File;
 
 /**
  * Creates seperate window frame for help and about dialog for java chess game.
@@ -103,10 +110,21 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JLabel chessRulesText = new JLabel("<html>" + "Chess Rules Text Area" + "</html>");
+        JEditorPane chessRulesHelpMenu = new JEditorPane();
+        File file = new File("src/assets/chess_rules.html");
+        try {
+            chessRulesHelpMenu.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        chessRulesHelpMenu.setEditable(false);
+        chessRulesHelpMenu.setOpaque(false);
 
-        textArea.add(chessRulesText, gb);
-
+        JScrollPane editorScrollPane = new JScrollPane(chessRulesHelpMenu, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        textArea.add(editorScrollPane, gb);
     }
 
     private void buildPieceInfoPanel() {
