@@ -135,8 +135,9 @@ public class ChessAI {
         if (depth == 0) {
             return null;
         }
-        // if () { // add checkmate consideration return here
-        // }
+        if (board.getCheckmate(forWhite)) { // we hopefully should not have checkmate here
+            return null;
+        }
         // white maximizes
         Board workingBoard;
         int value;
@@ -197,8 +198,9 @@ public class ChessAI {
         if (depth == 0) {
             return scoreBoard(board, forWhite);
         }
-        // if () { // add checkmate consideration return here
-        // }
+        if (board.getCheckmate(forWhite)) {
+            return forWhite ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
         // white maximizes
         Board workingBoard;
         int value;
