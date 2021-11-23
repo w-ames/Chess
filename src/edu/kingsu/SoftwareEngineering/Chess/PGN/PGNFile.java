@@ -20,6 +20,11 @@ public class PGNFile implements Iterable<String>{
     private List<String> moveText;
     private String result;
 
+    public PGNFile(){
+        tagPairs= new LinkedHashMap<String, String>();
+        moveText= new ArrayList<String>();
+    }
+
     /**
      * Constructor which parses a PGN file to obtain the tag pairs, list of moves, and result.
      * @param file the PGN file used to create the object
@@ -29,11 +34,11 @@ public class PGNFile implements Iterable<String>{
      */
     public PGNFile(File file) throws IllegalArgumentException, FileNotFoundException{
         //Check that file is correct filetype
-        String fileName= file.getName();
+        /*String fileName= file.getName();
         String fileType= "";
         if(fileName.length() > 4) fileName.substring(fileName.length() - 4);
         
-        if(!fileType.equals(".pgn")) throw new IllegalArgumentException("Illegal file type");
+        if(!fileType.equals(".pgn")) throw new IllegalArgumentException("Illegal file type");*/
         
         //Read tag pairs in header, store them in tagPairs
         tagPairs= new LinkedHashMap<String, String>();
@@ -43,56 +48,33 @@ public class PGNFile implements Iterable<String>{
         try{
             lexer= new PGNFileLexer(CharStreams.fromReader(new FileReader(file)));
         }catch(Exception e){
+            System.err.println("YIKES LEXER");
             e.printStackTrace();
         }
-
+        System.err.println("LEXER DONE");
         CommonTokenStream tokens= new CommonTokenStream(lexer);
+        System.err.println("TOKENS DONE");
         PGNFileParser parser= new PGNFileParser(tokens);
+        System.err.println("PARSER DONE");
         ParseTree tree= parser.parse();
+        System.err.println("PARSER PARSING DONE");
         ParseTreeWalker walker= new ParseTreeWalker();
+        System.err.println("WALKER DONE");
         PGNFileEvalListener listener= new PGNFileEvalListener();
+        System.err.println("LISTENER DONE");
         walker.walk(listener, tree);
+        System.err.println("WALKER WALKING DONE");
         PGNFile parsedFile = listener.getPGNFile();
+        System.err.println("YOOOO ABOUT TO ADD STUFF TO PGNFILE");
         getMoveTextList().addAll(parsedFile.getMoveTextList());
         getTagPairMap().putAll(parsedFile.getTagPairMap());
         setResult(parsedFile.getResult());
+        System.err.println("Tags:"+getTagPairMap());
+        System.err.println("Moves: "+getMoveTextList());
+        System.err.println("Result: "+getResult());
 
-        validateTagPairs(tagPairs);
+        //validateTagPairs(tagPairs);
         moveText= validateMoveTextAndResult(moveText, result);
-
-        /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
-        Scanner scanner= new Scanner(file);
-
-        String line;
-        String regex= "\\[(?<tag>[^\\n]+)\\s\"(?<value>[^\\n\\]]+)\"]";
-        Pattern pattern= Pattern.compile(regex);
-        Matcher matcher;
-
-        //continue reading lines and parsing tag pairs until the tag pair pattern no longer matches
-        if(!scanner.hasNextLine()) throw new IllegalArgumentException("File has no lines");
-        line= scanner.nextLine();
-        matcher= pattern.matcher(line);
-        while(matcher.find()){
-            tagPairs.put(matcher.group("tag"), matcher.group("value"));
-            if(!scanner.hasNextLine()) return;
-            line= scanner.nextLine();
-            matcher= pattern.matcher(line);
-        }*/
-
-        
-
-        /* THE FOLLOWING USES REGEX, WHICH WE'RE SWITCHING OUT FOR ANTLR
-        //skip the blank lines, if necessary
-        regex= "\\n";
-        matcher= pattern.matcher(line);
-
-        while(matcher.find() && scanner.hasNextLine()){
-
-        }*/
-
-        //Read moves in body, store them in moveText
-
-        //Read the result, store it in result (if the game is still in progress, result is *)
     }
 
     /**

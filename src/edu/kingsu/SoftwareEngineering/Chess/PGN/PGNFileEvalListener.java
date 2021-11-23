@@ -38,7 +38,7 @@ public class PGNFileEvalListener extends PGNFileBaseListener {
 	@Override
     public void enterPgn_game(PGNFileParser.Pgn_gameContext ctx) {
         validationGame = new ChessGame(-1, -1, -1, -1);
-        currentFile = new PGNFile(new HashMap<String,String>(), new ArrayList<String>(), "*");
+        currentFile = new PGNFile();
         currentFileInvalid = false;
     }
 
