@@ -13,6 +13,7 @@ import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
     private ApplicationFrame container;
+    private PGNFile pgnFile;
 
     public GameSetUp(ApplicationFrame container) {
         super();
@@ -451,6 +452,14 @@ public class GameSetUp extends JPanel {
             }
         });
 
+    }
+
+    public void setPGNFile(PGNFile file){
+        pgnFile= file;
+    }
+
+    public PGNFile getPGNFile(){
+        return pgnFile;
     }
 
 }
