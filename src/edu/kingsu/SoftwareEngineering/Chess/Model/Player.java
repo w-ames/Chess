@@ -74,7 +74,7 @@ public abstract class Player implements Runnable {
                 t.start();
             }
             aiThread = t;
-            notifyAll();
+            // notifyAll();
         }
     }
 
@@ -85,7 +85,7 @@ public abstract class Player implements Runnable {
                 aiThread.interrupt();
                 aiThread = null;
             }
-            notifyAll();
+            // notifyAll();
         }
     }
 

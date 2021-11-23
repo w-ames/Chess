@@ -1,11 +1,14 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
+import java.time.*;
 
 /**
  * This class represents an AI player in a game of chess.
  */
 public class PlayerAI extends Player {
+
+    private static final long MIN_MOVE_TIME = 1000; // in millis
 
     /**
      * Creates a new AI player.
@@ -32,6 +35,7 @@ public class PlayerAI extends Player {
                     while (getChessGame().getPlayerTurn() != this) {
                         getChessGame().wait();
                     }
+                    Instant moveCalcStartInstant = Instant.now();
                     if (getAIDepth() <= 0) {
                         setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
                     } else {
@@ -39,6 +43,11 @@ public class PlayerAI extends Player {
                     }
                     // getAIThread().start();
                     Move aiMove = getAIThread().getResult();
+                    Instant moveCalcEndInstant = Instant.now();
+                    long delta = Duration.between(moveCalcStartInstant, moveCalcEndInstant).toMillis();
+                    if (MIN_MOVE_TIME-delta > 0) {
+                        Thread.sleep(MIN_MOVE_TIME-delta);
+                    }
                     getChessGame().performMove(aiMove, isHuman()); // notifies all, and by the time it does so the turn is not this player's
                 } catch(InterruptedException e){
                     resetAIThread();
