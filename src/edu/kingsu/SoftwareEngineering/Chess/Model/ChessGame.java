@@ -253,8 +253,9 @@ public class ChessGame {
                         gameOver();
                     }
                     notifyViews();
-                    this.notifyAll();
                 }
+                this.notifyAll();
+                // System.err.println("Move made & all notified");
                 return true;
             } else {
                 return false;
@@ -488,6 +489,7 @@ public class ChessGame {
      *  interrupted or times out
      */
     public char[][] getHumanHint() {
+        // System.err.println("HINT CALLED");
         if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
             return null;
         }
@@ -537,17 +539,25 @@ public class ChessGame {
             // synchronized (playerTurnLock) {
                 synchronized (getPlayerTurn()) {
                 // synchronized (playerTurn) {
-                    if (playerTurn.getAIThread() == null) {
-                        System.err.println("ABOUT TO WAIT");
-                        playerTurn.wait();
-                        System.err.println("DONE WAITING");
+                    // if (playerTurn.getAIThread() == null) {
+                    //     System.err.println("ABOUT TO WAIT");
+                    //     playerTurn.wait();
+                    //     System.err.println("DONE WAITING");
+                    // }
+                    // hintThread = playerTurn.getAIThread();
+                    while (hintThread == null) {
+                        hintThread = playerTurn.getAIThread();
+                        if (hintThread == null) {
+                            // System.err.println("ABOUT TO WAIT");
+                            playerTurn.wait();
+                            // System.err.println("DONE WAITING");
+                        }
                     }
-                    hintThread = playerTurn.getAIThread();
                 }
             // }
-            if (hintThread == null) {
-                return null;
-            }
+            // if (hintThread == null) {
+            //     return null;
+            // }
         } catch(InterruptedException e) {
             System.err.println("Error: Was interrupted/timed out during move calculation thread retrieval.");
             return null;

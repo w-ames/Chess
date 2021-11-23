@@ -33,9 +33,12 @@ public class PlayerAI extends Player {
             synchronized (getChessGame()) {
                 try {
                     while (getChessGame().getPlayerTurn() != this) {
+                        // System.err.println("NOT AI TURN-WAIT");
+                        getChessGame().notify();
                         getChessGame().wait();
                     }
                     Instant moveCalcStartInstant = Instant.now();
+                    // System.err.println("ABOUT TO SET THREAD IN AI RUN");
                     if (getAIDepth() <= 0) {
                         setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
                     } else {
@@ -49,7 +52,9 @@ public class PlayerAI extends Player {
                         Thread.sleep(MIN_MOVE_TIME-delta);
                     }
                     getChessGame().performMove(aiMove, isHuman()); // notifies all, and by the time it does so the turn is not this player's
+                    // System.err.println("AI ENDS TURN");
                 } catch(InterruptedException e){
+                    // System.err.println("RESET AI THREAD?");
                     resetAIThread();
                     break;
                 }

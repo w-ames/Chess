@@ -70,12 +70,15 @@ public abstract class Player implements Runnable {
      * @param t the AI thread used by this player to calculate a move
      */
     public void setAIThread(ChessAIThread t) {
+        // System.err.println("WANT TO SET THREAD FOR: "+this);
         synchronized (this) {
+            // System.err.println("IN PLAYER LOCK FOR: "+this);
             if (t != null) {
                 t.start();
             }
             aiThread = t;
             notifyAll();
+            // System.err.println("WE NOTIFIED "+this);
         }
     }
 
