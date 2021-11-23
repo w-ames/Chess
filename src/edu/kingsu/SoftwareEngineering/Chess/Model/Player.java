@@ -52,6 +52,7 @@ public abstract class Player implements Runnable {
      */
     public ChessAIThread getAIThread() {
         synchronized (this) {
+            // notifyAll();
             return aiThread;
         }
     }
@@ -74,7 +75,7 @@ public abstract class Player implements Runnable {
                 t.start();
             }
             aiThread = t;
-            // notifyAll();
+            notifyAll();
         }
     }
 

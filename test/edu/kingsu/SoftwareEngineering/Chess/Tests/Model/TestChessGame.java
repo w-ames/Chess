@@ -353,7 +353,7 @@ public class TestChessGame {
         assertHighlights(knightTestExpected, knightTestResult);
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void testGetHumanHint() {
         // TODO this sometimes fails...
         ChessGame cg = new ChessGame(-1, -1 , -1, -1);

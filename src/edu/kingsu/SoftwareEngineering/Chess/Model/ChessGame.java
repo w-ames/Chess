@@ -535,9 +535,12 @@ public class ChessGame {
             // }
 
             // synchronized (playerTurnLock) {
-                synchronized (playerTurn) {
+                synchronized (getPlayerTurn()) {
+                // synchronized (playerTurn) {
                     if (playerTurn.getAIThread() == null) {
+                        System.err.println("ABOUT TO WAIT");
                         playerTurn.wait();
+                        System.err.println("DONE WAITING");
                     }
                     hintThread = playerTurn.getAIThread();
                 }
