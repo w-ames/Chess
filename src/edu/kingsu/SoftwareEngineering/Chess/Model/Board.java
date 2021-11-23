@@ -438,13 +438,13 @@ public class Board {
                 }
                 if (castleLeft && isOnBoard(fromRow, fromCol-2) && squares[fromRow][fromCol-2] == null) {
                     Piece lRook = squares[fromRow][0];
-                    if (lRook!=null && lRook.getPieceType()==PieceType.ROOK && !((Rook)lRook).isDoneCastling() && squares[fromRow][1]==null) {
+                    if (lRook!=null && lRook.getPieceType()==PieceType.ROOK && !((Rook)lRook).isDoneCastling() && squares[fromRow][1]==null && getAttackers(movingWhite, fromRow, fromCol, true).size()==0) {
                         moveList.add(new CastlingMove(fromRow, fromCol, fromRow, fromCol-2, fromRow, 0, fromRow, fromCol-1));
                     }
                 }
                 if (castleRight && isOnBoard(fromRow, fromCol+2) && squares[fromRow][fromCol+2] == null) {
                     Piece rRook = squares[fromRow][COLS-1];
-                    if (rRook!=null && rRook.getPieceType()==PieceType.ROOK && !((Rook)rRook).isDoneCastling()) {
+                    if (rRook!=null && rRook.getPieceType()==PieceType.ROOK && !((Rook)rRook).isDoneCastling() && getAttackers(movingWhite, fromRow, fromCol, true).size()==0) {
                         moveList.add(new CastlingMove(fromRow, fromCol, fromRow, fromCol+2, fromRow, COLS-1, fromRow, fromCol+1));
                     }
                 }
@@ -512,6 +512,9 @@ public class Board {
         return allMoves;
     }
 
+    public List<List<Integer>> getAttackers(boolean blackAttackers, int toRow, int toCol) {
+        return getAttackers(blackAttackers, toRow, toCol, false);
+    }
     /**
      * Retrives a list of 2-lists containing the row and column of all locations
      * on the board where the given side has a piece positioned to attack the
@@ -529,7 +532,7 @@ public class Board {
      *  All attacker locations contain a piece of the given side (white or
      *  black)
      */
-    public List<List<Integer>> getAttackers(boolean blackAttackers, int toRow, int toCol) {
+    public List<List<Integer>> getAttackers(boolean blackAttackers, int toRow, int toCol, boolean excludeKings) {
         ArrayList<List<Integer>> attackers = new ArrayList<List<Integer>>();
         // List<Integer> possibleAttacker;
         // possibleAttacker = getRaySquares(blackAttackers, toRow, toCol, 1, 0, true).get(0); // N
@@ -542,7 +545,7 @@ public class Board {
         // possibleAttacker = getRaySquares(blackAttackers, toRow, toCol, 1, -1, true).get(0); // NW
         for (int i=0; i<ROWS; i++) {
             for (int j=0; j<COLS; j++) {
-                if (squares[i][j] != null && squares[i][j].isWhite() != blackAttackers) {
+                if (squares[i][j] != null && squares[i][j].isWhite() != blackAttackers && (!excludeKings || (squares[i][j].getPieceType()!=PieceType.KING))) {
                     ArrayList<Integer> location = new ArrayList<Integer>();
                     location.add(i);
                     location.add(j);

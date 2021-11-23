@@ -229,6 +229,18 @@ public class TestBoard {
         assertMoves(7, 7, 4);
         assertMoves(0, 0, 4);
 
+        initialBoard.initializeBoard(new char[][] {
+            {'R',' ',' ',' ','K',' ',' ','R'},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ','B',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {'r',' ',' ',' ','k',' ',' ','r'}
+        });
+        assertMoves(4, 7, 4);
+
         initialBoard.initializeBoard(castleBoard);
         (new Move(7,4,6,4)).perform(initialBoard);
         (new Move(6,4,7,4)).perform(initialBoard);
