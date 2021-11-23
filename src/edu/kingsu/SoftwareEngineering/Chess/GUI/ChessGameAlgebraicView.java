@@ -214,7 +214,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
   
         if (isWhite == true) {
-            if (c == 'K' || c == 'O') {
+            if (c == 'K' ) {
                 newmove = whiteKing+move.substring(1);
                 return newmove;
             } else if (c == 'Q') {
@@ -230,14 +230,13 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 newmove = whiteBishop+move.substring(1);
                 return newmove;
             } else if(c =='O'){
-                newmove = whiteKing+move;
-                return newmove;
+                return whiteKing+move;
             }
             else
                 return whitePawn+move;
         }
         else if(isWhite == false){
-            if (c == 'K' || c == 'O') {
+            if (c == 'K') {
                 newmove = blackKing+move.substring(1);
                 return newmove;
             } else if (c == 'Q') {
@@ -253,8 +252,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 newmove = blackBishop+move.substring(1);
                 return newmove;
             } else if(c =='O'){
-                newmove = blackKing+move;
-                return newmove;
+                return blackKing+move;
             }else
                 return blackPawn+move;
         }
