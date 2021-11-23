@@ -22,7 +22,7 @@ import java.awt.FlowLayout;
 /**
  * ChessGameAlgebraicView class holds the graphical view of the game board.
  * 
- * @author Greg Cal
+ * @author Gregory Cal
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
@@ -256,7 +256,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
             }else
                 return blackPawn+move;
         }
-            return newmove+"error";
+            return newmove+"error, please look at the source code and fix me";
     }   
 
 }
