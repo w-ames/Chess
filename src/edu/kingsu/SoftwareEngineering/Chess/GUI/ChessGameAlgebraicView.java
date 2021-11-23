@@ -148,6 +148,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         moveString +=  "border-color: #a1b8c2;";
         moveString +="}";
         moveString +="th, td {";
+        moveString +=    "font-size: 1.2em;";
         moveString +=    "background-color: #a1b8c2;";
         moveString +="}";
         moveString +="</style><font style=\"font-family:\'Roboto\'\" size = \"6\"> <table>";

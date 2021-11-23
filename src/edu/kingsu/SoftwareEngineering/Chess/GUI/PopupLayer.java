@@ -36,10 +36,24 @@ public class PopupLayer extends JPanel {
     private CustomButton newGameButton = new CustomButton("New Game");
     private CustomButton mainMenuButton = new CustomButton("Main Menu");
 
-    private CustomButton chooseQueen = new CustomButton("Queen");
-    private CustomButton chooseKnight = new CustomButton("Knight");
-    private CustomButton chooseRook = new CustomButton("Rook");
-    private CustomButton chooseBishop = new CustomButton("Bishop");
+
+    //image 
+    // ImageIcon whiteQueenIcon = new ImageIcon("./src/assets/piece_images/HQ/white_queen.png");
+    private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteQueen.png",40);
+    private ImageIcon blackQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackQueen.png",40);
+    private ImageIcon whiteKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteKnight.png",40);
+    private ImageIcon blackKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackKnight.png",40);
+    private ImageIcon whiteRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteRook.png",40);
+    private ImageIcon blackRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackRook.png",40);
+    private ImageIcon whiteBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteBishop.png",40);
+    private ImageIcon blackBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackBishop.png",40);
+    // private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/white_queen.png",70);
+
+
+    private CustomButton chooseQueen = new CustomButton(whiteQueenIcon,blackQueenIcon);
+    private CustomButton chooseKnight = new CustomButton(whiteKnightIcon,blackKnightIcon);
+    private CustomButton chooseRook = new CustomButton(whiteRookIcon,blackRookIcon);
+    private CustomButton chooseBishop = new CustomButton(whiteBishopIcon,blackBishopIcon);
 
     private ChessGamePromotionController chooseQueenListener = new ChessGamePromotionController(PieceType.QUEEN);
     private ChessGamePromotionController chooseKnightListener = new ChessGamePromotionController(PieceType.KNIGHT);
