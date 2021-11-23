@@ -144,11 +144,11 @@ public class PGNTranslator{
     public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
         String regex=
-            "(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
+            "^(?<piece>[PKQRBN]?)(?<disambFile>[a-h]?)(?<disambRank>[1-8]?)" +
             "(?<capture>x?)(?<destFile>[a-h])(?<destRank>[1-8])=?(?<pawnPromo>[QRBN]?)" +
             "(?<enPassant>(\\s?e\\.?p\\.?)?)(?<check>\\+?)(?<checkmate>[#\\+]?)" +
-            "\\s*[\\!\\?]*|(?<castle>O-?O((-?O)?)?)(?<castleCheck>\\+?)" +
-            "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]*";
+            "\\s*[\\!\\?]*$|^(?<castle>O-?O((-?O)?)?)(?<castleCheck>\\+?)" +
+            "(?<castleCheckmate>[#\\+]?)\\s*[\\!\\?]*$";
 
         //this pattern DOES NOT take into account the number of a move, more than
         //one move (e.g. a white move and a black move), a comment {in curly braces}

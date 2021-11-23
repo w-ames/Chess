@@ -48,32 +48,26 @@ public class PGNFile implements Iterable<String>{
         try{
             lexer= new PGNFileLexer(CharStreams.fromReader(new FileReader(file)));
         }catch(Exception e){
-            System.err.println("YIKES LEXER");
             e.printStackTrace();
         }
-        System.err.println("LEXER DONE");
         CommonTokenStream tokens= new CommonTokenStream(lexer);
-        System.err.println("TOKENS DONE");
         PGNFileParser parser= new PGNFileParser(tokens);
-        System.err.println("PARSER DONE");
         ParseTree tree= parser.parse();
-        System.err.println("PARSER PARSING DONE");
         ParseTreeWalker walker= new ParseTreeWalker();
-        System.err.println("WALKER DONE");
         PGNFileEvalListener listener= new PGNFileEvalListener();
-        System.err.println("LISTENER DONE");
         walker.walk(listener, tree);
-        System.err.println("WALKER WALKING DONE");
         PGNFile parsedFile = listener.getPGNFile();
-        System.err.println("YOOOO ABOUT TO ADD STUFF TO PGNFILE");
-        getMoveTextList().addAll(parsedFile.getMoveTextList());
-        getTagPairMap().putAll(parsedFile.getTagPairMap());
+        
+        if(parsedFile == null) throw new IllegalArgumentException("File invalid: not parseable");
+        this.getMoveTextList().addAll(parsedFile.getMoveTextList());
+        this.getTagPairMap().putAll(parsedFile.getTagPairMap());
+
         setResult(parsedFile.getResult());
         System.err.println("Tags:"+getTagPairMap());
         System.err.println("Moves: "+getMoveTextList());
         System.err.println("Result: "+getResult());
 
-        //validateTagPairs(tagPairs);
+        validateTagPairs(tagPairs);
         moveText= validateMoveTextAndResult(moveText, result);
     }
 
