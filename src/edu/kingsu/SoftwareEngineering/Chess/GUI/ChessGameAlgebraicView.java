@@ -230,7 +230,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 newmove = whiteBishop+move.substring(1);
                 return newmove;
             } else if(c =='O'){
-                newmove = whiteKing+move.substring(0);
+                newmove = whiteKing+move;
                 return newmove;
             }
             else
@@ -253,7 +253,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 newmove = blackBishop+move.substring(1);
                 return newmove;
             } else if(c =='O'){
-                newmove = blackKing+move.substring(0);
+                newmove = blackKing+move;
                 return newmove;
             }else
                 return blackPawn+move;
