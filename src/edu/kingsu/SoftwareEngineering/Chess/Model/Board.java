@@ -716,6 +716,20 @@ public class Board {
     }
 
     /**
+     * Returns a boolean representing whether a pawn promotion to the given tile
+     * is valid.
+     * @param fromRow the row from which the pawn moves
+     * @param fromCol the column from which the pawn moves
+     * @param toRow the row to which the pawn moves
+     * @param toCol the column to which the pawn moves
+     * @return <code>true</code> if the promotion is valid, <code>false</code>
+     *  otherwise
+     */
+    public boolean validPromotion(int fromRow, int fromCol, int toRow, int toCol) {
+        return getMoves(fromRow, fromCol).contains(new PawnPromotionMove(fromRow, fromCol, toRow, toCol, PieceType.QUEEN));
+    }
+
+    /**
      * Returns the move type for a pawn moving from a given location to another
      * location.
      * @param fromRow the row from which the pawn moves
