@@ -26,6 +26,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
  * pawn promotion popup screen.
  * 
  * @author Chelsie Bajic
+ * @author Gregory Cal
  * @since 10/2021
  */
 public class PopupLayer extends JPanel {
@@ -39,15 +40,14 @@ public class PopupLayer extends JPanel {
 
     //image 
     // ImageIcon whiteQueenIcon = new ImageIcon("./src/assets/piece_images/HQ/white_queen.png");
-    private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteQueen.png",40);
-    private ImageIcon blackQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackQueen.png",40);
-    private ImageIcon whiteKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteKnight.png",40);
-    private ImageIcon blackKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackKnight.png",40);
-    private ImageIcon whiteRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteRook.png",40);
-    private ImageIcon blackRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackRook.png",40);
-    private ImageIcon whiteBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteBishop.png",40);
-    private ImageIcon blackBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackBishop.png",40);
-    // private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/white_queen.png",70);
+    private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteQueen.png",65);
+    private ImageIcon blackQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackQueen.png",65);
+    private ImageIcon whiteKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteKnight.png",65);
+    private ImageIcon blackKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackKnight.png",65);
+    private ImageIcon whiteRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteRook.png",65);
+    private ImageIcon blackRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackRook.png",65);
+    private ImageIcon whiteBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteBishop.png",65);
+    private ImageIcon blackBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackBishop.png",65);
 
 
     private CustomButton chooseQueen = new CustomButton(whiteQueenIcon,blackQueenIcon);
