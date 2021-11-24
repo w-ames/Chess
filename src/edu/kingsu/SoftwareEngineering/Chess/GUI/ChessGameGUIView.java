@@ -196,16 +196,22 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
 
-        // Dynamic board resizing when frame is resized by user.
-        if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
-            boardHolder.setMinimumSize(new Dimension(650, 650));
-            boardHolder.setPreferredSize(new Dimension(650, 650));
-            boardHolder.setMaximumSize(new Dimension(650, 650));
-        } else {
-            boardHolder.setMinimumSize(new Dimension(440, 440));
-            boardHolder.setPreferredSize(new Dimension(440, 440));
-            boardHolder.setMaximumSize(new Dimension(440, 440));
-        }
+        // // Dynamic board resizing when frame is resized by user.
+        // if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+        // boardHolder.setMinimumSize(new Dimension(650, 650));
+        // boardHolder.setPreferredSize(new Dimension(650, 650));
+        // boardHolder.setMaximumSize(new Dimension(650, 650));
+        // } else {
+        // boardHolder.setMinimumSize(new Dimension(550, 550));
+        // boardHolder.setPreferredSize(new Dimension(550, 550));
+        // boardHolder.setMaximumSize(new Dimension(550, 550));
+        // }
+
+        int size = (int) (currentFrameHeight * 0.55);
+
+        boardHolder.setMaximumSize(new Dimension(size, size));
+        boardHolder.setPreferredSize(new Dimension(size, size));
+        boardHolder.setMinimumSize(new Dimension(size, size));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -632,7 +638,7 @@ public class ChessGameGUIView extends ChessGameView {
         int largeRookSize = 60;
         int largePawnSize = 50;
 
-        // For 440 x 440 board size.
+        // For 550 x 550 board size.
         int smallKingSize = 48;
         int smallQueenSize = 49;
         int smallKnightSize = 50;
@@ -842,7 +848,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 440 x 440 board size
+            } else { // For 550 x 550 board size
 
                 rankSquare.setMinimumSize(new Dimension(50, 50));
                 rankSquare.setPreferredSize(new Dimension(50, 50));
@@ -894,7 +900,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 440 x 440 board size
+            } else { // For 550 x 550 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
@@ -958,7 +964,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 440 x 440 board size
+            } else { // For 550 x 550 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
@@ -1028,7 +1034,7 @@ public class ChessGameGUIView extends ChessGameView {
                 rankSquare.setPreferredSize(new Dimension(80, 80));
                 rankSquare.setMaximumSize(new Dimension(80, 80));
 
-            } else { // For 440 x 440 board size
+            } else { // For 550 x 550 board size
 
                 rankSquare.setMinimumSize(new Dimension(45, 45));
                 rankSquare.setPreferredSize(new Dimension(45, 45));
