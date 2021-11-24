@@ -22,6 +22,10 @@ import javax.swing.border.EmptyBorder;
  */
 public class ClockView extends JPanel {
 
+    JLabel playername = new JLabel();
+    JLabel playerColor = new JLabel();
+    JLabel updateTime = new JLabel();
+
     /**
      * Constructs ClockView objects and specifices their border, sets them to opaque
      * (visible).
@@ -52,10 +56,11 @@ public class ClockView extends JPanel {
     /**
      * Allows names to be added to representations of the chess clock.
      * 
-     * @param name The name to add to this instance of the chess clock.
-     * @author Chelsie Bajic
+     * @param name              The name to add to this instance of the chess clock.
+     * @param playerColorString The color of the player to be displayed on this
+     *                          clock view.
      */
-    void addPlayerName(String name) {
+    void addPlayerName(String name, String playerColorString) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
         gb.fill = GridBagConstraints.VERTICAL;
@@ -64,10 +69,20 @@ public class ClockView extends JPanel {
         gb.weightx = 1;
         gb.weighty = 1;
         gb.anchor = GridBagConstraints.NORTHWEST;
-        JLabel playername = new JLabel("   " + name);
+
+        playerColor.setText(playerColorString);
+        playerColor.setFont(new Font("Arial", Font.PLAIN, 25));
+        playerColor.setForeground(new Color(16, 46, 60));
+
+        this.add(playerColor, gb);
+
+        playername.setText(name);
         playername.setFont(new Font("Arial", Font.PLAIN, 25));
         playername.setForeground(new Color(16, 46, 60));
+
+        gb.gridx = 2;
         this.add(playername, gb);
+
     }
 
     /**
@@ -82,7 +97,7 @@ public class ClockView extends JPanel {
         gb.gridy = 0;
         gb.weightx = 1;
         gb.weighty = 1;
-        JLabel updateTime = new JLabel(time);
+        updateTime.setText(time);
         updateTime.setFont(new Font("Arial", Font.PLAIN, 25));
         updateTime.setForeground(new Color(16, 46, 60));
         this.add(updateTime);
@@ -95,7 +110,7 @@ public class ClockView extends JPanel {
      */
     void updateTotalGameTime(String time) {
         this.setLayout(new GridBagLayout());
-        JLabel updateTime = new JLabel(time);
+        updateTime.setText(time);
         updateTime.setFont(new Font("Arial", Font.PLAIN, 35));
         updateTime.setForeground(new Color(16, 46, 60));
         this.add(updateTime);

@@ -66,6 +66,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private int containerHeight;
     private int containerWidth;
 
+    private boolean boardHighlightOnOff;
+    private boolean notificationsOnOff;
+    private boolean moveHintSwitch;
+    private boolean undoRedoSwitch;
+
+    private String player1Name;
+    private String player2Name;
+
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
@@ -76,18 +84,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public ChessPanel(ApplicationFrame container) {
 
         this.container = container;
-
-        //////////////// For Skeleton only //////////////////
-
-        player1Clock.addPlayerName("Player"); // ***ATTENTION*** To dynamically set these names, get info from ChessGame
-        player2Clock.addPlayerName("A.I. (Easy)");
-
-        // *** These are for skeleton view only, time needs to be made dynamic *****
-        player1Clock.updatePlayerTime("5:01   ");
-        player2Clock.updatePlayerTime("1:08   ");
-        totalGameTime.updateTotalGameTime("23:00");
-
-        /////////////////////////////////////////////////////////
 
         // Set layout for layeredPanes.
         // LayeredPane is used to give z index for mainLayer and the two popuplayers:
@@ -251,11 +247,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         endGameOptions.setVisible(false);
         pawnPromotionScreen.setVisible(false);
 
-        // First notification.
-        addNotification("Select a chess piece to begin...");
-
         layeredPane.revalidate();
         layeredPane.repaint();
+
+        if (notificationsOnOff == true) {
+            addNotification("Select a chess piece to begin...");
+        } else {
+            addNotification("Notifications Off");
+        }
 
     }
 
@@ -263,6 +262,17 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Initialize the board at the start of a new game.
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+
+        // Sets player names on clock
+        player1Clock.addPlayerName(player1Name, "White: ");
+        player2Clock.addPlayerName(player2Name, "Black: ");
+
+        // *** These are for skeleton view only, time needs to be made dynamic *****
+        player1Clock.updatePlayerTime("5:01   ");
+        player2Clock.updatePlayerTime("1:08   ");
+        totalGameTime.updateTotalGameTime("23:00");
+
+        /////////////////////////////////////////////////////////
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
@@ -286,13 +296,18 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         for (ActionListener al : undoButton.getActionListeners()) {
-            undoButton.removeActionListener(al);
+            if (undoRedoSwitch == true) {
+                undoButton.removeActionListener(al);
+            }
         }
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                chessGame.undo();
+                if (undoRedoSwitch == true) {
+                    chessGame.undo();
+                }
             }
         });
+
         for (ActionListener al : redoButton.getActionListeners()) {
             redoButton.removeActionListener(al);
         }
@@ -301,6 +316,16 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 chessGame.redo();
             }
         });
+
+        for (ActionListener al : moveHintButton.getActionListeners()) {
+            moveHintButton.removeActionListener(al);
+        }
+        moveHintButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                guiView.moveHint(guiView.getSelectedRow(), guiView.getSelectedCol());
+            }
+        });
+
     }
 
     /**
@@ -361,16 +386,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void addNotification(String notificationToAdd) {
         messagesView.addToNotifications(notificationToAdd);
     }
-
-    // public void disableNotifications(){}
-
-    // public void disableBoardHighlight(){}
-
-    // public void disableMoveHint(){}
-
-    // public void disable_Undo_Redo_Move(){}
-
-    // public void loadSavedGame(ChessGameLoadView savedGame){}
 
     /**
      * Prints the location of the selected square to the notifications screen.
@@ -443,12 +458,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     @Override
     public void update() {
 
-        if (true) { // Check if pawn promotion here.
-
-            addNotification("Pawn promotion!");
-            // this.showPawnPromotionScreen();
-
-        } else if (false) { // Check if 50 moves stalemate here.
+        if (false) { // Check if 50 moves stalemate here.
 
             addNotification("50 move stalemate");
             this.showEndGameOptions();
@@ -495,6 +505,110 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         }
 
+    }
+
+    /**
+     * Turn the board highlight option on or off.
+     */
+    public void boardHighlightOnOff() {
+
+        if (boardHighlightOnOff == true) {
+            this.boardHighlightOnOff = false;
+            addNotification("Board Highlight OFF");
+        } else {
+            this.boardHighlightOnOff = true;
+            addNotification("Board Highlight ON");
+        }
+
+        guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
+    }
+
+    /**
+     * Checks the current state of the selected tutorial options - whether they are
+     * on or off.
+     */
+    public void checkTutorialSelections() {
+        guiView.turnBoardHighlightOff(this.boardHighlightOnOff);
+        guiView.moveHintSwitch(this.moveHintSwitch);
+        messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
+     * Turn the move hint option on or off.
+     */
+    public void moveHintOnOff() {
+
+        if (moveHintSwitch == true) {
+            this.moveHintSwitch = false;
+            addNotification("Move Hints OFF");
+        } else {
+            this.moveHintSwitch = true;
+            addNotification("Move Hints ON");
+        }
+        guiView.moveHintSwitch(this.moveHintSwitch);
+    }
+
+    /**
+     * Turn the notifications on or off.
+     */
+    public void notificationsOnOff() {
+
+        if (notificationsOnOff == true) {
+            this.notificationsOnOff = false;
+            addNotification("Notifications OFF");
+        } else {
+            this.notificationsOnOff = true;
+            addNotification("Notifications ON");
+        }
+
+        messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
+     * Allows the player names to be set for use in the player game clock display
+     * 
+     * @param player1 The name of the first player.
+     * @param player2 the name of the second player.
+     */
+    public void setPlayerNames(String player1, String player2) {
+        this.player1Name = player1;
+        this.player2Name = player2;
+    }
+
+    /**
+     * Allows other classes (set up screen) to change hint switch.
+     * 
+     * @param hintSwitch true = on, false = off
+     */
+    public void setMoveHintSwitch(boolean hintSwitch) {
+        this.moveHintSwitch = hintSwitch;
+    }
+
+    /**
+     * Allows other classes (set up screen)to change notifications switch
+     * 
+     * @param notificationsSwitch true = on, false = off
+     */
+    public void setNotificationsSwitch(boolean notificationsSwitch) {
+        this.notificationsOnOff = notificationsSwitch;
+    }
+
+    /**
+     * Allows other classes (set up screen)to change board highlight switch
+     * 
+     * @param boardHighlightSwitch true = on, false = off
+     */
+    public void setboardHighlightSwitch(boolean boardHighlightSwitch) {
+        this.boardHighlightOnOff = boardHighlightSwitch;
+    }
+
+    /**
+     * Allows set up screen to turn on or off undo/redo move option.
+     * 
+     * @param undoRedoSwitch true = on, false = off.
+     */
+    public void setundoRedoSwitch(boolean undoRedo_Switch) {
+        this.undoRedoSwitch = undoRedo_Switch;
     }
 
     @Override

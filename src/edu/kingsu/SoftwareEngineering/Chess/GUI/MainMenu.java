@@ -56,8 +56,10 @@ public class MainMenu extends JPanel {
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
+                HelpWindow helpWindow = new HelpWindow("about", 2);
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setVisible(true);
             }
         });
         exitButton.addActionListener(new ActionListener() {
@@ -153,8 +155,6 @@ public class MainMenu extends JPanel {
         gb.weighty = 1;
         invisbleContainer.setOpaque(false);
         background.add(invisbleContainer, gb);
-
-
 
     }
 

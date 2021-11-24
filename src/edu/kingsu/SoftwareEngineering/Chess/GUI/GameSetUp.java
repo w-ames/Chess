@@ -13,33 +13,66 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
+
     private ApplicationFrame container;
     private PGNFile pgnFile;
+
+    MainLayer background = new MainLayer();
+    ButtonContainer player1Panel = new ButtonContainer();
+    ButtonContainer player2Panel = new ButtonContainer();
+    ButtonContainer timePanel = new ButtonContainer();
+    ButtonContainer settingsPanel = new ButtonContainer();
+    ButtonContainer setupPanel = new ButtonContainer();
+    JLabel player1Label = new JLabel("Player 1", SwingConstants.CENTER);
+    JLabel player2Label = new JLabel("Player 2", SwingConstants.CENTER);
+    JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
+    JLabel timerLabel1 = new JLabel("10:00");
+    JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
+    JLabel timerLabel2 = new JLabel("0:10");
+    JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
+    String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
+    int[] playerDepthList = { -1, 0, 2, 4 };
+
+    JComboBox player1Box = new JComboBox(playerList);
+    JComboBox player2Box = new JComboBox(playerList);
+
+    int minTime = 10;
+    int minTime2 = 10;
+    int maxTime = 600;
+    int maxTime2 = 600;
+
+    JSlider timeSlider = new JSlider(minTime, maxTime);
+    JSlider timeSlider2 = new JSlider(minTime2, maxTime2);
+
+    JRadioButton timeOn = new JRadioButton("On");
+    JRadioButton timeOff = new JRadioButton("Off");
+
+    JRadioButton timeOn2 = new JRadioButton("On");
+    JRadioButton timeOff2 = new JRadioButton("Off");
+
+    JCheckBox highlightMove = new JCheckBox("Highlight Possible Moves");
+    JCheckBox moveHint = new JCheckBox("Move Hints");
+    JCheckBox undoRedo = new JCheckBox("Allow Undo / Redo");
+    JCheckBox notification = new JCheckBox("Notifications");
+
+    CustomButton checkAll = new CustomButton("Select All");
+    CustomButton uncheckAll = new CustomButton("All Off");
+
+    CustomButton goToMainMenu = new CustomButton("Return");
+    CustomButton loadButton = new CustomButton("Load Game");
+    CustomButton startGame = new CustomButton("Start Game");
+
+    boolean highlightMoveSwitch;
+    boolean moveHintSwitch;
+    boolean undoRedoSwitch;
+    boolean notificationsSwitch;
+
+    String player1Name;
+    String player2Name; 
 
     public GameSetUp(ApplicationFrame container) {
         super();
         this.container = container;
-
-        MainLayer background = new MainLayer();
-        ButtonContainer player1Panel = new ButtonContainer();
-        ButtonContainer player2Panel = new ButtonContainer();
-        ButtonContainer timePanel = new ButtonContainer();
-        ButtonContainer settingsPanel = new ButtonContainer();
-        ButtonContainer setupPanel = new ButtonContainer();
-        JLabel player1Label = new JLabel("Player 1", SwingConstants.CENTER);
-        JLabel player2Label = new JLabel("Player 2", SwingConstants.CENTER);
-        JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
-        JLabel timerLabel1 = new JLabel("10:00");
-        JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
-        JLabel timerLabel2 = new JLabel("0:10");
-        JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
-        String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
-        int[] playerDepthList = { -1, 0, 2, 4 };
-
-        int minTime = 10;
-        int minTime2 = 10;
-        int maxTime = 600;
-        int maxTime2 = 600;
 
         GridBagConstraints player1Constraints = new GridBagConstraints();
         GridBagConstraints player2Constraints = new GridBagConstraints();
@@ -66,17 +99,6 @@ public class GameSetUp extends JPanel {
         this.setLayout(new GridBagLayout());
         GridBagConstraints setup = new GridBagConstraints();
         setup.fill = GridBagConstraints.BOTH;
-        // setup.insets = new Insets(25,100,100,100);
-
-        CustomButton goToMainMenu = new CustomButton("Return");
-        goToMainMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                container.show("menu");
-            }
-        });
-
-        CustomButton startGame = new CustomButton("Start Game");
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints mainLayerGB = new GridBagConstraints();
@@ -109,7 +131,6 @@ public class GameSetUp extends JPanel {
         player1Constraints.insets = new Insets(3, 3, 3, 3);
         player1Panel.add(player1Label, player1Constraints);
 
-        JComboBox player1Box = new JComboBox(playerList);
         player1Box.setSelectedIndex(0);
         player1Constraints.fill = GridBagConstraints.BOTH;
         player1Constraints.gridx = 0;
@@ -129,7 +150,6 @@ public class GameSetUp extends JPanel {
 
         // Player 2 Panel
         player2Panel.setLayout(new GridBagLayout());
-
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
         player2Constraints.gridy = 0;
@@ -138,7 +158,6 @@ public class GameSetUp extends JPanel {
         player2Constraints.insets = new Insets(3, 3, 3, 3);
         player2Panel.add(player2Label, player2Constraints);
 
-        JComboBox player2Box = new JComboBox(playerList);
         player2Box.setSelectedIndex(0);
         player2Constraints.fill = GridBagConstraints.BOTH;
         player2Constraints.gridx = 0;
@@ -169,8 +188,6 @@ public class GameSetUp extends JPanel {
         playerContainer.setMaximumSize(new Dimension(300, 100));
         holdAllInCentre.add(playerContainer, setup);
 
-        // playerContainer.add(Player1Panel,gb)
-
         JPanel settingContainer = new JPanel();
         settingContainer.setLayout(new GridBagLayout());
         GridBagConstraints sc = new GridBagConstraints();
@@ -179,7 +196,6 @@ public class GameSetUp extends JPanel {
 
         // Time Panel
         timePanel.setLayout(new GridBagLayout());
-        // timePanel.setBackground(Color.GRAY);
         timePanel.setOpaque(false);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
@@ -190,8 +206,7 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.25;
         timePanel.add(timeLabel, timeConstraints);
 
-        JRadioButton timeOn = new JRadioButton("On");
-        timeOn.setBackground(new Color(0,0,0,0));
+        timeOn.setBackground(new Color(0, 0, 0, 0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 1;
@@ -200,8 +215,7 @@ public class GameSetUp extends JPanel {
         timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn, timeConstraints);
 
-        JRadioButton timeOff = new JRadioButton("Off");
-        timeOff.setBackground(new Color(0,0,0,0));
+        timeOff.setBackground(new Color(0, 0, 0, 0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 2;
@@ -220,8 +234,6 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel1, timeConstraints);
 
-        //FIX BUG: After image shows up when background set to 0,0,0,0
-        JSlider timeSlider = new JSlider(minTime, maxTime);
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeSlider.setBackground(Color.GRAY);
         timeSlider.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(101, 101, 101)));
@@ -240,8 +252,7 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.25;
         timePanel.add(incrementLabel, timeConstraints);
 
-        JRadioButton timeOn2 = new JRadioButton("On");
-        timeOn2.setBackground(new Color(0,0,0,0));
+        timeOn2.setBackground(new Color(0, 0, 0, 0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 6;
@@ -250,8 +261,7 @@ public class GameSetUp extends JPanel {
         timeConstraints.insets = new Insets(3, 15, 3, 3);
         timePanel.add(timeOn2, timeConstraints);
 
-        JRadioButton timeOff2 = new JRadioButton("Off");
-        timeOff2.setBackground(new Color(0,0,0,0));
+        timeOff2.setBackground(new Color(0, 0, 0, 0));
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
         timeConstraints.gridy = 7;
@@ -270,7 +280,6 @@ public class GameSetUp extends JPanel {
         timeConstraints.weighty = 0.1;
         timePanel.add(timerLabel2, timeConstraints);
 
-        JSlider timeSlider2 = new JSlider(minTime2, maxTime2);
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeSlider2.setBackground(Color.GRAY);
         timeSlider2.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(101, 101, 101)));
@@ -294,13 +303,7 @@ public class GameSetUp extends JPanel {
 
         // Settings Panel
         settingsPanel.setLayout(new GridBagLayout());
-        // settingsPanel.setBackground(Color.GRAY);
         settingsPanel.setOpaque(false);
-
-        JCheckBox highlightMove = new JCheckBox("Highlight Move");
-        JCheckBox moveHint = new JCheckBox("Move Hint");
-        JCheckBox undoRedo = new JCheckBox("Undo / Redo");
-        JCheckBox notification = new JCheckBox("Notifications");
 
         settingsConstraints.fill = GridBagConstraints.BOTH;
         settingsConstraints.anchor = GridBagConstraints.CENTER;
@@ -310,10 +313,10 @@ public class GameSetUp extends JPanel {
         settingsConstraints.weighty = 0.3;
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         settingsPanel.add(settingsLabel, settingsConstraints);
-        
+
         JPanel checkBoxHolder = new JPanel();
         checkBoxHolder.setLayout(new GridBagLayout());
-        highlightMove.setBackground(new Color(0,0,0,0));
+        highlightMove.setBackground(new Color(0, 0, 0, 0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 0;
         settingsConstraints.weightx = 1;
@@ -321,7 +324,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(highlightMove, settingsConstraints);
 
-        moveHint.setBackground(new Color(0,0,0,0));
+        moveHint.setBackground(new Color(0, 0, 0, 0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 1;
         settingsConstraints.weightx = 1;
@@ -329,7 +332,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(moveHint, settingsConstraints);
 
-        undoRedo.setBackground(new Color(0,0,0,0));
+        undoRedo.setBackground(new Color(0, 0, 0, 0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 2;
         settingsConstraints.weightx = 1;
@@ -337,7 +340,7 @@ public class GameSetUp extends JPanel {
         settingsConstraints.insets = new Insets(1, 1, 1, 1);
         checkBoxHolder.add(undoRedo, settingsConstraints);
 
-        notification.setBackground(new Color(0,0,0,0));
+        notification.setBackground(new Color(0, 0, 0, 0));
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 3;
         settingsConstraints.weightx = 1;
@@ -354,18 +357,22 @@ public class GameSetUp extends JPanel {
         checkBoxHolder.setOpaque(false);
         settingsPanel.add(checkBoxHolder, settingsConstraints);
 
-        CustomButton checkAll = new CustomButton("Select All");
-
         settingsConstraints.fill = GridBagConstraints.NONE;
         settingsConstraints.gridx = 0;
         settingsConstraints.gridy = 3;
         settingsConstraints.weightx = 1;
-        settingsConstraints.weighty = 0.3;
-        settingsConstraints.insets = new Insets(3, 3, 10, 3);
+        settingsConstraints.weighty = 0.05;
+        settingsConstraints.insets = new Insets(3, 3, 3, 3);
         checkAll.setMinimumSize(new Dimension(150, 50));
         checkAll.setPreferredSize(new Dimension(150, 50));
         checkAll.setMaximumSize(new Dimension(150, 50));
         settingsPanel.add(checkAll, settingsConstraints);
+
+        uncheckAll.setMinimumSize(new Dimension(150, 50));
+        uncheckAll.setPreferredSize(new Dimension(150, 50));
+        uncheckAll.setMaximumSize(new Dimension(150, 50));
+        settingsConstraints.gridy = 4;
+        settingsPanel.add(uncheckAll, settingsConstraints);
 
         sc.gridx = 1;
         sc.gridy = 0;
@@ -378,8 +385,6 @@ public class GameSetUp extends JPanel {
 
         // Load
         setupPanel.setLayout(new GridBagLayout());
-
-        CustomButton loadButton = new CustomButton("Load Game");
 
         JPanel buttonHolder = new JPanel();
         buttonHolder.setLayout(new GridBagLayout());
@@ -442,17 +447,136 @@ public class GameSetUp extends JPanel {
         allGB.fill = GridBagConstraints.NONE;
         holdAllInCentre.setOpaque(false);
         background.add(holdAllInCentre, allGB);
+
+        selectAllTutorialOptions();
+        addActionListenersToButtons();
+
+    }
+
+    /**
+     * Checks what options the user selected and applies them to the tutorial
+     * switches.
+     */
+    public void checkUserSelectedTutorialOptions() {
+
+        if (highlightMove.isSelected()) {
+            highlightMoveSwitch = true;
+
+        } else {
+            highlightMoveSwitch = false;
+        }
+
+        if (moveHint.isSelected()) {
+            moveHintSwitch = true;
+        } else {
+            moveHintSwitch = false;
+        }
+
+        if (undoRedo.isSelected()) {
+            undoRedoSwitch = true;
+        } else {
+            undoRedoSwitch = false;
+        }
+
+        if (notification.isSelected()) {
+            notificationsSwitch = true;
+        } else {
+            notificationsSwitch = false;
+        }
+    }
+
+    /**
+     * Add functionality to all of the buttons.
+     */
+    public void addActionListenersToButtons() {
+
+        goToMainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                container.show("menu");
+            }
+        });
+
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
+                getPlayerNamesFromComboBox();
+
                 ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()],
                         playerDepthList[player2Box.getSelectedIndex()], -1, -1);
-                container.initializeChessPanel(chessGame);
+
+                // Switches allow tutorial options to be turned on or off.
+                container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
+                        undoRedoSwitch, player1Name, player2Name);
                 chessGame.start();
                 container.show("chesspanel");
             }
         });
 
+        checkAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectAllTutorialOptions();
+            }
+        });
+
+        uncheckAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                unselectAllTutorialOptions();
+            }
+        });
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //
+                //
+                // Add code for load game here
+                //
+                //
+            }
+        });
+    }
+
+    /**
+     * Call to select all tutorial check boxes.
+     */
+    public void selectAllTutorialOptions() {
+        moveHintSwitch = true;
+        undoRedoSwitch = true;
+        notificationsSwitch = true;
+        highlightMoveSwitch = true;
+        highlightMove.setSelected(highlightMoveSwitch);
+        moveHint.setSelected(moveHintSwitch);
+        undoRedo.setSelected(undoRedoSwitch);
+        notification.setSelected(notificationsSwitch);
+    }
+
+    /**
+    * Sets the player name data members in this class to what ever the 
+    * user selected from the drop down boxes in the set up menu, to be used to
+    * display the choices within the player clocks in ChessPanel. 
+    */
+    public void getPlayerNamesFromComboBox(){
+        this.player1Name = player1Box.getSelectedItem().toString();
+        this.player2Name = player2Box.getSelectedItem().toString();
+    }
+
+    /**
+     * Call to unselect all tutorial check boxes.
+     */
+    public void unselectAllTutorialOptions() {
+        moveHintSwitch = false;
+        undoRedoSwitch = false;
+        notificationsSwitch = false;
+        highlightMoveSwitch = false;
+        highlightMove.setSelected(highlightMoveSwitch);
+        moveHint.setSelected(moveHintSwitch);
+        undoRedo.setSelected(undoRedoSwitch);
+        notification.setSelected(notificationsSwitch);
     }
 
     public void setPGNFile(PGNFile file){

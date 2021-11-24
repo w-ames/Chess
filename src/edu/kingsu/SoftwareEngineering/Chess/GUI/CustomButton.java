@@ -21,7 +21,8 @@ import java.awt.Cursor;
  * Styling of custom buttons for Java Chess.
  * 
  * @author Chelsie Bajic
- * @since 10/2021
+ * @author Gregory Cal
+ * @since 11/2021
  */
 public class CustomButton extends JButton implements MouseListener {
 
@@ -45,6 +46,54 @@ public class CustomButton extends JButton implements MouseListener {
         this.add(text, gbForButton);
         addMouseListener(this);
 
+    }
+
+    public CustomButton(ImageIcon buttonIcon, ImageIcon buttonIcon2) {
+
+        this.setOpaque(true);
+        this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+        this.setLayout(new GridBagLayout());
+
+        JLabel iconLabel = new JLabel(buttonIcon);
+        JLabel iconLabel2 = new JLabel(buttonIcon2);
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        iconLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        GridBagConstraints gbForButton = new GridBagConstraints();
+        gbForButton.fill = GridBagConstraints.CENTER;
+        gbForButton.gridx = 0;
+        gbForButton.gridy = 0;
+        this.add(iconLabel, gbForButton);
+        
+        gbForButton.gridx = 1;
+        gbForButton.gridy = 0;
+        this.add(iconLabel2,gbForButton);
+        //this.setIcon(buttonIcon);
+        this.setHorizontalTextPosition(AbstractButton.CENTER);
+        this.setVerticalTextPosition(AbstractButton.CENTER);
+    }
+
+    /**
+     * Overloaded constructor for adding icons only to buttons (no text).
+     * 
+     * @param buttonIcon The icon to add to the button.
+     */
+    public CustomButton(ImageIcon buttonIcon) {
+
+        this.setOpaque(true);
+        this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+
+        // this.setLayout(new GridBagLayout());
+        // GridBagConstraints gb = new GridBagConstraints();
+
+        JLabel iconLabel = new JLabel(buttonIcon);
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        GridBagConstraints gbForButton = new GridBagConstraints();
+        gbForButton.fill = GridBagConstraints.CENTER;
+        this.add(iconLabel, gbForButton);
+        //this.setIcon(buttonIcon);
+        this.setHorizontalTextPosition(AbstractButton.CENTER);
+        this.setVerticalTextPosition(AbstractButton.CENTER);
     }
 
     /**
