@@ -142,9 +142,9 @@ public class ChessGame {
      */
     public void forceSetPlayerTurn(boolean toWhite) {
         // TODO test
-        System.err.println("ENTERING PLAYERTURN LOCK");
+        // System.err.println("ENTERING PLAYERTURN LOCK");
         synchronized (playerTurnLock) {
-            System.err.println("ENTERED PLAYERTURN LOCK");
+            // System.err.println("ENTERED PLAYERTURN LOCK");
             playerTurn = toWhite ? whitePlayer : blackPlayer;
         }
     }
@@ -242,13 +242,20 @@ public class ChessGame {
      *  <code>false</code> otherwise
      */
     public  boolean performMove(Move move, boolean humanMoveMaker) {
+        if (humanMoveMaker != getPlayerTurn().isHuman()) {
+            return false;
+        }
         synchronized (this) {
-            if (humanMoveMaker == getPlayerTurn().isHuman() && validateMove(move)) {
+            if (validateMove(move)) {
                 synchronized (playerTurnLock) {
                     performMove(move);
+                    if (getState() != GameState.ACTIVE) {
+                        gameOver();
+                    }
                     notifyViews();
-                    this.notifyAll();
                 }
+                this.notifyAll();
+                // System.err.println("Move made & all notified");
                 return true;
             } else {
                 return false;
@@ -376,10 +383,10 @@ public class ChessGame {
      *  moves to undo
      */
     public boolean undo() {
+        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+            return false;
+        }
         synchronized(this) {
-            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
-                return false;
-            }
             Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
             int endMoveNo = moveNo-1;
             if (!otherPlayer.isHuman()) {
@@ -409,10 +416,10 @@ public class ChessGame {
      *  moves to redo
      */
     public boolean redo() {
+        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+            return false;
+        }
         synchronized(this) {
-            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
-                return false;
-            }
             Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
             int endMoveNo = moveNo+1;
             if (!otherPlayer.isHuman()) {
@@ -482,6 +489,7 @@ public class ChessGame {
      *  interrupted or times out
      */
     public char[][] getHumanHint() {
+        // System.err.println("HINT CALLED");
         if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
             return null;
         }
@@ -529,16 +537,27 @@ public class ChessGame {
             // }
 
             // synchronized (playerTurnLock) {
-                synchronized (playerTurn) {
-                    if (playerTurn.getAIThread() == null) {
-                        playerTurn.wait();
+                synchronized (getPlayerTurn()) {
+                // synchronized (playerTurn) {
+                    // if (playerTurn.getAIThread() == null) {
+                    //     System.err.println("ABOUT TO WAIT");
+                    //     playerTurn.wait();
+                    //     System.err.println("DONE WAITING");
+                    // }
+                    // hintThread = playerTurn.getAIThread();
+                    while (hintThread == null) {
+                        hintThread = playerTurn.getAIThread();
+                        if (hintThread == null) {
+                            // System.err.println("ABOUT TO WAIT");
+                            playerTurn.wait();
+                            // System.err.println("DONE WAITING");
+                        }
                     }
-                    hintThread = playerTurn.getAIThread();
                 }
             // }
-            if (hintThread == null) {
-                return null;
-            }
+            // if (hintThread == null) {
+            //     return null;
+            // }
         } catch(InterruptedException e) {
             System.err.println("Error: Was interrupted/timed out during move calculation thread retrieval.");
             return null;
@@ -586,13 +605,20 @@ public class ChessGame {
     }
 
     public boolean checkPawnPromotion(int rowFrom, int colFrom, int rowTo, int colTo) {
-        Piece movingPiece = board.getPiece(rowFrom, colFrom);
-        return movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN &&
-            ((movingPiece.isWhite() && rowTo == 0) || (!movingPiece.isWhite() && rowTo == Board.ROWS-1));
+        // Piece movingPiece = board.getPiece(rowFrom, colFrom);
+        // return movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN &&
+        //     ((movingPiece.isWhite() && rowTo == 0) || (!movingPiece.isWhite() && rowTo == Board.ROWS-1));
+        return board.validPromotion(rowFrom, colFrom, rowTo, colTo);
     }
 
     public int latestMoveIndex() {
         return moveNo-1;
+    }
+
+    public void resign() {
+        if (getPlayerTurn().isHuman()) {
+            gameOver();
+        }
     }
 
 }

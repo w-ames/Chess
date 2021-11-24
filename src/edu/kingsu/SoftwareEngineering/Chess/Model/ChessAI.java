@@ -13,16 +13,44 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 public class ChessAI {
     // https://www.freecodecamp.org/news/simple-chess-ai-step-by-step-1d55a9266977/
     private static final int[][] PAWN_WEIGHTS = {
-        {}
+        {  0,  0,  0,  0,  0,  0,  0,  0},
+        { 50, 50, 50, 50, 50, 50, 50, 50},
+        { 10, 10, 20, 30, 30, 20, 10, 10},
+        {  5,  5, 10, 25, 25, 10,  5,  5},
+        {  0,  0,  0, 20, 20,  0,  0,  0},
+        {  5,- 5,-10,  0,  0,-10,- 5,  5},
+        {  5, 10, 10,-20,-20, 10, 10,  5},
+        {  0,  0,  0,  0,  0,  0,  0,  0}
     };
     private static final int[][] KNIGHT_WEIGHTS = {
-        {}
+        {-50,-40,-30,-30,-30,-30,-40,-50},
+        {-40,-20,  0,  0,  0,  0,-20,-40},
+        {-30,  0, 10, 15, 15, 10,  0,-30},
+        {-30,  5, 15, 20, 20, 15,  5,-30},
+        {-30,  0, 15, 20, 20, 15,  0,-30},
+        {-30,  5, 10, 15, 15, 10,  5,-30},
+        {-40,-20,  0,  5,  5,  0,-20,-40},
+        {-50,-40,-30,-30,-30,-30,-40,-50}
     };
     private static final int[][] BISHOP_WEIGHTS = {
-        {}
+        {-20,-10,-10,-10,-10,-10,-10,-20},
+        {-10,  0,  0,  0,  0,  0,  0,-10},
+        {-10,  0,  5, 10, 10,  5,  0,-10},
+        {-10,  5,  5, 10, 10,  5,  5,-10},
+        {-10,  0, 10, 10, 10, 10,  0,-10},
+        {-10, 10, 10, 10, 10, 10, 10,-10},
+        {-10,  5,  0,  0,  0,  0,  5,-10},
+        {-20,-10,-10,-10,-10,-10,-10,-20}
     };
     private static final int[][] ROOK_WEIGHTS = {
-        {}
+        {  0,  0,  0,  0,  0,  0,  0,  0},
+        {  5, 10, 10, 10, 10, 10, 10,  5},
+        {- 5,  0,  0,  0,  0,  0,  0,- 5},
+        {- 5,  0,  0,  0,  0,  0,  0,- 5},
+        {- 5,  0,  0,  0,  0,  0,  0,- 5},
+        {- 5,  0,  0,  0,  0,  0,  0,- 5},
+        {- 5,  0,  0,  0,  0,  0,  0,- 5},
+        {  0,  0,  0,  5,  5,  0,  0,  0}
     };
     private static final int[][] QUEEN_WEIGHTS = {
         {-20,-10,-10,- 5,- 5,-10,-10,-20},
@@ -107,8 +135,9 @@ public class ChessAI {
         if (depth == 0) {
             return null;
         }
-        // if () { // add checkmate consideration return here
-        // }
+        if (board.getCheckmate(forWhite)) { // we hopefully should not have checkmate here
+            return null;
+        }
         // white maximizes
         Board workingBoard;
         int value;
@@ -169,8 +198,9 @@ public class ChessAI {
         if (depth == 0) {
             return scoreBoard(board, forWhite);
         }
-        // if () { // add checkmate consideration return here
-        // }
+        if (board.getCheckmate(forWhite)) {
+            return forWhite ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
         // white maximizes
         Board workingBoard;
         int value;
@@ -221,18 +251,20 @@ public class ChessAI {
                 if (p != null) {
                     PieceType pt = p.getPieceType();
                     int mult = p.isWhite() ? 1 : -1;
+                    int positionValI = mult == 1 ? i : Board.ROWS-1-i;
+                    int positionValJ = mult == 1 ? j : Board.COLS-1-j;
                     if (pt == PieceType.PAWN) {
-                        score += mult * PAWN;
+                        score += mult * PAWN + mult * PAWN_WEIGHTS[positionValI][positionValJ];
                     } else if (pt == PieceType.KNIGHT) {
-                        score += mult * KNIGHT;
+                        score += mult * KNIGHT + mult * KNIGHT_WEIGHTS[positionValI][positionValJ];
                     } else if (pt == PieceType.BISHOP) {
-                        score += mult * BISHOP;
+                        score += mult * BISHOP + mult * BISHOP_WEIGHTS[positionValI][positionValJ];
                     } else if (pt == PieceType.ROOK) {
-                        score += mult * ROOK;
+                        score += mult * ROOK + mult * ROOK_WEIGHTS[positionValI][positionValJ];
                     } else if (pt == PieceType.QUEEN) {
-                        score += mult * QUEEN;
+                        score += mult * QUEEN + mult * QUEEN_WEIGHTS[positionValI][positionValJ];
                     } else if (pt == PieceType.KING) {
-                        score += mult * KING;
+                        score += mult * KING + mult * KING_WEIGHTS[positionValI][positionValJ];
                     }
                 }
             }

@@ -11,7 +11,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * ChessGameAlgebraicController holds the algebraic controller of the chess game
  * model.
  * 
- * @author
+ * @author Gregory Cal
  * @since 10/2021
  */
 public class ChessGameAlgebraicController implements ActionListener {

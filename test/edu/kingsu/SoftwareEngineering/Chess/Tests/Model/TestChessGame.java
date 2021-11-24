@@ -32,12 +32,12 @@ public class TestChessGame {
         testGame = null;
     }
 
-    @Ignore @Test
+    @Test
     public void testChessGame() {
         assertNotNull("ChessGame constructor returned null.", testGame);
     }
 
-    @Ignore @Test
+    @Test
     public void testInitialize() {
         testGame.initialize(-1, 0, 1, 2);
         assertTrue("Game initializer did not set white to human.", testGame.getPlayerTurn().isHuman());
@@ -49,7 +49,7 @@ public class TestChessGame {
         assertEquals("Game initializer did not set the player increment.", 4, testGame.getPlayerIncrement());
     }
 
-    @Ignore @Test
+    @Test
     public void testGetBoardChars() {
         char[][] chars = testGame.getBoardChars();
         assertNotNull("Null returned for game board chars.", chars);
@@ -61,23 +61,23 @@ public class TestChessGame {
         }
     }
 
-    @Ignore @Test
+    @Test
     public void testGetPlayerInterval() {
         ChessGame cg = new ChessGame(-1, -1, 1234, 5678);
         assertEquals("Retrieved incorrect player interval value.", 1234, cg.getPlayerInterval());
     }
 
-    @Ignore @Test
+    @Test
     public void testGetPlayerIncrement() {
         ChessGame cg = new ChessGame(-1, -1, 1234, 5678);
         assertEquals("Retrieved incorrect player increment value.", 5678, cg.getPlayerIncrement());
     }
 
-    @Ignore @Test
+    @Test
     public void testTagPairMap() {
     }
 
-    @Ignore @Test
+    @Test
     public void testGetBoard() {
         Board b = testGame.getBoard();
         char[][] chars = b.getChars();
@@ -88,7 +88,7 @@ public class TestChessGame {
         }
     }
 
-    @Ignore @Test
+    @Test
     public void testGetPlayerTurn() {
         Player p1 = testGame.getPlayerTurn();
         assertTrue("Black player given as having the first turn.", p1.isWhite());
@@ -97,7 +97,7 @@ public class TestChessGame {
         assertNotSame("Same Player is given 2 turns.", testGame.getPlayerTurn());
     }
 
-    @Ignore @Test
+    @Test
     public void testGetMoveHistory() {
         List<Move> history;
         history = testGame.getMoveHistory();
@@ -111,11 +111,11 @@ public class TestChessGame {
         assertSame("Move made not found in move history.", m, history.get(0));
     }
 
-    @Ignore @Test
+    @Test
     public void testGetAlgebraicHistory() {
     }
 
-    @Ignore @Test
+    @Test
     public void testGetState() {
         ChessGame cg = new ChessGame(-1,-1,-1,-1);
         cg.getBoard().initializeBoard(new char[][] {
@@ -190,13 +190,13 @@ public class TestChessGame {
         // TODO 50 move, 3-fold, material
     }
 
-    @Ignore @Test
+    @Test
     public void testRegisterView() {
         // the effect of this is not easily observable,
         // testNotifyViews() will ensure this works
     }
 
-    @Ignore @Test
+    @Test
     public void testNotifyViews() {
         TestView testView = new TestView();
         testGame.registerView(testView);
@@ -204,7 +204,7 @@ public class TestChessGame {
         assertTrue("Registered view not updated.", testView.flag());
     }
 
-    @Ignore @Test
+    @Test
     public void testPerformMove() {
         // testGame.start();
         assertFalse("Black was able to move first.", testGame.performMove(new PawnDoubleMove(1, 4, 3, 4), false));
@@ -212,7 +212,7 @@ public class TestChessGame {
         assertTrue("White was unable to move during its turn.", testGame.performMove(new PawnDoubleMove(6, 4, 4, 4), true));
     }
 
-    @Ignore @Test
+    @Test
     public void testStart() {
         ChessGame startGameTest = new ChessGame(0, -1, -1, -1);
         startGameTest.start();
@@ -239,7 +239,7 @@ public class TestChessGame {
         }
     }
 
-    @Ignore @Test
+    @Test
     public void testStop() {
         ChessGame stopGameTest = new ChessGame(0, -1, -1, -1);
         stopGameTest.start();
@@ -258,15 +258,15 @@ public class TestChessGame {
         assertFalse("AI made move after game stopped.", stopGameTest.getPlayerTurn().isHuman());
     }
 
-    @Ignore @Test
+    @Test
     public void testGameOver() {
     }
 
-    @Ignore @Test
+    @Test
     public void testSetInterval() {
     }
 
-    @Ignore @Test
+    @Test
     public void testUndo() {
         ChessGame cg = new ChessGame(-1, -1, -1, -1);
         cg.start();
@@ -283,7 +283,7 @@ public class TestChessGame {
         cg.stop();
     }
 
-    @Ignore @Test
+    @Test
     public void testRedo() {
         ChessGame cg = new ChessGame(-1, -1, -1, -1);
         cg.start();
@@ -315,11 +315,11 @@ public class TestChessGame {
         cg.stop();
     }
 
-    @Ignore @Test
+    @Test
     public void testResetTimers() {
     }
 
-    @Ignore @Test
+    @Test
     public void testGetMoveHighlights() {
         char[][] pawnTestExpected = {
             {' ',' ',' ',' ',' ',' ',' ',' '},
@@ -347,7 +347,7 @@ public class TestChessGame {
         assertHighlights(knightTestExpected, knightTestResult);
     }
 
-    @Ignore @Test
+    @Test(timeout = 3000)
     public void testGetHumanHint() {
         // TODO this sometimes fails...
         ChessGame cg = new ChessGame(-1, -1 , -1, -1);
