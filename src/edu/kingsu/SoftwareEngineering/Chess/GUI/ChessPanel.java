@@ -291,9 +291,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         guiView.setChessPanel(this);
 
         endGameOptions.makeIntoEndGameOptionsScreen("Game Over!");
-        layeredPane.add(endGameOptions, Integer.valueOf(1));
+        if (layeredPane.getComponentCountInLayer(1) == 0)
+            layeredPane.add(endGameOptions, Integer.valueOf(1));
         pawnPromotionScreen.makeIntoPawnPromotionScreen();
-        layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
+        if (layeredPane.getComponentCountInLayer(2) == 0)
+            layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         for (ActionListener al : undoButton.getActionListeners()) {
             if (undoRedoSwitch == true) {
