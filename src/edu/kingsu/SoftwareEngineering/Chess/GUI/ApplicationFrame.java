@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class ApplicationFrame extends JFrame {
 
@@ -33,6 +34,7 @@ public class ApplicationFrame extends JFrame {
     private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
     private JMenuItem turnOnOffNotifications = new JMenuItem("Notifications (on/off)");
     private JMenuItem turnOnOffMoveHints = new JMenuItem("Move Hints (on/off)");
+    private JMenuItem playerOptions = new JMenuItem("Player Options");
 
     private JMenuItem about = new JMenuItem("About");
     private JMenuItem appHelp = new JMenuItem("Application Help");
@@ -131,6 +133,7 @@ public class ApplicationFrame extends JFrame {
         options.add(turnOnOffBoardHighlight);
         options.add(turnOnOffNotifications);
         options.add(turnOnOffMoveHints);
+        options.add(playerOptions);
 
         help.add(chessRules);
         help.add(pieceInfo);
@@ -238,6 +241,19 @@ public class ApplicationFrame extends JFrame {
                 if (chessPanel != null) {
                     chessPanel.moveHintOnOff();
                 }
+            }
+        });
+
+        playerOptions.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Brings up a dialog
+                Object[] options = { "Option 3", "Option 2", "Option 1" };
+                int n = JOptionPane.showOptionDialog(null, "Please select an option", "Player Options",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+
             }
         });
 
