@@ -51,11 +51,23 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ClockView totalGameTime = new ClockView();
     private ButtonContainer buttonContainer = new ButtonContainer();
 
-    private CustomButton undoButton = new CustomButton("Undo");
-    private CustomButton redoButton = new CustomButton("Redo");
-    private CustomButton moveHintButton = new CustomButton("Hint");
-    private CustomButton resignButton = new CustomButton("Resign");
-    private CustomButton pieceInfo = new CustomButton("About Piece");
+    private ImageIcon undoIcon = ChessGameGUIView.openPieceImageFile("images/white_undo.png", 40);
+    private ImageIcon redoIcon = ChessGameGUIView.openPieceImageFile("images/white_redo.png", 40);
+    private ImageIcon hintIcon = ChessGameGUIView.openPieceImageFile("images/white_hint.png", 40);
+    private ImageIcon resignIcon = ChessGameGUIView.openPieceImageFile("images/white_resign.png", 40);
+    private ImageIcon aboutPieceIcon = ChessGameGUIView.openPieceImageFile("images/white_about_piece.png", 40);
+
+
+    private CustomButton undoButton = new CustomButton(undoIcon);
+    // private CustomButton undoButton = new CustomButton("Undo");
+    private CustomButton redoButton = new CustomButton(redoIcon);
+    // private CustomButton redoButton = new CustomButton("Redo");
+    private CustomButton moveHintButton = new CustomButton(hintIcon);
+    // private CustomButton moveHintButton = new CustomButton("Hint");
+    private CustomButton resignButton = new CustomButton(resignIcon);
+    // private CustomButton resignButton = new CustomButton("Resign");
+    private CustomButton pieceInfo = new CustomButton(aboutPieceIcon);
+    // private CustomButton pieceInfo = new CustomButton("About Piece");
     private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
 
     // endGameState is used to determine if the main panel should display the "View
@@ -197,19 +209,19 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         gbForButtonPanel.gridy = 1;
         gbForButtonPanel.gridx = 0;
-        gbForButtonPanel.weightx = 1;
+        gbForButtonPanel.weightx = 0.5;
         gbForButtonPanel.weighty = 1;
         gbForButtonPanel.gridheight = 1;
-        gbForButtonPanel.gridwidth = 4;
+        gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
         invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
 
-        gbForButtonPanel.gridy = 2;
-        gbForButtonPanel.gridx = 0;
-        gbForButtonPanel.weightx = 1;
+        gbForButtonPanel.gridy = 1;
+        gbForButtonPanel.gridx = 1;
+        gbForButtonPanel.weightx = 0.5;
         gbForButtonPanel.weighty = 1;
         gbForButtonPanel.gridheight = 1;
-        gbForButtonPanel.gridwidth = 4;
+        gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
         invisbleButtonContainer.add(resignButton, gbForButtonPanel);
 
