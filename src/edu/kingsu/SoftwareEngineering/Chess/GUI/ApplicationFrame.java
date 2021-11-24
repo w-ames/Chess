@@ -27,6 +27,7 @@ public class ApplicationFrame extends JFrame {
 
     private JMenuItem newGameMenuItem = new JMenuItem("New Game");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
+    private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
 
     private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
@@ -51,7 +52,7 @@ public class ApplicationFrame extends JFrame {
         this.setMinimumSize(new Dimension(1250, 850));
         this.setBackground(new Color(16, 46, 60));
         add(contentPanel);
-    
+
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
 
@@ -114,8 +115,7 @@ public class ApplicationFrame extends JFrame {
         chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
         chessPanel.setundoRedoSwitch(undoRedoSwitch);
         chessPanel.checkTutorialSelections();
-        
-        
+
     }
 
     /**
@@ -125,6 +125,7 @@ public class ApplicationFrame extends JFrame {
 
         file.add(newGameMenuItem);
         file.add(loadGameMenuItem);
+        file.add(saveGameMenuItem);
         file.add(exitMenuItem);
 
         options.add(turnOnOffBoardHighlight);
@@ -168,7 +169,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                  layout.show(contentPanel, "menu");
+                layout.show(contentPanel, "menu");
 
             }
 
@@ -180,6 +181,17 @@ public class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 // Add code for when "Load Game" is selected from menu bar
+
+            }
+
+        });
+
+        saveGameMenuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Add code for when "Save Game" is selected from menu bar
 
             }
 
