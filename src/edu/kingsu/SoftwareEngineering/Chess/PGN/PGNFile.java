@@ -32,7 +32,7 @@ public class PGNFile implements Iterable<String>{
 
         PGNFileLexer lexer= null;
         try{
-            lexer= new PGNFileLexer(new FileReader(file));
+            lexer= new PGNFileLexer(CharStreams.fromReader(new FileReader(file)));
         }catch(Exception e){
             e.printStackTrace();
         }
