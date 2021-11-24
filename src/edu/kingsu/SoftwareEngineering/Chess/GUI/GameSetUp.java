@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Insets;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
