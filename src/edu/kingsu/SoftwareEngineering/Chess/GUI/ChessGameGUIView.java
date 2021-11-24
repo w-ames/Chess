@@ -196,16 +196,22 @@ public class ChessGameGUIView extends ChessGameView {
         gbForBoard.weightx = 1;
         gbForBoard.weighty = 1;
 
-        // Dynamic board resizing when frame is resized by user.
-        if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
-            boardHolder.setMinimumSize(new Dimension(650, 650));
-            boardHolder.setPreferredSize(new Dimension(650, 650));
-            boardHolder.setMaximumSize(new Dimension(650, 650));
-        } else {
-            boardHolder.setMinimumSize(new Dimension(550, 550));
-            boardHolder.setPreferredSize(new Dimension(550, 550));
-            boardHolder.setMaximumSize(new Dimension(550, 550));
-        }
+        // // Dynamic board resizing when frame is resized by user.
+        // if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
+        // boardHolder.setMinimumSize(new Dimension(650, 650));
+        // boardHolder.setPreferredSize(new Dimension(650, 650));
+        // boardHolder.setMaximumSize(new Dimension(650, 650));
+        // } else {
+        // boardHolder.setMinimumSize(new Dimension(550, 550));
+        // boardHolder.setPreferredSize(new Dimension(550, 550));
+        // boardHolder.setMaximumSize(new Dimension(550, 550));
+        // }
+
+        int size = (int) (currentFrameWidth / 3);
+
+        boardHolder.setMaximumSize(new Dimension(size, size));
+        boardHolder.setPreferredSize(new Dimension(size, size));
+        boardHolder.setMinimumSize(new Dimension(size, size));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
