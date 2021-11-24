@@ -128,6 +128,7 @@ public class TestChessGame {
             {' ',' ',' ',' ','Q',' ',' ',' '},
             {' ',' ',' ',' ','k',' ',' ',' '}
         });
+        cg.updateState();
         assertEquals("Game in black checkmate did not return correct enum.", GameState.BLACK_CHECKMATE, cg.getState());
         cg.getBoard().initializeBoard(new char[][] {
             {' ',' ',' ',' ',' ',' ',' ',' '},
@@ -139,6 +140,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '},
             {' ',' ',' ',' ','k',' ',' ',' '}
         });
+        cg.updateState();
         assertEquals("Game in black check did not return correct enum.", GameState.BLACK_CHECK, cg.getState());
         cg.getBoard().initializeBoard(new char[][] {
             {' ',' ',' ',' ',' ',' ',' ',' '},
@@ -150,6 +152,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '},
             {' ',' ',' ',' ','k',' ',' ',' '}
         });
+        cg.updateState();
         assertEquals("Game in stalemate (white has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
         cg.getBoard().initializeBoard(new char[][] {
             {' ',' ',' ',' ','K',' ',' ',' '},
@@ -162,6 +165,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '}
         });
         cg.forceSetPlayerTurn(false);
+        cg.updateState();
         assertEquals("Game in white checkmate did not return correct enum.", GameState.WHITE_CHECKMATE, cg.getState());
         cg.getBoard().initializeBoard(new char[][] {
             {' ',' ',' ',' ','K',' ',' ',' '},
@@ -174,6 +178,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '}
         });
         cg.forceSetPlayerTurn(false);
+        cg.updateState();
         assertEquals("Game in white check did not return correct enum.", GameState.WHITE_CHECK, cg.getState());
         cg.getBoard().initializeBoard(new char[][] {
             {' ',' ',' ',' ','K',' ',' ',' '},
@@ -186,6 +191,7 @@ public class TestChessGame {
             {' ',' ',' ',' ',' ',' ',' ',' '}
         });
         cg.forceSetPlayerTurn(false);
+        cg.updateState();
         assertEquals("Game in stalemate (black has no moves) did not return correct enum.", GameState.STALEMATE_NOMOVES, cg.getState());
         // TODO 50 move, 3-fold, material
     }

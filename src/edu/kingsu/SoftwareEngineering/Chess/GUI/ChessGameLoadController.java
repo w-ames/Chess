@@ -12,13 +12,17 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 
 public class ChessGameLoadController implements ActionListener{
     private ChessGame chessGame;
+    private ApplicationFrame appFrame;
+    private GameSetUp setUp;
 
-    public ChessGameLoadController(ChessGame chessGame){
+    public ChessGameLoadController(ChessGame chessGame, ApplicationFrame appFrame, GameSetUp setUp){
         this.chessGame= chessGame;
+        this.appFrame= appFrame;
+        this.setUp= setUp;
     }
 
     public void actionPerformed(ActionEvent e){
-        JFileChooser chooser= new JFileChooser();
+        JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Load Chess Game");
@@ -35,6 +39,11 @@ public class ChessGameLoadController implements ActionListener{
             File selectedFile= chooser.getSelectedFile();
             try{
                 PGNFile pgnFile= new PGNFile(selectedFile);
+                if (chessGame == null) {
+                    setUp.setPGNFile(pgnFile);
+                } else {
+                    chessGame.loadPGNFile(pgnFile);
+                }
             }catch(FileNotFoundException ex){
                 System.err.println("Could not find the designated file");
                 ex.printStackTrace();
@@ -42,7 +51,10 @@ public class ChessGameLoadController implements ActionListener{
                 System.err.println("File could not be used as a PGN file");
                 ex.printStackTrace();
             }
-            //how to set pgnFile as the member in GameSetUp?
         }
+    }
+
+    public void setChessGame(ChessGame chessGame) {
+        this.chessGame = chessGame;
     }
 }

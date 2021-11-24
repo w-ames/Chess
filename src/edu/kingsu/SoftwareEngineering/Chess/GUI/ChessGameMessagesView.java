@@ -60,9 +60,11 @@ public class ChessGameMessagesView extends ChessGameView {
 
         // Make background of notification display black, and font green to look like
         // terminal.
-        notificaionDisplayArea.setBackground(new Color(40, 40, 40));
-        notificaionDisplayArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        notificaionDisplayArea.setForeground(new Color(245, 245, 245)); // Font color
+        notificaionDisplayArea.setBackground(new Color(232, 232, 232));
+        notificaionDisplayArea.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
+        notificaionDisplayArea.setFont(new Font("Arial", Font.PLAIN, 20));
+        notificaionDisplayArea.setForeground(new Color(16, 46, 60));// Font color
+        notificaionDisplayArea.setEditable(false);
 
         // Add the notifications display panel to this component.
         gb.fill = GridBagConstraints.BOTH;
@@ -73,6 +75,7 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridheight = 3;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
+
         JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollNotifications.setMaximumSize(new Dimension(10, 100));

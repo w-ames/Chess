@@ -707,6 +707,19 @@ public class ChessGameGUIView extends ChessGameView {
     }
 
     /**
+     * Returns the char representation of the piece type on the square indicated by
+     * the arguments.
+     * 
+     * @param row
+     * @param col
+     */
+    public char getPieceTypeOnThisSquare(int row, int col) {
+        char[][] getPieces = getChessGame().getBoardChars();
+
+        return getPieces[row][col];
+    }
+
+    /**
      * Returns the selected row.
      * 
      * @return The selected row.

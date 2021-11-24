@@ -223,9 +223,21 @@ public class PopupLayer extends JPanel {
         chooseRookListener.setChessPanel(chessPanel);
         chooseBishopListener.setChessPanel(chessPanel);
 
+        for (ActionListener al : chooseQueen.getActionListeners()) {
+            chooseQueen.removeActionListener(al);
+        }
         chooseQueen.addActionListener(chooseQueenListener);
+        for (ActionListener al : chooseRook.getActionListeners()) {
+            chooseRook.removeActionListener(al);
+        }
         chooseRook.addActionListener(chooseRookListener);
+        for (ActionListener al : chooseBishop.getActionListeners()) {
+            chooseBishop.removeActionListener(al);
+        }
         chooseBishop.addActionListener(chooseBishopListener);
+        for (ActionListener al : chooseKnight.getActionListeners()) {
+            chooseKnight.removeActionListener(al);
+        }
         chooseKnight.addActionListener(chooseKnightListener);
     }
 
