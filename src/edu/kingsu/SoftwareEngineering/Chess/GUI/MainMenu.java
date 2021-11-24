@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Insets;
 import java.awt.Dimension;
+import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 
 public class MainMenu extends JPanel {
 
@@ -49,8 +51,23 @@ public class MainMenu extends JPanel {
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
+
+                // Start tutorial game from the main menu.
+                boolean highlightMoveSwitch = true;
+                boolean notificationsSwitch = true;
+                boolean moveHintSwitch = true;
+                boolean undoRedoSwitch = true;
+
+                String player1Name = "Student";
+                String player2Name = "Teacher";
+
+                ChessGame chessGame = new ChessGame(-1, 0, -1, -1);
+
+                // Switches allow tutorial options to be turned on or off.
+                container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
+                        undoRedoSwitch, player1Name, player2Name);
+                chessGame.start();
+                container.show("chesspanel");
             }
         });
         helpButton.addActionListener(new ActionListener() {

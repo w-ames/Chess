@@ -253,7 +253,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         if (notificationsOnOff == true) {
             addNotification("Select a chess piece to begin...");
         } else {
-            addNotification("Notifications Off");
+            // Notifications off
         }
 
     }
