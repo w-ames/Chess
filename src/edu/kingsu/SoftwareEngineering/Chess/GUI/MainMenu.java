@@ -25,9 +25,9 @@ public class MainMenu extends JPanel {
         //
 
         // Set a JLabel for the LOGO
-        ImageIcon chessIcon = new ImageIcon("./src/assets/chesslogo.png");
+        ImageIcon chessIcon = new ImageIcon("./src/assets/images/chesslogo.png");
         Image image = chessIcon.getImage();
-        Image newimage = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+        Image newimage = image.getScaledInstance(450,150, java.awt.Image.SCALE_SMOOTH);
         chessIcon = new ImageIcon(newimage);
         JLabel chessTitle = new JLabel(chessIcon);
         chessTitle.setBackground(Color.black);
