@@ -391,7 +391,7 @@ public class TestPGNTranslator {
     public void testEnPassantMoveToPGN() {
         testBoard.initializeBoard(EN_PASSANT_MOVE);
         testBoard.setEnPassantable(2,4);
-        assertEquals("Incorrect PGN String returned for en passant move", "xe6 e.p.", PGNTranslator.translateMoveToPGN(new EnPassantMove(3,5,2,4,3,4), testBoard));
+        assertEquals("Incorrect PGN String returned for en passant move", "fxe6 e.p.", PGNTranslator.translateMoveToPGN(new EnPassantMove(3,5,2,4,3,4), testBoard));
     }
 
     @Test

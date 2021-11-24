@@ -594,11 +594,11 @@ public class TestPGNFile{
         assertTrue("adams has no next move", adamsIterator.hasNext());
         assertEquals("adams move " + moveCounter + "w incorrect", "Ndf3", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEquals("adams move " + moveCounter + "b incorrect", "xd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "b incorrect", "cxd4", adamsIterator.next());
         moveCounter++;
 
         assertTrue("adams has no next move", adamsIterator.hasNext());
-        assertEquals("adams move " + moveCounter + "w incorrect", "xd4", adamsIterator.next());
+        assertEquals("adams move " + moveCounter + "w incorrect", "cxd4", adamsIterator.next());
         assertTrue("adams has no next move", adamsIterator.hasNext());
         assertEquals("adams move " + moveCounter + "b incorrect", "f6", adamsIterator.next());
         moveCounter++;
@@ -768,7 +768,7 @@ public class TestPGNFile{
         moveCounter++;
 
         assertTrue("checkmate has no next move", checkmateIterator.hasNext());
-        assertEquals("checkmate move " + moveCounter + "w incorrect", "Af7#", checkmateIterator.next());
+        assertEquals("checkmate move " + moveCounter + "w incorrect", "Qxf7#", checkmateIterator.next());
         assertFalse("checkmate has next move", checkmateIterator.hasNext());
 
         stalemate= new PGNFile(stalemateFile);
@@ -858,7 +858,7 @@ public class TestPGNFile{
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
         assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "w incorrect", "a6", noSpaceBWTagPairsAndMovesIterator.next());
         assertTrue("noSpaceBWTagPairsAndMoves has no next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
-        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qf2#", noSpaceBWTagPairsAndMovesIterator.next());
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + "b incorrect", "Qxf2#", noSpaceBWTagPairsAndMovesIterator.next());
         
         assertFalse("noSpaceBWTagPairsAndMoves has next move", noSpaceBWTagPairsAndMovesIterator.hasNext());
     }
@@ -1016,9 +1016,9 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "Ndf3", adamsMoveText.get(12));
         moveCounter++;
-        assertEquals("adams move " + moveCounter + " incorrect", "xd4", adamsMoveText.get(13));
+        assertEquals("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(13));
         moveCounter++;
-        assertEquals("adams move " + moveCounter + " incorrect", "xd4", adamsMoveText.get(14));
+        assertEquals("adams move " + moveCounter + " incorrect", "cxd4", adamsMoveText.get(14));
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "f6", adamsMoveText.get(15));
         moveCounter++;
@@ -1032,7 +1032,7 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "Ne2", adamsMoveText.get(20));
         moveCounter++;
-        assertEquals("adams move " + moveCounter + " incorrect", "xe5", adamsMoveText.get(21));
+        assertEquals("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(21));
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "fxe5", adamsMoveText.get(22));
         moveCounter++;
@@ -1046,7 +1046,7 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "Rxf3", adamsMoveText.get(27));
         moveCounter++;
-        assertEquals("adams move " + moveCounter + " incorrect", "xf3", adamsMoveText.get(28));
+        assertEquals("adams move " + moveCounter + " incorrect", "gxf3", adamsMoveText.get(28));
         moveCounter++;
         assertEquals("adams move " + moveCounter + " incorrect", "Nxd4", adamsMoveText.get(29));
         moveCounter++;
@@ -1133,7 +1133,7 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("checkmate move " + moveCounter + " incorrect", "a4", checkmateMoveText.get(5));
         moveCounter++;
-        assertEquals("checkmate move " + moveCounter + " incorrect", "Qf7#", checkmateMoveText.get(6));
+        assertEquals("checkmate move " + moveCounter + " incorrect", "Qxf7#", checkmateMoveText.get(6));
 
         moveCounter= 1;
         stalemate= new PGNFile(stalemateFile);
@@ -1198,10 +1198,10 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "a6", noSpaceBWTagPairsAndMovesMoveText.get(6));
         moveCounter++;
-        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qf2#", noSpaceBWTagPairsAndMovesMoveText.get(7));
+        assertEquals("noSpaceBWTagPairsAndMoves move " + moveCounter + " incorrect", "Qxf2#", noSpaceBWTagPairsAndMovesMoveText.get(7));
 
         moveCounter= 1;
-        inProgressWithMoves= new PGNFile(inProgressTP, inProgressWithMovesMoves, inProgress);
+        inProgressWithMoves1= new PGNFile(inProgressWithMovesFile);
         List<String> inProgressWithMoves1MoveText= inProgressWithMoves1.getMoveTextList();
         assertEquals("inProgressWithMoves1MoveText wrong size", 4, inProgressWithMoves1MoveText.size());
 
@@ -1220,7 +1220,7 @@ public class TestPGNFile{
         moveCounter= 1;
         testGame= new PGNFile(testGameTP, testGameMoves, whiteWin);
         List<String> testGameMoveText= testGame.getMoveTextList();
-        assertEquals("testGameMoveText wrong size", 28, testGameMoveText.size());
+        assertEquals("testGameMoveText wrong size", 31, testGameMoveText.size());
 
         assertEquals("testGame move " + moveCounter + " incorrect", "e4", testGameMoveText.get(0));
         moveCounter++;
@@ -1252,31 +1252,37 @@ public class TestPGNFile{
         moveCounter++;
         assertEquals("testGame move " + moveCounter + " incorrect", "exd6 e.p.", testGameMoveText.get(14));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "d7", testGameMoveText.get(15));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qe7", testGameMoveText.get(15));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "c2", testGameMoveText.get(16));
+        assertEquals("testGame move " + moveCounter + " incorrect", "c4", testGameMoveText.get(16));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Bd2", testGameMoveText.get(17));
+        assertEquals("testGame move " + moveCounter + " incorrect", "dxc3 e.p.", testGameMoveText.get(17));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "c1=Q", testGameMoveText.get(18));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d7", testGameMoveText.get(18));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "d8=Q", testGameMoveText.get(19));
+        assertEquals("testGame move " + moveCounter + " incorrect", "c2", testGameMoveText.get(19));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Qc6", testGameMoveText.get(20));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bd2", testGameMoveText.get(20));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe7", testGameMoveText.get(21));
+        assertEquals("testGame move " + moveCounter + " incorrect", "c1=Q", testGameMoveText.get(21));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Re8", testGameMoveText.get(22));
+        assertEquals("testGame move " + moveCounter + " incorrect", "d8=Q", testGameMoveText.get(22));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Bb5", testGameMoveText.get(23));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qc6", testGameMoveText.get(23));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Nh5", testGameMoveText.get(24));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe7", testGameMoveText.get(24));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Bxc6", testGameMoveText.get(25));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Re8", testGameMoveText.get(25));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Bf4", testGameMoveText.get(26));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bb5", testGameMoveText.get(26));
         moveCounter++;
-        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe8#", testGameMoveText.get(27));
+        assertEquals("testGame move " + moveCounter + " incorrect", "Nh5", testGameMoveText.get(27));
+        moveCounter++;
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bxc6", testGameMoveText.get(28));
+        moveCounter++;
+        assertEquals("testGame move " + moveCounter + " incorrect", "Bf4", testGameMoveText.get(29));
+        moveCounter++;
+        assertEquals("testGame move " + moveCounter + " incorrect", "Qxe8#", testGameMoveText.get(30));
 
         moveCounter= 1;
         testGame2= new PGNFile(testGame2TP, testGame2Moves, blackWin);
@@ -1285,7 +1291,7 @@ public class TestPGNFile{
         
         assertEquals("testGame2 move " + moveCounter + " incorrect", "d4", testGame2MoveText.get(0));
         moveCounter++;
-        assertEquals("testGame2 move " + moveCounter + " incorrect", "Qd5xe8", testGame2MoveText.get(1));
+        assertEquals("testGame2 move " + moveCounter + " incorrect", "d5", testGame2MoveText.get(1));
         moveCounter++;
         assertEquals("testGame2 move " + moveCounter + " incorrect", "Bg5", testGame2MoveText.get(2));
         moveCounter++;
@@ -1445,6 +1451,7 @@ public class TestPGNFile{
     public void testGetFileText() throws IllegalArgumentException, FileNotFoundException{
         adams= new PGNFile(adamsFile);
         String adamsFileText= adams.getFileText();
+        
         String adamsExpectedText=
             "[Event \"Lloyds Bank op\"]\n" +
             "[Site \"London\"]\n" +
@@ -1457,12 +1464,12 @@ public class TestPGNFile{
             "[BlackElo \"\"]\n" +
             "[ECO \"C05\"]\n" +
             "\n" +
-            "1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. f4 c5 6. c3 Nc6 7. Ndf3 cxd4 8. cxd4 f6\n" +
-            "9. Bd3 Bb4+ 10. Bd2 Qb6 11. Ne2 fxe5 12. fxe5 O-O 13. a3 Be7 14. Qc2 Rxf3\n" +
-            "15. gxf3 Nxd4 16. Nxd4 Qxd4 17. O-O-O Nxe5 18. Bxh7+ Kh8 19. Kb1 Qh4 20. Bc3 Bf6\n" +
-            "21. f4 Nc4 22. Bxf6 Qxf6 23. Bd3 b5 24. Qe2 Bd7 25. Rhg1 Be8 26. Rde1 Bf7 27. Rg3 Rc8\n" +
-            "28. Reg1 Nd6 29. Rxg7 Nf5 30. R7g5 Rc7 31. Bxf5 exf5 32 .Rh5+  1-0\n";
-
+            "1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. f4 c5 6. c3 Nc6 7. Ndf3 cxd4 8. cxd4 f6 \n" +
+            "9. Bd3 Bb4+ 10. Bd2 Qb6 11. Ne2 fxe5 12. fxe5 O-O 13. a3 Be7 14. Qc2 Rxf3 \n" +
+            "15. gxf3 Nxd4 16. Nxd4 Qxd4 17. O-O-O Nxe5 18. Bxh7+ Kh8 19. Kb1 Qh4 20. Bc3 Bf6 \n" +
+            "21. f4 Nc4 22. Bxf6 Qxf6 23. Bd3 b5 24. Qe2 Bd7 25. Rhg1 Be8 26. Rde1 Bf7 \n" +
+            "27. Rg3 Rc8 28. Reg1 Nd6 29. Rxg7 Nf5 30. R7g5 Rc7 31. Bxf5 exf5 32. Rh5+ 1-0";
+   
         assertEquals("adams file text incorrect", adamsExpectedText, adamsFileText);
 
         checkmate= new PGNFile(checkmateFile);
@@ -1476,7 +1483,7 @@ public class TestPGNFile{
             "[Black \"Player, Black\"]\n" +
             "[Result \"1-0\"]\n" +
             "\n" +
-            "1. e4 a6 2. Qf3 a5 3. Bc4 a4 4. Qf7# 1-0";
+            "1. e4 a6 2. Qf3 a5 3. Bc4 a4 4. Qxf7# 1-0";
         
         assertEquals("checkmate file text incorrect", checkmateExpectedText, checkmateFileText);
 
@@ -1491,7 +1498,7 @@ public class TestPGNFile{
             "[Black \"Player, Black\"]\n" +
             "[Result \"1/2-1/2\"]\n" +
             "\n" +
-            "1. e3 a5 2. Qh5 Ra6 3. Qxa5 h5 4. Qxc7 Rah6 5. h4 f6 6. Qxd7+ Kf7 7. Qxb7 Qd3\n" +
+            "1. e3 a5 2. Qh5 Ra6 3. Qxa5 h5 4. Qxc7 Rah6 5. h4 f6 6. Qxd7+ Kf7 7. Qxb7 Qd3 \n" +
             "8. Qxb8 Qh7 9. Qxc8 Kg6 10. Qe6 1/2-1/2";
         
         assertEquals("stalemate file text incorrect", stalemateExpectedText, stalemateFileText);
@@ -1499,16 +1506,16 @@ public class TestPGNFile{
         noSpaceBWTagPairsAndMoves= new PGNFile(noSpaceBWTagPairsAndMovesFile);
         String noSpaceBWTagPairsAndMovesFileText= noSpaceBWTagPairsAndMoves.getFileText();
         String noSpaceBWTagPairsAndMovesExpectedText=
-            "[Event \"TestEvent\"]\n" +
-            "[Site \"Edmonton\"]\n" +
-            "[Date \"2021.??.??\"]\n" +
-            "[Round \"\"]\n" +
-            "[White \"Player, White\"]\n" +
-            "[Black \"Player, Black\"]\n" +
-            "[Result \"0-1\"]\n" +
-            "\n" +
-            "1. a3 e5  2. a4 Qf6  3. a5 Bc5  4. a6 Qf2# 0-1";
-        
+        "[Event \"TestEvent\"]\n" +
+        "[Site \"Edmonton\"]\n" +
+        "[Date \"2021.??.??\"]\n" +
+        "[Round \"\"]\n" +
+        "[White \"Player, White\"]\n" +
+        "[Black \"Player, Black\"]\n" +
+        "[Result \"0-1\"]\n" +
+        "\n" +
+        "1. a3 e5 2. a4 Qf6 3. a5 Bc5 4. a6 Qxf2# 0-1";
+
         assertEquals("noSpaceBWTagPairsAndMoves file text incorrect", noSpaceBWTagPairsAndMovesExpectedText, noSpaceBWTagPairsAndMovesFileText);
 
         inProgressWithMoves1= new PGNFile(inProgressWithMovesFile);

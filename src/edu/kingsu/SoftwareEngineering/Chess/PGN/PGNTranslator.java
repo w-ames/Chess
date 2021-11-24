@@ -79,6 +79,16 @@ public class PGNTranslator{
         destRank= "" + convertRowToRank(destRow);
         destFile= convertColLetterToString(ColumnLetter.values()[destCol]);
 
+        //find out if a capture occurred
+        Piece destPiece= board.getPiece(destRow, move.getColTo());
+        if(destPiece != null) capture= "x";
+
+        //check if en passant occurred
+        if(moveType == MoveType.EN_PASSANT){
+            enPassant= " e.p.";
+            capture= "x";
+        }
+
         //disambiguate
 
         //get a list of all squares containing pieces which can attack the same square
@@ -107,19 +117,15 @@ public class PGNTranslator{
             }
         }
 
-        //find out if a capture occurred
-        Piece destPiece= board.getPiece(destRow, move.getColTo());
-        if(destPiece != null) capture= "x";
+        //disambiguate pawn file if a capture occurred using a pawn
+        if(pieceType == PieceType.PAWN && capture.equals("x")){
+            System.err.println("Entered here");
+            disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
+        }
 
         //find out if a pawn got promoted
         if(moveType == MoveType.PAWN_PROMOTION)
             pawnPromo= "=" + convertPieceTypeToString(((PawnPromotionMove)move).getPromotionType());
-        
-        //check if en passant occurred
-        if(moveType == MoveType.EN_PASSANT){
-            enPassant= " e.p.";
-            capture= "x";
-        }
 
         //find out if opponent's king is in check/checkmate
         if(newBoard.getCheckmate(isWhite)) checkmate= "#";
