@@ -18,7 +18,10 @@ public class ChessGameSaveController implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e){
-        JFileChooser chooser= new JFileChooser();
+        if (chessGame == null) {
+            return;
+        }
+        JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Save Chess Game");
@@ -46,12 +49,16 @@ public class ChessGameSaveController implements ActionListener{
 
             try{
                 FileWriter writer= new FileWriter(fileToSave);
-                //writer.write(pgn);
+                writer.write(chessGame.getPGNFile().getFileText());
                 writer.close();
             }catch(IOException ex){
                 System.err.println("IOException when creating FileWriter");
                 ex.printStackTrace();
             }
         }
+    }
+
+    public void setChessGame(ChessGame chessGame) {
+        this.chessGame = chessGame;
     }
 }

@@ -41,6 +41,9 @@ public class ApplicationFrame extends JFrame {
     private JMenuItem chessRules = new JMenuItem("Game Rules");
     private JMenuItem pieceInfo = new JMenuItem("Piece Information");
 
+    private ChessGameSaveController saveController;
+    private ChessGameLoadController loadController;
+
     private int width;
     private int height;
 
@@ -70,6 +73,9 @@ public class ApplicationFrame extends JFrame {
         setPreferredSize(WINDOW_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        saveController = new ChessGameSaveController(null);
+        loadController = new ChessGameLoadController(null, this, gameSetUp);
+        gameSetUp.addLoadListener();
         addMenuBar();
         addActionListenersToMenuBar();
 
@@ -83,6 +89,9 @@ public class ApplicationFrame extends JFrame {
      * @param card The string name of the card to show.
      */
     public void show(String card) {
+        if (card.equalsIgnoreCase("gamesetup")) {
+            getLoadController().setChessGame(null);
+        }
         layout.show(contentPanel, card);
     }
 
@@ -178,27 +187,29 @@ public class ApplicationFrame extends JFrame {
 
         });
 
-        loadGameMenuItem.addActionListener(new ActionListener() {
+        loadGameMenuItem.addActionListener(getLoadController());
+        // loadGameMenuItem.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Load Game" is selected from menu bar
+        //         // Add code for when "Load Game" is selected from menu bar
 
-            }
+        //     }
 
-        });
+        // });
 
-        saveGameMenuItem.addActionListener(new ActionListener() {
+        saveGameMenuItem.addActionListener(getSaveController());
+        // saveGameMenuItem.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Save Game" is selected from menu bar
+        //         // Add code for when "Save Game" is selected from menu bar
 
-            }
+        //     }
 
-        });
+        // });
 
         exitMenuItem.addActionListener(new ActionListener() {
 
@@ -307,4 +318,7 @@ public class ApplicationFrame extends JFrame {
         });
 
     }
+
+    public ChessGameSaveController getSaveController() { return saveController; }
+    public ChessGameLoadController getLoadController() { return loadController; }
 }
