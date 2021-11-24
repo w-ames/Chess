@@ -130,6 +130,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
     @Override
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all
+        algebraicDisplayPanel.setEditable(false);
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
         int lastMoveIndex = getChessGame().latestMoveIndex();
         counter = 0;
@@ -141,17 +142,22 @@ public class ChessGameAlgebraicView extends ChessGameView {
         String test = "";
 
         moveString += "<style>";
-        moveString +="table, th, td {";
-        moveString +=  "border: 1px solid black;";
+        moveString +="table, {";
+        // moveString +=  "border: 1px solid black;";
         moveString +=  "border-radius: 10px;";
         moveString +=  "border-style: groove;";
-        moveString +=  "border-color: #a1b8c2;";
         moveString +="}";
         moveString +="th, td {";
-        moveString +=    "font-size: 1.2em;";
-        moveString +=    "background-color: #a1b8c2;";
+        moveString +=    "font-size: 1.1em;";
+        moveString +=  "border-radius: 10px;";
+        moveString +=    "width: 50px;";
+        moveString +=  "border-color: #404040;";
+        moveString +=  "font-family:Roboto;";
+        moveString +=  "font-color: #404040;";
+        moveString +=    "background-color: #C0C0C0;";
         moveString +="}";
-        moveString +="</style><font style=\"font-family:\'Roboto\'\" size = \"6\"> <table>";
+        moveString +="</style> <table>";
+        // <font style=\"font-family:\'Roboto\'\" size = \"6\">
         for (int i = 0; i < pgnMoves.size(); i++) { 
 
             if (i % 2 == 0) {
