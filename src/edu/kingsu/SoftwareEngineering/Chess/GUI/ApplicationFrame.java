@@ -261,7 +261,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("about");
+                HelpWindow helpWindow = new HelpWindow("about", 3);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -273,7 +273,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("about");
+                HelpWindow helpWindow = new HelpWindow("about", 2);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -285,7 +285,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("chessRules");
+                HelpWindow helpWindow = new HelpWindow("chessRules", 0);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -298,7 +298,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("pieceInfo");
+                HelpWindow helpWindow = new HelpWindow("pieceInfo", 1);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));

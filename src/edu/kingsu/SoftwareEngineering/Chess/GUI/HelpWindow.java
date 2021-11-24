@@ -67,6 +67,21 @@ public class HelpWindow extends JFrame {
 
     }
 
+    public HelpWindow(String orgin, int index) {
+
+        buildChessRulesPanel();
+        buildPieceInfoPanel();
+        buildAppHelpPanel();
+        buildAboutAppPanel();
+        buildLicensePanel();
+        addPanelsToTabbedPane();
+
+        tabbedPane.setSelectedIndex(index);
+
+        this.add(tabbedPane);
+
+    }
+
     private void setBackgroundColors() {
         // Set background color for each tab.
 
