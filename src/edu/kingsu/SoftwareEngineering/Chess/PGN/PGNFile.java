@@ -150,39 +150,49 @@ public class PGNFile implements Iterable<String>{
         //Write moves to the body --> do a maximum of 85 characters to a row without splitting up any entities when creating a new line (let a move number and the moves by both white and black count as one entity)
         int turnCounter= 1;
         int lineCounter= 0; //use to constrict a line to a maximum of 85 characters
-        for(int i=0; i < moveText.size(); i++){
+
+        String move= "";
+        for (int i=0; i < moveText.size(); i++){
+            //generate the string for this pair of moves
             //if it is white's turn, add the turn counter to the string
             if(i % 2 == 0){
-                if(turnCounter < 10) lineCounter += 3;
-                else if(turnCounter < 100) lineCounter += 4;
-                else lineCounter += 5; //this will work properly for a game with up to 999 turns
-
-                //create a new line if at the maximum
-                if(lineCounter > 85){
-                    fileText += "\n";
-                    lineCounter= 0;
-
-                    if(turnCounter < 10) lineCounter += 3;
-                    else if(turnCounter < 100) lineCounter += 4;
-                    else lineCounter += 5;
-                }
-
-                fileText += ("" + turnCounter + ". ");
+                move += ("" + turnCounter + ". ");
                 turnCounter++;
             }
 
-            //add the move to the string
-            if(lineCounter + moveText.get(i).length() > 85){
+            move += (moveText.get(i) + " ");
+            
+            //if this move pair is complete, add it to fileText
+            if(i % 2 == 1){
+                //add a new line if move will cause the current line to be over 85 characters long
+                if(lineCounter + move.length()> 85){
+                    fileText += "\n";
+                    lineCounter= 0;
+                }
+
+                fileText += move;
+                lineCounter += move.length();
+                move = "";
+            }
+        }
+
+        //if the last move in moveText was a white move (not followed by a black move) add the move to fileText
+        if(moveText.size() % 2 == 1){
+            if(lineCounter + move.length()> 85){
                 fileText += "\n";
-                lineCounter= 0;
             }
 
-            fileText += moveText.get(i);
+            fileText += move;
         }
 
         //Write the result at the end
-        fileText += result;
+        String result= getResult();
 
+        if(lineCounter + result.length() > 85){
+            fileText += "\n";
+        }
+
+        fileText += result;
         return fileText;
     }
 

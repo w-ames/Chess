@@ -1451,6 +1451,7 @@ public class TestPGNFile{
     public void testGetFileText() throws IllegalArgumentException, FileNotFoundException{
         adams= new PGNFile(adamsFile);
         String adamsFileText= adams.getFileText();
+        
         String adamsExpectedText=
             "[Event \"Lloyds Bank op\"]\n" +
             "[Site \"London\"]\n" +
@@ -1463,12 +1464,12 @@ public class TestPGNFile{
             "[BlackElo \"\"]\n" +
             "[ECO \"C05\"]\n" +
             "\n" +
-            "1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. f4 c5 6. c3 Nc6 7. Ndf3 cxd4 8. cxd4 f6\n" +
-            "9. Bd3 Bb4+ 10. Bd2 Qb6 11. Ne2 fxe5 12. fxe5 O-O 13. a3 Be7 14. Qc2 Rxf3\n" +
-            "15. gxf3 Nxd4 16. Nxd4 Qxd4 17. O-O-O Nxe5 18. Bxh7+ Kh8 19. Kb1 Qh4 20. Bc3 Bf6\n" +
-            "21. f4 Nc4 22. Bxf6 Qxf6 23. Bd3 b5 24. Qe2 Bd7 25. Rhg1 Be8 26. Rde1 Bf7 27. Rg3 Rc8\n" +
-            "28. Reg1 Nd6 29. Rxg7 Nf5 30. R7g5 Rc7 31. Bxf5 exf5 32 .Rh5+  1-0\n";
-
+            "1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. f4 c5 6. c3 Nc6 7. Ndf3 cxd4 8. cxd4 f6 \n" +
+            "9. Bd3 Bb4+ 10. Bd2 Qb6 11. Ne2 fxe5 12. fxe5 O-O 13. a3 Be7 14. Qc2 Rxf3 \n" +
+            "15. gxf3 Nxd4 16. Nxd4 Qxd4 17. O-O-O Nxe5 18. Bxh7+ Kh8 19. Kb1 Qh4 20. Bc3 Bf6 \n" +
+            "21. f4 Nc4 22. Bxf6 Qxf6 23. Bd3 b5 24. Qe2 Bd7 25. Rhg1 Be8 26. Rde1 Bf7 \n" +
+            "27. Rg3 Rc8 28. Reg1 Nd6 29. Rxg7 Nf5 30. R7g5 Rc7 31. Bxf5 exf5 32. Rh5+ 1-0";
+   
         assertEquals("adams file text incorrect", adamsExpectedText, adamsFileText);
 
         checkmate= new PGNFile(checkmateFile);
@@ -1482,7 +1483,7 @@ public class TestPGNFile{
             "[Black \"Player, Black\"]\n" +
             "[Result \"1-0\"]\n" +
             "\n" +
-            "1. e4 a6 2. Qf3 a5 3. Bc4 a4 4. Qf7# 1-0";
+            "1. e4 a6 2. Qf3 a5 3. Bc4 a4 4. Qxf7# 1-0";
         
         assertEquals("checkmate file text incorrect", checkmateExpectedText, checkmateFileText);
 
@@ -1497,7 +1498,7 @@ public class TestPGNFile{
             "[Black \"Player, Black\"]\n" +
             "[Result \"1/2-1/2\"]\n" +
             "\n" +
-            "1. e3 a5 2. Qh5 Ra6 3. Qxa5 h5 4. Qxc7 Rah6 5. h4 f6 6. Qxd7+ Kf7 7. Qxb7 Qd3\n" +
+            "1. e3 a5 2. Qh5 Ra6 3. Qxa5 h5 4. Qxc7 Rah6 5. h4 f6 6. Qxd7+ Kf7 7. Qxb7 Qd3 \n" +
             "8. Qxb8 Qh7 9. Qxc8 Kg6 10. Qe6 1/2-1/2";
         
         assertEquals("stalemate file text incorrect", stalemateExpectedText, stalemateFileText);
@@ -1505,16 +1506,16 @@ public class TestPGNFile{
         noSpaceBWTagPairsAndMoves= new PGNFile(noSpaceBWTagPairsAndMovesFile);
         String noSpaceBWTagPairsAndMovesFileText= noSpaceBWTagPairsAndMoves.getFileText();
         String noSpaceBWTagPairsAndMovesExpectedText=
-            "[Event \"TestEvent\"]\n" +
-            "[Site \"Edmonton\"]\n" +
-            "[Date \"2021.??.??\"]\n" +
-            "[Round \"\"]\n" +
-            "[White \"Player, White\"]\n" +
-            "[Black \"Player, Black\"]\n" +
-            "[Result \"0-1\"]\n" +
-            "\n" +
-            "1. a3 e5  2. a4 Qf6  3. a5 Bc5  4. a6 Qf2# 0-1";
-        
+        "[Event \"TestEvent\"]\n" +
+        "[Site \"Edmonton\"]\n" +
+        "[Date \"2021.??.??\"]\n" +
+        "[Round \"\"]\n" +
+        "[White \"Player, White\"]\n" +
+        "[Black \"Player, Black\"]\n" +
+        "[Result \"0-1\"]\n" +
+        "\n" +
+        "1. a3 e5 2. a4 Qf6 3. a5 Bc5 4. a6 Qxf2# 0-1";
+
         assertEquals("noSpaceBWTagPairsAndMoves file text incorrect", noSpaceBWTagPairsAndMovesExpectedText, noSpaceBWTagPairsAndMovesFileText);
 
         inProgressWithMoves1= new PGNFile(inProgressWithMovesFile);
