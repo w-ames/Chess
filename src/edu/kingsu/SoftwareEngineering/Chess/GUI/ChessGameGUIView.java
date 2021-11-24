@@ -121,7 +121,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, true);
 
-                    // For 800 x 800 board size.
+                    // For 700 x 700 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -143,7 +143,7 @@ public class ChessGameGUIView extends ChessGameView {
                     location += translateNumbericalCoordToAlgebraic(i);
                     Square newSquare = new Square(location, false);
 
-                    // For 800 x 800 board size.
+                    // For 700 x 700 board size.
                     if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                         newSquare.setMinimumSize(new Dimension(80, 80));
@@ -198,9 +198,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         // Dynamic board resizing when frame is resized by user.
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
-            boardHolder.setMinimumSize(new Dimension(850, 850));
-            boardHolder.setPreferredSize(new Dimension(800, 800));
-            boardHolder.setMaximumSize(new Dimension(800, 800));
+            boardHolder.setMinimumSize(new Dimension(700, 700));
+            boardHolder.setPreferredSize(new Dimension(700, 700));
+            boardHolder.setMaximumSize(new Dimension(700, 700));
         } else {
             boardHolder.setMinimumSize(new Dimension(550, 550));
             boardHolder.setPreferredSize(new Dimension(550, 550));
@@ -239,7 +239,7 @@ public class ChessGameGUIView extends ChessGameView {
         char[][] pieces = getChessGame().getBoardChars();
 
         //
-        // For 800 x 800 board size.
+        // For 700 x 700 board size.
         //
         if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
@@ -624,7 +624,7 @@ public class ChessGameGUIView extends ChessGameView {
      */
     public void loadPieceIconsIntoIconVariables() {
 
-        // For 800 x 800 board size.
+        // For 700 x 700 board size.
         int largeKingSize = 75;
         int largeQueenSize = 70;
         int largeKnightSize = 70;
@@ -835,7 +835,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb.gridy = j;
             j++;
 
-            // For 800 x 800 board size.
+            // For 700 x 700 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -887,7 +887,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 800 x 800 board size.
+            // For 700 x 700 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -951,7 +951,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb2.gridy = j;
             j++;
 
-            // For 800 x 800 board size.
+            // For 700 x 700 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
@@ -1021,7 +1021,7 @@ public class ChessGameGUIView extends ChessGameView {
             rfgb1.gridx = j;
             j++;
 
-            // For 800 x 800 board size.
+            // For 700 x 700 board size.
             if (currentFrameWidth > 1750 || currentFrameHeight > 1100) {
 
                 rankSquare.setMinimumSize(new Dimension(80, 80));
