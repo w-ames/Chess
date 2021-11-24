@@ -207,7 +207,7 @@ public class ChessGameGUIView extends ChessGameView {
         // boardHolder.setMaximumSize(new Dimension(550, 550));
         // }
 
-        int size = (int) (currentFrameWidth / 2.5);
+        int size = (int) (currentFrameHeight / 3);
 
         boardHolder.setMaximumSize(new Dimension(size, size));
         boardHolder.setPreferredSize(new Dimension(size, size));
