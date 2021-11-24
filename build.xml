@@ -16,25 +16,54 @@
     <property name="assets.dir" location="${src.dir}/assets"/>
     <property name="doc.dir" location="doc"/>
     <property name="jar.file" value="chess.jar"/>
+    <property name="antlr.grammar.dir" location="${src.dir}/edu/kingsu/SoftwareEngineering/Chess/PGN/Parser"/>
+    <property name="antlr.grammar.file" location="${antlr.grammar.dir}/PGNFile.g4"/>
+
+    <path id="classpath.antlr">
+        <pathelement location="${user.home}/.ant/lib/antlr.jar"/>
+    </path>
 
     <path id="classpath.base">
         <pathelement location="${classes.dir}"/>
+        <pathelement location="${user.home}/.ant/lib/commons-lang3.jar"/>
+        <path refid="classpath.antlr"/>
     </path>
 
 	<path id="classpath.test">
 		<pathelement location="${user.home}/.ant/lib/ant-junit.jar"/>
 		<pathelement location="${user.home}/.ant/lib/junit.jar"/>
+		<!-- <pathelement location="${user.home}/.ant/lib/antlr.jar"/> -->
 		<pathelement location="${test.classes.dir}"/>
 		<path refid="classpath.base"/>
 	</path>
 
 	<available classname="org.junit.runner.Runner" property="junit.installed"/>
 	<available classname="org.hamcrest.SelfDescribing" property="hamcrest.installed"/>
+	<available classname="org.antlr.v4.Tool" property="antlr.installed"/>
+    <available file="${lib.dir}/antlr.jar" property="antlr-runtime.installed"/>
+    <!-- <available file="${src.parser.dir}" property="antlr-parser.generated"/> -->
+    <available file="${lib.dir}/commons-lang3.jar" property="commons-lang3.installed"/>
+
+    <uptodate property="antlr-parser.uptodate" targetfile="${antlr.grammar.file}">
+        <srcfiles dir="${antlr.grammar.dir}" includes="*.java"/>
+        <srcfiles dir="${antlr.grammar.dir}" includes="*.interp"/>
+        <srcfiles dir="${antlr.grammar.dir}" includes="*.tokens"/>
+    </uptodate>
+    <available file="${antlr.grammar.dir}/PGNFileParser.java" property="antler-parser.exists"/>
+
+    <condition property="antlr-parser.generated">
+        <and>
+			<isset property="antlr-parser.uptodate"/>
+			<isset property="antlr-parser.exists"/>
+        </and>
+    </condition>
 
 	<condition property="libs.installed">
 		<and>
 			<isset property="junit.installed"/>
 			<isset property="hamcrest.installed"/>
+			<isset property="antlr.installed"/>
+			<isset property="commons-lang3.installed"/>
 		</and>
 	</condition>
 
@@ -47,7 +76,53 @@
         </jar>
     </target>
 
-    <target name="init" depends="install-junit" description="Create directories">
+    <macrodef name="antlr4">
+        <attribute name="srcpath"/>
+        <element name="args" optional="true"/>
+        <sequential>
+            <local name="package"/>
+            <local name="paths.antlr4.local"/>
+            <pathconvert property="package" dirsep=".">
+                <path location="${antlr.dir}/@{srcpath}"/>
+                <map from="${antlr.dir}/" to=""/>
+            </pathconvert>
+            <path id="sources.antlr4.@{srcpath}">
+                <fileset dir="${antlr.dir}/@{srcpath}" includes="*.g4"/>
+            </path>
+            <pathconvert property="paths.antlr4.local" refid="sources.antlr4.@{srcpath}" pathsep=" ">
+                <map from="${antlr.dir}/@{srcpath}/" to=""/>
+            </pathconvert>
+            <java classname="org.antlr.v4.Tool" fork="true" failonerror="true" dir="${antlr.dir}/@{srcpath}">
+                <arg value="-o"/>
+                <arg value="generated"/>
+                <arg value="-package"/>
+                <arg value="${package}.generated"/>
+                <args/>
+                <arg line="${paths.antlr4.local}"/>
+                <classpath>
+                    <path refid="classpath.antlr"/>
+                    <pathelement location="${java.class.path}"/>
+                </classpath>
+            </java>
+        </sequential>
+    </macrodef>
+
+    <target name="antlr" depends="init" description="Set-up antlr">
+		<get dest="${user.home}/.ant/lib/antlr.jar" src="https://www.antlr.org/download/antlr-4.9.2-complete.jar" unless:set="antlr.installed"/>
+        <get dest="${lib.dir}/antlr.jar" src="https://www.antlr.org/download/antlr-runtime-4.9.2.jar" unless:set="antlr-runtime.installed"/>
+        <java classname="org.antlr.v4.Tool" fork="true" failonerror="true" dir="${antlr.grammar.dir}" unless:set="antlr-parser.generated">
+            <arg value="-visitor"/>
+            <arg value="-package"/>
+            <arg value="edu.kingsu.SoftwareEngineering.Chess.PGN.Parser"/>
+            <arg value="${antlr.grammar.file}"/>
+            <classpath>
+                <path refid="classpath.antlr"/>
+                <pathelement location="${java.class.path}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="init" description="Create directories">
         <mkdir dir="${src.dir}"/>
         <mkdir dir="${assets.dir}"/>
         <mkdir dir="${lib.dir}"/>
@@ -56,11 +131,14 @@
         <mkdir dir="${report.dir}"/>
     </target>
 
-	<target name="install-junit" unless="libs.installed" >
+	<target name="install-libs" depends="init,antlr" unless="libs.installed" >
 		<mkdir dir="${user.home}/.ant/lib"/>
+        <mkdir dir="${lib.dir}"/>
 		<get dest="${user.home}/.ant/lib/hamcrest-core.jar" src="http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" unless:set="hamcrest.installed"/>
 		<get dest="${user.home}/.ant/lib/ant-junit.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ant/ant-junit/1.9.6/ant-junit-1.9.6.jar" unless:set="junit.installed"/>
 		<get dest="${user.home}/.ant/lib/junit.jar" src="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar" unless:set="junit.installed"/>
+        <get dest="${user.home}/.ant/lib/commons-lang3.jar" src="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" unless:set="commons-lang3.installed"/>
+        <get dest="${lib.dir}/commons-lang3.jar" src="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" unless:set="commons-lang3.installed"/>
 
 		<fail message="Required Libraries installed. Please run the build again"/>
 	</target>
@@ -68,9 +146,16 @@
     <target name="clean" description="Clean the project (Remove build files &amp; docs)">
         <delete dir="${build.dir}"/>
         <delete dir="${doc.dir}"/>
+        <delete dir="${report.dir}"/>
+        <!-- <delete dir="${lib.dir}"/> -->
+        <delete>
+            <fileset dir="${antlr.grammar.dir}" includes="*.java"/>
+            <fileset dir="${antlr.grammar.dir}" includes="*.interp"/>
+            <fileset dir="${antlr.grammar.dir}" includes="*.tokens"/>
+        </delete>
     </target>
 
-    <target name="compile" depends="init" description="Compile the code into classes (build/classes/)">
+    <target name="compile" depends="init,install-libs,antlr" description="Compile the code into classes (build/classes/)">
         <javac srcdir="${src.dir}" destdir="${classes.dir}" verbose="${verbose.output}" includeantruntime="false">
             <classpath refid="classpath.base"/>
         </javac>

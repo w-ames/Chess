@@ -27,18 +27,25 @@ public class PlayerHuman extends Player {
             synchronized (getChessGame()) {
                 try {
                     while (getChessGame().getPlayerTurn() != this) {
+                        // System.err.println("NOT HUMAN TURN-WAIT");
+                        getChessGame().notify();
                         getChessGame().wait();
                     }
+                    // System.err.println("ABOUT TO SET THREAD IN HUMAN RUN");
                     if (getAIDepth() <= 0) {
                         setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
                     } else {
                         setAIThread(ChessAI.bestMove(getChessGame().getBoard(), getAIDepth(), isWhite()));
                     }
                     // getAIThread().start();
-                    while (getChessGame().getPlayerTurn() == this) {
+                    // while (getChessGame().getPlayerTurn() == this) {
+                        // System.err.println("HUMAN TURN-WAIT");
+                        // getChessGame().notify();
                         getChessGame().wait();
-                    }
+                    // }
+                    // System.err.println("HUMAN ENDS TURN");
                 } catch(InterruptedException e) {
+                    // System.err.println("RESET AI THREAD?");
                     resetAIThread();
                     break;
                 }

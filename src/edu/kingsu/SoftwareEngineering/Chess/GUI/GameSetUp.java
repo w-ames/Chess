@@ -9,11 +9,13 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Insets;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
 
     private ApplicationFrame container;
+    private PGNFile pgnFile;
 
     MainLayer background = new MainLayer();
     ButtonContainer player1Panel = new ButtonContainer();
@@ -504,12 +506,19 @@ public class GameSetUp extends JPanel {
 
                 ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()],
                         playerDepthList[player2Box.getSelectedIndex()], -1, -1);
+                container.getSaveController().setChessGame(chessGame);
+                container.getLoadController().setChessGame(chessGame);
 
                 // Switches allow tutorial options to be turned on or off.
                 container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
                         undoRedoSwitch, player1Name, player2Name);
-                chessGame.start();
+                if (getPGNFile() != null) {
+                    chessGame.loadPGNFile(getPGNFile());
+                } else {
+                    chessGame.start();
+                }
                 container.show("chesspanel");
+                setPGNFile(null);
             }
         });
 
@@ -527,16 +536,20 @@ public class GameSetUp extends JPanel {
             }
         });
 
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //
-                //
-                // Add code for load game here
-                //
-                //
-            }
-        });
+        //loadButton.addActionListener(new ActionListener() {
+        //    @Override
+        //    public void actionPerformed(ActionEvent e) {
+        //        //
+        //        //
+        //        // Add code for load game here
+        //        //
+        //        //
+        //    }
+        //});
+    }
+
+    public void addLoadListener() {
+        loadButton.addActionListener(container.getLoadController());
     }
 
     /**
@@ -575,6 +588,14 @@ public class GameSetUp extends JPanel {
         moveHint.setSelected(moveHintSwitch);
         undoRedo.setSelected(undoRedoSwitch);
         notification.setSelected(notificationsSwitch);
+    }
+
+    public void setPGNFile(PGNFile file){
+        pgnFile= file;
+    }
+
+    public PGNFile getPGNFile(){
+        return pgnFile;
     }
 
 }

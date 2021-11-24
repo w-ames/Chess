@@ -85,7 +85,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         this.container = container;
 
-
         // Set layout for layeredPanes.
         // LayeredPane is used to give z index for mainLayer and the two popuplayers:
         // endGameOptions, pawnPromotionScreen.
@@ -254,7 +253,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         if (notificationsOnOff == true) {
             addNotification("Select a chess piece to begin...");
         } else {
-            addNotification("Notifications Off");
+            // Notifications off
         }
 
     }
@@ -264,10 +263,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
-
-        // Sets player names on clock 
-        player1Clock.addPlayerName(player1Name); 
-        player2Clock.addPlayerName(player2Name);
+        // Sets player names on clock
+        player1Clock.addPlayerName(player1Name, "White: ");
+        player2Clock.addPlayerName(player2Name, "Black: ");
 
         // *** These are for skeleton view only, time needs to be made dynamic *****
         player1Clock.updatePlayerTime("5:01   ");
@@ -275,7 +273,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         totalGameTime.updateTotalGameTime("23:00");
 
         /////////////////////////////////////////////////////////
- 
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
@@ -294,9 +291,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         guiView.setChessPanel(this);
 
         endGameOptions.makeIntoEndGameOptionsScreen("Game Over!");
-        layeredPane.add(endGameOptions, Integer.valueOf(1));
+        if (layeredPane.getComponentCountInLayer(1) == 0)
+            layeredPane.add(endGameOptions, Integer.valueOf(1));
         pawnPromotionScreen.makeIntoPawnPromotionScreen();
-        layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
+        if (layeredPane.getComponentCountInLayer(2) == 0)
+            layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         for (ActionListener al : undoButton.getActionListeners()) {
             if (undoRedoSwitch == true) {
@@ -329,7 +328,51 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             }
         });
 
-        
+        for (ActionListener al : pieceInfo.getActionListeners()) {
+            pieceInfo.removeActionListener(al);
+        }
+        pieceInfo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                char pieceType = ' ';
+                int tabPageSwitch = 0;
+
+                // Check which piece the user has selected and open the corresponding about
+                // piece dialog
+                int selectedRow = -1;
+                int selectedCol = -1;
+
+                if (guiView.getSelectedCol() != -1) {
+                    selectedRow = guiView.getSelectedRow();
+                    selectedCol = guiView.getSelectedCol();
+                }
+
+                if (selectedRow != -1) {
+                    pieceType = guiView.getPieceTypeOnThisSquare(selectedRow, selectedCol);
+                }
+
+                if (pieceType == ' ') {
+                    // No piece is selcted
+                } else if (pieceType == 'p' || pieceType == 'P') {
+                    tabPageSwitch = 0;
+                } else if (pieceType == 'r' || pieceType == 'R') {
+                    tabPageSwitch = 1;
+                } else if (pieceType == 'b' || pieceType == 'B') {
+                    tabPageSwitch = 2;
+                } else if (pieceType == 'n' || pieceType == 'N') {
+                    tabPageSwitch = 3;
+                } else if (pieceType == 'q' || pieceType == 'Q') {
+                    tabPageSwitch = 4;
+                } else if (pieceType == 'k' || pieceType == 'K') {
+                    tabPageSwitch = 5;
+                }
+
+                HelpWindow helpWindow = new HelpWindow("pieceInfo", 1, tabPageSwitch);
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+        });
 
     }
 
@@ -570,13 +613,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
-    * Allows the player names to be set for use in the player game clock display
-    * @param player1 The name of the first player. 
-    * @param player2 the name of the second player.
-    */
-    public void setPlayerNames(String player1, String player2){
+     * Allows the player names to be set for use in the player game clock display
+     * 
+     * @param player1 The name of the first player.
+     * @param player2 the name of the second player.
+     */
+    public void setPlayerNames(String player1, String player2) {
         this.player1Name = player1;
-        this.player2Name = player2; 
+        this.player2Name = player2;
     }
 
     /**

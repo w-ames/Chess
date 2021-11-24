@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class ApplicationFrame extends JFrame {
 
@@ -27,16 +28,21 @@ public class ApplicationFrame extends JFrame {
 
     private JMenuItem newGameMenuItem = new JMenuItem("New Game");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
+    private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
 
     private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
     private JMenuItem turnOnOffNotifications = new JMenuItem("Notifications (on/off)");
     private JMenuItem turnOnOffMoveHints = new JMenuItem("Move Hints (on/off)");
+    private JMenuItem playerOptions = new JMenuItem("Player Options");
 
     private JMenuItem about = new JMenuItem("About");
     private JMenuItem appHelp = new JMenuItem("Application Help");
     private JMenuItem chessRules = new JMenuItem("Game Rules");
     private JMenuItem pieceInfo = new JMenuItem("Piece Information");
+
+    private ChessGameSaveController saveController;
+    private ChessGameLoadController loadController;
 
     private int width;
     private int height;
@@ -51,7 +57,7 @@ public class ApplicationFrame extends JFrame {
         this.setMinimumSize(new Dimension(1250, 850));
         this.setBackground(new Color(16, 46, 60));
         add(contentPanel);
-    
+
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
 
@@ -67,6 +73,9 @@ public class ApplicationFrame extends JFrame {
         setPreferredSize(WINDOW_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        saveController = new ChessGameSaveController(null);
+        loadController = new ChessGameLoadController(null, this, gameSetUp);
+        gameSetUp.addLoadListener();
         addMenuBar();
         addActionListenersToMenuBar();
 
@@ -80,6 +89,9 @@ public class ApplicationFrame extends JFrame {
      * @param card The string name of the card to show.
      */
     public void show(String card) {
+        if (card.equalsIgnoreCase("gamesetup")) {
+            getLoadController().setChessGame(null);
+        }
         layout.show(contentPanel, card);
     }
 
@@ -114,8 +126,7 @@ public class ApplicationFrame extends JFrame {
         chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
         chessPanel.setundoRedoSwitch(undoRedoSwitch);
         chessPanel.checkTutorialSelections();
-        
-        
+
     }
 
     /**
@@ -125,11 +136,13 @@ public class ApplicationFrame extends JFrame {
 
         file.add(newGameMenuItem);
         file.add(loadGameMenuItem);
+        file.add(saveGameMenuItem);
         file.add(exitMenuItem);
 
         options.add(turnOnOffBoardHighlight);
         options.add(turnOnOffNotifications);
         options.add(turnOnOffMoveHints);
+        options.add(playerOptions);
 
         help.add(chessRules);
         help.add(pieceInfo);
@@ -168,22 +181,35 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                  layout.show(contentPanel, "menu");
+                layout.show(contentPanel, "menu");
 
             }
 
         });
 
-        loadGameMenuItem.addActionListener(new ActionListener() {
+        loadGameMenuItem.addActionListener(getLoadController());
+        // loadGameMenuItem.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Load Game" is selected from menu bar
+        //         // Add code for when "Load Game" is selected from menu bar
 
-            }
+        //     }
 
-        });
+        // });
+
+        saveGameMenuItem.addActionListener(getSaveController());
+        // saveGameMenuItem.addActionListener(new ActionListener() {
+
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+
+        //         // Add code for when "Save Game" is selected from menu bar
+
+        //     }
+
+        // });
 
         exitMenuItem.addActionListener(new ActionListener() {
 
@@ -229,11 +255,24 @@ public class ApplicationFrame extends JFrame {
             }
         });
 
+        playerOptions.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Brings up a dialog
+                Object[] options = { "Option 3", "Option 2", "Option 1" };
+                int n = JOptionPane.showOptionDialog(null, "Please select an option", "Player Options",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+
+            }
+        });
+
         about.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("about");
+                HelpWindow helpWindow = new HelpWindow("about", 3);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -245,7 +284,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("about");
+                HelpWindow helpWindow = new HelpWindow("about", 2);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -257,7 +296,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("chessRules");
+                HelpWindow helpWindow = new HelpWindow("chessRules", 0);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -270,7 +309,7 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                HelpWindow helpWindow = new HelpWindow("pieceInfo");
+                HelpWindow helpWindow = new HelpWindow("pieceInfo", 1);
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
@@ -279,4 +318,7 @@ public class ApplicationFrame extends JFrame {
         });
 
     }
+
+    public ChessGameSaveController getSaveController() { return saveController; }
+    public ChessGameLoadController getLoadController() { return loadController; }
 }

@@ -391,7 +391,7 @@ public class TestPGNTranslator {
     public void testEnPassantMoveToPGN() {
         testBoard.initializeBoard(EN_PASSANT_MOVE);
         testBoard.setEnPassantable(2,4);
-        assertEquals("Incorrect PGN String returned for en passant move", "xe6 e.p.", PGNTranslator.translateMoveToPGN(new EnPassantMove(3,5,2,4,3,4), testBoard));
+        assertEquals("Incorrect PGN String returned for en passant move", "fxe6 e.p.", PGNTranslator.translateMoveToPGN(new EnPassantMove(3,5,2,4,3,4), testBoard));
     }
 
     @Test
@@ -540,6 +540,29 @@ public class TestPGNTranslator {
         assertEquals("Incorrect Move returned for castle check move", new CastlingMove(7,4,7,2,7,0,7,3), PGNTranslator.translatePGNToMove("OOO++", testBoard, true));
     }
 
+    private static final char[][] BUG_FIX = { //capital=black, lowercase=white
+        {' ',' ','R',' ',' ',' ',' ','K'},
+        {'P',' ',' ',' ',' ','B','r',' '},
+        {' ',' ',' ',' ','P','Q',' ',' '},
+        {' ','P',' ','P',' ','N',' ',' '},
+        {' ',' ',' ',' ',' ','p',' ',' '},
+        {'p',' ',' ','b',' ',' ',' ',' '},
+        {' ','p',' ',' ','q',' ',' ','p'},
+        {' ','k',' ',' ',' ',' ','r',' '},
+    };
+
+    @Test
+    public void bugFix() {
+        testBoard.initializeBoard(BUG_FIX);
+        assertEquals("Incorrect PGN String returned for bug fix", "R7g5", PGNTranslator.translateMoveToPGN(new Move(1,6,3,6), testBoard));
+    }
+
+    @Test
+    public void bugFixA(){
+        testBoard.initializeBoard(BUG_FIX);
+        assertEquals("Incorrect PGN String returned for bug fix", new Move(1,6,3,6), PGNTranslator.translatePGNToMove("R7g5", testBoard, true));
+    }
+    
     @After
     public void teardown(){
         testBoard= null;

@@ -1,6 +1,7 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -30,6 +31,7 @@ public class ChessGame {
     private List<ChessGameView> views;
     private static final int HINT_THREAD_ATTEMPT_MAX = 10;
     private static final int HINT_THREAD_ATTEMPT_SLEEP = 1000;
+    private GameState currentState;
 
     // Overall game time
     private int interval;
@@ -48,6 +50,7 @@ public class ChessGame {
      *  upon making a move
      */
     public ChessGame(int whiteAI, int blackAI, int playerInterval, int playerIncrement) {
+        tagPairs = new LinkedHashMap<String,String>();
         playerTurnLock = new Object();
         views = new ArrayList<ChessGameView>();
         initialize(whiteAI, blackAI, playerInterval, playerIncrement);
@@ -93,6 +96,7 @@ public class ChessGame {
         // whitePlayerThread = new Thread(whitePlayer);
         // blackPlayerThread = new Thread(blackPlayer);
         board = new Board();
+        updateState();
     }
 
     /**
@@ -142,9 +146,9 @@ public class ChessGame {
      */
     public void forceSetPlayerTurn(boolean toWhite) {
         // TODO test
-        System.err.println("ENTERING PLAYERTURN LOCK");
+        // System.err.println("ENTERING PLAYERTURN LOCK");
         synchronized (playerTurnLock) {
-            System.err.println("ENTERED PLAYERTURN LOCK");
+            // System.err.println("ENTERED PLAYERTURN LOCK");
             playerTurn = toWhite ? whitePlayer : blackPlayer;
         }
     }
@@ -166,15 +170,22 @@ public class ChessGame {
      * @return the current state of the game.
      */
     public GameState getState() {
+        return currentState;
+    }
+
+    /**
+     * Updates the current state of the game.
+     */
+    public void updateState() {
         boolean isWhiteTurn = getPlayerTurn().isWhite();
         if (board.getCheckmate(!isWhiteTurn)) {
-            return isWhiteTurn == true ? GameState.BLACK_CHECKMATE : GameState.WHITE_CHECKMATE;
+            currentState = isWhiteTurn == true ? GameState.BLACK_CHECKMATE : GameState.WHITE_CHECKMATE;
         } else if (board.getCheck(!isWhiteTurn)) {
-            return isWhiteTurn == true ? GameState.BLACK_CHECK : GameState.WHITE_CHECK;
+            currentState = isWhiteTurn == true ? GameState.BLACK_CHECK : GameState.WHITE_CHECK;
         } else if (board.getAllMoves(isWhiteTurn).isEmpty()) {
-            return GameState.STALEMATE_NOMOVES;
+            currentState = GameState.STALEMATE_NOMOVES;
         } else {
-            return GameState.ACTIVE;
+            currentState = GameState.ACTIVE;
         }
     }
 
@@ -242,13 +253,21 @@ public class ChessGame {
      *  <code>false</code> otherwise
      */
     public  boolean performMove(Move move, boolean humanMoveMaker) {
+        if (humanMoveMaker != getPlayerTurn().isHuman()) {
+            return false;
+        }
         synchronized (this) {
-            if (humanMoveMaker == getPlayerTurn().isHuman() && validateMove(move)) {
+            if (validateMove(move)) {
                 synchronized (playerTurnLock) {
                     performMove(move);
+                    updateState();
+                    if (getState() != GameState.ACTIVE) {
+                        gameOver();
+                    }
                     notifyViews();
-                    this.notifyAll();
                 }
+                this.notifyAll();
+                // System.err.println("Move made & all notified");
                 return true;
             } else {
                 return false;
@@ -364,6 +383,7 @@ public class ChessGame {
      * Ends this game of chess according to the current game state.
      */
     public void gameOver() {
+        stop();
     }
 
     private void setInterval() {
@@ -376,10 +396,10 @@ public class ChessGame {
      *  moves to undo
      */
     public boolean undo() {
+        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+            return false;
+        }
         synchronized(this) {
-            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
-                return false;
-            }
             Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
             int endMoveNo = moveNo-1;
             if (!otherPlayer.isHuman()) {
@@ -398,6 +418,9 @@ public class ChessGame {
                 performMove(moveHistory.get(i));
             }
         }
+        if (currentState != GameState.ACTIVE) {
+            updateState();
+        }
         start();
         return true;
     }
@@ -409,10 +432,10 @@ public class ChessGame {
      *  moves to redo
      */
     public boolean redo() {
+        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+            return false;
+        }
         synchronized(this) {
-            if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
-                return false;
-            }
             Player otherPlayer = playerTurn==whitePlayer ? blackPlayer : whitePlayer;
             int endMoveNo = moveNo+1;
             if (!otherPlayer.isHuman()) {
@@ -482,6 +505,7 @@ public class ChessGame {
      *  interrupted or times out
      */
     public char[][] getHumanHint() {
+        // System.err.println("HINT CALLED");
         if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
             return null;
         }
@@ -529,16 +553,27 @@ public class ChessGame {
             // }
 
             // synchronized (playerTurnLock) {
-                synchronized (playerTurn) {
-                    if (playerTurn.getAIThread() == null) {
-                        playerTurn.wait();
+                synchronized (getPlayerTurn()) {
+                // synchronized (playerTurn) {
+                    // if (playerTurn.getAIThread() == null) {
+                    //     System.err.println("ABOUT TO WAIT");
+                    //     playerTurn.wait();
+                    //     System.err.println("DONE WAITING");
+                    // }
+                    // hintThread = playerTurn.getAIThread();
+                    while (hintThread == null) {
+                        hintThread = playerTurn.getAIThread();
+                        if (hintThread == null) {
+                            // System.err.println("ABOUT TO WAIT");
+                            playerTurn.wait();
+                            // System.err.println("DONE WAITING");
+                        }
                     }
-                    hintThread = playerTurn.getAIThread();
                 }
             // }
-            if (hintThread == null) {
-                return null;
-            }
+            // if (hintThread == null) {
+            //     return null;
+            // }
         } catch(InterruptedException e) {
             System.err.println("Error: Was interrupted/timed out during move calculation thread retrieval.");
             return null;
@@ -594,6 +629,82 @@ public class ChessGame {
 
     public int latestMoveIndex() {
         return moveNo-1;
+    }
+
+    public void resign() {
+        Player resigner = getPlayerTurn();
+        if (resigner.isHuman()) {
+            currentState = resigner.isWhite() ? GameState.WHITE_RESIGN : GameState.BLACK_RESIGN;
+            gameOver();
+        }
+    }
+
+    public PGNFile getPGNFile() {
+        String resultStr = "";
+        switch (currentState) {
+            case WHITE_CHECKMATE:
+            case BLACK_RESIGN:
+                resultStr = "1-0";
+                break;
+            case BLACK_CHECKMATE:
+            case WHITE_RESIGN:
+                resultStr = "0-1";
+                break;
+            case STALEMATE_50MOVES:
+            case STALEMATE_NOMOVES:
+            case STALEMATE_REPITITION:
+                resultStr = "1/2-1/2";
+                break;
+            default:
+                resultStr = "*";
+                break;
+        }
+        String whiteStr = (whitePlayer.isHuman() ? "Human" : "AI "+whitePlayer.getAIDepth());
+        String blackStr = (blackPlayer.isHuman() ? "Human" : "AI "+blackPlayer.getAIDepth());
+        tagPairs.putIfAbsent("Event", "Casual Chess Game");
+        tagPairs.putIfAbsent("Site", System.getProperty("user.name")+"'s computer");
+        tagPairs.putIfAbsent("Date", ""+java.time.LocalDate.now());
+        tagPairs.putIfAbsent("Round", "");
+        tagPairs.putIfAbsent("White", whiteStr);
+        tagPairs.putIfAbsent("Black", blackStr);
+        tagPairs.put("Result", resultStr);
+        return new PGNFile(tagPairMap(), getAlgebraicHistory(), resultStr);
+    }
+
+    public boolean loadPGNFile(PGNFile pgnFile) {
+        if (pgnFile == null) {
+            System.err.println("Attempted to load null pgn file");
+            return false;
+        }
+        stop();
+        Board oldBoard = board;
+        List<Move> oldMoveHistory = new ArrayList<Move>(moveHistory);
+        List<String> oldAlgebraicHistory = new ArrayList<String>(algebraicHistory);
+        moveHistory = new ArrayList<Move>();
+        algebraicHistory = new ArrayList<String>();
+        board = new Board();
+        forceSetPlayerTurn(true);
+        boolean failFlag = false;
+        for (String movePgn : pgnFile.getMoveTextList()) {
+            Move move = null;
+            try {
+                move = PGNTranslator.translatePGNToMove(movePgn, board, getPlayerTurn().isWhite());
+                performMove(move);
+            } catch(Exception e){
+                System.err.println("Could not load PGNFile to game:\n");
+                e.printStackTrace();
+                failFlag = true;
+            }
+        }
+        if (failFlag) {
+            board = oldBoard;
+            moveHistory = oldMoveHistory;
+            algebraicHistory = oldAlgebraicHistory;
+            return false;
+        }
+        tagPairMap().putAll(pgnFile.getTagPairMap());
+        start();
+        return true;
     }
 
 }

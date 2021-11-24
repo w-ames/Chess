@@ -67,6 +67,49 @@ public class HelpWindow extends JFrame {
 
     }
 
+    /**
+     * 
+     * @param orgin Which button was used to open the dialog
+     * @param index Specifies which tab to open
+     */
+    public HelpWindow(String orgin, int index) {
+
+        buildChessRulesPanel();
+        buildPieceInfoPanel();
+        buildAppHelpPanel();
+        buildAboutAppPanel();
+        buildLicensePanel();
+        addPanelsToTabbedPane();
+
+        tabbedPane.setSelectedIndex(index);
+
+        this.add(tabbedPane);
+
+    }
+
+    /**
+     * For opening to a specific piece info tab.
+     * 
+     * @param orgin
+     * @param mainTabIndex  Which main tab to open
+     * @param pieceTabIndex Which piece tab to open
+     */
+
+    public HelpWindow(String orgin, int mainTabIndex, int pieceTabIndex) {
+
+        buildChessRulesPanel();
+        buildPieceInfoPanelAndChooseOpeningTab(pieceTabIndex);
+        buildAppHelpPanel();
+        buildAboutAppPanel();
+        buildLicensePanel();
+        addPanelsToTabbedPane();
+
+        tabbedPane.setSelectedIndex(mainTabIndex);
+
+        this.add(tabbedPane);
+
+    }
+
     private void setBackgroundColors() {
         // Set background color for each tab.
 
@@ -265,6 +308,148 @@ public class HelpWindow extends JFrame {
         kingEditorScrollPane.setOpaque(false);
 
         piecePanel.add("King", kingEditorScrollPane);
+
+    }
+
+    private void buildPieceInfoPanelAndChooseOpeningTab(int tabIndex) {
+        MainLayer pieceInfoBackground = new MainLayer();
+        pieceInfo.setLayout(new GridLayout(0, 1));
+        pieceInfo.add(pieceInfoBackground);
+        pieceInfo.setOpaque(true);
+
+        ButtonContainer silverPanel = new ButtonContainer();
+        pieceInfoBackground.setLayout(new GridBagLayout());
+        GridBagConstraints gb = new GridBagConstraints();
+        gb.fill = GridBagConstraints.BOTH;
+        gb.gridx = 0;
+        gb.gridy = 0;
+        gb.weightx = 1;
+        gb.weighty = 1;
+        gb.insets = new Insets(20, 20, 20, 20);
+        pieceInfoBackground.add(silverPanel, gb);
+
+        silverPanel.setLayout(new GridBagLayout());
+        JTabbedPane piecePanel = new JTabbedPane();
+        piecePanel.setBackground(new Color(232, 232, 232));
+        piecePanel.setOpaque(true);
+        piecePanel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(224, 224, 224)));
+        silverPanel.add(piecePanel, gb);
+
+        // Pawn Information.
+        JEditorPane pawnInfo = new JEditorPane();
+        File file = new File("src/assets/pawn_info.html");
+        try {
+            pawnInfo.setPage(file.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        pawnInfo.setEditable(false);
+        pawnInfo.setOpaque(false);
+
+        JScrollPane pawnEditorScrollPane = new JScrollPane(pawnInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pawnEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Pawn", pawnEditorScrollPane);
+
+        // Rook information
+        JEditorPane rookInfo = new JEditorPane();
+        File file2 = new File("src/assets/rook_info.html");
+        try {
+            rookInfo.setPage(file2.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        rookInfo.setEditable(false);
+        rookInfo.setOpaque(false);
+
+        JScrollPane rookEditorScrollPane = new JScrollPane(rookInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rookEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Rook", rookEditorScrollPane);
+
+        // Bishop information
+        JEditorPane bishopInfo = new JEditorPane();
+        File file3 = new File("src/assets/bishop_info.html");
+        try {
+            bishopInfo.setPage(file3.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        bishopInfo.setEditable(false);
+        bishopInfo.setOpaque(false);
+
+        JScrollPane bishopEditorScrollPane = new JScrollPane(bishopInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        bishopEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Bishop", bishopEditorScrollPane);
+
+        // Knight information
+        JEditorPane knightInfo = new JEditorPane();
+        File file4 = new File("src/assets/knight_info.html");
+        try {
+            knightInfo.setPage(file4.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        knightInfo.setEditable(false);
+        knightInfo.setOpaque(false);
+
+        JScrollPane knightEditorScrollPane = new JScrollPane(knightInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        knightEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Knight", knightEditorScrollPane);
+
+        // Queen information
+        JEditorPane queenInfo = new JEditorPane();
+        File file5 = new File("src/assets/queen_info.html");
+        try {
+            queenInfo.setPage(file5.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        queenInfo.setEditable(false);
+        queenInfo.setOpaque(false);
+
+        JScrollPane queenEditorScrollPane = new JScrollPane(queenInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        queenEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("Queen", queenEditorScrollPane);
+
+        // King information
+        JEditorPane kingInfo = new JEditorPane();
+        File file6 = new File("src/assets/king_info.html");
+        try {
+            kingInfo.setPage(file6.toURI().toURL());
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        kingInfo.setEditable(false);
+        kingInfo.setOpaque(false);
+
+        JScrollPane kingEditorScrollPane = new JScrollPane(kingInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        kingEditorScrollPane.setOpaque(false);
+
+        piecePanel.add("King", kingEditorScrollPane);
+
+        piecePanel.setSelectedIndex(tabIndex);
 
     }
 
