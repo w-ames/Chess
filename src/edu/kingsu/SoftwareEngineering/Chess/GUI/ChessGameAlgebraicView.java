@@ -195,18 +195,19 @@ public class ChessGameAlgebraicView extends ChessGameView {
     }
 
     public String addChessUni(String move, boolean isWhite) {
-        String whiteKing = "&#9812";
-        String whiteQueen = "&#9813";
-        String whiteKnight = "&#9816";
-        String whiteRook = "&#9814";
-        String whiteBishop = "&#9815";
-        String whitePawn = "&#9817";
-        String blackKing = "&#9818";
-        String blackQueen = "&#9819";
-        String blackKnight = "&#9822";
-        String blackRook = "&#9820";
-        String blackPawn = "&#9823";
-        String blackBishop = "&#9821";
+        System.out.println(move);
+        String whiteKing = "&#9812;";
+        String whiteQueen = "&#9813;";
+        String whiteKnight = "&#9816;";
+        String whiteRook = "&#9814;";
+        String whiteBishop = "&#9815;";
+        String whitePawn = "&#9817;";
+        String blackKing = "&#9818;";
+        String blackQueen = "&#9819;";
+        String blackKnight = "&#9822;";
+        String blackRook = "&#9820;";
+        String blackPawn = "&#9823;";
+        String blackBishop = "&#9821;";
 
         String newmove = "";
         
@@ -226,6 +227,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 return newmove;
             } else if (c == 'R') {
                 newmove = whiteRook+move.substring(1);
+                System.out.println("newmove= " + newmove);
                 return newmove;
             } else if (c == 'B') {
                 newmove = whiteBishop+move.substring(1);
