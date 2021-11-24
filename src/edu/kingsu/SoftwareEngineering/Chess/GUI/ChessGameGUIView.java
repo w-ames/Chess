@@ -689,17 +689,21 @@ public class ChessGameGUIView extends ChessGameView {
      * @param size     The size that the image is to be.
      * @return The ImageIcon representation of the piece.
      */
-    public ImageIcon openPieceImageFile(String filePath, int size) {
+    public static ImageIcon openPieceImageFile(String filePath, int size) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(getClass().getClassLoader().getResource(filePath));
+
+            BufferedImage bufferedImage = ImageIO.read(ChessGameGUIView.class.getClassLoader().getResource(filePath));
+
             Image pieceImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_SMOOTH);
+
             ImageIcon pieceImageIcon = new ImageIcon(pieceImage);
+
             return pieceImageIcon;
 
         } catch (Exception e) {
             System.err.println(e);
         }
-        return smallBlackBishopIcon; // I don't know how to make it compile without doing this?
+        return null; // I don't know how to make it compile without doing this?
     }
 
     /**

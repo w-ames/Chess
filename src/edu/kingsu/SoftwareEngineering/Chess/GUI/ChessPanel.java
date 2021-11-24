@@ -85,7 +85,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         this.container = container;
 
-
         // Set layout for layeredPanes.
         // LayeredPane is used to give z index for mainLayer and the two popuplayers:
         // endGameOptions, pawnPromotionScreen.
@@ -264,10 +263,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
-
-        // Sets player names on clock 
-        player1Clock.addPlayerName(player1Name); 
-        player2Clock.addPlayerName(player2Name);
+        // Sets player names on clock
+        player1Clock.addPlayerName(player1Name, "White: ");
+        player2Clock.addPlayerName(player2Name, "Black: ");
 
         // *** These are for skeleton view only, time needs to be made dynamic *****
         player1Clock.updatePlayerTime("5:01   ");
@@ -275,7 +273,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         totalGameTime.updateTotalGameTime("23:00");
 
         /////////////////////////////////////////////////////////
- 
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
@@ -328,8 +325,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 guiView.moveHint(guiView.getSelectedRow(), guiView.getSelectedCol());
             }
         });
-
-        
 
     }
 
@@ -570,13 +565,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
-    * Allows the player names to be set for use in the player game clock display
-    * @param player1 The name of the first player. 
-    * @param player2 the name of the second player.
-    */
-    public void setPlayerNames(String player1, String player2){
+     * Allows the player names to be set for use in the player game clock display
+     * 
+     * @param player1 The name of the first player.
+     * @param player2 the name of the second player.
+     */
+    public void setPlayerNames(String player1, String player2) {
         this.player1Name = player1;
-        this.player2Name = player2; 
+        this.player2Name = player2;
     }
 
     /**

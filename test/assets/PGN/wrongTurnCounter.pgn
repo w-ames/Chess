@@ -1,0 +1,9 @@
+[Event "TestEvent"]
+[Site "Edmonton"]
+[Date "2021.??.??"]
+[Round ""]
+[White "Player, White"]
+[Black "Player, Black"]
+[Result "1-0"]
+
+3. e4 a6 1. Qf3 a5 9. Bc4 a4 4. Qf7# 1-0

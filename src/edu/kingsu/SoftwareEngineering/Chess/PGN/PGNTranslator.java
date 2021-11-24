@@ -8,8 +8,20 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * This class provides static methods for the translation of Move objects to Strings
+ * in chess algebraic notation, and vice versa.
+ */
 public class PGNTranslator{
-
+    /**
+     * Translates a Move object to a String representation of the move, which is
+     * algebraic notation, and can be used in a PGN file.
+     * @param move  the Move object to translate
+     * @param board the board on which the Move will be made. The board must be
+     *              in a state before the Move has been performed
+     * @return the String representation of the move (in algebraic notation)
+     * @throws IllegalStateException if the Move is invalid
+     */
     public static String translateMoveToPGN(Move move, Board board) throws IllegalStateException{
         //make copy of the board and perform the move on it
         Board newBoard= new Board(board);
@@ -95,8 +107,6 @@ public class PGNTranslator{
             }
         }
 
-        //if(true) throw new IllegalArgumentException("disambFile=" + disambFile + " disambRank=" + disambRank);
-
         //find out if a capture occurred
         Piece destPiece= board.getPiece(destRow, move.getColTo());
         if(destPiece != null) capture= "x";
@@ -119,6 +129,16 @@ public class PGNTranslator{
             pawnPromo + enPassant + check + checkmate;
     }
 
+    /**
+     * Translates a String in algebraic notation (used in PGN files)
+     * to a Move object.
+     * @param pgn
+     * @param board
+     * @param playerIsWhite
+     * @return
+     * @throws IllegalArgumentException
+     * @throws IllegalStateException
+     */
     public static Move translatePGNToMove(String pgn, Board board, boolean playerIsWhite) throws IllegalArgumentException, IllegalStateException{
         //use Pattern named-capturing groups to capture the pgn in a series of variables
         String regex=

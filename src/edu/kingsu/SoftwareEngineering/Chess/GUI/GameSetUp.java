@@ -9,11 +9,13 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Insets;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
 public class GameSetUp extends JPanel {
 
     private ApplicationFrame container;
+    private PGNFile pgnFile;
 
     MainLayer background = new MainLayer();
     ButtonContainer player1Panel = new ButtonContainer();
@@ -575,6 +577,14 @@ public class GameSetUp extends JPanel {
         moveHint.setSelected(moveHintSwitch);
         undoRedo.setSelected(undoRedoSwitch);
         notification.setSelected(notificationsSwitch);
+    }
+
+    public void setPGNFile(PGNFile file){
+        pgnFile= file;
+    }
+
+    public PGNFile getPGNFile(){
+        return pgnFile;
     }
 
 }
