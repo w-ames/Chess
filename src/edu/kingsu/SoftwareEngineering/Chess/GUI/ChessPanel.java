@@ -326,6 +326,52 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             }
         });
 
+        for (ActionListener al : pieceInfo.getActionListeners()) {
+            pieceInfo.removeActionListener(al);
+        }
+        pieceInfo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                char pieceType = ' ';
+                int tabPageSwitch = 0;
+
+                // Check which piece the user has selected and open the corresponding about
+                // piece dialog
+                int selectedRow = -1;
+                int selectedCol = -1;
+
+                if (guiView.getSelectedCol() != -1) {
+                    selectedRow = guiView.getSelectedRow();
+                    selectedCol = guiView.getSelectedCol();
+                }
+
+                if (selectedRow != -1) {
+                    pieceType = guiView.getPieceTypeOnThisSquare(selectedRow, selectedCol);
+                }
+
+                if (pieceType == ' ') {
+                    // No piece is selcted
+                } else if (pieceType == 'p' || pieceType == 'P') {
+                    tabPageSwitch = 0;
+                } else if (pieceType == 'r' || pieceType == 'R') {
+                    tabPageSwitch = 1;
+                } else if (pieceType == 'b' || pieceType == 'B') {
+                    tabPageSwitch = 2;
+                } else if (pieceType == 'n' || pieceType == 'N') {
+                    tabPageSwitch = 3;
+                } else if (pieceType == 'q' || pieceType == 'Q') {
+                    tabPageSwitch = 4;
+                } else if (pieceType == 'k' || pieceType == 'K') {
+                    tabPageSwitch = 5;
+                }
+
+                HelpWindow helpWindow = new HelpWindow("pieceInfo", 1, tabPageSwitch);
+                helpWindow.setLocation(1200, 300);
+                helpWindow.setVisible(true);
+                helpWindow.setSize(new Dimension(600, 800));
+            }
+        });
+
     }
 
     /**
