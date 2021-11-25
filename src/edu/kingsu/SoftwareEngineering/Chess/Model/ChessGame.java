@@ -261,6 +261,12 @@ public class ChessGame {
                 synchronized (playerTurnLock) {
                     performMove(move);
                     updateState();
+                    // System.err.println("GameState is : "+getState().name());
+                    // System.err.println("Board CM for white is : "+board.getCheckmate(true));
+                    // // System.err.println("Board all moves black is : "+board.getAllMoves(false));
+                    // List<Move> ay = board.getAllMoves(false);
+                    // Move yo = ay.size()>0 ? ay.get(0) : null;
+                    // System.err.println("Board first move black is : "+yo.getRowFrom()+" "+yo.getColFrom()+" "+yo.getRowTo()+" "+yo.getColTo());
                     if (getState() != GameState.ACTIVE && getState() != GameState.WHITE_CHECK && getState() != GameState.BLACK_CHECK) {
                         gameOver();
                     }
@@ -346,7 +352,7 @@ public class ChessGame {
      *  <code>false</code> if it is not
      */
     private boolean validateMove(Move move) {
-        return (board.getPiece(move.getRowFrom(), move.getColFrom()).isWhite() == getPlayerTurn().isWhite()) && (board.getMoves(move.getRowFrom(), move.getColFrom()).contains(move));
+        return (move != null) && (board.getPiece(move.getRowFrom(), move.getColFrom()).isWhite() == getPlayerTurn().isWhite()) && (board.getMoves(move.getRowFrom(), move.getColFrom()).contains(move));
     }
 
     /**
@@ -450,6 +456,7 @@ public class ChessGame {
                 performMove(moveHistory.get(i));
             }
         }
+        updateState();
         start();
         return true;
     }
@@ -704,6 +711,7 @@ public class ChessGame {
             return false;
         }
         tagPairMap().putAll(pgnFile.getTagPairMap());
+        updateState();
         start();
         return true;
     }
@@ -716,6 +724,7 @@ public class ChessGame {
         board = new Board();
         moveNo = 0;
         forceSetPlayerTurn(true);
+        updateState();
         notifyViews();
         start();
     }

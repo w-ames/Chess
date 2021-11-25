@@ -136,6 +136,7 @@ public class ChessAI {
             return null;
         }
         if (board.getCheckmate(forWhite)) { // we hopefully should not have checkmate here
+            System.err.println("WHY AM I PRINTING???");
             return null;
         }
         // white maximizes
@@ -150,7 +151,7 @@ public class ChessAI {
                 workingBoard = new Board(board);
                 m.perform(workingBoard);
                 int futureResult = minimax(workingBoard, depth-1, a, b, false);
-                if (futureResult > value) {
+                if (mmMove == null || futureResult > value) {
                     value = futureResult;
                     mmMove = m;
                 }
@@ -166,7 +167,7 @@ public class ChessAI {
                 workingBoard = new Board(board);
                 m.perform(workingBoard);
                 int futureResult = minimax(workingBoard, depth-1, a, b, true);
-                if (futureResult < value) {
+                if (mmMove == null || futureResult < value) {
                     value = futureResult;
                     mmMove = m;
                 }
@@ -199,7 +200,7 @@ public class ChessAI {
             return scoreBoard(board, forWhite);
         }
         if (board.getCheckmate(forWhite)) {
-            return forWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            return forWhite ? Integer.MIN_VALUE+1 : Integer.MAX_VALUE-1;
         }
         // white maximizes
         Board workingBoard;

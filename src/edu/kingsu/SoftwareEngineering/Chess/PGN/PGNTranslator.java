@@ -119,7 +119,6 @@ public class PGNTranslator{
 
         //disambiguate pawn file if a capture occurred using a pawn
         if(pieceType == PieceType.PAWN && capture.equals("x")){
-            System.err.println("Entered here");
             disambFile= convertColLetterToString(ColumnLetter.values()[originCol]);
         }
 
