@@ -187,6 +187,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        undoButton.setToolTipText("Undo the move");
         invisbleButtonContainer.add(undoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
