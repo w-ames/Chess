@@ -564,6 +564,7 @@ public class GameSetUp extends JPanel {
                 }
                 container.show("chesspanel");
                 setPGNFile(null);
+                addLoadedFileName(" ");
             }
         });
 
