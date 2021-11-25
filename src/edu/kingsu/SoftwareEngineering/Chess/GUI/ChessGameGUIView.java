@@ -23,6 +23,7 @@ import java.io.File;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
+import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 /**
  * ChessGameGUIView class holds the graphical view of the game board.
@@ -494,6 +495,30 @@ public class ChessGameGUIView extends ChessGameView {
 
             char[][] getMoveHighlights = getChessGame().getMoveHighlights(selectedRow, selectedCol);
 
+            // Last move coloring
+            int latestMoveIndex = getChessGame().latestMoveIndex();
+            if (latestMoveIndex >= 0) {
+                Move latestMove = getChessGame().getMoveHistory().get(latestMoveIndex);
+                int fr = latestMove.getRowFrom();
+                int fc = latestMove.getColFrom();
+                if (getMoveHighlights == null || getMoveHighlights[fr][fc] == ' ') {
+                    if (squareHolderArray[fr][fc].returnColor() == true) {
+                        highlightSquare(fr, fc, new Color(244, 226, 198)); // White
+                    } else {
+                        highlightSquare(fr, fc, new Color(207, 185, 151)); // Black
+                    }
+                }
+                int tr = latestMove.getRowTo();
+                int tc = latestMove.getColTo();
+                if (getMoveHighlights == null || getMoveHighlights[tr][tc] == ' ') {
+                    if (squareHolderArray[tr][tc].returnColor() == true) {
+                        highlightSquare(tr, tc, new Color(244, 226, 198)); // White
+                    } else {
+                        highlightSquare(tr, tc, new Color(207, 185, 151)); // Black
+                    }
+                }
+            }
+
             if (getMoveHighlights != null) {
 
                 // Highlight the square of the piece that the user selected to potentially move.
@@ -567,6 +592,7 @@ public class ChessGameGUIView extends ChessGameView {
         }
 
         boardHighlightOnOff = highlightSwitch;
+        update();
     }
 
     /**

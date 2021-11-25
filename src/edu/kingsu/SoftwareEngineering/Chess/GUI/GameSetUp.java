@@ -22,7 +22,7 @@ public class GameSetUp extends JPanel {
     ButtonContainer player2Panel = new ButtonContainer();
     ButtonContainer timePanel = new ButtonContainer();
     ButtonContainer settingsPanel = new ButtonContainer();
-    ButtonContainer setupPanel = new ButtonContainer();
+    JPanel setupPanel = new JPanel();
     JLabel player1Label = new JLabel("Player 1", SwingConstants.CENTER);
     JLabel player2Label = new JLabel("Player 2", SwingConstants.CENTER);
     JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
@@ -60,6 +60,7 @@ public class GameSetUp extends JPanel {
 
     CustomButton goToMainMenu = new CustomButton("Return");
     CustomButton loadButton = new CustomButton("Load Game");
+    JLabel fileNameLabel = new JLabel("  No File Loaded");
     CustomButton startGame = new CustomButton("Start Game");
 
     boolean highlightMoveSwitch;
@@ -68,7 +69,7 @@ public class GameSetUp extends JPanel {
     boolean notificationsSwitch;
 
     String player1Name;
-    String player2Name; 
+    String player2Name;
 
     public GameSetUp(ApplicationFrame container) {
         super();
@@ -386,41 +387,83 @@ public class GameSetUp extends JPanel {
         // Load
         setupPanel.setLayout(new GridBagLayout());
 
-        JPanel buttonHolder = new JPanel();
+        ButtonContainer buttonHolder = new ButtonContainer();
+        ButtonContainer loadHolder = new ButtonContainer();
         buttonHolder.setLayout(new GridBagLayout());
+        loadHolder.setLayout(new GridBagLayout());
 
-        setupConstraints.fill = GridBagConstraints.NONE;
+        JPanel centreLoads = new JPanel();
+        centreLoads.setLayout(new GridBagLayout());
+
+        setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 0;
         setupConstraints.weightx = 1;
         setupConstraints.weighty = 1;
-        setupConstraints.insets = new Insets(120, 5, 5, 5);
-        startGame.setMinimumSize(new Dimension(150, 50));
-        startGame.setPreferredSize(new Dimension(150, 50));
-        startGame.setMaximumSize(new Dimension(150, 50));
-        buttonHolder.add(startGame, setupConstraints);
-
-        setupConstraints.gridx = 0;
-        setupConstraints.gridy = 1;
-        setupConstraints.insets = new Insets(5, 5, 5, 5);
+        setupConstraints.insets = new Insets(15, 15, 15, 15);
         loadButton.setMinimumSize(new Dimension(150, 50));
         loadButton.setPreferredSize(new Dimension(150, 50));
         loadButton.setMaximumSize(new Dimension(150, 50));
-        buttonHolder.add(loadButton, setupConstraints);
+        centreLoads.add(loadButton, setupConstraints);
 
+        setupConstraints.gridy = 1;
+        fileNameLabel.setBackground(new Color(245, 245, 245));
+        fileNameLabel.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(245, 245, 245)));
+        fileNameLabel.setMinimumSize(new Dimension(165, 50));
+        fileNameLabel.setPreferredSize(new Dimension(165, 50));
+        fileNameLabel.setMaximumSize(new Dimension(165, 50));
+        setupConstraints.insets = new Insets(15, 5, 15, 5);
+        centreLoads.add(fileNameLabel, setupConstraints);
+
+        setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
-        setupConstraints.gridy = 2;
-        setupConstraints.insets = new Insets(5, 5, 120, 5);
+        setupConstraints.gridy = 0;
+        setupConstraints.weightx = 1;
+        setupConstraints.weighty = 1;
+        setupConstraints.insets = new Insets(30, 50, 30, 50);
+        centreLoads.setOpaque(false);
+        loadHolder.add(centreLoads, setupConstraints);
+
+        JPanel centreStartButton = new JPanel();
+        centreStartButton.setLayout(new GridBagLayout());
+
+        setupConstraints.fill = GridBagConstraints.BOTH;
+        setupConstraints.gridx = 0;
+        setupConstraints.gridy = 0;
+        setupConstraints.weightx = 1;
+        setupConstraints.weighty = 1;
+        setupConstraints.insets = new Insets(15, 15, 15, 15);
+        startGame.setMinimumSize(new Dimension(150, 50));
+        startGame.setPreferredSize(new Dimension(150, 50));
+        startGame.setMaximumSize(new Dimension(150, 50));
+        centreStartButton.add(startGame, setupConstraints);
+
+        setupConstraints.gridy = 1;
         goToMainMenu.setMinimumSize(new Dimension(150, 50));
         goToMainMenu.setPreferredSize(new Dimension(150, 50));
         goToMainMenu.setMaximumSize(new Dimension(150, 50));
-        buttonHolder.add(goToMainMenu, setupConstraints);
+        centreStartButton.add(goToMainMenu, setupConstraints);
 
-        setupConstraints.fill = GridBagConstraints.HORIZONTAL;
+        setupConstraints.fill = GridBagConstraints.BOTH;
         setupConstraints.gridx = 0;
         setupConstraints.gridy = 0;
-        setupConstraints.insets = new Insets(0, 0, 0, 0);
-        buttonHolder.setOpaque(false);
+        setupConstraints.weightx = 1;
+        setupConstraints.weighty = 1;
+        setupConstraints.insets = new Insets(30, 50, 30, 50);
+        centreStartButton.setOpaque(false);
+        buttonHolder.add(centreStartButton, setupConstraints);
+
+        setupConstraints.fill = GridBagConstraints.BOTH;
+        setupConstraints.gridx = 0;
+        setupConstraints.gridy = 0;
+        setupConstraints.weightx = 1;
+        setupConstraints.weighty = 1;
+        setupConstraints.insets = new Insets(3, 3, 3, 3);
+        setupPanel.add(loadHolder, setupConstraints);
+
+        setupConstraints.fill = GridBagConstraints.BOTH;
+        setupConstraints.gridx = 0;
+        setupConstraints.gridy = 1;
         setupPanel.add(buttonHolder, setupConstraints);
 
         sc.gridx = 2;
@@ -432,6 +475,8 @@ public class GameSetUp extends JPanel {
         setupPanel.setMinimumSize(new Dimension(300, 500));
         setupPanel.setPreferredSize(new Dimension(300, 500));
         setupPanel.setMaximumSize(new Dimension(300, 500));
+        setupPanel.setOpaque(false);
+
         settingContainer.add(setupPanel, sc);
 
         setup.fill = GridBagConstraints.BOTH;
@@ -519,6 +564,7 @@ public class GameSetUp extends JPanel {
                 }
                 container.show("chesspanel");
                 setPGNFile(null);
+                addLoadedFileName(" ");
             }
         });
 
@@ -536,16 +582,6 @@ public class GameSetUp extends JPanel {
             }
         });
 
-        //loadButton.addActionListener(new ActionListener() {
-        //    @Override
-        //    public void actionPerformed(ActionEvent e) {
-        //        //
-        //        //
-        //        // Add code for load game here
-        //        //
-        //        //
-        //    }
-        //});
     }
 
     public void addLoadListener() {
@@ -567,11 +603,11 @@ public class GameSetUp extends JPanel {
     }
 
     /**
-    * Sets the player name data members in this class to what ever the 
-    * user selected from the drop down boxes in the set up menu, to be used to
-    * display the choices within the player clocks in ChessPanel. 
-    */
-    public void getPlayerNamesFromComboBox(){
+     * Sets the player name data members in this class to what ever the user
+     * selected from the drop down boxes in the set up menu, to be used to display
+     * the choices within the player clocks in ChessPanel.
+     */
+    public void getPlayerNamesFromComboBox() {
         this.player1Name = player1Box.getSelectedItem().toString();
         this.player2Name = player2Box.getSelectedItem().toString();
     }
@@ -590,11 +626,20 @@ public class GameSetUp extends JPanel {
         notification.setSelected(notificationsSwitch);
     }
 
-    public void setPGNFile(PGNFile file){
-        pgnFile= file;
+    public void setPGNFile(PGNFile file) {
+        pgnFile = file;
     }
 
-    public PGNFile getPGNFile(){
+    /**
+     * Adds the name of the PGN file that was loaded
+     * 
+     * @param fileName The name of the file.
+     */
+    public void addLoadedFileName(String fileName) {
+        fileNameLabel.setText(" " + fileName);
+    }
+
+    public PGNFile getPGNFile() {
         return pgnFile;
     }
 

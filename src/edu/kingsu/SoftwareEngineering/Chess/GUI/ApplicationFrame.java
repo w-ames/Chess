@@ -2,6 +2,8 @@ package edu.kingsu.SoftwareEngineering.Chess.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.*;
@@ -47,16 +49,34 @@ public class ApplicationFrame extends JFrame {
     private int width;
     private int height;
 
+    // Members for JOption Pane (player options)
+    JComboBox<String> player1ComboBox = new JComboBox<>();
+    JComboBox<String> player2ComboBox = new JComboBox<>();
+    JButton playerOptionsSubmit = new JButton("Submit");
+    int player1ComboBoxChoice;
+    int player2ComboBoxChoice;
+
     /**
      * Creates the main application frame for Java Chess.
      * 
      * @author Gregory Cal
      */
     public ApplicationFrame() {
+
         super(WINDOW_TITLE);
         this.setMinimumSize(new Dimension(1250, 850));
         this.setBackground(new Color(16, 46, 60));
         add(contentPanel);
+
+        player2ComboBox.addItem("Human");
+        player2ComboBox.addItem("A.I. (easy)");
+        player2ComboBox.addItem("A.I. (medium)");
+        player2ComboBox.addItem("A.I. (hard)");
+
+        player1ComboBox.addItem("Human");
+        player1ComboBox.addItem("A.I. (easy)");
+        player1ComboBox.addItem("A.I. (medium)");
+        player1ComboBox.addItem("A.I. (hard)");
 
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
@@ -172,6 +192,24 @@ public class ApplicationFrame extends JFrame {
     }
 
     /**
+     * 0 = Human, 1 = A.I (easy), 2 = A.I. (medium), 3 = A.I (hard)
+     * 
+     * @return Choice from player options pane combo box for player 1;
+     */
+    public int getPlayer1OptionsSelection() {
+        return player1ComboBoxChoice;
+    }
+
+    /**
+     * 0 = Human, 1 = A.I (easy), 2 = A.I. (medium), 3 = A.I (hard)
+     * 
+     * @return Choice from player options pane combo box for player 1;
+     */
+    public int getPlayer2OptionsSelection() {
+        return player2ComboBoxChoice;
+    }
+
+    /**
      * Adds action listeners to the menu bar.
      */
     public void addActionListenersToMenuBar() {
@@ -190,24 +228,24 @@ public class ApplicationFrame extends JFrame {
         loadGameMenuItem.addActionListener(getLoadController());
         // loadGameMenuItem.addActionListener(new ActionListener() {
 
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
 
-        //         // Add code for when "Load Game" is selected from menu bar
+        // // Add code for when "Load Game" is selected from menu bar
 
-        //     }
+        // }
 
         // });
 
         saveGameMenuItem.addActionListener(getSaveController());
         // saveGameMenuItem.addActionListener(new ActionListener() {
 
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
 
-        //         // Add code for when "Save Game" is selected from menu bar
+        // // Add code for when "Save Game" is selected from menu bar
 
-        //     }
+        // }
 
         // });
 
@@ -260,10 +298,76 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Brings up a dialog
-                Object[] options = { "Option 3", "Option 2", "Option 1" };
-                int n = JOptionPane.showOptionDialog(null, "Please select an option", "Player Options",
-                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+                // JComboBox for player options
+                JPanel wrapper = new JPanel();
+                wrapper.setLayout(new GridBagLayout());
+                GridBagConstraints gb = new GridBagConstraints();
+
+                JLabel prompt = new JLabel("Please Select Player Options: ");
+                gb.gridx = 0;
+                gb.gridy = 0;
+                gb.weightx = 1;
+                gb.weighty = 1;
+                gb.fill = GridBagConstraints.BOTH;
+                wrapper.add(prompt, gb);
+
+                JLabel spacer = new JLabel(" ");
+                gb.gridy = 1;
+                wrapper.add(spacer, gb);
+
+                JLabel white = new JLabel(" Set white");
+                gb.gridy = 2;
+                wrapper.add(white, gb);
+
+                gb.gridy = 3;
+                wrapper.add(player1ComboBox, gb);
+
+                JLabel spacer2 = new JLabel(" ");
+                gb.gridy = 4;
+                wrapper.add(spacer2, gb);
+
+                JLabel black = new JLabel(" Set black");
+                gb.gridy = 5;
+                wrapper.add(black, gb);
+
+                gb.gridy = 6;
+                wrapper.add(player2ComboBox, gb);
+
+                JLabel spacer3 = new JLabel(" ");
+                gb.gridy = 7;
+                wrapper.add(spacer3, gb);
+
+                gb.gridy = 8;
+                wrapper.add(playerOptionsSubmit, gb);
+
+                Object[] options = new Object[] {};
+
+                JOptionPane playerOptionsOptionPane = new JOptionPane("", JOptionPane.PLAIN_MESSAGE,
+                        JOptionPane.PLAIN_MESSAGE, null, options, null);
+
+                playerOptionsOptionPane.add(wrapper);
+
+                JDialog diag = new JDialog();
+                diag.getContentPane().add(playerOptionsOptionPane);
+                diag.pack();
+                diag.setLocation(500, 300);
+                diag.setVisible(true);
+
+                playerOptionsSubmit.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        // Sets player1ComboBoxChoice & player2ComboBoxChoice class members to the int
+                        // of the user's choice from the combo box.
+                        // 0 = Human, 1 = A.I (easy), 2 = A.I. (medium), 3 = A.I (hard)
+                        player1ComboBoxChoice = player1ComboBox.getSelectedIndex();
+                        player2ComboBoxChoice = player2ComboBox.getSelectedIndex();
+
+                        diag.setVisible(false);
+                    }
+
+                });
 
             }
         });
@@ -319,6 +423,11 @@ public class ApplicationFrame extends JFrame {
 
     }
 
-    public ChessGameSaveController getSaveController() { return saveController; }
-    public ChessGameLoadController getLoadController() { return loadController; }
+    public ChessGameSaveController getSaveController() {
+        return saveController;
+    }
+
+    public ChessGameLoadController getLoadController() {
+        return loadController;
+    }
 }

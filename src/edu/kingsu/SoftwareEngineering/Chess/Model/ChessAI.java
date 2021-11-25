@@ -199,7 +199,7 @@ public class ChessAI {
             return scoreBoard(board, forWhite);
         }
         if (board.getCheckmate(forWhite)) {
-            return forWhite ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            return forWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         }
         // white maximizes
         Board workingBoard;
