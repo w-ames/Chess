@@ -62,10 +62,21 @@ public class ApplicationFrame extends JFrame {
      * @author Gregory Cal
      */
     public ApplicationFrame() {
+
         super(WINDOW_TITLE);
         this.setMinimumSize(new Dimension(1250, 850));
         this.setBackground(new Color(16, 46, 60));
         add(contentPanel);
+
+        player2ComboBox.addItem("Human");
+        player2ComboBox.addItem("A.I. (easy)");
+        player2ComboBox.addItem("A.I. (medium)");
+        player2ComboBox.addItem("A.I. (hard)");
+
+        player1ComboBox.addItem("Human");
+        player1ComboBox.addItem("A.I. (easy)");
+        player1ComboBox.addItem("A.I. (medium)");
+        player1ComboBox.addItem("A.I. (hard)");
 
         gameSetUp = new GameSetUp(this);
         chessPanel = new ChessPanel(this);
@@ -308,10 +319,6 @@ public class ApplicationFrame extends JFrame {
                 gb.gridy = 2;
                 wrapper.add(white, gb);
 
-                player1ComboBox.addItem("Human");
-                player1ComboBox.addItem("A.I. (easy)");
-                player1ComboBox.addItem("A.I. (medium)");
-                player1ComboBox.addItem("A.I. (hard)");
                 gb.gridy = 3;
                 wrapper.add(player1ComboBox, gb);
 
@@ -323,10 +330,6 @@ public class ApplicationFrame extends JFrame {
                 gb.gridy = 5;
                 wrapper.add(black, gb);
 
-                player2ComboBox.addItem("Human");
-                player2ComboBox.addItem("A.I. (easy)");
-                player2ComboBox.addItem("A.I. (medium)");
-                player2ComboBox.addItem("A.I. (hard)");
                 gb.gridy = 6;
                 wrapper.add(player2ComboBox, gb);
 
