@@ -50,6 +50,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ClockView player2Clock = new ClockView();
     private ClockView totalGameTime = new ClockView();
     private ButtonContainer buttonContainer = new ButtonContainer();
+    private JPanel invisbleButtonContainer;
 
     private ImageIcon undoIcon = ChessGameGUIView.openPieceImageFile("images/white_undo.png", 40);
     private ImageIcon redoIcon = ChessGameGUIView.openPieceImageFile("images/white_redo.png", 40);
@@ -176,7 +177,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         mainLayer.add(messagesView, gridBagForMainLayer);
 
         // Add buttons to button panel.
-        JPanel invisbleButtonContainer = new JPanel();
+        invisbleButtonContainer = new JPanel();
         invisbleButtonContainer.setLayout(new GridBagLayout());
         GridBagConstraints gbForButtonPanel = new GridBagConstraints();
         gbForButtonPanel.fill = GridBagConstraints.BOTH;
@@ -310,13 +311,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             layeredPane.add(pawnPromotionScreen, Integer.valueOf(2));
 
         for (ActionListener al : undoButton.getActionListeners()) {
-            if (undoRedoSwitch == true) {
-                undoButton.removeActionListener(al);
-            }
+            undoButton.removeActionListener(al);
         }
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (undoRedoSwitch == true) {
+                if (undoRedoSwitch) {
                     chessGame.undo();
                 }
             }
@@ -327,7 +326,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
         redoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                chessGame.redo();
+                if (undoRedoSwitch) {
+                    chessGame.redo();
+                }
             }
         });
 
@@ -337,6 +338,24 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         moveHintButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 guiView.moveHint(guiView.getSelectedRow(), guiView.getSelectedCol());
+            }
+        });
+
+        for (ActionListener al : resignButton.getActionListeners()) {
+            resignButton.removeActionListener(al);
+        }
+        resignButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                getChessGame().resign();
+            }
+        });
+
+        for (ActionListener al : showEndGameOptionsButton.getActionListeners()) {
+            showEndGameOptionsButton.removeActionListener(al);
+        }
+        showEndGameOptionsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showEndGameOptions();
             }
         });
 
@@ -392,6 +411,22 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Displays the end game options popup screen.
      */
     public void showEndGameOptions() { // Needs to be edited to read from GameState.
+        if (!buttonContainer.isAncestorOf(resignButton)) {
+            invisbleButtonContainer.remove(showEndGameOptionsButton);
+            GridBagConstraints gb = new GridBagConstraints();
+            gb.fill = GridBagConstraints.BOTH;
+            gb.gridy = 1;
+            gb.gridx = 1;
+            gb.weightx = 0.5;
+            gb.weighty = 1;
+            gb.gridheight = 1;
+            gb.gridwidth = 1;
+            gb.insets = new Insets(5, 5, 5, 5);
+            invisbleButtonContainer.add(resignButton, gb);
+            invisbleButtonContainer.revalidate();
+            invisbleButtonContainer.repaint();
+        }
+        showEndGameOptionsButton.enable(false);
         endGameOptions.setVisible(true);
         endGameState = true; // If the user undoes a move, this should be set back to false.
     }
@@ -400,14 +435,16 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Hides the end game options popup screen.
      */
     public void hideEndGameOptions() { // Needs to be edited to read from GameState.
+        showEndGameOptionsButton.enable(true);
         endGameOptions.setVisible(false);
 
         // If the game is in the end game state, and hideEndGameOptions() is called,
         // replace the "resign button"
         // with the "Show end game options" button.
-        if (endGameState == true) {
-            buttonContainer.remove(resignButton);
+        if (endGameState == true && !buttonContainer.isAncestorOf(showEndGameOptionsButton)) {
+            invisbleButtonContainer.remove(resignButton);
             GridBagConstraints gb = new GridBagConstraints();
+            gb.fill = GridBagConstraints.BOTH;
             gb.gridy = 2;
             gb.gridx = 0;
             gb.weightx = 1;
@@ -415,7 +452,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             gb.gridheight = 1;
             gb.gridwidth = 4;
             gb.insets = new Insets(5, 5, 5, 5);
-            buttonContainer.add(showEndGameOptionsButton, gb);
+            invisbleButtonContainer.add(showEndGameOptionsButton, gb);
+            invisbleButtonContainer.revalidate();
+            invisbleButtonContainer.repaint();
 
         }
     }
@@ -518,51 +557,79 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     @Override
     public void update() {
 
-        if (false) { // Check if 50 moves stalemate here.
+        GameState state = null;
+        if (chessGame != null) {
+            state = chessGame.getState();
+        }
+
+        if (state == GameState.STALEMATE_50MOVES) { // Check if 50 moves stalemate here.
 
             addNotification("50 move stalemate");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if no moves stalemate here.
+        } else if (state == GameState.STALEMATE_NOMOVES) { // Check if no moves stalemate here.
 
             addNotification("Stalemate");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if repetition stalemate here.
+        } else if (state == GameState.STALEMATE_REPITITION) { // Check if repetition stalemate here.
 
             addNotification("Repetition stalemate");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if white check here.
+        } else if (state == GameState.BLACK_CHECK) { // Check if white check here.
 
             addNotification("White is in check!");
+            endGameState = false;
             // Add code for white check here.
 
-        } else if (false) { // Check if black check here.
+        } else if (state == GameState.WHITE_CHECK) { // Check if black check here.
 
             addNotification("Black is in check!");
+            endGameState = false;
             // Add code for black check here.
 
-        } else if (false) { // Check if white checkmate here.
+        } else if (state == GameState.WHITE_CHECKMATE) { // Check if white checkmate here.
 
-            addNotification("Checkmate!");
+            addNotification("Checkmate, White wins!");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if black checkmate here.
+        } else if (state == GameState.BLACK_CHECKMATE) { // Check if black checkmate here.
 
-            addNotification("Checkmate!");
+            addNotification("Checkmate, Black wins!");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if white resign here.
+        } else if (state == GameState.WHITE_RESIGN) { // Check if white resign here.
 
             addNotification("White has resigned");
             this.showEndGameOptions();
 
-        } else if (false) { // Check if black resign here.
+        } else if (state == GameState.BLACK_RESIGN) { // Check if black resign here.
 
             addNotification("Black has resigned");
             this.showEndGameOptions();
 
+        } else {
+            endGameState = false;
+        }
+
+        if (!endGameState) {
+            if (!buttonContainer.isAncestorOf(resignButton)) {
+                invisbleButtonContainer.remove(showEndGameOptionsButton);
+                GridBagConstraints gb = new GridBagConstraints();
+                gb.fill = GridBagConstraints.BOTH;
+                gb.gridy = 1;
+                gb.gridx = 1;
+                gb.weightx = 0.5;
+                gb.weighty = 1;
+                gb.gridheight = 1;
+                gb.gridwidth = 1;
+                gb.insets = new Insets(5, 5, 5, 5);
+                invisbleButtonContainer.add(resignButton, gb);
+                invisbleButtonContainer.revalidate();
+                invisbleButtonContainer.repaint();
+                showEndGameOptionsButton.enable(false);
+            }
         }
 
     }
@@ -692,4 +759,12 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void mousePressed(MouseEvent e) {
 
     }
+
+    @Override
+    public void setChessGame(ChessGame chessGame) {
+        super.setChessGame(chessGame);
+        this.chessGame = chessGame;
+    }
+
+    public ApplicationFrame getApplicationFrame() { return this.container; }
 }

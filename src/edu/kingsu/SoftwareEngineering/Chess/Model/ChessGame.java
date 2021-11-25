@@ -261,7 +261,7 @@ public class ChessGame {
                 synchronized (playerTurnLock) {
                     performMove(move);
                     updateState();
-                    if (getState() != GameState.ACTIVE) {
+                    if (getState() != GameState.ACTIVE && getState() != GameState.WHITE_CHECK && getState() != GameState.BLACK_CHECK) {
                         gameOver();
                     }
                     notifyViews();
@@ -384,6 +384,7 @@ public class ChessGame {
      */
     public void gameOver() {
         stop();
+        notifyViews();
     }
 
     private void setInterval() {
@@ -705,6 +706,18 @@ public class ChessGame {
         tagPairMap().putAll(pgnFile.getTagPairMap());
         start();
         return true;
+    }
+
+    public void rematch() {
+        stop();
+        moveHistory.clear();
+        algebraicHistory.clear();
+        // TODO reset timers
+        board = new Board();
+        moveNo = 0;
+        forceSetPlayerTurn(true);
+        notifyViews();
+        start();
     }
 
 }

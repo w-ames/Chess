@@ -201,7 +201,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
     }
 
     public String addChessUni(String move, boolean isWhite) {
-        System.out.println(move);
         String whiteKing = "&#9812;";
         String whiteQueen = "&#9813;";
         String whiteKnight = "&#9816;";

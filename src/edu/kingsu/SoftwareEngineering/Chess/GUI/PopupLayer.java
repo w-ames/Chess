@@ -182,24 +182,58 @@ public class PopupLayer extends JPanel {
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
         display.add(endGameViewBoardButton, gb);
+        for (ActionListener al : endGameViewBoardButton.getActionListeners()) {
+            endGameViewBoardButton.removeActionListener(al);
+        }
+        endGameViewBoardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessPanel.hideEndGameOptions();
+            }
+        });
 
         gb.gridx = 1;
         gb.gridy = 1;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(rematchButton, gb);
+        for (ActionListener al : rematchButton.getActionListeners()) {
+            rematchButton.removeActionListener(al);
+        }
+        rematchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessGame.rematch();
+                chessPanel.hideEndGameOptions();
+            }
+        });
 
         gb.gridx = 0;
         gb.gridy = 2;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(newGameButton, gb);
+        for (ActionListener al : newGameButton.getActionListeners()) {
+            newGameButton.removeActionListener(al);
+        }
+        newGameButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessGame.stop();
+                chessPanel.getApplicationFrame().show("gamesetup");
+                chessPanel.hideEndGameOptions();
+            }
+        });
 
         gb.gridx = 1;
         gb.gridy = 2;
         gb.weightx = 0.5;
         gb.gridwidth = 1;
         display.add(mainMenuButton, gb);
+        mainMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                chessGame.stop();
+                chessPanel.getApplicationFrame().show("menu");
+                chessPanel.hideEndGameOptions();
+            }
+        });
 
         assignChessGameAndChessPanelToControllers();
     }
