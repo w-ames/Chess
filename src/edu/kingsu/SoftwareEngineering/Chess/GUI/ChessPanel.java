@@ -464,6 +464,55 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         showEndGameOptionsButton.enable(false);
         endGameOptions.setVisible(true);
         endGameState = true; // If the user undoes a move, this should be set back to false.
+        disableButtons();
+        disableBoardClick();
+
+    }
+
+    /**
+     * Disables buttons.
+     */
+    public void disableButtons() {
+        redoButton.setEnabled(false);
+        undoButton.setEnabled(false);
+        resignButton.setEnabled(false);
+        moveHintButton.setEnabled(false);
+        pieceInfo.setEnabled(false);
+    }
+
+    /**
+     * Enable buttons
+     */
+    public void enableButtons() {
+        redoButton.setEnabled(true);
+        undoButton.setEnabled(true);
+        resignButton.setEnabled(true);
+        moveHintButton.setEnabled(true);
+        pieceInfo.setEnabled(true);
+    }
+
+    /**
+     * Make board unclickable
+     */
+    public void disableBoardClick() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                guiView.getSquares(i, j).setEnabled(false);
+            }
+        }
+
+    }
+
+    /**
+     * Make board unclickable
+     */
+    public void enableBoardClick() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                guiView.getSquares(i, j).setEnabled(true);
+            }
+        }
+
     }
 
     /**
@@ -472,6 +521,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void hideEndGameOptions() { // Needs to be edited to read from GameState.
         showEndGameOptionsButton.enable(true);
         endGameOptions.setVisible(false);
+        enableButtons();
+        enableBoardClick();
 
         // If the game is in the end game state, and hideEndGameOptions() is called,
         // replace the "resign button"
@@ -498,6 +549,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void hideEndGameOptionsForRematch() { // Needs to be edited to read from GameState.
         showEndGameOptionsButton.enable(true);
         endGameOptions.setVisible(false);
+        enableButtons();
+        enableBoardClick();
 
         // If the game is in the end game state, and hideEndGameOptions() is called,
         // replace the "resign button"
@@ -526,6 +579,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             pawnPromotionScreen.showPawnPromotionScreen(fromRow, fromCol, toRow, toCol);
             pawnPromotionScreen.setVisible(true);
         }
+        disableButtons();
+        disableBoardClick();
     }
 
     /**
@@ -533,6 +588,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void hidePawnPromotionScreen() {
         pawnPromotionScreen.setVisible(false);
+        enableButtons();
+        enableBoardClick();
     }
 
     /**
