@@ -680,6 +680,20 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Turn the move hint option on or off.
+     */
+    public void undoRedoOnOff() {
+
+        if (undoRedoSwitch == true) {
+            this.undoRedoSwitch = false;
+            addNotification("Undo Redo OFF");
+        } else {
+            this.undoRedoSwitch = true;
+            addNotification("Undo Redo ON");
+        }
+    }
+
+    /**
      * Turn the notifications on or off.
      */
     public void notificationsOnOff() {

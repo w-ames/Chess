@@ -506,27 +506,35 @@ public class GameSetUp extends JPanel {
 
         if (highlightMove.isSelected()) {
             highlightMoveSwitch = true;
+            container.toggleBoardHighlightsMenuCheckBox(true);
 
         } else {
             highlightMoveSwitch = false;
+            container.toggleBoardHighlightsMenuCheckBox(false);
         }
 
         if (moveHint.isSelected()) {
             moveHintSwitch = true;
+            container.toggleMoveHintMenuCheckBox(true);
         } else {
             moveHintSwitch = false;
+            container.toggleMoveHintMenuCheckBox(false);
         }
 
         if (undoRedo.isSelected()) {
             undoRedoSwitch = true;
+            container.toggleUndoRedoCheckBox(true);
         } else {
             undoRedoSwitch = false;
+            container.toggleUndoRedoCheckBox(false);
         }
 
         if (notification.isSelected()) {
             notificationsSwitch = true;
+            container.toggleNotificationsCheckBox(true);
         } else {
             notificationsSwitch = false;
+            container.toggleNotificationsCheckBox(false);
         }
     }
 
