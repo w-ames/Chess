@@ -10,6 +10,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 
+
+/**
+ * ChessGameSaveController that holds all the save game controller of the chess game
+ * 
+ */
 public class ChessGameSaveController implements ActionListener{
     private ChessGame chessGame;
 
