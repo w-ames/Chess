@@ -46,7 +46,7 @@ public class ChessGameLoadController implements ActionListener{
             try{
                 PGNFile pgnFile= new PGNFile(selectedFile);
                 if (chessGame == null) {
-                    setUp.setPGNFile(pgnFile, file);
+                    setUp.setPGNFile(pgnFile);
                     setUp.addLoadedFileName(selectedFile.getName());
                 } else {
                     chessGame.loadPGNFile(pgnFile);
