@@ -190,7 +190,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        undoButton.setToolTipText("Undo the move");
+        undoButton.setToolTipText("Undo move");
         invisbleButtonContainer.add(undoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
@@ -200,7 +200,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 2;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        moveHintButton.setToolTipText("Suggest the best possible move");
+        moveHintButton.setToolTipText("Move hint");
         invisbleButtonContainer.add(moveHintButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
@@ -210,7 +210,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        redoButton.setToolTipText("Redo the move");
+        redoButton.setToolTipText("Redo move");
         invisbleButtonContainer.add(redoButton, gbForButtonPanel);
 
         resignAndPieceInfoHolder.setLayout(new GridBagLayout());
@@ -222,12 +222,12 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         resigngb.weightx = 1;
         resigngb.weighty = 1;
         resigngb.insets = new Insets(5, 5, 5, 5);
-        pieceInfo.setToolTipText("Show information about the piece");
+        pieceInfo.setToolTipText("View information about the selected piece");
 
         resignAndPieceInfoHolder.add(pieceInfo, resigngb);
 
         resigngb.gridx = 1;
-        resignButton.setToolTipText("Resign the game");
+        resignButton.setToolTipText("Resign");
         resignAndPieceInfoHolder.add(resignButton, resigngb);
 
         gbForButtonPanel.gridy = 1;
@@ -521,7 +521,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             resigngb.fill = GridBagConstraints.BOTH;
             resigngb.weightx = 1;
             resigngb.weighty = 1;
-            showEndGameOptionsButton.setToolTipText("View endgame settings");
+            showEndGameOptionsButton.setToolTipText("View end game options");
             resignAndPieceInfoHolder.add(showEndGameOptionsButton, resigngb);
             resignAndPieceInfoHolder.revalidate();
             resignAndPieceInfoHolder.repaint();
@@ -598,9 +598,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        Square copyButton = (Square) e.getSource();
-        String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
-        addNotification(squareNotification);
+        // Square copyButton = (Square) e.getSource();
+        // String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
+        // addNotification(squareNotification);
 
     }
 
