@@ -45,10 +45,8 @@ public class PGNFileEvalListener extends PGNFileBaseListener {
 	@Override
     public void exitPgn_game(PGNFileParser.Pgn_gameContext ctx) {
         if (currentFileInvalid) {
-            System.err.println("adding file index to unparseableFileIndices");
             unparseableFileIndices.add(currentFileIndex);
         } else {
-            System.err.println("adding file to parsedFiles");
             parsedFiles.add(currentFile);
         }
         currentFileIndex++;
