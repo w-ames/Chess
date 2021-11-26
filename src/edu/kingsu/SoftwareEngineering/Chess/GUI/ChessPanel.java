@@ -383,7 +383,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
         resignButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                getChessGame().resign();
+                int userSelection= JOptionPane.showConfirmDialog(container, "Are you sure you want to resign?", "Resign?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(userSelection == JOptionPane.YES_OPTION) getChessGame().resign();
             }
         });
 
