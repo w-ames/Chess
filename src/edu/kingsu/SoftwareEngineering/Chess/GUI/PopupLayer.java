@@ -202,6 +202,7 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.rematch();
                 chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -218,6 +219,8 @@ public class PopupLayer extends JPanel {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("gamesetup");
                 chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.hideMenuBar();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -230,7 +233,9 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("menu");
+                chessPanel.hideMenuBar();
                 chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -283,52 +288,5 @@ public class PopupLayer extends JPanel {
         chooseKnightListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseRookListener.setMovement(fromRow, fromCol, toRow, toCol);
     }
-
-    /**
-     * Adds mouse click funtionality to pawn promotion screen button and end game
-     * options screen buttons.
-     */
-    // @Override
-    // public void mouseReleased(MouseEvent e) {
-
-    // JButton copyButton = (JButton) e.getSource();
-    // String name = copyButton.getText();
-
-    // // This if/else block specifies how each button behaves.
-    // if (name.equals("Queen")) {
-
-    // System.err.println("Queen");
-
-    // // User input upon submit can be found in the variable:
-    // userPawnPromotionChoice.
-    // // ******
-    // // Put code to use pawn promotion choice here
-    // // *****
-
-    // this.setVisible(false);
-    // } else if (name.equals("Rook")) {
-
-    // } else if (name.equals("Bishop")) {
-
-    // } else if (name.equals("Knight")) {
-
-    // } else if (name.equals("View Board")) {
-
-    // // Hide end game options.
-    // this.setVisible(false);
-
-    // } else if (name.equals("Rematch")) {
-
-    // // Call rematch here
-
-    // } else if (name.equals("New Game")) {
-
-    // // Call new game here
-
-    // } else if (name.equals("Main Menu")) {
-
-    // // Call back to main menu here
-    // }
-    // }
 
 }

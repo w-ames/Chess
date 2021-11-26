@@ -144,6 +144,13 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
+    /**
+     * Clears all notifications.
+     */
+    public void clearNotifications() {
+        notificaionDisplayArea.setText(null);
+    }
+
     // Mandatory override to inherit from ChessGameView.
     public void addListeners() {
 
@@ -161,6 +168,11 @@ public class ChessGameMessagesView extends ChessGameView {
         addTurnNotification(turn);
     }
 
+    /**
+     * Turns off notifications
+     * 
+     * @param notificationsSwitch True = on, false = off.
+     */
     public void turnNotificationsOnOff(boolean notificationsSwitch) {
         notificationsOnOff = notificationsSwitch;
     }

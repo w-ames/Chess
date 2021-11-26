@@ -105,6 +105,8 @@ public class ApplicationFrame extends JFrame {
         addMenuBar();
         addActionListenersToMenuBar();
 
+        menuBar.setVisible(false);
+
         pack();
         setVisible(true);
     }
@@ -119,6 +121,20 @@ public class ApplicationFrame extends JFrame {
             getLoadController().setChessGame(null);
         }
         layout.show(contentPanel, card);
+    }
+
+    /**
+     * Shows menu bar.
+     */
+    public void showMenuBarOnChessPanel() {
+        menuBar.setVisible(true);
+    }
+
+    /**
+     * Hides menu bar.
+     */
+    public void hideMenuBar() {
+        menuBar.setVisible(false);
     }
 
     /**
@@ -263,6 +279,7 @@ public class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 layout.show(contentPanel, "menu");
+                menuBar.setVisible(false);
 
             }
 
@@ -432,6 +449,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -444,6 +464,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -456,6 +479,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
 
             }
 
@@ -469,6 +495,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });

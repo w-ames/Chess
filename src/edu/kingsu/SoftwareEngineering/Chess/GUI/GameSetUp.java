@@ -604,40 +604,31 @@ public class GameSetUp extends JPanel {
             }
         });
 
-        //loadButton.addActionListener(new ActionListener() {
-        //    @Override
-        //    public void actionPerformed(ActionEvent e) {
-        //        //
-        //        //
-        //        // Add code for load game here
-        //        //
-        //        //
-        //    }
-        //});
-
         timeSlider.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e){
-                int time= ((JSlider)e.getSource()).getValue();
+            public void stateChanged(ChangeEvent e) {
+                int time = ((JSlider) e.getSource()).getValue();
                 timerLabel1.setText(getMinAndSec(time));
             }
         });
 
         timeSlider2.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e){
-                int time= ((JSlider)e.getSource()).getValue();
+            public void stateChanged(ChangeEvent e) {
+                int time = ((JSlider) e.getSource()).getValue();
                 timerLabel2.setText(getMinAndSec(time));
             }
         });
     }
 
-    public static String getMinAndSec(int fullSeconds){
-        int minutes= fullSeconds / 60;
-        int seconds= fullSeconds % 60;
+    public static String getMinAndSec(int fullSeconds) {
+        int minutes = fullSeconds / 60;
+        int seconds = fullSeconds % 60;
         String secondsTo2Digits;
-        if(seconds > 9) secondsTo2Digits= "" + seconds;
-        else secondsTo2Digits= "0" + seconds;
+        if (seconds > 9)
+            secondsTo2Digits = "" + seconds;
+        else
+            secondsTo2Digits = "0" + seconds;
         return "" + minutes + ":" + secondsTo2Digits;
     }
 

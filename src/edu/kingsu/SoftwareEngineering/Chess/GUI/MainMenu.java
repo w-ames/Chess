@@ -77,6 +77,9 @@ public class MainMenu extends JPanel {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setSize(new Dimension(600, 800));
                 helpWindow.setVisible(true);
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
         });
         exitButton.addActionListener(new ActionListener() {
