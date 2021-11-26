@@ -56,7 +56,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ImageIcon redoIcon = ChessGameGUIView.openPieceImageFile("images/white_redo.png", 40);
     private ImageIcon hintIcon = ChessGameGUIView.openPieceImageFile("images/white_hint.png", 40);
     private ImageIcon resignIcon = ChessGameGUIView.openPieceImageFile("images/white_resign.png", 40);
-    private ImageIcon aboutPieceIcon = ChessGameGUIView.openPieceImageFile("images/white_about_piece.png", 40);
+    private ImageIcon aboutPieceIcon = ChessGameGUIView.openPieceImageFile("images/about.png", 40);
+    private ImageIcon endGameIcon = ChessGameGUIView.openPieceImageFile("images/view_end_game.png", 40);
 
 
     private CustomButton undoButton = new CustomButton(undoIcon);
@@ -69,7 +70,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     // private CustomButton resignButton = new CustomButton("Resign");
     private CustomButton pieceInfo = new CustomButton(aboutPieceIcon);
     // private CustomButton pieceInfo = new CustomButton("About Piece");
-    private CustomButton showEndGameOptionsButton = new CustomButton("View End Game Options");
+    private CustomButton showEndGameOptionsButton = new CustomButton(endGameIcon);
 
     // endGameState is used to determine if the main panel should display the "View
     // End Game Options" button instead of the "Resign" button.
@@ -198,6 +199,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 2;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        moveHintButton.setToolTipText("Suggest the best possible move");
         invisbleButtonContainer.add(moveHintButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
@@ -207,6 +209,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        redoButton.setToolTipText("Redo the move");
         invisbleButtonContainer.add(redoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 1;
@@ -216,6 +219,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        pieceInfo.setToolTipText("Show information about the piece");
         invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 1;
@@ -225,6 +229,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        resignButton.setToolTipText("Resign the game");
         invisbleButtonContainer.add(resignButton, gbForButtonPanel);
 
         buttonContainer.setLayout(new GridBagLayout());
@@ -446,13 +451,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             invisbleButtonContainer.remove(resignButton);
             GridBagConstraints gb = new GridBagConstraints();
             gb.fill = GridBagConstraints.BOTH;
-            gb.gridy = 2;
-            gb.gridx = 0;
-            gb.weightx = 1;
+            gb.gridy = 1;
+            gb.gridx = 1;
+            gb.weightx = 0.5;
             gb.weighty = 1;
             gb.gridheight = 1;
-            gb.gridwidth = 4;
+            gb.gridwidth = 1;
             gb.insets = new Insets(5, 5, 5, 5);
+            showEndGameOptionsButton.setToolTipText("View endgame settings");
             invisbleButtonContainer.add(showEndGameOptionsButton, gb);
             invisbleButtonContainer.revalidate();
             invisbleButtonContainer.repaint();
@@ -626,6 +632,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
                 gb.gridheight = 1;
                 gb.gridwidth = 1;
                 gb.insets = new Insets(5, 5, 5, 5);
+
                 invisbleButtonContainer.add(resignButton, gb);
                 invisbleButtonContainer.revalidate();
                 invisbleButtonContainer.repaint();

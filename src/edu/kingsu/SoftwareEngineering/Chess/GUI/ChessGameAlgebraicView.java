@@ -156,7 +156,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         moveString +=  "font-color: #404040;";
         moveString +=    "background-color: #C0C0C0;";
         moveString +="}";
-        moveString +="</style> <table width=\"100%\">";
+        moveString +="</style> <table width=\"100%\"><tr><th width=\"20%\">#</th><th width =\"40%\">White</th><th width=\"40%\">Black</th></tr>";
         // <font style=\"font-family:\'Roboto\'\" size = \"6\">
         for (int i = 0; i < pgnMoves.size(); i++) { 
 
