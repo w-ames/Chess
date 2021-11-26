@@ -206,7 +206,11 @@ public abstract class Player implements Runnable {
             timer.cancel();
             timerRunning = false;
         }
-        updateTime(interval);
+        if (chessGame.getPlayerInterval() > 0) {
+            updateTime(interval);
+        } else {
+            updateTime(0);
+        }
     }
 
     /**
