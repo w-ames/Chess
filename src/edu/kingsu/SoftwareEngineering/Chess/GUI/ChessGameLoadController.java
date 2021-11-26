@@ -21,18 +21,24 @@ public class ChessGameLoadController implements ActionListener{
         this.setUp= setUp;
     }
 
+    /**
+     * Displays a file chooser to the user so they can choose a PGN file to load.
+     */
     public void actionPerformed(ActionEvent e){
+        doAction();
+    }
+
+    /**
+     * Displays a file chooser to the user so they can choose a PGN file to load. This method
+     * is called internally by actionPerformed, but may also be called externally.
+     */
+    public void doAction(){
         JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Load Chess Game");
 
-        //get the application frame via the parents of the object which this event
-        //occurred on
-        Container container= (Container)e.getSource();
-        while(container.getParent() != null){
-            container= container.getParent();
-        }
+        Container container = appFrame;
 
         int userSelection= chooser.showOpenDialog(container);
         if(userSelection == JFileChooser.APPROVE_OPTION){
