@@ -464,6 +464,32 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Hides the end game options popup screen.
+     */
+    public void hideEndGameOptionsForRematch() { // Needs to be edited to read from GameState.
+        showEndGameOptionsButton.enable(true);
+        endGameOptions.setVisible(false);
+
+        // If the game is in the end game state, and hideEndGameOptions() is called,
+        // replace the "resign button"
+        // with the "Show end game options" button.
+        if (endGameState == true && !buttonContainer.isAncestorOf(showEndGameOptionsButton)) {
+            resignAndPieceInfoHolder.remove(showEndGameOptionsButton);
+            GridBagConstraints resigngb = new GridBagConstraints();
+            resigngb.gridx = 1;
+            resigngb.gridy = 0;
+            resigngb.fill = GridBagConstraints.BOTH;
+            resigngb.weightx = 1;
+            resigngb.weighty = 1;
+            resigngb.insets = new Insets(5, 5, 5, 5);
+            resignAndPieceInfoHolder.add(resignButton, resigngb);
+            resignAndPieceInfoHolder.revalidate();
+            resignAndPieceInfoHolder.repaint();
+
+        }
+    }
+
+    /**
      * Displays the pawn promotion popup screen.
      */
     public void showPawnPromotionScreen(int fromRow, int fromCol, int toRow, int toCol) {
