@@ -33,7 +33,7 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
-    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem newGameMenuItem = new JMenuItem("Main Menu");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
     private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
