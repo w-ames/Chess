@@ -37,15 +37,14 @@ public class MainMenu extends JPanel {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
                 container.show("gamesetup");
             }
         });
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
+                container.show("gamesetup");
+                container.getLoadController().doAction();
             }
         });
         tutorialButton.addActionListener(new ActionListener() {
