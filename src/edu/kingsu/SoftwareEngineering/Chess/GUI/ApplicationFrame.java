@@ -16,7 +16,13 @@ import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+/**
+ * ApplicationFrame is a JFrame that holds all the JPanel of the application 
+ * 
+ * @author Gregory Cal
+ * @author Chelsie Bajic
+ * @since 11/2021
+ */
 public class ApplicationFrame extends JFrame {
 
     private static final String WINDOW_TITLE = "Chess Game";
@@ -33,7 +39,7 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
-    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem newGameMenuItem = new JMenuItem("Main Menu");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
     private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
@@ -505,11 +511,17 @@ public class ApplicationFrame extends JFrame {
         });
 
     }
-
+    /**
+     * 
+     * @return saveController returns controller to save the PGN
+     */
     public ChessGameSaveController getSaveController() {
         return saveController;
     }
-
+    /**
+     * 
+     * @return loadController returns the controller to load the PGN
+     */
     public ChessGameLoadController getLoadController() {
         return loadController;
     }

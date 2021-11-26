@@ -63,9 +63,6 @@ public class PGNFile implements Iterable<String>{
         this.getTagPairMap().putAll(parsedFile.getTagPairMap());
 
         setResult(parsedFile.getResult());
-        System.err.println("Tags:"+getTagPairMap());
-        System.err.println("Moves: "+getMoveTextList());
-        System.err.println("Result: "+getResult());
 
         validateTagPairs(tagPairs);
         moveText= validateMoveTextAndResult(moveText, result);

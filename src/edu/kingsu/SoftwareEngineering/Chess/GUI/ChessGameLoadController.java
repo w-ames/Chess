@@ -6,6 +6,7 @@ import java.io.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JOptionPane;
 
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
@@ -20,19 +21,24 @@ public class ChessGameLoadController implements ActionListener{
         this.appFrame= appFrame;
         this.setUp= setUp;
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent e){
+        doAction();
+    }
+
+    /**
+     * Displays a file chooser to the user so they can choose a PGN file to load. This method
+     * is called internally by actionPerformed, but may also be called externally.
+     */
+    public void doAction(){
         JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Load Chess Game");
 
-        //get the application frame via the parents of the object which this event
-        //occurred on
-        Container container= (Container)e.getSource();
-        while(container.getParent() != null){
-            container= container.getParent();
-        }
+        Container container = appFrame;
 
         int userSelection= chooser.showOpenDialog(container);
         if(userSelection == JFileChooser.APPROVE_OPTION){
@@ -47,14 +53,17 @@ public class ChessGameLoadController implements ActionListener{
                 }
             }catch(FileNotFoundException ex){
                 System.err.println("Could not find the designated file");
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(container, "Could not find the designated file", "File Not Found", JOptionPane.ERROR_MESSAGE);
             }catch(IllegalArgumentException ex){
                 System.err.println("File could not be used as a PGN file");
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(container, "The designated file could not be read. There may be a problem with the formatting inside the file.", "File Could Not Be Read", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-
+    /**
+     * Sets the chessGame to the chessGame of the class
+     * @param chessGame the ChessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }

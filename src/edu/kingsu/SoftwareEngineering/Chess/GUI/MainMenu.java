@@ -6,9 +6,20 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Insets;
 import java.awt.Dimension;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
-
+/**
+ * MainMenu holds all the components for the mainmenu display
+ * 
+ * @author Gregory Cal
+ * @author Chelsie Bajic
+ * @since 11/2021
+ */
 public class MainMenu extends JPanel {
 
     private ApplicationFrame container;
@@ -19,6 +30,12 @@ public class MainMenu extends JPanel {
     private CustomButton exitButton = new CustomButton("Exit");
     private MainLayer background = new MainLayer();
     private ButtonContainer buttonContainer = new ButtonContainer();
+    JLabel chessTitle = new JLabel();
+
+    /**
+     * default constructor for the MainMenu frame
+     * @param container the ApplicationFrame container
+     */
 
     public MainMenu(ApplicationFrame container) {
         // Add super constructor and parameter to go in between cards
@@ -27,25 +44,31 @@ public class MainMenu extends JPanel {
         //
 
         // Set a JLabel for the LOGO
-        ImageIcon chessIcon = new ImageIcon("./src/assets/images/chesslogo2.png");
-        Image image = chessIcon.getImage();
-        Image newimage = image.getScaledInstance(450, 200, java.awt.Image.SCALE_SMOOTH);
-        chessIcon = new ImageIcon(newimage);
-        JLabel chessTitle = new JLabel(chessIcon);
-        chessTitle.setBackground(Color.black);
+        try{
 
+            BufferedImage bufferedImage = ImageIO.read(MainMenu.class.getClassLoader().getResource("chesslogo2.png"));
+            Image logoImage =  bufferedImage.getScaledInstance(450, 200, Image.SCALE_SMOOTH);
+            ImageIcon chessIcon = new ImageIcon(logoImage);
+            chessTitle.setIcon(chessIcon);
+            chessTitle.setHorizontalAlignment(JLabel.CENTER);
+        } catch (Exception e){
+
+            System.err.println(e);
+
+        }
+        //chessIcon = new ImageIcon(newimage);
+       
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
                 container.show("gamesetup");
             }
         });
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // here
-                JOptionPane.showMessageDialog(container, "Under Construction", "Sorry", JOptionPane.ERROR_MESSAGE);
+                container.show("gamesetup");
+                container.getLoadController().doAction();
             }
         });
         tutorialButton.addActionListener(new ActionListener() {
@@ -176,5 +199,10 @@ public class MainMenu extends JPanel {
         invisbleContainer.setOpaque(false);
         background.add(invisbleContainer, gb);
 
+        newGameButton.setToolTipText("Set up the options to start a new game");
+        tutorialButton.setToolTipText("Play a game with all help features turned on against an easy opponent");
+        loadGameButton.setToolTipText("Load a game from a PGN file");
+        helpButton.setToolTipText("See a manual about how to use this application, the rules of chess, and more");
+        exitButton.setToolTipText("Exit the application");
     }
 }

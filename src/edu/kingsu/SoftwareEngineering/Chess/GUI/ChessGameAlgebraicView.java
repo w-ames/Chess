@@ -20,9 +20,10 @@ import javax.swing.text.DefaultCaret;
 import java.awt.FlowLayout;
 
 /**
- * ChessGameAlgebraicView class holds the graphical view of the game board.
+ * ChessGameAlgebraicView class holds the graphical view of the game board. And will list the moves made by the players.
  * 
  * @author Gregory Cal
+ * @since 11/2021
  */
 public class ChessGameAlgebraicView extends ChessGameView {
 
@@ -61,7 +62,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.gridwidth = 2;
         gb.insets = new Insets(10, 10, 5, 10);
         JScrollPane scrollNotifications = new JScrollPane(algebraicDisplayPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollNotifications.setMaximumSize(new Dimension(10, 100));
         scrollNotifications.setPreferredSize(new Dimension(10, 100));
         scrollNotifications.setMinimumSize(new Dimension(10, 100));
@@ -116,7 +117,10 @@ public class ChessGameAlgebraicView extends ChessGameView {
     public void submitAlgebraicMove() {
         String userInputMove = algebricInputPanel.getText();
     }
-
+ 
+    /**
+     * updates the JEditorPane of algebaicDisplay everytime a move has been set to show the set of moves that has been made.
+     * */
     @Override
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all
@@ -133,21 +137,18 @@ public class ChessGameAlgebraicView extends ChessGameView {
 
         moveString += "<style>";
         moveString += "table, {";
-        // moveString += "border: 1px solid black;";
         moveString += "border-radius: 10px;";
         moveString += "border-style: groove;";
         moveString += "}";
         moveString += "th, td {";
         moveString += "font-size: 1.1em;";
         moveString += "border-radius: 10px;";
-        // moveString += "width: 75px;";
         moveString += "border-color: #404040;";
         moveString += "font-family:Roboto;";
         moveString += "font-color: #404040;";
         moveString += "background-color: #C0C0C0;";
         moveString += "}";
         moveString += "</style> <table width=\"100%\"><tr><th width=\"20%\">#</th><th width =\"40%\">White</th><th width=\"40%\">Black</th></tr>";
-        // <font style=\"font-family:\'Roboto\'\" size = \"6\">
         for (int i = 0; i < pgnMoves.size(); i++) {
 
             if (i % 2 == 0) {
@@ -177,17 +178,23 @@ public class ChessGameAlgebraicView extends ChessGameView {
             }
 
         }
-
         moveString += "</font></table>";
         algebraicDisplayPanel.setText(moveString);
-
     }
 
+    /**
+     * 
+     */
     @Override
     public void addListeners() {
         algebricInputPanel.addActionListener(new ChessGameAlgebraicController(this, getChessGame()));
     }
-
+    /**
+     * A method that will replace or add an ASCII symbol to represent the piece that moved
+     * @param move the string the represents the algebraic notation
+     * @param isWhite a boolean that will check if white's or black's turn
+     * @return returns a string of the same algebraic notation with an ASCII symbol that represents which piece that moved
+     */
     public String addChessUni(String move, boolean isWhite) {
         String whiteKing = "&#9812;";
         String whiteQueen = "&#9813;";
