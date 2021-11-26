@@ -449,6 +449,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -461,6 +464,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -473,6 +479,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
 
             }
 
@@ -486,6 +495,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });

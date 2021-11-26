@@ -594,17 +594,6 @@ public class GameSetUp extends JPanel {
             }
         });
 
-        // loadButton.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        // //
-        // //
-        // // Add code for load game here
-        // //
-        // //
-        // }
-        // });
-
         timeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
