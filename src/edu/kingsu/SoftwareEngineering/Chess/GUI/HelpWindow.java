@@ -50,10 +50,15 @@ public class HelpWindow extends JFrame {
     JPanel appHelp = new JPanel();
     JPanel aboutApp = new JPanel();
     JPanel license = new JPanel();
-
+    /**
+     * Default HelpWindow constructor with no parameters
+     */
     public HelpWindow() {
     }
-
+    /**
+     * Open the HelpWindow from a specific button
+     * @param orgin  Which button was used to open the dialog
+     */
     public HelpWindow(String orgin) {
 
         buildChessRulesPanel();
@@ -68,7 +73,7 @@ public class HelpWindow extends JFrame {
     }
 
     /**
-     * 
+     * Opens the HelpWindow from a button to a specific tab
      * @param orgin Which button was used to open the dialog
      * @param index Specifies which tab to open
      */
@@ -90,7 +95,7 @@ public class HelpWindow extends JFrame {
     /**
      * For opening to a specific piece info tab.
      * 
-     * @param orgin
+     * @param orgin         From a specific button
      * @param mainTabIndex  Which main tab to open
      * @param pieceTabIndex Which piece tab to open
      */
@@ -109,7 +114,9 @@ public class HelpWindow extends JFrame {
         this.add(tabbedPane);
 
     }
-
+    /**
+     * Set the background for each tab
+     */
     private void setBackgroundColors() {
         // Set background color for each tab.
 
@@ -126,7 +133,9 @@ public class HelpWindow extends JFrame {
         aboutApp.setLayout(new GridLayout(0, 1));
         aboutApp.add(aboutAppBackground);
     }
-
+    /**
+     * A MainLayer for chessRulePanel
+     */
     private void buildChessRulesPanel() {
 
         MainLayer gameRulesBackground = new MainLayer();
@@ -170,7 +179,9 @@ public class HelpWindow extends JFrame {
         editorScrollPane.setOpaque(false);
         textArea.add(editorScrollPane, gb);
     }
-
+    /**
+     * A MainLayer for pieceInfo Panel
+     */
     private void buildPieceInfoPanel() {
         MainLayer pieceInfoBackground = new MainLayer();
         pieceInfo.setLayout(new GridLayout(0, 1));
@@ -310,7 +321,10 @@ public class HelpWindow extends JFrame {
         piecePanel.add("King", kingEditorScrollPane);
 
     }
-
+    /**
+     * A MainLayer that holds the description for all the pieces
+     * @param tabIndex Specifies which tab to open
+     */
     private void buildPieceInfoPanelAndChooseOpeningTab(int tabIndex) {
         MainLayer pieceInfoBackground = new MainLayer();
         pieceInfo.setLayout(new GridLayout(0, 1));
@@ -452,7 +466,9 @@ public class HelpWindow extends JFrame {
         piecePanel.setSelectedIndex(tabIndex);
 
     }
-
+    /**
+     * A MainLayer for the appHelp Panel
+     */
     private void buildAppHelpPanel() {
         MainLayer appHelpBackground = new MainLayer();
         appHelp.setLayout(new GridLayout(0, 1));
@@ -498,7 +514,9 @@ public class HelpWindow extends JFrame {
         textArea.add(editorScrollPane, gb);
 
     }
-
+    /**
+     * A MainLayer for about panel
+     */
     private void buildAboutAppPanel() {
         MainLayer aboutAppBackground = new MainLayer();
         aboutApp.setLayout(new GridLayout(0, 1));
@@ -542,7 +560,9 @@ public class HelpWindow extends JFrame {
         textArea.add(editorScrollPane, gb);
 
     }
-
+    /**
+     * A MainLayer for license panel
+     */
     private void buildLicensePanel() {
         MainLayer licenseBackground = new MainLayer();
         license.setLayout(new GridLayout(0, 1));
@@ -586,7 +606,9 @@ public class HelpWindow extends JFrame {
         textArea.add(editorScrollPane, gb);
 
     }
-
+    /**
+     * Add the tabbed panel
+     */
     private void addPanelsToTabbedPane() {
 
         tabbedPane.add("Chess Rules", chessRules);

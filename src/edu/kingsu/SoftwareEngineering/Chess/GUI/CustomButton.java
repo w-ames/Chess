@@ -47,7 +47,11 @@ public class CustomButton extends JButton implements MouseListener {
         addMouseListener(this);
 
     }
-
+    /**
+     * Overloaded contructor for adding two images right beside each other. 
+     * @param buttonIcon    first icon for the button
+     * @param buttonIcon2   second icon for the button
+     */
     public CustomButton(ImageIcon buttonIcon, ImageIcon buttonIcon2) {
 
         this.setOpaque(true);
@@ -155,7 +159,9 @@ public class CustomButton extends JButton implements MouseListener {
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void mouseClicked(MouseEvent e) {
 
     }

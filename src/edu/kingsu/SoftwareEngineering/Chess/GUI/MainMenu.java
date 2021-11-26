@@ -8,7 +8,13 @@ import java.awt.Insets;
 import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
-
+/**
+ * MainMenu holds all the components for the mainmenu display
+ * 
+ * @author Gregory Cal
+ * @author Chelsie Bajic
+ * @since 11/2021
+ */
 public class MainMenu extends JPanel {
 
     private ApplicationFrame container;
@@ -19,7 +25,10 @@ public class MainMenu extends JPanel {
     private CustomButton exitButton = new CustomButton("Exit");
     private MainLayer background = new MainLayer();
     private ButtonContainer buttonContainer = new ButtonContainer();
-
+    /**
+     * default constructor for the MainMenu frame
+     * @param container the ApplicationFrame container
+     */
     public MainMenu(ApplicationFrame container) {
         // Add super constructor and parameter to go in between cards
         super();

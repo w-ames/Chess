@@ -12,8 +12,8 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
  * ChessGamePromotionController holds the Promotion controller of the chess game
  * model.
  * 
- * @author
- * @since 10/2021
+ * @author Chelsie Bajic
+ * @since 11/2021
  */
 public class ChessGamePromotionController implements ActionListener {
 
@@ -54,7 +54,13 @@ public class ChessGamePromotionController implements ActionListener {
         chessPanel.hidePawnPromotionScreen();
 
     }
-
+    /**
+     * Sets the promotion move
+     * @param fromRow represents the previous row
+     * @param fromCol represents the previous col
+     * @param toRow represents the new row
+     * @param toCol represents the new col
+     */
     public void setMovement(int fromRow, int fromCol, int toRow, int toCol) {
 
         this.fromRow = fromRow;
@@ -63,11 +69,17 @@ public class ChessGamePromotionController implements ActionListener {
         this.toCol = toCol;
 
     }
-
+    /**
+     * 
+     * @param chessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }
-
+    /**
+     * 
+     * @param chessPanel
+     */
     public void setChessPanel(ChessPanel chessPanel) {
         this.chessPanel = chessPanel;
     }

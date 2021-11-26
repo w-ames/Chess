@@ -20,7 +20,9 @@ public class ChessGameLoadController implements ActionListener{
         this.appFrame= appFrame;
         this.setUp= setUp;
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent e){
         JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
@@ -40,7 +42,7 @@ public class ChessGameLoadController implements ActionListener{
             try{
                 PGNFile pgnFile= new PGNFile(selectedFile);
                 if (chessGame == null) {
-                    setUp.setPGNFile(pgnFile);
+                    setUp.setPGNFile(pgnFile, file);
                     setUp.addLoadedFileName(selectedFile.getName());
                 } else {
                     chessGame.loadPGNFile(pgnFile);
@@ -54,7 +56,10 @@ public class ChessGameLoadController implements ActionListener{
             }
         }
     }
-
+    /**
+     * Sets the chessGame to the chessGame of the class
+     * @param chessGame the ChessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }

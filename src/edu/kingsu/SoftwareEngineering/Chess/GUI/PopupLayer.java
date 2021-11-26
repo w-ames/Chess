@@ -27,7 +27,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
  * 
  * @author Chelsie Bajic
  * @author Gregory Cal
- * @since 10/2021
+ * @since 11/2021
  */
 public class PopupLayer extends JPanel {
 
@@ -241,11 +241,17 @@ public class PopupLayer extends JPanel {
 
         assignChessGameAndChessPanelToControllers();
     }
-
+    /**
+     * Sets the chessGame
+     * @param chessGame sets this as the  chessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }
-
+    /**
+     * Sets the chessPanel
+     * @param chessPanel sets this as the chessPanel
+     */
     public void setChessPanel(ChessPanel chessPanel) {
         this.chessPanel = chessPanel;
     }

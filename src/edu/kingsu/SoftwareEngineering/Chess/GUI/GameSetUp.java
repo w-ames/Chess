@@ -12,6 +12,14 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
+
+/**
+ * GameSetup holds all components of the gamesetup display.
+ * 
+ * @author Gregory Cal
+ * @author Chelsie Bajic
+ * @since 11/2021
+ */
 public class GameSetUp extends JPanel {
 
     private ApplicationFrame container;
@@ -72,7 +80,11 @@ public class GameSetUp extends JPanel {
 
     String player1Name;
     String player2Name;
-
+    /**
+     * The 
+     * 
+     * @param container
+     */
     public GameSetUp(ApplicationFrame container) {
         super();
         this.container = container;
@@ -620,7 +632,11 @@ public class GameSetUp extends JPanel {
             }
         });
     }
-
+    /**
+     * Convert seconds to minutes and seconds
+     * @param fullSeconds an int that represents a full second
+     * @return secondTo2Digits represents a conversion to minute and seconds(mm:ss)
+     */
     public static String getMinAndSec(int fullSeconds) {
         int minutes = fullSeconds / 60;
         int seconds = fullSeconds % 60;
@@ -631,7 +647,9 @@ public class GameSetUp extends JPanel {
             secondsTo2Digits = "0" + seconds;
         return "" + minutes + ":" + secondsTo2Digits;
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void addLoadListener() {
         loadButton.addActionListener(container.getLoadController());
     }
@@ -673,7 +691,10 @@ public class GameSetUp extends JPanel {
         undoRedo.setSelected(undoRedoSwitch);
         notification.setSelected(notificationsSwitch);
     }
-
+    /**
+     * Gets a PGNFiles and set it as a pgnFile
+     * @param file PGN
+     */
     public void setPGNFile(PGNFile file) {
         pgnFile = file;
     }
@@ -686,7 +707,10 @@ public class GameSetUp extends JPanel {
     public void addLoadedFileName(String fileName) {
         fileNameLabel.setText(" " + fileName);
     }
-
+    /**
+     * Gets the PGN file of the game
+     * @return will return a pgnFIle
+     */
     public PGNFile getPGNFile() {
         return pgnFile;
     }
