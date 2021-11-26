@@ -6,6 +6,7 @@ import java.io.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JOptionPane;
 
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
@@ -53,10 +54,10 @@ public class ChessGameLoadController implements ActionListener{
                 }
             }catch(FileNotFoundException ex){
                 System.err.println("Could not find the designated file");
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(container, "Could not find the designated file", "File Not Found", JOptionPane.ERROR_MESSAGE);
             }catch(IllegalArgumentException ex){
                 System.err.println("File could not be used as a PGN file");
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(container, "The designated file could not be read. There may be a problem with the formatting inside the file.", "File Could Not Be Read", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
