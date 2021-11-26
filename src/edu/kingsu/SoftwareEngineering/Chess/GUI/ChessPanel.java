@@ -290,9 +290,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         player2Clock.addPlayerName(player2Name, "Black: ");
 
         // *** These are for skeleton view only, time needs to be made dynamic *****
-        player1Clock.updatePlayerTime("5:01   ");
-        player2Clock.updatePlayerTime("1:08   ");
-        totalGameTime.updateTotalGameTime("23:00");
+        player1Clock.updatePlayerTime("0:00   ");
+        player2Clock.updatePlayerTime("0:00   ");
+        totalGameTime.updateTotalGameTime(" 0:00");
+
+        chessGame.registerPlayerClock(player1Clock, true);
+        chessGame.registerPlayerClock(player2Clock, false);
+        chessGame.registerTotalGameTimeClock(totalGameTime);
 
         /////////////////////////////////////////////////////////
 
@@ -607,6 +611,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Repetition stalemate");
             this.showEndGameOptions();
 
+        } else if (state == GameState.STALEMATE_REPITITION) { // Check if no material stalemate here.
+
+            addNotification("Insufficient material stalemate");
+            this.showEndGameOptions();
+
         } else if (state == GameState.BLACK_CHECK) { // Check if white check here.
 
             addNotification("White is in check!");
@@ -637,6 +646,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.BLACK_RESIGN) { // Check if black resign here.
 
             addNotification("Black has resigned");
+            this.showEndGameOptions();
+
+        } else if (state == GameState.WHITE_TIMEOUT) { // Check if white time out here.
+            addNotification("White has run out of time");
+            this.showEndGameOptions();
+        } else if (state == GameState.BLACK_TIMEOUT) { // Check if black time out here.
+            addNotification("Black has run out of time");
             this.showEndGameOptions();
 
         } else {
