@@ -40,6 +40,8 @@ public class ChessGameSaveController implements ActionListener{
         int userSelection= chooser.showSaveDialog(appFrame);
         if(userSelection == JFileChooser.APPROVE_OPTION){
             File fileToSave= chooser.getSelectedFile();
+            String filePath= fileToSave.getPath();
+            fileToSave= new File(filePath + ".pgn");
             // try{
             //     PGNFile pgnRepresentation= new PGNFile(chessGame.getTagPairMap(), chessGame.getAlgebraicHistory(), chessGame.getResult());  //ChessGame needs to store the result
             // }catch(FileNotFoundException ex){
