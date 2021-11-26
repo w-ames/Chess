@@ -306,4 +306,23 @@ public class TestBoard {
         assertTrue("Board instance returned boolean indicating incorrect square color", initialBoard.isColoredSquare(7, 0));
     }
 
+    @Test
+    public void testValidPromotion() {
+        Board promoBoard = new Board();
+        promoBoard.initializeBoard(new char[][] {
+            {' ',' ',' ',' ','K',' ',' ',' '},
+            {'p',' ',' ',' ',' ',' ',' ','P'},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' ',' ',' '},
+            {'p',' ',' ',' ',' ',' ',' ','P'},
+            {' ',' ',' ',' ','k',' ',' ',' '}
+        });
+        assertTrue("White pawn did not return correct pawn promotion validity.", promoBoard.validPromotion(1, 0, 0, 0));
+        assertFalse("White pawn did not return correct pawn promotion validity.", promoBoard.validPromotion(6, 0, 5, 0));
+        assertTrue("Black pawn did not return correct pawn promotion validity.", promoBoard.validPromotion(6, 7, 7, 7));
+        assertFalse("Black pawn did not return correct pawn promotion validity.", promoBoard.validPromotion(1, 7, 2, 7));
+    }
+
 }

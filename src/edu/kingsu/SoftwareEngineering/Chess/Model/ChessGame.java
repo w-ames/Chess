@@ -167,10 +167,7 @@ public class ChessGame {
      *  to white, <code>false</code> if black
      */
     public void forceSetPlayerTurn(boolean toWhite) {
-        // TODO test
-        // System.err.println("ENTERING PLAYERTURN LOCK");
         synchronized (playerTurnLock) {
-            // System.err.println("ENTERED PLAYERTURN LOCK");
             playerTurn = toWhite ? whitePlayer : blackPlayer;
         }
     }
@@ -873,9 +870,11 @@ public class ChessGame {
         if (totalClockOn) {
             if (whitePlayer != null) {
                 whitePlayer.pauseTimer();
+                whitePlayer.removeClocks();
             }
             if (blackPlayer != null) {
                 blackPlayer.pauseTimer();
+                blackPlayer.removeClocks();
             }
             timer.cancel();
             totalClockOn = false;
@@ -906,9 +905,10 @@ public class ChessGame {
                 blackPlayer = new PlayerAI(blackPlayer, blackType);
             }
             // TODO update text thing
-            synchronized (playerTurnLock) {
-                playerTurn = isWhiteTurn ? whitePlayer : blackPlayer;
-            }
+            // synchronized (playerTurnLock) {
+            //     playerTurn = isWhiteTurn ? whitePlayer : blackPlayer;
+            // }
+            forceSetPlayerTurn(isWhiteTurn);
             start();
         }
     }

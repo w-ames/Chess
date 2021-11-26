@@ -55,7 +55,7 @@ public abstract class Player implements Runnable {
      * @param newDepth the AI search depth of this new player
      */
     public Player(Player oldPlayer, int newDepth) {
-        this(oldPlayer.chessGame, oldPlayer.isWhite, oldPlayer.isHuman, oldPlayer.interval, newDepth);
+        this(oldPlayer.chessGame, oldPlayer.isWhite, newDepth<0, oldPlayer.interval, newDepth);
         this.clock = oldPlayer.clock;
         this.timer = oldPlayer.timer;
         this.timerRunning = oldPlayer.timerRunning;
@@ -261,6 +261,14 @@ public abstract class Player implements Runnable {
      */
     public void registerPlayerClock(ClockView clock) {
         this.clock = clock;
+    }
+
+    /**
+     * Removes any registered clock views from this Player
+     * @see ClockView
+     */
+    public void removeClocks() {
+        clock = null;
     }
 
 }
