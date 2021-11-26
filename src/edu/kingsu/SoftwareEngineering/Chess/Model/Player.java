@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 /**
@@ -163,13 +164,13 @@ public abstract class Player implements Runnable {
             }
             newTime = interval;
         }
-        clock.updatePlayerTime(""+newTime);
+        updateTime(newTime);
     }
 
     public void incrementTimer() {
         if (chessGame.getPlayerIncrement() > 0) {
             synchronized(TIMER_LOCK) {
-                interval += chessGame.getPlayerIncrement()-1;
+                interval += chessGame.getPlayerIncrement()+1;
                 setInterval();
             }
         }
@@ -180,18 +181,25 @@ public abstract class Player implements Runnable {
         synchronized(TIMER_LOCK) {
             interval = chessGame.getPlayerInterval();
         }
-        clock.updatePlayerTime(""+interval);
+        updateTime(interval);
         // resumeTimer();
+    }
+
+    private void updateTime(int time) {
+        if (clock != null) {
+            clock.updatePlayerTime(GameSetUp.getMinAndSec(time));
+        }
     }
 
     public void pauseTimer() {
         // System.err.println("1Stopping timer for: "+this);
-        if (timerRunning) {
+        if (timerRunning && timer != null) {
             // System.err.println("2Stopping timer for: "+this);
             // System.err.println("PAUSING: "+isWhite());
             timer.cancel();
             timerRunning = false;
         }
+        updateTime(interval);
     }
 
     /**

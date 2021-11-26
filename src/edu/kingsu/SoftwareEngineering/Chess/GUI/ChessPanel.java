@@ -284,6 +284,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Initialize the board at the start of a new game.
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+        if (this.chessGame != null) {
+            this.chessGame.removeClocks();
+        }
 
         // Sets player names on clock
         player1Clock.addPlayerName(player1Name, "White: ");

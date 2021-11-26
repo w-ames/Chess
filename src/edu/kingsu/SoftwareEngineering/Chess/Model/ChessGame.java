@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ChessGameView;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
@@ -42,6 +43,7 @@ public class ChessGame {
     private int interval;
     private Timer timer;
     private ClockView totalGameTimeClock;
+    private boolean totalClockOn = true;
 
     /**
      * Creates a new chess game.
@@ -59,8 +61,8 @@ public class ChessGame {
         tagPairs = new LinkedHashMap<String,String>();
         playerTurnLock = new Object();
         views = new ArrayList<ChessGameView>();
-        // initialize(whiteAI, blackAI, playerInterval, playerIncrement);
-        initialize(whiteAI, blackAI, 100, 15);
+        initialize(whiteAI, blackAI, playerInterval, playerIncrement);
+        // initialize(whiteAI, blackAI, 100, 15);
         clockTickBuffer = 0;
         timer = new Timer();
         interval = 0;
@@ -380,8 +382,10 @@ public class ChessGame {
     public void start() {
         synchronized (this) {
             notifyViews();
+            whitePlayer.pauseTimer();
             whitePlayerThread = new Thread(whitePlayer);
             whitePlayerThread.start();
+            blackPlayer.pauseTimer();
             blackPlayerThread = new Thread(blackPlayer);
             blackPlayerThread.start();
             this.notifyAll();
@@ -415,7 +419,9 @@ public class ChessGame {
 
     private void setInterval() {
         interval++;
-        totalGameTimeClock.updateTotalGameTime(""+interval);
+        if (totalGameTimeClock != null) {
+            totalGameTimeClock.updateTotalGameTime(GameSetUp.getMinAndSec(interval));
+        }
     }
 
     /**
@@ -769,6 +775,19 @@ public class ChessGame {
         stop();
         currentState = timedOutPlayer.isWhite() ? GameState.WHITE_TIMEOUT : GameState.BLACK_TIMEOUT;
         gameOver();
+    }
+
+    public void removeClocks() {
+        if (totalClockOn) {
+            if (whitePlayer != null) {
+                whitePlayer.pauseTimer();
+            }
+            if (blackPlayer != null) {
+                blackPlayer.pauseTimer();
+            }
+            timer.cancel();
+            totalClockOn = false;
+        }
     }
 
 }

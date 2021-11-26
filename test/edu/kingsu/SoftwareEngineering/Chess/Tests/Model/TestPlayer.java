@@ -14,8 +14,8 @@ public class TestPlayer {
     @Before
     public void setUp() {
         // PlayerHuman/AI is used to let us parts of the abstract parent, Player
-        testPlayerWhite = new PlayerHuman(null, true, 123, 456);
-        testPlayerBlack = new PlayerAI(null, false, 124, 457, 2);
+        testPlayerWhite = new PlayerHuman(null, true, 123);
+        testPlayerBlack = new PlayerAI(null, false, 124, 2);
         testThread = new ChessAIThread() {
             public Move calculateMove() {
                 return new Move(1,2,3,4);
