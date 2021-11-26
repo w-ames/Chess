@@ -17,28 +17,27 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
  */
 public class ChessGameSaveController implements ActionListener{
     private ChessGame chessGame;
+    private ApplicationFrame appFrame;
 
-    public ChessGameSaveController(ChessGame chessGame){
+    public ChessGameSaveController(ChessGame chessGame, ApplicationFrame appFrame){
         this.chessGame= chessGame;
+        this.appFrame= appFrame;
     }
 
     public void actionPerformed(ActionEvent e){
+        doAction();
+    }
+
+    public int doAction(){
         if (chessGame == null) {
-            return;
+            return -1;
         }
         JFileChooser chooser= new JFileChooser(new File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter= new FileNameExtensionFilter("PGN files", "pgn");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Save Chess Game");
 
-        //get the application frame via the parents of the object which this event
-        //occurred on
-        Container container= (Container)e.getSource();
-        while(container.getParent() != null){
-            container= container.getParent();
-        }
-
-        int userSelection= chooser.showSaveDialog(container);
+        int userSelection= chooser.showSaveDialog(appFrame);
         if(userSelection == JFileChooser.APPROVE_OPTION){
             File fileToSave= chooser.getSelectedFile();
             // try{
@@ -60,6 +59,9 @@ public class ChessGameSaveController implements ActionListener{
                 System.err.println("IOException when creating FileWriter");
                 ex.printStackTrace();
             }
+            return userSelection;
+        }else{
+            return userSelection;
         }
     }
 
