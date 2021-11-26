@@ -18,9 +18,12 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.*;
  * This class fully represents a game of chess involving all its components.
  */
 public class ChessGame {
+    /**
+     * The number of milliseconds in a second.
+     */
     public static final int SECOND = 1000;
-    public static final int CLOCK_TICKS_PER_SECOND = 10;
-    private int clockTickBuffer;
+    // public static final int CLOCK_TICKS_PER_SECOND = 10;
+    // private int clockTickBuffer;
     private Map<String, String> tagPairs;
     private Player whitePlayer;
     private Thread whitePlayerThread;
@@ -63,7 +66,7 @@ public class ChessGame {
         views = new ArrayList<ChessGameView>();
         initialize(whiteAI, blackAI, playerInterval, playerIncrement);
         // initialize(whiteAI, blackAI, 100, 15);
-        clockTickBuffer = 0;
+        // clockTickBuffer = 0;
         timer = new Timer();
         interval = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -76,8 +79,8 @@ public class ChessGame {
     }
 
     /**
-     * Initializes the chess game using default values.
-     * TODO default constants
+     * Initializes the chess game using default values. A white human player
+     * plays against a black random AI player with no time controls.
      */
     public void initialize() {
         initialize(-1, 0, -1, -1);
@@ -449,6 +452,9 @@ public class ChessGame {
         notifyViews();
     }
 
+    /**
+     * Increments the total time game timer.
+     */
     private void setInterval() {
         interval++;
         if (totalGameTimeClock != null) {
@@ -690,6 +696,16 @@ public class ChessGame {
         return highlight;
     }
 
+    /**
+     * Checks if movement from the given location to the given location would
+     * result in pawn promotion.
+     * @param rowFrom the proposed row from which a piece moves
+     * @param colFrom the proposed column from which a piece moves
+     * @param rowTo the proposed row to which a piece moves
+     * @param colTo the proposed column to which a piece moves
+     * @return <code>true</code> if the proposed movement would result in pawn
+     *  promotion, otherwise <code>false</code>
+     */
     public boolean checkPawnPromotion(int rowFrom, int colFrom, int rowTo, int colTo) {
         // Piece movingPiece = board.getPiece(rowFrom, colFrom);
         // return movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN &&
@@ -697,10 +713,22 @@ public class ChessGame {
         return board.validPromotion(rowFrom, colFrom, rowTo, colTo);
     }
 
+    /**
+     * Returns the index of the last move present on the board in the game's
+     * move history.
+     * @return the index of the last move present on the board in the game's
+     *  move history, or -1 if no moves are present on the board
+     * @see getMoveHistory
+     * @see getAlgebraicHistory
+     */
     public int latestMoveIndex() {
         return moveNo-1;
     }
 
+    /**
+     * Resigns the current player of this chess game, if the current player is
+     * human.
+     */
     public void resign() {
         Player resigner = getPlayerTurn();
         if (resigner.isHuman()) {
@@ -709,6 +737,10 @@ public class ChessGame {
         }
     }
 
+    /**
+     * Returns a PGNFile object representation of this chess game.
+     * @return a PGNFile object representation of this chess game
+     */
     public PGNFile getPGNFile() {
         String resultStr = "";
         switch (currentState) {
@@ -741,6 +773,13 @@ public class ChessGame {
         return new PGNFile(tagPairMap(), getAlgebraicHistory(), resultStr);
     }
 
+    /**
+     * Loads the given PGN information into this game, including making the
+     * game's moves. The game is then resumed if able.
+     * @param pgnFile the PGN file object with information to load into this game
+     * @return <code>true</code> if the file load was successful, otherwise
+     *  <code>false</code>
+     */
     public boolean loadPGNFile(PGNFile pgnFile) {
         if (pgnFile == null) {
             System.err.println("Attempted to load null pgn file");
@@ -778,6 +817,9 @@ public class ChessGame {
         return true;
     }
 
+    /**
+     * Reinitializes and starts this chess game with the same settings.
+     */
     public void rematch() {
         stop();
         moveHistory.clear();
@@ -791,6 +833,13 @@ public class ChessGame {
         start();
     }
 
+    /**
+     * Registers a clock to the given player.
+     * @param clock the clock to register with a player
+     * @param isWhiteClock <code>true</code> if the clock should be registered
+     *  to the white player, <code>false</code> if the clock should be registered
+     *  to the black player
+     */
     public void registerPlayerClock(ClockView clock, boolean isWhiteClock) {
         if (isWhiteClock) {
             whitePlayer.registerPlayerClock(clock);
@@ -799,16 +848,27 @@ public class ChessGame {
         }
     }
 
+    /**
+     * Registeres a clock to be updated holding total game time.
+     * @param clock the clock to hold this chess games total game time
+     */
     public void registerTotalGameTimeClock(ClockView clock) {
         totalGameTimeClock = clock;
     }
 
+    /**
+     * Causes the game to end due to the given player running out of time.
+     * @param timedOutPlayer the timed-out, losing player
+     */
     public void timeOutGame(Player timedOutPlayer) {
         stop();
         currentState = timedOutPlayer.isWhite() ? GameState.WHITE_TIMEOUT : GameState.BLACK_TIMEOUT;
         gameOver();
     }
 
+    /**
+     * Removes the registered clocks from the white and black players.
+     */
     public void removeClocks() {
         if (totalClockOn) {
             if (whitePlayer != null) {
@@ -822,6 +882,15 @@ public class ChessGame {
         }
     }
 
+    /**
+     * Changes the types of the players currently playing this chess game.
+     * @param whiteType an integer determining the level AI of the white player.
+     *  negative one signifies a human player, zero is a random player, and
+     *  positive values indicate an AI with the given minimax depth of search
+     * @param blackType an integer determining the level AI of the black player.
+     *  negative one signifies a human player, zero is a random player, and
+     *  positive values indicate an AI with the given minimax depth of search
+     */
     public void changePlayerTypes(int whiteType, int blackType) {
         if (playerIncrement < 0) {
             stop();

@@ -512,6 +512,23 @@ public class Board {
         return allMoves;
     }
 
+    /**
+     * Retrives a list of 2-lists containing the row and column of all locations
+     * on the board where the given side has a piece positioned to attack the
+     * input location. Kings are excluded as potential attackers.
+     * @param blackAttackers <code>true</code> if attackers to the input position
+     *  should be black, and <code>false</code> if attackers to the input
+     *  position should be white
+     * @param toRow the input position row that is attacked by locations in the
+     *  attacker list
+     * @param toCol the input position column that is attacked by locations in
+     *  the attacker list
+     * @return a list containing 2-lists of integers (lists with two integers
+     *  in them) in which the first element of a 2-list is a row location of
+     *  an attacking piece, and the second element is the column location.
+     *  All attacker locations contain a piece of the given side (white or
+     *  black)
+     */
     public List<List<Integer>> getAttackers(boolean blackAttackers, int toRow, int toCol) {
         return getAttackers(blackAttackers, toRow, toCol, false);
     }
@@ -526,6 +543,9 @@ public class Board {
      *  attacker list
      * @param toCol the input position column that is attacked by locations in
      *  the attacker list
+     * @param excludeKings if <code>true</code>, kings will not be considered
+     *  as potential attackers, if <code>false</code> kings will not be
+     *  considered as potential attackers
      * @return a list containing 2-lists of integers (lists with two integers
      *  in them) in which the first element of a 2-list is a row location of
      *  an attacking piece, and the second element is the column location.

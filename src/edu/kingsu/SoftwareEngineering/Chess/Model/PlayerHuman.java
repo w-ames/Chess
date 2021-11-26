@@ -18,6 +18,11 @@ public class PlayerHuman extends Player {
         super(chessGame, isWhite, true, interval, Player.MAX_AI_DEPTH);
     }
 
+    /**
+     * Creates a new human player from an existing player's values.
+     * @param oldPlayer the player whose values should be used in creating this
+     *  new instance.
+     */
     public PlayerHuman(Player oldPlayer) {
         super(oldPlayer, Player.MAX_AI_DEPTH);
     }

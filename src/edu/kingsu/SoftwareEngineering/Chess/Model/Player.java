@@ -48,6 +48,12 @@ public abstract class Player implements Runnable {
         timerRunning = false;
     }
 
+    /**
+     * Creates a new player from an existing player's values.
+     * @param oldPlayer the player whose values should be used in creating this
+     *  new instance.
+     * @param newDepth the AI search depth of this new player
+     */
     public Player(Player oldPlayer, int newDepth) {
         this(oldPlayer.chessGame, oldPlayer.isWhite, oldPlayer.isHuman, oldPlayer.interval, newDepth);
         this.clock = oldPlayer.clock;
@@ -97,6 +103,9 @@ public abstract class Player implements Runnable {
         }
     }
 
+    /**
+     * Resets the AI move searching thread for this player.
+     */
     public void resetAIThread() {
         // TODO test
         synchronized (this) {
@@ -142,6 +151,9 @@ public abstract class Player implements Runnable {
      */
     public abstract void run();
 
+    /**
+     * Resumes this player's timer for a timed game.
+     */
     public void resumeTimer() {
         // System.err.println("1Resuming timer for: "+this);
         if (timerRunning || chessGame.getPlayerIncrement() < 0) {
@@ -160,6 +172,10 @@ public abstract class Player implements Runnable {
         timerRunning = true;
     }
 
+    /**
+     * Decrements this player's clock in a timed game, and notifies the chess
+     * game of a timeout (the timer reaches zero seconds).
+     */
     private void setInterval() {
         // System.err.println("CLOCK TICK");
         int newTime;
@@ -174,6 +190,10 @@ public abstract class Player implements Runnable {
         updateTime(newTime);
     }
 
+    /**
+     * Increments this player's clock according to the games increment
+     * settings in a timed game.
+     */
     public void incrementTimer() {
         if (chessGame.getPlayerIncrement() > 0) {
             synchronized(TIMER_LOCK) {
@@ -183,6 +203,9 @@ public abstract class Player implements Runnable {
         }
     }
 
+    /**
+     * Resets this player's clock in a timed game.
+     */
     public void resetTimer() {
         pauseTimer();
         synchronized(TIMER_LOCK) {
@@ -192,12 +215,18 @@ public abstract class Player implements Runnable {
         // resumeTimer();
     }
 
+    /**
+     * Notifies registered clock views of an updated player clock interval.
+     */
     private void updateTime(int time) {
         if (clock != null) {
             clock.updatePlayerTime(GameSetUp.getMinAndSec(time));
         }
     }
 
+    /**
+     * Stops this player's clock in a timed game.
+     */
     public void pauseTimer() {
         // System.err.println("1Stopping timer for: "+this);
         if (timerRunning && timer != null) {
@@ -225,6 +254,11 @@ public abstract class Player implements Runnable {
      */
     public void setAIDepth(int depth) { aiDepth = depth; }
 
+    /**
+     * Registers a clock to be updated whenever this player's timer clock is
+     * updated.
+     * @param clock the clock view to register to this player
+     */
     public void registerPlayerClock(ClockView clock) {
         this.clock = clock;
     }
