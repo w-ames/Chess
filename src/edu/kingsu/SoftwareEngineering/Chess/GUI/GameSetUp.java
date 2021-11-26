@@ -39,7 +39,7 @@ public class GameSetUp extends JPanel {
     private final int MIN_TIME = 60;
     private final int MAX_TIME = 1800;
     private final int START_TIME = 600;
-    private final int MIN_INCREMENT = 1;
+    private final int MIN_INCREMENT = 0;
     private final int MAX_INCREMENT = 60;
     private final int START_INCREMENT = 10;
 
@@ -228,6 +228,7 @@ public class GameSetUp extends JPanel {
         ButtonGroup timeGroup1 = new ButtonGroup();
         timeGroup1.add(timeOn);
         timeGroup1.add(timeOff);
+        timeOff.setSelected(true);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -274,6 +275,7 @@ public class GameSetUp extends JPanel {
         ButtonGroup timeGroup2 = new ButtonGroup();
         timeGroup2.add(timeOn2);
         timeGroup2.add(timeOff2);
+        timeOff2.setSelected(true);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -566,7 +568,7 @@ public class GameSetUp extends JPanel {
         });
     }
 
-    private String getMinAndSec(int fullSeconds){
+    public static String getMinAndSec(int fullSeconds){
         int minutes= fullSeconds / 60;
         int seconds= fullSeconds % 60;
         String secondsTo2Digits;
