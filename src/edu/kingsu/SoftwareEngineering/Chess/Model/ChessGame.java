@@ -5,8 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ChessGameView;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.*;
@@ -15,6 +18,9 @@ import edu.kingsu.SoftwareEngineering.Chess.PGN.*;
  * This class fully represents a game of chess involving all its components.
  */
 public class ChessGame {
+    public static final int SECOND = 1000;
+    public static final int CLOCK_TICKS_PER_SECOND = 10;
+    private int clockTickBuffer;
     private Map<String, String> tagPairs;
     private Player whitePlayer;
     private Thread whitePlayerThread;
@@ -36,6 +42,8 @@ public class ChessGame {
     // Overall game time
     private int interval;
     private Timer timer;
+    private ClockView totalGameTimeClock;
+    private boolean totalClockOn = true;
 
     /**
      * Creates a new chess game.
@@ -54,6 +62,17 @@ public class ChessGame {
         playerTurnLock = new Object();
         views = new ArrayList<ChessGameView>();
         initialize(whiteAI, blackAI, playerInterval, playerIncrement);
+        // initialize(whiteAI, blackAI, 100, 15);
+        clockTickBuffer = 0;
+        timer = new Timer();
+        interval = 0;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+                setInterval();
+            }
+        }, SECOND, SECOND);
     }
 
     /**
@@ -83,14 +102,14 @@ public class ChessGame {
         this.playerInterval = playerInterval;
         this.playerIncrement = playerIncrement;
         if (whiteAI == -1) {
-            whitePlayer = new PlayerHuman(this, true, playerInterval, playerIncrement);
+            whitePlayer = new PlayerHuman(this, true, playerInterval);
         } else {
-            whitePlayer = new PlayerAI(this, true, playerInterval, playerIncrement, whiteAI);
+            whitePlayer = new PlayerAI(this, true, playerInterval, whiteAI);
         }
         if (blackAI == -1) {
-            blackPlayer = new PlayerHuman(this, false, playerInterval, playerIncrement);
+            blackPlayer = new PlayerHuman(this, false, playerInterval);
         } else {
-            blackPlayer = new PlayerAI(this, false, playerInterval, playerIncrement, blackAI);
+            blackPlayer = new PlayerAI(this, false, playerInterval, blackAI);
         }
         playerTurn = whitePlayer;
         // whitePlayerThread = new Thread(whitePlayer);
@@ -259,8 +278,15 @@ public class ChessGame {
         synchronized (this) {
             if (validateMove(move)) {
                 synchronized (playerTurnLock) {
+                    playerTurn.incrementTimer();
                     performMove(move);
                     updateState();
+                    // System.err.println("GameState is : "+getState().name());
+                    // System.err.println("Board CM for white is : "+board.getCheckmate(true));
+                    // // System.err.println("Board all moves black is : "+board.getAllMoves(false));
+                    // List<Move> ay = board.getAllMoves(false);
+                    // Move yo = ay.size()>0 ? ay.get(0) : null;
+                    // System.err.println("Board first move black is : "+yo.getRowFrom()+" "+yo.getColFrom()+" "+yo.getRowTo()+" "+yo.getColTo());
                     if (getState() != GameState.ACTIVE && getState() != GameState.WHITE_CHECK && getState() != GameState.BLACK_CHECK) {
                         gameOver();
                     }
@@ -346,7 +372,7 @@ public class ChessGame {
      *  <code>false</code> if it is not
      */
     private boolean validateMove(Move move) {
-        return (board.getPiece(move.getRowFrom(), move.getColFrom()).isWhite() == getPlayerTurn().isWhite()) && (board.getMoves(move.getRowFrom(), move.getColFrom()).contains(move));
+        return (move != null) && (board.getPiece(move.getRowFrom(), move.getColFrom()).isWhite() == getPlayerTurn().isWhite()) && (board.getMoves(move.getRowFrom(), move.getColFrom()).contains(move));
     }
 
     /**
@@ -356,8 +382,10 @@ public class ChessGame {
     public void start() {
         synchronized (this) {
             notifyViews();
+            whitePlayer.pauseTimer();
             whitePlayerThread = new Thread(whitePlayer);
             whitePlayerThread.start();
+            blackPlayer.pauseTimer();
             blackPlayerThread = new Thread(blackPlayer);
             blackPlayerThread.start();
             this.notifyAll();
@@ -384,10 +412,16 @@ public class ChessGame {
      */
     public void gameOver() {
         stop();
+        whitePlayer.pauseTimer();
+        blackPlayer.pauseTimer();
         notifyViews();
     }
 
     private void setInterval() {
+        interval++;
+        if (totalGameTimeClock != null) {
+            totalGameTimeClock.updateTotalGameTime(GameSetUp.getMinAndSec(interval));
+        }
     }
 
     /**
@@ -397,7 +431,7 @@ public class ChessGame {
      *  moves to undo
      */
     public boolean undo() {
-        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+        if (playerIncrement >= 0 || (!whitePlayer.isHuman() && !blackPlayer.isHuman())) {
             return false;
         }
         synchronized(this) {
@@ -433,7 +467,7 @@ public class ChessGame {
      *  moves to redo
      */
     public boolean redo() {
-        if (!whitePlayer.isHuman() && !blackPlayer.isHuman()) {
+        if (playerIncrement >= 0 || !whitePlayer.isHuman() && !blackPlayer.isHuman()) {
             return false;
         }
         synchronized(this) {
@@ -450,6 +484,7 @@ public class ChessGame {
                 performMove(moveHistory.get(i));
             }
         }
+        updateState();
         start();
         return true;
     }
@@ -458,6 +493,8 @@ public class ChessGame {
      * Resets the clocks for the players of this game of chess.
      */
     public void resetTimers() {
+        whitePlayer.resetTimer();
+        blackPlayer.resetTimer();
     }
 
     /**
@@ -704,6 +741,7 @@ public class ChessGame {
             return false;
         }
         tagPairMap().putAll(pgnFile.getTagPairMap());
+        updateState();
         start();
         return true;
     }
@@ -712,12 +750,44 @@ public class ChessGame {
         stop();
         moveHistory.clear();
         algebraicHistory.clear();
-        // TODO reset timers
+        resetTimers();
         board = new Board();
         moveNo = 0;
         forceSetPlayerTurn(true);
+        updateState();
         notifyViews();
         start();
+    }
+
+    public void registerPlayerClock(ClockView clock, boolean isWhiteClock) {
+        if (isWhiteClock) {
+            whitePlayer.registerPlayerClock(clock);
+        } else {
+            blackPlayer.registerPlayerClock(clock);
+        }
+    }
+
+    public void registerTotalGameTimeClock(ClockView clock) {
+        totalGameTimeClock = clock;
+    }
+
+    public void timeOutGame(Player timedOutPlayer) {
+        stop();
+        currentState = timedOutPlayer.isWhite() ? GameState.WHITE_TIMEOUT : GameState.BLACK_TIMEOUT;
+        gameOver();
+    }
+
+    public void removeClocks() {
+        if (totalClockOn) {
+            if (whitePlayer != null) {
+                whitePlayer.pauseTimer();
+            }
+            if (blackPlayer != null) {
+                blackPlayer.pauseTimer();
+            }
+            timer.cancel();
+            totalClockOn = false;
+        }
     }
 
 }

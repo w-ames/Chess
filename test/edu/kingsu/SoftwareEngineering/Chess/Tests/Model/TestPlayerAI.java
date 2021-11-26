@@ -10,7 +10,7 @@ public class TestPlayerAI {
 
     @Before
     public void setUp() {
-        testPlayer = new PlayerAI(null, true, -1, -1, 2);
+        testPlayer = new PlayerAI(null, true, -1, 2);
     }
 
     @After

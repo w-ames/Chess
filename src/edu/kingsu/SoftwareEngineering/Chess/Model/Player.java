@@ -1,7 +1,10 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
+import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
+import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
 import edu.kingsu.SoftwareEngineering.Chess.Model.Moves.*;
 
 /**
@@ -13,8 +16,11 @@ public abstract class Player implements Runnable {
     private ChessAIThread aiThread;
     private ChessGame chessGame;
     private int interval;
-    private int increment;
+    // private int increment;
     private Timer timer;
+    private final Object TIMER_LOCK = new Object();
+    private ClockView clock;
+    private boolean timerRunning;
     /**
      * The maximum depth to be used when searching for moves via {@link ChessAI}
      */
@@ -31,13 +37,15 @@ public abstract class Player implements Runnable {
      *  moves
      * @param aiDepth the depth at which this player searches for moves
      */
-    public Player(ChessGame chessGame, boolean isWhite, boolean isHuman, int interval, int increment, int aiDepth) {
+    public Player(ChessGame chessGame, boolean isWhite, boolean isHuman, int interval, int aiDepth) {
         this.chessGame = chessGame;
         this.isWhite = isWhite;
         this.isHuman = isHuman;
         this.interval = interval;
-        this.increment = increment;
+        // this.increment = increment;
         this.aiDepth = aiDepth;
+        // this.timer = new Timer();
+        timerRunning = false;
     }
 
     /**
@@ -128,12 +136,70 @@ public abstract class Player implements Runnable {
     public abstract void run();
 
     public void resumeTimer() {
+        // System.err.println("1Resuming timer for: "+this);
+        if (timerRunning || chessGame.getPlayerIncrement() < 0) {
+            return;
+        }
+        timer = new Timer();
+        // System.err.println("STARTING: "+isWhite());
+        // System.err.println("2Resuming timer for: "+this);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+                setInterval();
+            }
+        }, ChessGame.SECOND, ChessGame.SECOND);
+        timerRunning = true;
     }
 
     private void setInterval() {
+        // System.err.println("CLOCK TICK");
+        int newTime;
+        synchronized(TIMER_LOCK) {
+            --interval;
+            if (interval <= 0) {
+                pauseTimer();
+                chessGame.timeOutGame(this);
+            }
+            newTime = interval;
+        }
+        updateTime(newTime);
+    }
+
+    public void incrementTimer() {
+        if (chessGame.getPlayerIncrement() > 0) {
+            synchronized(TIMER_LOCK) {
+                interval += chessGame.getPlayerIncrement()+1;
+                setInterval();
+            }
+        }
     }
 
     public void resetTimer() {
+        pauseTimer();
+        synchronized(TIMER_LOCK) {
+            interval = chessGame.getPlayerInterval();
+        }
+        updateTime(interval);
+        // resumeTimer();
+    }
+
+    private void updateTime(int time) {
+        if (clock != null) {
+            clock.updatePlayerTime(GameSetUp.getMinAndSec(time));
+        }
+    }
+
+    public void pauseTimer() {
+        // System.err.println("1Stopping timer for: "+this);
+        if (timerRunning && timer != null) {
+            // System.err.println("2Stopping timer for: "+this);
+            // System.err.println("PAUSING: "+isWhite());
+            timer.cancel();
+            timerRunning = false;
+        }
+        updateTime(interval);
     }
 
     /**
@@ -147,5 +213,9 @@ public abstract class Player implements Runnable {
      * @param depth the new depth at which this player can search for moves
      */
     public void setAIDepth(int depth) { aiDepth = depth; }
+
+    public void registerPlayerClock(ClockView clock) {
+        this.clock = clock;
+    }
 
 }

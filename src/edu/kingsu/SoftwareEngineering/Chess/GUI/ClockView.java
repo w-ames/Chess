@@ -25,12 +25,28 @@ public class ClockView extends JPanel {
     JLabel playername = new JLabel();
     JLabel playerColor = new JLabel();
     JLabel updateTime = new JLabel();
+    GridBagConstraints gbpn = new GridBagConstraints();
+    GridBagConstraints gbpt = new GridBagConstraints();
+    Font pFont = new Font("Arial", Font.PLAIN, 25);
+    Font tFont = new Font("Arial", Font.PLAIN, 35);
+    Color clockColor = new Color(16, 46, 60);
 
     /**
      * Constructs ClockView objects and specifices their border, sets them to opaque
      * (visible).
      */
     public ClockView() {
+        this.setLayout(new GridBagLayout());
+        gbpn.fill = GridBagConstraints.VERTICAL;
+        gbpn.gridy = 0;
+        gbpn.weightx = 1;
+        gbpn.weighty = 1;
+        gbpn.anchor = GridBagConstraints.NORTHWEST;
+        gbpt.fill = GridBagConstraints.VERTICAL;
+        gbpt.gridx = 0;
+        gbpt.gridy = 0;
+        gbpt.weightx = 1;
+        gbpt.weighty = 1;
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, new Color(191, 191, 191)));
     }
@@ -61,27 +77,21 @@ public class ClockView extends JPanel {
      *                          clock view.
      */
     void addPlayerName(String name, String playerColorString) {
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gb = new GridBagConstraints();
-        gb.fill = GridBagConstraints.VERTICAL;
-        gb.gridx = 0;
-        gb.gridy = 0;
-        gb.weightx = 1;
-        gb.weighty = 1;
-        gb.anchor = GridBagConstraints.NORTHWEST;
+        // this.setLayout(new GridBagLayout());
+        gbpn.gridx = 0;
 
         playerColor.setText(playerColorString);
-        playerColor.setFont(new Font("Arial", Font.PLAIN, 25));
-        playerColor.setForeground(new Color(16, 46, 60));
+        playerColor.setFont(pFont);
+        playerColor.setForeground(clockColor);
 
-        this.add(playerColor, gb);
+        this.add(playerColor, gbpn);
 
         playername.setText(name);
-        playername.setFont(new Font("Arial", Font.PLAIN, 25));
-        playername.setForeground(new Color(16, 46, 60));
+        playername.setFont(pFont);
+        playername.setForeground(clockColor);
 
-        gb.gridx = 2;
-        this.add(playername, gb);
+        gbpn.gridx = 2;
+        this.add(playername, gbpn);
 
     }
 
@@ -90,16 +100,10 @@ public class ClockView extends JPanel {
      * 
      * @param time The time to be updated to.
      */
-    void updatePlayerTime(String time) {
-        GridBagConstraints gb = new GridBagConstraints();
-        gb.fill = GridBagConstraints.VERTICAL;
-        gb.gridx = 0;
-        gb.gridy = 0;
-        gb.weightx = 1;
-        gb.weighty = 1;
+    public void updatePlayerTime(String time) {
         updateTime.setText(time);
-        updateTime.setFont(new Font("Arial", Font.PLAIN, 25));
-        updateTime.setForeground(new Color(16, 46, 60));
+        updateTime.setFont(pFont);
+        updateTime.setForeground(clockColor);
         this.add(updateTime);
     }
 
@@ -108,11 +112,11 @@ public class ClockView extends JPanel {
      * 
      * @param time The time to be updated to.
      */
-    void updateTotalGameTime(String time) {
-        this.setLayout(new GridBagLayout());
+    public void updateTotalGameTime(String time) {
+        // this.setLayout(new GridBagLayout());
         updateTime.setText(time);
-        updateTime.setFont(new Font("Arial", Font.PLAIN, 35));
-        updateTime.setForeground(new Color(16, 46, 60));
+        updateTime.setFont(tFont);
+        updateTime.setForeground(clockColor);
         this.add(updateTime);
     }
 }

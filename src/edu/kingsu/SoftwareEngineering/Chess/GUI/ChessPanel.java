@@ -300,6 +300,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Initialize the board at the start of a new game.
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+        if (this.chessGame != null) {
+            this.chessGame.removeClocks();
+        }
 
         this.clearNotifications();
 
@@ -308,15 +311,20 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         player2Clock.addPlayerName(player2Name, "Black: ");
 
         // *** These are for skeleton view only, time needs to be made dynamic *****
-        player1Clock.updatePlayerTime("5:01   ");
-        player2Clock.updatePlayerTime("1:08   ");
-        totalGameTime.updateTotalGameTime("23:00");
+        player1Clock.updatePlayerTime("0:00   ");
+        player2Clock.updatePlayerTime("0:00   ");
+        totalGameTime.updateTotalGameTime(" 0:00");
+
+        chessGame.registerPlayerClock(player1Clock, true);
+        chessGame.registerPlayerClock(player2Clock, false);
+        chessGame.registerTotalGameTimeClock(totalGameTime);
 
         /////////////////////////////////////////////////////////
 
         container.showMenuBarOnChessPanel();
 
         guiView.setChessGame(chessGame);
+        guiView.setSelected(-1, -1);
         algebraicView.setChessGame(chessGame);
         messagesView.setChessGame(chessGame);
         this.setChessGame(chessGame);
@@ -642,6 +650,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Repetition stalemate");
             this.showEndGameOptions();
 
+        } else if (state == GameState.STALEMATE_REPITITION) { // Check if no material stalemate here.
+
+            addNotification("Insufficient material stalemate");
+            this.showEndGameOptions();
+
         } else if (state == GameState.BLACK_CHECK) { // Check if white check here.
 
             addNotification("White is in check!");
@@ -674,27 +687,31 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Black has resigned");
             this.showEndGameOptions();
 
+        } else if (state == GameState.WHITE_TIMEOUT) { // Check if white time out here.
+            addNotification("White has run out of time");
+            this.showEndGameOptions();
+        } else if (state == GameState.BLACK_TIMEOUT) { // Check if black time out here.
+            addNotification("Black has run out of time");
+            this.showEndGameOptions();
+
         } else {
             endGameState = false;
         }
 
         if (!endGameState) {
-            if (!buttonContainer.isAncestorOf(resignButton)) {
-                invisbleButtonContainer.remove(showEndGameOptionsButton);
-                GridBagConstraints gb = new GridBagConstraints();
-                gb.fill = GridBagConstraints.BOTH;
-                gb.gridy = 1;
-                gb.gridx = 1;
-                gb.weightx = 0.5;
-                gb.weighty = 1;
-                gb.gridheight = 1;
-                gb.gridwidth = 1;
-                gb.insets = new Insets(5, 5, 5, 5);
-
-                invisbleButtonContainer.add(resignButton, gb);
-                invisbleButtonContainer.revalidate();
-                invisbleButtonContainer.repaint();
-                showEndGameOptionsButton.enable(false);
+            if (!resignAndPieceInfoHolder.isAncestorOf(resignButton)) {
+                resignAndPieceInfoHolder.remove(showEndGameOptionsButton);
+                GridBagConstraints resigngb = new GridBagConstraints();
+                resigngb.gridx = 1;
+                resigngb.gridy = 0;
+                resigngb.fill = GridBagConstraints.BOTH;
+                resigngb.weightx = 1;
+                resigngb.weighty = 1;
+                resigngb.insets = new Insets(5, 5, 5, 5);
+                resignAndPieceInfoHolder.add(resignButton, resigngb);
+                resignAndPieceInfoHolder.revalidate();
+                resignAndPieceInfoHolder.repaint();
+                showEndGameOptionsButton.setEnabled(false);
             }
         }
 

@@ -218,7 +218,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 return newmove;
             } else if (c == 'R') {
                 newmove = whiteRook + move.substring(1);
-                System.out.println("newmove= " + newmove);
                 return newmove;
             } else if (c == 'B') {
                 newmove = whiteBishop + move.substring(1);

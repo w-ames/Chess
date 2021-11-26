@@ -14,23 +14,26 @@ public class PlayerHuman extends Player {
      * @param increment the amount of time the players clock gains upon making
      *  moves
      */
-    public PlayerHuman(ChessGame chessGame, boolean isWhite, int interval, int increment) {
-        super(chessGame, isWhite, true, interval, increment, Player.MAX_AI_DEPTH);
+    public PlayerHuman(ChessGame chessGame, boolean isWhite, int interval) {
+        super(chessGame, isWhite, true, interval, Player.MAX_AI_DEPTH);
     }
 
     /**
      * {@inheritDoc}
      */
     public void run() {
-        resumeTimer();
+        // resumeTimer();
+        pauseTimer();
         while (true) {
             synchronized (getChessGame()) {
                 try {
                     while (getChessGame().getPlayerTurn() != this) {
                         // System.err.println("NOT HUMAN TURN-WAIT");
+                        pauseTimer();
                         getChessGame().notify();
                         getChessGame().wait();
                     }
+                    resumeTimer();
                     // System.err.println("ABOUT TO SET THREAD IN HUMAN RUN");
                     if (getAIDepth() <= 0) {
                         setAIThread(ChessAI.randomMove(getChessGame().getBoard(), isWhite()));
@@ -47,6 +50,7 @@ public class PlayerHuman extends Player {
                 } catch(InterruptedException e) {
                     // System.err.println("RESET AI THREAD?");
                     resetAIThread();
+                    pauseTimer();
                     break;
                 }
             }

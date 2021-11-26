@@ -20,23 +20,26 @@ public class PlayerAI extends Player {
      *  moves
      * @param aiDepth the depth at which this player searches for moves
      */
-    public PlayerAI(ChessGame chessGame, boolean isWhite, int interval, int increment, int aiDepth) {
-        super(chessGame, isWhite, false, interval, increment, aiDepth);
+    public PlayerAI(ChessGame chessGame, boolean isWhite, int interval, int aiDepth) {
+        super(chessGame, isWhite, false, interval, aiDepth);
     }
 
     /**
      * {@inheritDoc}
      */
     public void run() {
-        resetTimer();
+        // resetTimer();
+        pauseTimer();
         while (true) {
             synchronized (getChessGame()) {
                 try {
                     while (getChessGame().getPlayerTurn() != this) {
                         // System.err.println("NOT AI TURN-WAIT");
+                        pauseTimer();
                         getChessGame().notify();
                         getChessGame().wait();
                     }
+                    resumeTimer();
                     Instant moveCalcStartInstant = Instant.now();
                     // System.err.println("ABOUT TO SET THREAD IN AI RUN");
                     if (getAIDepth() <= 0) {
@@ -56,9 +59,11 @@ public class PlayerAI extends Player {
                 } catch(InterruptedException e){
                     // System.err.println("RESET AI THREAD?");
                     resetAIThread();
+                    pauseTimer();
                     break;
                 }
             }
         }
     }
+
 }

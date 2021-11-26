@@ -10,7 +10,7 @@ public class TestPlayerHuman {
 
     @Before
     public void setUp() {
-        testPlayer = new PlayerHuman(null, true, -1, -1);
+        testPlayer = new PlayerHuman(null, true, -1);
     }
 
     @After

@@ -561,8 +561,18 @@ public class GameSetUp extends JPanel {
                 checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
                 getPlayerNamesFromComboBox();
 
+                int interval = -1;
+                int increment = -1;
+                if (timeOn.isSelected()) {
+                    interval = timeSlider.getValue();
+                    if (timeOn2.isSelected()) {
+                        increment = timeSlider2.getValue();
+                    } else {
+                        increment = 0;
+                    }
+                }
                 ChessGame chessGame = new ChessGame(playerDepthList[player1Box.getSelectedIndex()],
-                        playerDepthList[player2Box.getSelectedIndex()], -1, -1);
+                        playerDepthList[player2Box.getSelectedIndex()], interval, increment);
                 container.getSaveController().setChessGame(chessGame);
                 container.getLoadController().setChessGame(chessGame);
 

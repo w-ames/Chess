@@ -54,12 +54,15 @@ public class ChessGameGUIController implements ActionListener {
                 if (row == selectedRow && col == selectedCol) {
                     guiView.setSelected(-1, -1);
                 } else {
+                    // System.err.println("Selecting "+row+" "+col);
                     guiView.setSelected(row, col);
                 }
             } else if (selectedPieceIsPlayerColor) {
                 if (chessGame.checkPawnPromotion(selectedRow, selectedCol, row, col)) {
+                    // System.err.println("Select promo move "+selectedRow+" "+selectedCol+" to "+row+" "+col);
                     guiView.showPawnPromotionScreen(selectedRow, selectedCol, row, col);
                 } else {
+                    // System.err.println("Select move "+selectedRow+" "+selectedCol+" to "+row+" "+col);
                     chessGame.performMove(selectedRow, selectedCol, row, col, true);
                 }
                 guiView.setSelected(-1, -1);
