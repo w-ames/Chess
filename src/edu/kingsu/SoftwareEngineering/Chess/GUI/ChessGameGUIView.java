@@ -10,6 +10,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ComponentAdapter;
@@ -242,8 +243,16 @@ public class ChessGameGUIView extends ChessGameView {
      */
     @Override
     public void update() {
+        // System.err.println("UPDATE");
 
         char[][] pieces = getChessGame().getBoardChars();
+        // System.err.println("pieces:\n");
+        // for (int i=0; i<pieces.length; i++) {
+        //     for (int j=0; j<pieces[0].length; j++) {
+        //         System.err.print(pieces[i][j]+" ");
+        //     }
+        //         System.err.print("\n");
+        // }
 
         //
         // For 650 x 650 board size.
@@ -405,7 +414,9 @@ public class ChessGameGUIView extends ChessGameView {
 
         }
 
+        // System.err.println("UPDATE BEFORE HIGHLIGHT");
         boardHighlight(selectedRow, selectedCol);
+        // System.err.println("UPDATE AFTER HIGHLIGHT");
     }
 
     public void moveHint(int selectedRow, int selectedCol) {
@@ -494,6 +505,13 @@ public class ChessGameGUIView extends ChessGameView {
             }
 
             char[][] getMoveHighlights = getChessGame().getMoveHighlights(selectedRow, selectedCol);
+            // System.err.println("highlights:\n");
+            // for (int i=0; getMoveHighlights != null && i<getMoveHighlights.length; i++) {
+            //     for (int j=0; j<getMoveHighlights[0].length; j++) {
+            //         System.err.print(getMoveHighlights[i][j]+" ");
+            //     }
+            //         System.err.print("\n");
+            // }
 
             // Last move coloring
             int latestMoveIndex = getChessGame().latestMoveIndex();
@@ -796,6 +814,14 @@ public class ChessGameGUIView extends ChessGameView {
      * @param col The row to be the "selected column".
      */
     public void setSelected(int row, int col) {
+        // System.err.println("SELECTING "+row+" "+col);
+        // System.err.println("TRACE:");
+        // int i=0;
+        // for (StackTraceElement stl : Thread.currentThread().getStackTrace()) {
+        //     if (i < 5)
+        //         System.err.println("trace: "+stl);
+        //     i++;
+        // }
         selectedRow = row;
         selectedCol = col;
     }
@@ -807,6 +833,9 @@ public class ChessGameGUIView extends ChessGameView {
     public void addListeners() {
         for (int i = 0; i < squareHolderArray.length; i++) {
             for (int j = 0; j < squareHolderArray.length; j++) {
+                for (ActionListener al : squareHolderArray[i][j].getActionListeners()) {
+                    squareHolderArray[i][j].removeActionListener(al);
+                }
                 squareHolderArray[i][j].addActionListener(new ChessGameGUIController(this, getChessGame(), i, j));
             }
         }

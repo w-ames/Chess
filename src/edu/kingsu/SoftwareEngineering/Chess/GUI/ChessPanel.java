@@ -304,6 +304,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         /////////////////////////////////////////////////////////
 
         guiView.setChessGame(chessGame);
+        guiView.setSelected(-1, -1);
         algebraicView.setChessGame(chessGame);
         messagesView.setChessGame(chessGame);
         this.setChessGame(chessGame);
@@ -663,21 +664,19 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         if (!endGameState) {
-            if (!buttonContainer.isAncestorOf(resignButton)) {
-                invisbleButtonContainer.remove(showEndGameOptionsButton);
-                GridBagConstraints gb = new GridBagConstraints();
-                gb.fill = GridBagConstraints.BOTH;
-                gb.gridy = 1;
-                gb.gridx = 1;
-                gb.weightx = 0.5;
-                gb.weighty = 1;
-                gb.gridheight = 1;
-                gb.gridwidth = 1;
-                gb.insets = new Insets(5, 5, 5, 5);
-                invisbleButtonContainer.add(resignButton, gb);
-                invisbleButtonContainer.revalidate();
-                invisbleButtonContainer.repaint();
-                showEndGameOptionsButton.enable(false);
+            if (!resignAndPieceInfoHolder.isAncestorOf(resignButton)) {
+                resignAndPieceInfoHolder.remove(showEndGameOptionsButton);
+                GridBagConstraints resigngb = new GridBagConstraints();
+                resigngb.gridx = 1;
+                resigngb.gridy = 0;
+                resigngb.fill = GridBagConstraints.BOTH;
+                resigngb.weightx = 1;
+                resigngb.weighty = 1;
+                resigngb.insets = new Insets(5, 5, 5, 5);
+                resignAndPieceInfoHolder.add(resignButton, resigngb);
+                resignAndPieceInfoHolder.revalidate();
+                resignAndPieceInfoHolder.repaint();
+                showEndGameOptionsButton.setEnabled(false);
             }
         }
 
