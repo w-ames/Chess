@@ -466,6 +466,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         endGameState = true; // If the user undoes a move, this should be set back to false.
         disableButtons();
         disableBoardClick();
+        notificationsOnOff();
 
     }
 
@@ -523,6 +524,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         endGameOptions.setVisible(false);
         enableButtons();
         enableBoardClick();
+        notificationsOnOff();
 
         // If the game is in the end game state, and hideEndGameOptions() is called,
         // replace the "resign button"
@@ -551,6 +553,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         endGameOptions.setVisible(false);
         enableButtons();
         enableBoardClick();
+        notificationsOnOff();
 
         // If the game is in the end game state, and hideEndGameOptions() is called,
         // replace the "resign button"
@@ -581,6 +584,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
         disableButtons();
         disableBoardClick();
+        notificationsOnOff();
     }
 
     /**
@@ -590,6 +594,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         pawnPromotionScreen.setVisible(false);
         enableButtons();
         enableBoardClick();
+        notificationsOnOff();
     }
 
     /**
@@ -836,10 +841,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         if (notificationsOnOff == true) {
             this.notificationsOnOff = false;
-            addNotification("Notifications OFF");
+            // addNotification("Notifications OFF");
         } else {
             this.notificationsOnOff = true;
-            addNotification("Notifications ON");
+            // addNotification("Notifications ON");
         }
 
         messagesView.turnNotificationsOnOff(this.notificationsOnOff);
