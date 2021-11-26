@@ -154,9 +154,10 @@ public class HelpWindow extends JFrame {
 
         textArea.setLayout(new GridBagLayout());
         JEditorPane chessRulesHelpMenu = new JEditorPane();
-        File file = new File("src/assets/chess_rules.html");
         try {
-            chessRulesHelpMenu.setPage(file.toURI().toURL());
+            URL chessRulesURL = null;
+            chessRulesURL = HelpWindow.class.getClassLoader().getResource("chess_rules.html");
+            chessRulesHelpMenu.setPage(chessRulesURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -197,9 +198,10 @@ public class HelpWindow extends JFrame {
 
         // Pawn Information.
         JEditorPane pawnInfo = new JEditorPane();
-        File file = new File("src/assets/pawn_info.html");
         try {
-            pawnInfo.setPage(file.toURI().toURL());
+            URL pawnInfoURL = null;
+            pawnInfoURL = HelpWindow.class.getClassLoader().getResource("pawn_info.html");
+            pawnInfo.setPage(pawnInfoURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -216,9 +218,10 @@ public class HelpWindow extends JFrame {
 
         // Rook information
         JEditorPane rookInfo = new JEditorPane();
-        File file2 = new File("src/assets/rook_info.html");
         try {
-            rookInfo.setPage(file2.toURI().toURL());
+            URL rookInfoURL = null;
+            rookInfoURL = HelpWindow.class.getClassLoader().getResource("rook_info.html");
+            rookInfo.setPage(rookInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -235,9 +238,10 @@ public class HelpWindow extends JFrame {
 
         // Bishop information
         JEditorPane bishopInfo = new JEditorPane();
-        File file3 = new File("src/assets/bishop_info.html");
         try {
-            bishopInfo.setPage(file3.toURI().toURL());
+            URL bishopInfoURL = null;
+            bishopInfoURL = HelpWindow.class.getClassLoader().getResource("bishop_info.html");
+            bishopInfo.setPage(bishopInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -254,9 +258,10 @@ public class HelpWindow extends JFrame {
 
         // Knight information
         JEditorPane knightInfo = new JEditorPane();
-        File file4 = new File("src/assets/knight_info.html");
         try {
-            knightInfo.setPage(file4.toURI().toURL());
+            URL knightInfoURL = null;
+            knightInfoURL = HelpWindow.class.getClassLoader().getResource("knight_info.html");
+            knightInfo.setPage(knightInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -273,9 +278,10 @@ public class HelpWindow extends JFrame {
 
         // Queen information
         JEditorPane queenInfo = new JEditorPane();
-        File file5 = new File("src/assets/queen_info.html");
         try {
-            queenInfo.setPage(file5.toURI().toURL());
+            URL queenInfoURL = null;
+            queenInfoURL = HelpWindow.class.getClassLoader().getResource("queen_info.html");
+            queenInfo.setPage(queenInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -292,9 +298,10 @@ public class HelpWindow extends JFrame {
 
         // King information
         JEditorPane kingInfo = new JEditorPane();
-        File file6 = new File("src/assets/king_info.html");
         try {
-            kingInfo.setPage(file6.toURI().toURL());
+            URL kingInfoURL = null;
+            kingInfoURL = HelpWindow.class.getClassLoader().getResource("king_info.html");
+            kingInfo.setPage(kingInfoURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -337,9 +344,10 @@ public class HelpWindow extends JFrame {
 
         // Pawn Information.
         JEditorPane pawnInfo = new JEditorPane();
-        File file = new File("src/assets/pawn_info.html");
         try {
-            pawnInfo.setPage(file.toURI().toURL());
+            URL pawnInfoURL = null;
+            pawnInfoURL = HelpWindow.class.getClassLoader().getResource("pawn_info.html");
+            pawnInfo.setPage(pawnInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -356,9 +364,10 @@ public class HelpWindow extends JFrame {
 
         // Rook information
         JEditorPane rookInfo = new JEditorPane();
-        File file2 = new File("src/assets/rook_info.html");
         try {
-            rookInfo.setPage(file2.toURI().toURL());
+            URL rookInfoURL = null;
+            rookInfoURL = HelpWindow.class.getClassLoader().getResource("rook_info.html");
+            rookInfo.setPage(rookInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -375,9 +384,10 @@ public class HelpWindow extends JFrame {
 
         // Bishop information
         JEditorPane bishopInfo = new JEditorPane();
-        File file3 = new File("src/assets/bishop_info.html");
         try {
-            bishopInfo.setPage(file3.toURI().toURL());
+            URL bishopInfoURL = null;
+            bishopInfoURL = HelpWindow.class.getClassLoader().getResource("bishop_info.html");
+            bishopInfo.setPage(bishopInfoURL); 
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -394,9 +404,10 @@ public class HelpWindow extends JFrame {
 
         // Knight information
         JEditorPane knightInfo = new JEditorPane();
-        File file4 = new File("src/assets/knight_info.html");
         try {
-            knightInfo.setPage(file4.toURI().toURL());
+            URL knightInfoURL = null;
+            knightInfoURL = HelpWindow.class.getClassLoader().getResource("knight_info.html");
+            knightInfo.setPage(knightInfoURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -413,9 +424,10 @@ public class HelpWindow extends JFrame {
 
         // Queen information
         JEditorPane queenInfo = new JEditorPane();
-        File file5 = new File("src/assets/queen_info.html");
         try {
-            queenInfo.setPage(file5.toURI().toURL());
+            URL queenURL = null;
+            queenURL = HelpWindow.class.getClassLoader().getResource("queen_info.html");
+            queenInfo.setPage(queenURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -432,9 +444,11 @@ public class HelpWindow extends JFrame {
 
         // King information
         JEditorPane kingInfo = new JEditorPane();
-        File file6 = new File("src/assets/king_info.html");
+       
         try {
-            kingInfo.setPage(file6.toURI().toURL());
+            URL kingURL = null;
+            kingURL = HelpWindow.class.getClassLoader().getResource("king_info.html");
+            kingInfo.setPage(kingURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -478,19 +492,20 @@ public class HelpWindow extends JFrame {
         silverPanel.add(textArea, gb);
 
         textArea.setLayout(new GridBagLayout());
-        JEditorPane licensePane = new JEditorPane();
-        File file = new File("src/assets/application_help.html");
+        JEditorPane appHelpPane = new JEditorPane();
         try {
-            licensePane.setPage(file.toURI().toURL());
+            URL appHelpURL = null;
+            appHelpURL = HelpWindow.class.getClassLoader().getResource("application_help.html");
+            appHelpPane.setPage(appHelpURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
             System.err.println(e);
         }
-        licensePane.setEditable(false);
-        licensePane.setOpaque(false);
+        appHelpPane.setEditable(false);
+        appHelpPane.setOpaque(false);
 
-        JScrollPane editorScrollPane = new JScrollPane(licensePane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane editorScrollPane = new JScrollPane(appHelpPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         editorScrollPane.setOpaque(false);
         textArea.add(editorScrollPane, gb);
@@ -525,9 +540,10 @@ public class HelpWindow extends JFrame {
 
         textArea.setLayout(new GridBagLayout());
         JEditorPane aboutPane = new JEditorPane();
-        File file = new File("src/assets/about.html");
         try {
-            aboutPane.setPage(file.toURI().toURL());
+            URL appHelpURL = null;
+            appHelpURL = HelpWindow.class.getClassLoader().getResource("about.html");
+            aboutPane.setPage(appHelpURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
@@ -569,9 +585,11 @@ public class HelpWindow extends JFrame {
 
         textArea.setLayout(new GridBagLayout());
         JEditorPane licensePane = new JEditorPane();
-        File file = new File("src/assets/license.html");
+       
         try {
-            licensePane.setPage(file.toURI().toURL());
+            URL licenseURL = null;
+            licenseURL = HelpWindow.class.getClassLoader().getResource("license.html");
+            licensePane.setPage(licenseURL);
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (IOException e) {
