@@ -21,9 +21,8 @@ public class ChessGameLoadController implements ActionListener{
         this.appFrame= appFrame;
         this.setUp= setUp;
     }
-
     /**
-     * Displays a file chooser to the user so they can choose a PGN file to load.
+     * {@inheritDoc}
      */
     public void actionPerformed(ActionEvent e){
         doAction();
@@ -61,7 +60,10 @@ public class ChessGameLoadController implements ActionListener{
             }
         }
     }
-
+    /**
+     * Sets the chessGame to the chessGame of the class
+     * @param chessGame the ChessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }

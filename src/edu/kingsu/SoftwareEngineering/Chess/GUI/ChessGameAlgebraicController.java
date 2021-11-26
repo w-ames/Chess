@@ -12,7 +12,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * model.
  * 
  * @author Gregory Cal
- * @since 10/2021
+ * @since 11/2021
  */
 public class ChessGameAlgebraicController implements ActionListener {
 
@@ -24,7 +24,9 @@ public class ChessGameAlgebraicController implements ActionListener {
         this.chessGame = chessGame;
     }
 
-    // Submit the algebraic move
+    /**
+     * Submit the algebraic move that is inside the textField
+     */
     public void actionPerformed(ActionEvent e) {
         JTextField textField = (JTextField)e.getSource();
         chessGame.performMove(textField.getText().trim(), true);

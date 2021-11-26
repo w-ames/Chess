@@ -27,7 +27,7 @@ import java.awt.Image;
  * aware of their location.
  * 
  * @author Chelsie Bajic
- * @since 10/2021
+ * @since 11/2021
  */
 public class Square extends JButton implements MouseListener {
 
@@ -62,7 +62,10 @@ public class Square extends JButton implements MouseListener {
         }
 
     }
-
+    /**
+     * Makes the rank or file for the chess board
+     * @param rankOrFile A string that says if rank or file
+     */
     public Square(String rankOrFile) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
@@ -82,6 +85,7 @@ public class Square extends JButton implements MouseListener {
     /**
      * Changes the border color to blue, to highlight it when the mouse hovers over
      * it.
+     * {@inheritDoc}
      */
     public void mouseEntered(MouseEvent e) {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -97,7 +101,10 @@ public class Square extends JButton implements MouseListener {
     public String getSquareLocation() {
         return location;
     }
-
+    /**
+     * Returns if the square is black or white
+     * @return a boolean that states if black or white
+     */
     public boolean returnColor() {
         return color;
     }
@@ -105,6 +112,7 @@ public class Square extends JButton implements MouseListener {
     /**
      * When the mouse leaves the square, changes it back to its original border
      * color.
+     * {@inheritDoc}
      */
     public void mouseExited(MouseEvent e) {
         // if (color == false) {
@@ -116,14 +124,20 @@ public class Square extends JButton implements MouseListener {
         // }
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void mousePressed(MouseEvent e) {
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void mouseReleased(MouseEvent e) {
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void mouseClicked(MouseEvent e) {
 
     }

@@ -32,6 +32,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
  * ChessPanel holds all components of gameplay mode display.
  * 
  * @author Chelsie Bajic
+ * @since 11/2021
  */
 public class ChessPanel extends ChessGameView implements MouseListener {
 
@@ -93,7 +94,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * options (popupLayer), alternated using LayeredPane.
      * 
      * @author Chelsie Bajic
-     * @since 10/2021
+     * @since 11/2021
      */
     public ChessPanel(ApplicationFrame container) {
 
@@ -189,7 +190,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        undoButton.setToolTipText("Undo the move");
+        undoButton.setToolTipText("Undo move");
         invisbleButtonContainer.add(undoButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
@@ -199,7 +200,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 2;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        moveHintButton.setToolTipText("Suggest the best possible move");
+        moveHintButton.setToolTipText("Move hint");
         invisbleButtonContainer.add(moveHintButton, gbForButtonPanel);
 
         gbForButtonPanel.gridy = 0;
@@ -209,29 +210,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         gbForButtonPanel.gridheight = 1;
         gbForButtonPanel.gridwidth = 1;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        redoButton.setToolTipText("Redo the move");
+        redoButton.setToolTipText("Redo move");
         invisbleButtonContainer.add(redoButton, gbForButtonPanel);
 
-        // gbForButtonPanel.gridy = 1;
-        // gbForButtonPanel.gridx = 0;
-        // gbForButtonPanel.weightx = 0.5;
-        // gbForButtonPanel.weighty = 1;
-        // gbForButtonPanel.gridheight = 1;
-        // gbForButtonPanel.gridwidth = 1;
-        // gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        // pieceInfo.setToolTipText("Show information about the piece");
-        // invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
         resignAndPieceInfoHolder.setLayout(new GridBagLayout());
         GridBagConstraints resigngb = new GridBagConstraints();
-
-        // gbForButtonPanel.gridy = 1;
-        // gbForButtonPanel.gridx = 0;
-        // gbForButtonPanel.weightx = 0.5;
-        // gbForButtonPanel.weighty = 1;
-        // gbForButtonPanel.gridheight = 1;
-        // gbForButtonPanel.gridwidth = 1;
-        // gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        // invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
 
         resigngb.gridx = 0;
         resigngb.gridy = 0;
@@ -239,12 +222,12 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         resigngb.weightx = 1;
         resigngb.weighty = 1;
         resigngb.insets = new Insets(5, 5, 5, 5);
-        pieceInfo.setToolTipText("Show information about the piece");
+        pieceInfo.setToolTipText("View information about the selected piece");
 
         resignAndPieceInfoHolder.add(pieceInfo, resigngb);
 
         resigngb.gridx = 1;
-        resignButton.setToolTipText("Resign the game");
+        resignButton.setToolTipText("Resign");
         resignAndPieceInfoHolder.add(resignButton, resigngb);
 
         gbForButtonPanel.gridy = 1;
@@ -298,6 +281,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
     /**
      * Initialize the board at the start of a new game.
+     * @param chessGame sets the chessGame of the ChessGame
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
         if (this.chessGame != null) {
@@ -537,7 +521,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             resigngb.fill = GridBagConstraints.BOTH;
             resigngb.weightx = 1;
             resigngb.weighty = 1;
-            showEndGameOptionsButton.setToolTipText("View endgame settings");
+            showEndGameOptionsButton.setToolTipText("View end game options");
             resignAndPieceInfoHolder.add(showEndGameOptionsButton, resigngb);
             resignAndPieceInfoHolder.revalidate();
             resignAndPieceInfoHolder.repaint();

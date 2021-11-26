@@ -11,7 +11,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
  * 
  * @author Nikolas Haugrud
  * @author Chelsie Bajic
- * @since 10/2021
+ * @since 11/2021
  */
 public class ChessGameGUIController implements ActionListener {
 
@@ -36,7 +36,7 @@ public class ChessGameGUIController implements ActionListener {
     }
 
     /**
-     * Allows moves to be performed on the graphical board.
+     * {@inheritDoc}
      */
     public void actionPerformed(ActionEvent e) {
 

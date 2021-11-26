@@ -27,7 +27,7 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
  * 
  * @author Chelsie Bajic
  * @author Gregory Cal
- * @since 10/2021
+ * @since 11/2021
  */
 public class PopupLayer extends JPanel {
 
@@ -63,7 +63,7 @@ public class PopupLayer extends JPanel {
     private ChessGame chessGame;
 
     JLabel endGameLabel = new JLabel("Game Over!");
-    JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion");
+    JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion Piece");
 
     /**
      * Builds the popup screen and adds a mouse listener to all buttons.
@@ -91,6 +91,15 @@ public class PopupLayer extends JPanel {
         chooseRookListener.setChessPanel(chessPanel);
         chooseBishopListener.setChessPanel(chessPanel);
 
+        endGameViewBoardButton.setToolTipText("View the chessboard. This menu can be accessed again by clicking the View End Game Options button");
+        rematchButton.setToolTipText("Play another game with the same settings");
+        newGameButton.setToolTipText("Return to the game setup screen to set up a new game");
+        mainMenuButton.setToolTipText("Return to the main menu");
+
+        chooseQueen.setToolTipText("Queen");
+        chooseKnight.setToolTipText("Knight");
+        chooseBishop.setToolTipText("Bishop");
+        chooseRook.setToolTipText("Rook");
     }
 
     /**
@@ -244,11 +253,17 @@ public class PopupLayer extends JPanel {
 
         assignChessGameAndChessPanelToControllers();
     }
-
+    /**
+     * Sets the chessGame
+     * @param chessGame sets this as the  chessGame
+     */
     public void setChessGame(ChessGame chessGame) {
         this.chessGame = chessGame;
     }
-
+    /**
+     * Sets the chessPanel
+     * @param chessPanel sets this as the chessPanel
+     */
     public void setChessPanel(ChessPanel chessPanel) {
         this.chessPanel = chessPanel;
     }

@@ -12,6 +12,14 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 import java.awt.Dimension;
 
+
+/**
+ * GameSetup holds all components of the gamesetup display.
+ * 
+ * @author Gregory Cal
+ * @author Chelsie Bajic
+ * @since 11/2021
+ */
 public class GameSetUp extends JPanel {
 
     private ApplicationFrame container;
@@ -23,8 +31,8 @@ public class GameSetUp extends JPanel {
     ButtonContainer timePanel = new ButtonContainer();
     ButtonContainer settingsPanel = new ButtonContainer();
     JPanel setupPanel = new JPanel();
-    JLabel player1Label = new JLabel("Player 1", SwingConstants.CENTER);
-    JLabel player2Label = new JLabel("Player 2", SwingConstants.CENTER);
+    JLabel player1Label = new JLabel("White Player", SwingConstants.CENTER);
+    JLabel player2Label = new JLabel("Black Player", SwingConstants.CENTER);
     JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
     JLabel timerLabel1 = new JLabel("10:00");
     JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
@@ -60,7 +68,7 @@ public class GameSetUp extends JPanel {
     CustomButton checkAll = new CustomButton("Select All");
     CustomButton uncheckAll = new CustomButton("All Off");
 
-    CustomButton goToMainMenu = new CustomButton("Return");
+    CustomButton goToMainMenu = new CustomButton("Main Menu");
     CustomButton loadButton = new CustomButton("Load Game");
     JLabel fileNameLabel = new JLabel("  No File Loaded");
     CustomButton startGame = new CustomButton("Start Game");
@@ -72,7 +80,11 @@ public class GameSetUp extends JPanel {
 
     String player1Name;
     String player2Name;
-
+    /**
+     * The 
+     * 
+     * @param container
+     */
     public GameSetUp(ApplicationFrame container) {
         super();
         this.container = container;
@@ -198,6 +210,12 @@ public class GameSetUp extends JPanel {
         sc.insets = new Insets(10, 10, 10, 10);
 
         // Time Panel
+        
+        // JPanel timeContainer = new JPanel();
+        // timeContainer.setLayout(new GridBagLayout());
+        // GridBagConstraints tc = new GridBagConstraints();
+        // timeContainer.fill = GridBagConstraints.BOTH;
+
         timePanel.setLayout(new GridBagLayout());
         timePanel.setOpaque(false);
 
@@ -500,6 +518,37 @@ public class GameSetUp extends JPanel {
         selectAllTutorialOptions();
         addListeners();
 
+        String timeToolTip= "The time limit for a player to make all their moves. Once a player's clock runs out, they lose";
+        timeOn.setToolTipText(timeToolTip);
+        timeOff.setToolTipText(timeToolTip);
+        timeLabel.setToolTipText(timeToolTip);
+        timerLabel1.setToolTipText(timeToolTip);
+        timeSlider.setToolTipText(timeToolTip);
+
+        String incrementToolTip= "If playing a timed game, once a player makes a move, the increment is added to their play clock";
+        timeOn2.setToolTipText(incrementToolTip);
+        timeOff2.setToolTipText(incrementToolTip);
+        incrementLabel.setToolTipText(incrementToolTip);
+        timerLabel2.setToolTipText(incrementToolTip);
+        timeSlider2.setToolTipText(incrementToolTip);
+
+        String playerToolTip= "Set the player to human or AI (including difficulty)";
+        player1Label.setToolTipText(playerToolTip);
+        player2Label.setToolTipText(playerToolTip);
+        player1Box.setToolTipText(playerToolTip);
+        player2Box.setToolTipText(playerToolTip);
+
+        highlightMove.setToolTipText("Highlight possible moves when a piece is selected");
+        moveHint.setToolTipText("Enable a button which shows a hint for a move");
+        undoRedo.setToolTipText("Enable buttons to undo and redo a move");
+        notification.setToolTipText("Enable helpful messages");
+        checkAll.setToolTipText("Enable Highlight Possible Moves, Move Hints, Allow Undo/Redo, and Notifications");
+        uncheckAll.setToolTipText("Disable Highlight Possible Moves, Move Hints, Allow Undo/Redo, and Notifications");
+
+        loadButton.setToolTipText("Choose a PGN file to load the game on that file");
+        fileNameLabel.setToolTipText("The game file currently loaded");
+        startGame.setToolTipText("Start the game with the current settings");
+        goToMainMenu.setToolTipText("Return to the main menu");
     }
 
     /**
@@ -620,7 +669,11 @@ public class GameSetUp extends JPanel {
             }
         });
     }
-
+    /**
+     * Convert seconds to minutes and seconds
+     * @param fullSeconds an int that represents a full second
+     * @return secondTo2Digits represents a conversion to minute and seconds(mm:ss)
+     */
     public static String getMinAndSec(int fullSeconds) {
         int minutes = fullSeconds / 60;
         int seconds = fullSeconds % 60;
@@ -631,7 +684,9 @@ public class GameSetUp extends JPanel {
             secondsTo2Digits = "0" + seconds;
         return "" + minutes + ":" + secondsTo2Digits;
     }
-
+    /**
+     * {@inheritDoc}
+     */
     public void addLoadListener() {
         loadButton.addActionListener(container.getLoadController());
     }
@@ -673,7 +728,10 @@ public class GameSetUp extends JPanel {
         undoRedo.setSelected(undoRedoSwitch);
         notification.setSelected(notificationsSwitch);
     }
-
+    /**
+     * Gets a PGNFiles and set it as a pgnFile
+     * @param file PGN
+     */
     public void setPGNFile(PGNFile file) {
         pgnFile = file;
     }
@@ -686,7 +744,10 @@ public class GameSetUp extends JPanel {
     public void addLoadedFileName(String fileName) {
         fileNameLabel.setText(" " + fileName);
     }
-
+    /**
+     * Gets the PGN file of the game
+     * @return will return a pgnFIle
+     */
     public PGNFile getPGNFile() {
         return pgnFile;
     }
