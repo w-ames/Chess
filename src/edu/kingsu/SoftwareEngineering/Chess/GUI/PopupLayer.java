@@ -37,23 +37,22 @@ public class PopupLayer extends JPanel {
     private CustomButton newGameButton = new CustomButton("New Game");
     private CustomButton mainMenuButton = new CustomButton("Main Menu");
 
+    // image
+    // ImageIcon whiteQueenIcon = new
+    // ImageIcon("./src/assets/piece_images/HQ/white_queen.png");
+    private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteQueen.png", 65);
+    private ImageIcon blackQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackQueen.png", 65);
+    private ImageIcon whiteKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteKnight.png", 65);
+    private ImageIcon blackKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackKnight.png", 65);
+    private ImageIcon whiteRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteRook.png", 65);
+    private ImageIcon blackRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackRook.png", 65);
+    private ImageIcon whiteBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteBishop.png", 65);
+    private ImageIcon blackBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackBishop.png", 65);
 
-    //image 
-    // ImageIcon whiteQueenIcon = new ImageIcon("./src/assets/piece_images/HQ/white_queen.png");
-    private ImageIcon whiteQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteQueen.png",65);
-    private ImageIcon blackQueenIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackQueen.png",65);
-    private ImageIcon whiteKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteKnight.png",65);
-    private ImageIcon blackKnightIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackKnight.png",65);
-    private ImageIcon whiteRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteRook.png",65);
-    private ImageIcon blackRookIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackRook.png",65);
-    private ImageIcon whiteBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQWhiteBishop.png",65);
-    private ImageIcon blackBishopIcon = ChessGameGUIView.openPieceImageFile("piece_images/HQ/HQBlackBishop.png",65);
-
-
-    private CustomButton chooseQueen = new CustomButton(whiteQueenIcon,blackQueenIcon);
-    private CustomButton chooseKnight = new CustomButton(whiteKnightIcon,blackKnightIcon);
-    private CustomButton chooseRook = new CustomButton(whiteRookIcon,blackRookIcon);
-    private CustomButton chooseBishop = new CustomButton(whiteBishopIcon,blackBishopIcon);
+    private CustomButton chooseQueen = new CustomButton(whiteQueenIcon, blackQueenIcon);
+    private CustomButton chooseKnight = new CustomButton(whiteKnightIcon, blackKnightIcon);
+    private CustomButton chooseRook = new CustomButton(whiteRookIcon, blackRookIcon);
+    private CustomButton chooseBishop = new CustomButton(whiteBishopIcon, blackBishopIcon);
 
     private ChessGamePromotionController chooseQueenListener = new ChessGamePromotionController(PieceType.QUEEN);
     private ChessGamePromotionController chooseKnightListener = new ChessGamePromotionController(PieceType.KNIGHT);
@@ -62,6 +61,9 @@ public class PopupLayer extends JPanel {
 
     private ChessPanel chessPanel;
     private ChessGame chessGame;
+
+    JLabel endGameLabel = new JLabel("Game Over!");
+    JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion");
 
     /**
      * Builds the popup screen and adds a mouse listener to all buttons.
@@ -95,8 +97,6 @@ public class PopupLayer extends JPanel {
      * Makes this PopupLayer object into a pawn promotion popup screen.
      */
     public void makeIntoPawnPromotionScreen() {
-
-        JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion");
         pawnPromotionLabel.setFont(new Font("Arial", Font.PLAIN, 35));
         pawnPromotionLabel.setForeground(new Color(16, 46, 60));
         pawnPromotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,7 +162,6 @@ public class PopupLayer extends JPanel {
      * @param endGameMessage
      */
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
-        JLabel endGameLabel = new JLabel(endGameMessage);
         endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
@@ -202,7 +201,8 @@ public class PopupLayer extends JPanel {
         rematchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 chessGame.rematch();
-                chessPanel.hideEndGameOptions();
+                chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -218,7 +218,9 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("gamesetup");
-                chessPanel.hideEndGameOptions();
+                chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.hideMenuBar();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -231,7 +233,9 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("menu");
-                chessPanel.hideEndGameOptions();
+                chessPanel.hideMenuBar();
+                chessPanel.hideEndGameOptionsForRematch();
+                chessPanel.clearNotifications();
             }
         });
 
@@ -284,52 +288,5 @@ public class PopupLayer extends JPanel {
         chooseKnightListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseRookListener.setMovement(fromRow, fromCol, toRow, toCol);
     }
-
-    /**
-     * Adds mouse click funtionality to pawn promotion screen button and end game
-     * options screen buttons.
-     */
-    // @Override
-    // public void mouseReleased(MouseEvent e) {
-
-    // JButton copyButton = (JButton) e.getSource();
-    // String name = copyButton.getText();
-
-    // // This if/else block specifies how each button behaves.
-    // if (name.equals("Queen")) {
-
-    // System.err.println("Queen");
-
-    // // User input upon submit can be found in the variable:
-    // userPawnPromotionChoice.
-    // // ******
-    // // Put code to use pawn promotion choice here
-    // // *****
-
-    // this.setVisible(false);
-    // } else if (name.equals("Rook")) {
-
-    // } else if (name.equals("Bishop")) {
-
-    // } else if (name.equals("Knight")) {
-
-    // } else if (name.equals("View Board")) {
-
-    // // Hide end game options.
-    // this.setVisible(false);
-
-    // } else if (name.equals("Rematch")) {
-
-    // // Call rematch here
-
-    // } else if (name.equals("New Game")) {
-
-    // // Call new game here
-
-    // } else if (name.equals("Main Menu")) {
-
-    // // Call back to main menu here
-    // }
-    // }
 
 }

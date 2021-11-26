@@ -59,7 +59,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ImageIcon aboutPieceIcon = ChessGameGUIView.openPieceImageFile("images/about.png", 40);
     private ImageIcon endGameIcon = ChessGameGUIView.openPieceImageFile("images/view_end_game.png", 40);
 
-
     private CustomButton undoButton = new CustomButton(undoIcon);
     // private CustomButton undoButton = new CustomButton("Undo");
     private CustomButton redoButton = new CustomButton(redoIcon);
@@ -67,6 +66,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private CustomButton moveHintButton = new CustomButton(hintIcon);
     // private CustomButton moveHintButton = new CustomButton("Hint");
     private CustomButton resignButton = new CustomButton(resignIcon);
+    JPanel resignAndPieceInfoHolder = new JPanel();
     // private CustomButton resignButton = new CustomButton("Resign");
     private CustomButton pieceInfo = new CustomButton(aboutPieceIcon);
     // private CustomButton pieceInfo = new CustomButton("About Piece");
@@ -212,25 +212,50 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         redoButton.setToolTipText("Redo the move");
         invisbleButtonContainer.add(redoButton, gbForButtonPanel);
 
-        gbForButtonPanel.gridy = 1;
-        gbForButtonPanel.gridx = 0;
-        gbForButtonPanel.weightx = 0.5;
-        gbForButtonPanel.weighty = 1;
-        gbForButtonPanel.gridheight = 1;
-        gbForButtonPanel.gridwidth = 1;
-        gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        // gbForButtonPanel.gridy = 1;
+        // gbForButtonPanel.gridx = 0;
+        // gbForButtonPanel.weightx = 0.5;
+        // gbForButtonPanel.weighty = 1;
+        // gbForButtonPanel.gridheight = 1;
+        // gbForButtonPanel.gridwidth = 1;
+        // gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        // pieceInfo.setToolTipText("Show information about the piece");
+        // invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
+        resignAndPieceInfoHolder.setLayout(new GridBagLayout());
+        GridBagConstraints resigngb = new GridBagConstraints();
+
+        // gbForButtonPanel.gridy = 1;
+        // gbForButtonPanel.gridx = 0;
+        // gbForButtonPanel.weightx = 0.5;
+        // gbForButtonPanel.weighty = 1;
+        // gbForButtonPanel.gridheight = 1;
+        // gbForButtonPanel.gridwidth = 1;
+        // gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
+        // invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
+
+        resigngb.gridx = 0;
+        resigngb.gridy = 0;
+        resigngb.fill = GridBagConstraints.BOTH;
+        resigngb.weightx = 1;
+        resigngb.weighty = 1;
+        resigngb.insets = new Insets(5, 5, 5, 5);
         pieceInfo.setToolTipText("Show information about the piece");
-        invisbleButtonContainer.add(pieceInfo, gbForButtonPanel);
+
+        resignAndPieceInfoHolder.add(pieceInfo, resigngb);
+
+        resigngb.gridx = 1;
+        resignButton.setToolTipText("Resign the game");
+        resignAndPieceInfoHolder.add(resignButton, resigngb);
 
         gbForButtonPanel.gridy = 1;
-        gbForButtonPanel.gridx = 1;
-        gbForButtonPanel.weightx = 0.5;
+        gbForButtonPanel.gridx = 0;
+        gbForButtonPanel.weightx = 1;
         gbForButtonPanel.weighty = 1;
         gbForButtonPanel.gridheight = 1;
-        gbForButtonPanel.gridwidth = 1;
+        gbForButtonPanel.gridwidth = 4;
         gbForButtonPanel.insets = new Insets(5, 5, 5, 5);
-        resignButton.setToolTipText("Resign the game");
-        invisbleButtonContainer.add(resignButton, gbForButtonPanel);
+        resignAndPieceInfoHolder.setOpaque(false);
+        invisbleButtonContainer.add(resignAndPieceInfoHolder, gbForButtonPanel);
 
         buttonContainer.setLayout(new GridBagLayout());
         GridBagConstraints igb = new GridBagConstraints();
@@ -238,18 +263,12 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         igb.gridx = 0;
         igb.gridy = 0;
         igb.weightx = 0.25;
+
         invisbleButtonContainer.setOpaque(false);
-        JPanel buttonSpacer1 = new JPanel();
-        buttonSpacer1.setOpaque(false);
-        JPanel buttonSpacer2 = new JPanel();
-        buttonSpacer2.setOpaque(false);
-        buttonContainer.add(buttonSpacer1, igb);
+
         igb.gridx = 1;
         igb.weightx = 0.5;
         buttonContainer.add(invisbleButtonContainer, igb);
-        igb.gridx = 2;
-        igb.weightx = 0.25;
-        buttonContainer.add(buttonSpacer2, igb);
 
         // Add button panel to mainLayer.
         gridBagForMainLayer.gridy = 5;
@@ -282,6 +301,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
+        this.clearNotifications();
+
         // Sets player names on clock
         player1Clock.addPlayerName(player1Name, "White: ");
         player2Clock.addPlayerName(player2Name, "Black: ");
@@ -292,6 +313,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         totalGameTime.updateTotalGameTime("23:00");
 
         /////////////////////////////////////////////////////////
+
+        container.showMenuBarOnChessPanel();
 
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
@@ -417,20 +440,18 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Displays the end game options popup screen.
      */
     public void showEndGameOptions() { // Needs to be edited to read from GameState.
-        if (!buttonContainer.isAncestorOf(resignButton)) {
-            invisbleButtonContainer.remove(showEndGameOptionsButton);
-            GridBagConstraints gb = new GridBagConstraints();
-            gb.fill = GridBagConstraints.BOTH;
-            gb.gridy = 1;
-            gb.gridx = 1;
-            gb.weightx = 0.5;
-            gb.weighty = 1;
-            gb.gridheight = 1;
-            gb.gridwidth = 1;
-            gb.insets = new Insets(5, 5, 5, 5);
-            invisbleButtonContainer.add(resignButton, gb);
-            invisbleButtonContainer.revalidate();
-            invisbleButtonContainer.repaint();
+        if (!resignAndPieceInfoHolder.isAncestorOf(resignButton)) {
+            resignAndPieceInfoHolder.remove(showEndGameOptionsButton);
+            GridBagConstraints resigngb = new GridBagConstraints();
+            resigngb.gridx = 1;
+            resigngb.gridy = 0;
+            resigngb.fill = GridBagConstraints.BOTH;
+            resigngb.weightx = 1;
+            resigngb.weighty = 1;
+            resigngb.insets = new Insets(5, 5, 5, 5);
+            resignAndPieceInfoHolder.add(resignButton, resigngb);
+            resignAndPieceInfoHolder.revalidate();
+            resignAndPieceInfoHolder.repaint();
         }
         showEndGameOptionsButton.enable(false);
         endGameOptions.setVisible(true);
@@ -448,20 +469,43 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         // replace the "resign button"
         // with the "Show end game options" button.
         if (endGameState == true && !buttonContainer.isAncestorOf(showEndGameOptionsButton)) {
-            invisbleButtonContainer.remove(resignButton);
-            GridBagConstraints gb = new GridBagConstraints();
-            gb.fill = GridBagConstraints.BOTH;
-            gb.gridy = 1;
-            gb.gridx = 1;
-            gb.weightx = 0.5;
-            gb.weighty = 1;
-            gb.gridheight = 1;
-            gb.gridwidth = 1;
-            gb.insets = new Insets(5, 5, 5, 5);
+            resignAndPieceInfoHolder.remove(resignButton);
+            GridBagConstraints resigngb = new GridBagConstraints();
+            resigngb.gridx = 1;
+            resigngb.gridy = 0;
+            resigngb.fill = GridBagConstraints.BOTH;
+            resigngb.weightx = 1;
+            resigngb.weighty = 1;
             showEndGameOptionsButton.setToolTipText("View endgame settings");
-            invisbleButtonContainer.add(showEndGameOptionsButton, gb);
-            invisbleButtonContainer.revalidate();
-            invisbleButtonContainer.repaint();
+            resignAndPieceInfoHolder.add(showEndGameOptionsButton, resigngb);
+            resignAndPieceInfoHolder.revalidate();
+            resignAndPieceInfoHolder.repaint();
+
+        }
+    }
+
+    /**
+     * Hides the end game options popup screen.
+     */
+    public void hideEndGameOptionsForRematch() { // Needs to be edited to read from GameState.
+        showEndGameOptionsButton.enable(true);
+        endGameOptions.setVisible(false);
+
+        // If the game is in the end game state, and hideEndGameOptions() is called,
+        // replace the "resign button"
+        // with the "Show end game options" button.
+        if (endGameState == true && !buttonContainer.isAncestorOf(showEndGameOptionsButton)) {
+            resignAndPieceInfoHolder.remove(showEndGameOptionsButton);
+            GridBagConstraints resigngb = new GridBagConstraints();
+            resigngb.gridx = 1;
+            resigngb.gridy = 0;
+            resigngb.fill = GridBagConstraints.BOTH;
+            resigngb.weightx = 1;
+            resigngb.weighty = 1;
+            resigngb.insets = new Insets(5, 5, 5, 5);
+            resignAndPieceInfoHolder.add(resignButton, resigngb);
+            resignAndPieceInfoHolder.revalidate();
+            resignAndPieceInfoHolder.repaint();
 
         }
     }
@@ -504,6 +548,20 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
         addNotification(squareNotification);
 
+    }
+
+    /**
+     * Clears all notifications.
+     */
+    public void clearNotifications() {
+        messagesView.clearNotifications();
+    }
+
+    /**
+     * Hide menu bar.
+     */
+    public void hideMenuBar() {
+        container.hideMenuBar();
     }
 
     /**
@@ -684,6 +742,20 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Turn the move hint option on or off.
+     */
+    public void undoRedoOnOff() {
+
+        if (undoRedoSwitch == true) {
+            this.undoRedoSwitch = false;
+            addNotification("Undo Redo OFF");
+        } else {
+            this.undoRedoSwitch = true;
+            addNotification("Undo Redo ON");
+        }
+    }
+
+    /**
      * Turn the notifications on or off.
      */
     public void notificationsOnOff() {
@@ -774,5 +846,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         this.chessGame = chessGame;
     }
 
-    public ApplicationFrame getApplicationFrame() { return this.container; }
+    public ApplicationFrame getApplicationFrame() {
+        return this.container;
+    }
 }

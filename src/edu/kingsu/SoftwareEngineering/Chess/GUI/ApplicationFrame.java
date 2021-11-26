@@ -11,6 +11,11 @@ import java.awt.Dimension;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class ApplicationFrame extends JFrame {
 
@@ -33,9 +38,10 @@ public class ApplicationFrame extends JFrame {
     private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
     private JMenuItem exitMenuItem = new JMenuItem("Quit");
 
-    private JMenuItem turnOnOffBoardHighlight = new JMenuItem("Board Highlight (on/off)");
-    private JMenuItem turnOnOffNotifications = new JMenuItem("Notifications (on/off)");
-    private JMenuItem turnOnOffMoveHints = new JMenuItem("Move Hints (on/off)");
+    private JRadioButtonMenuItem turnOnOffBoardHighlight = new JRadioButtonMenuItem("Board Highlight", true);
+    private JRadioButtonMenuItem turnOnOffNotifications = new JRadioButtonMenuItem("Notifications", true);
+    private JRadioButtonMenuItem turnOnOffMoveHints = new JRadioButtonMenuItem("Move Hints", true);
+    private JRadioButtonMenuItem turnOnOffUndoRedo = new JRadioButtonMenuItem("Undo/Redo", true);
     private JMenuItem playerOptions = new JMenuItem("Player Options");
 
     private JMenuItem about = new JMenuItem("About");
@@ -99,6 +105,8 @@ public class ApplicationFrame extends JFrame {
         addMenuBar();
         addActionListenersToMenuBar();
 
+        menuBar.setVisible(false);
+
         pack();
         setVisible(true);
     }
@@ -113,6 +121,56 @@ public class ApplicationFrame extends JFrame {
             getLoadController().setChessGame(null);
         }
         layout.show(contentPanel, card);
+    }
+
+    /**
+     * Shows menu bar.
+     */
+    public void showMenuBarOnChessPanel() {
+        menuBar.setVisible(true);
+    }
+
+    /**
+     * Hides menu bar.
+     */
+    public void hideMenuBar() {
+        menuBar.setVisible(false);
+    }
+
+    /**
+     * Toggles the JRadioButtonMenuItem for board highlight.
+     * 
+     * @param choice True = on, false = off.
+     */
+    public void toggleBoardHighlightsMenuCheckBox(boolean choice) {
+        turnOnOffBoardHighlight.setSelected(choice);
+    }
+
+    /**
+     * Toggles the JRadioButtonMenuItem for move hint.
+     * 
+     * @param choice True = on, false = off.
+     */
+    public void toggleMoveHintMenuCheckBox(boolean choice) {
+        turnOnOffMoveHints.setSelected(choice);
+    }
+
+    /**
+     * Toggles the JRadioButtonMenuItem for notifications.
+     * 
+     * @param choice True = on, false = off.
+     */
+    public void toggleNotificationsCheckBox(boolean choice) {
+        turnOnOffNotifications.setSelected(choice);
+    }
+
+    /**
+     * Toggles the JRadioButtonMenuItem for undo/red.
+     * 
+     * @param choice True = on, false = off.
+     */
+    public void toggleUndoRedoCheckBox(boolean choice) {
+        turnOnOffUndoRedo.setSelected(choice);
     }
 
     /**
@@ -162,6 +220,7 @@ public class ApplicationFrame extends JFrame {
         options.add(turnOnOffBoardHighlight);
         options.add(turnOnOffNotifications);
         options.add(turnOnOffMoveHints);
+        options.add(turnOnOffUndoRedo);
         options.add(playerOptions);
 
         help.add(chessRules);
@@ -220,6 +279,7 @@ public class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 layout.show(contentPanel, "menu");
+                menuBar.setVisible(false);
 
             }
 
@@ -285,10 +345,19 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Add code for when "Move Hint On/Off" is selected from menu bar
-
                 if (chessPanel != null) {
                     chessPanel.moveHintOnOff();
+                }
+            }
+        });
+
+        turnOnOffUndoRedo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (chessPanel != null) {
+                    chessPanel.undoRedoOnOff();
                 }
             }
         });
@@ -380,6 +449,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -392,6 +464,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
@@ -404,6 +479,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
 
             }
 
@@ -417,6 +495,9 @@ public class ApplicationFrame extends JFrame {
                 helpWindow.setLocation(1200, 300);
                 helpWindow.setVisible(true);
                 helpWindow.setSize(new Dimension(600, 800));
+                helpWindow.setMinimumSize(new Dimension(600, 800));
+                helpWindow.setPreferredSize(new Dimension(600, 800));
+                helpWindow.setMaximumSize(new Dimension(700, 900));
             }
 
         });
