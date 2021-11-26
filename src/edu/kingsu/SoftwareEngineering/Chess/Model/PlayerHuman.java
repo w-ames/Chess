@@ -18,6 +18,10 @@ public class PlayerHuman extends Player {
         super(chessGame, isWhite, true, interval, Player.MAX_AI_DEPTH);
     }
 
+    public PlayerHuman(Player oldPlayer) {
+        super(oldPlayer, Player.MAX_AI_DEPTH);
+    }
+
     /**
      * {@inheritDoc}
      */

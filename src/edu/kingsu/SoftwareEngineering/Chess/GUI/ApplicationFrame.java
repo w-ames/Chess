@@ -58,7 +58,7 @@ public class ApplicationFrame extends JFrame {
     // Members for JOption Pane (player options)
     JComboBox<String> player1ComboBox = new JComboBox<>();
     JComboBox<String> player2ComboBox = new JComboBox<>();
-    JButton playerOptionsSubmit = new JButton("Submit");
+    // JButton playerOptionsSubmit = new JButton("Submit");
     int player1ComboBoxChoice;
     int player2ComboBoxChoice;
 
@@ -407,6 +407,7 @@ public class ApplicationFrame extends JFrame {
                 wrapper.add(spacer3, gb);
 
                 gb.gridy = 8;
+                JButton playerOptionsSubmit = new JButton("Submit");
                 wrapper.add(playerOptionsSubmit, gb);
 
                 Object[] options = new Object[] {};
@@ -416,11 +417,10 @@ public class ApplicationFrame extends JFrame {
 
                 playerOptionsOptionPane.add(wrapper);
 
-                JDialog diag = new JDialog();
+                JDialog diag = new JDialog(ApplicationFrame.this, true);
                 diag.getContentPane().add(playerOptionsOptionPane);
                 diag.pack();
                 diag.setLocation(500, 300);
-                diag.setVisible(true);
 
                 playerOptionsSubmit.addActionListener(new ActionListener() {
 
@@ -432,11 +432,13 @@ public class ApplicationFrame extends JFrame {
                         // 0 = Human, 1 = A.I (easy), 2 = A.I. (medium), 3 = A.I (hard)
                         player1ComboBoxChoice = player1ComboBox.getSelectedIndex();
                         player2ComboBoxChoice = player2ComboBox.getSelectedIndex();
-
+                        chessPanel.changePlayerTypes(GameSetUp.playerDepthList[player1ComboBoxChoice], GameSetUp.playerDepthList[player2ComboBoxChoice]);
                         diag.setVisible(false);
                     }
 
                 });
+
+                diag.setVisible(true);
 
             }
         });

@@ -31,7 +31,7 @@ public class GameSetUp extends JPanel {
     JLabel timerLabel2 = new JLabel("0:10");
     JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
     String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
-    int[] playerDepthList = { -1, 0, 2, 4 };
+    public static final int[] playerDepthList = { -1, 0, 2, 4 };
 
     JComboBox player1Box = new JComboBox(playerList);
     JComboBox player2Box = new JComboBox(playerList);

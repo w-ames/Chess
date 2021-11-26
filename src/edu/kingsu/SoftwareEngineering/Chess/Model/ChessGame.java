@@ -822,4 +822,26 @@ public class ChessGame {
         }
     }
 
+    public void changePlayerTypes(int whiteType, int blackType) {
+        if (playerIncrement < 0) {
+            stop();
+            boolean isWhiteTurn = getPlayerTurn().isWhite();
+            if (whiteType < 0) {
+                whitePlayer = new PlayerHuman(whitePlayer);
+            } else {
+                whitePlayer = new PlayerAI(whitePlayer, whiteType);
+            }
+            if (blackType < 0) {
+                blackPlayer = new PlayerHuman(blackPlayer);
+            } else {
+                blackPlayer = new PlayerAI(blackPlayer, blackType);
+            }
+            // TODO update text thing
+            synchronized (playerTurnLock) {
+                playerTurn = isWhiteTurn ? whitePlayer : blackPlayer;
+            }
+            start();
+        }
+    }
+
 }

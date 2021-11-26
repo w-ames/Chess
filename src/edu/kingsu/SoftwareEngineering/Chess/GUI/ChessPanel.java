@@ -928,4 +928,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public ApplicationFrame getApplicationFrame() {
         return this.container;
     }
+
+    public void changePlayerTypes(int whiteType, int blackType) {
+        if (getChessGame() != null) {
+            getChessGame().changePlayerTypes(whiteType, blackType);
+        }
+    }
 }

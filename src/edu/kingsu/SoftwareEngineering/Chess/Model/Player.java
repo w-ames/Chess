@@ -48,6 +48,13 @@ public abstract class Player implements Runnable {
         timerRunning = false;
     }
 
+    public Player(Player oldPlayer, int newDepth) {
+        this(oldPlayer.chessGame, oldPlayer.isWhite, oldPlayer.isHuman, oldPlayer.interval, newDepth);
+        this.clock = oldPlayer.clock;
+        this.timer = oldPlayer.timer;
+        this.timerRunning = oldPlayer.timerRunning;
+    }
+
     /**
      * Returns the chess game associated with this player of chess.
      * @return the chess game associated with this player of chess

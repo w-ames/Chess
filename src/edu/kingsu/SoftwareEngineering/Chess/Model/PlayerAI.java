@@ -24,6 +24,10 @@ public class PlayerAI extends Player {
         super(chessGame, isWhite, false, interval, aiDepth);
     }
 
+    public PlayerAI(Player oldPlayer, int newDepth) {
+        super(oldPlayer, newDepth);
+    }
+
     /**
      * {@inheritDoc}
      */
