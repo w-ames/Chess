@@ -296,6 +296,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         /////////////////////////////////////////////////////////
 
+        container.showMenuBarOnChessPanel();
+
         guiView.setChessGame(chessGame);
         algebraicView.setChessGame(chessGame);
         messagesView.setChessGame(chessGame);
@@ -527,6 +529,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
         addNotification(squareNotification);
 
+    }
+
+    /**
+     * Hide menu bar.
+     */
+    public void hideMenuBar() {
+        container.hideMenuBar();
     }
 
     /**

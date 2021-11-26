@@ -217,6 +217,7 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("gamesetup");
+                chessPanel.hideMenuBar();
                 chessPanel.hideEndGameOptionsForRematch();
             }
         });
@@ -230,6 +231,7 @@ public class PopupLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
                 chessPanel.getApplicationFrame().show("menu");
+                chessPanel.hideMenuBar();
                 chessPanel.hideEndGameOptionsForRematch();
             }
         });

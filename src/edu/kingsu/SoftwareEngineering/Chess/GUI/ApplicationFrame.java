@@ -105,6 +105,8 @@ public class ApplicationFrame extends JFrame {
         addMenuBar();
         addActionListenersToMenuBar();
 
+        menuBar.setVisible(false);
+
         pack();
         setVisible(true);
     }
@@ -119,6 +121,20 @@ public class ApplicationFrame extends JFrame {
             getLoadController().setChessGame(null);
         }
         layout.show(contentPanel, card);
+    }
+
+    /**
+     * Shows menu bar.
+     */
+    public void showMenuBarOnChessPanel() {
+        menuBar.setVisible(true);
+    }
+
+    /**
+     * Hides menu bar.
+     */
+    public void hideMenuBar() {
+        menuBar.setVisible(false);
     }
 
     /**
@@ -263,6 +279,7 @@ public class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 layout.show(contentPanel, "menu");
+                menuBar.setVisible(false);
 
             }
 
