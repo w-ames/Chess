@@ -285,6 +285,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
 
+        this.clearNotifications();
+
         // Sets player names on clock
         player1Clock.addPlayerName(player1Name, "White: ");
         player2Clock.addPlayerName(player2Name, "Black: ");
@@ -529,6 +531,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
         addNotification(squareNotification);
 
+    }
+
+    /**
+     * Clears all notifications.
+     */
+    public void clearNotifications() {
+        messagesView.clearNotifications();
     }
 
     /**
