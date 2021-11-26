@@ -16,8 +16,6 @@ public class PlayerAI extends Player {
      * @param isWhite <code>true</code> if this player is the white player,
      *  <code>false</code> if this player is black
      * @param interval the amount of time allotted on this players clock
-     * @param increment the amount of time the players clock gains upon making
-     *  moves
      * @param aiDepth the depth at which this player searches for moves
      */
     public PlayerAI(ChessGame chessGame, boolean isWhite, int interval, int aiDepth) {
