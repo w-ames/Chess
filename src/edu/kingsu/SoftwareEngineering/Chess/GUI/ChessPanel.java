@@ -712,7 +712,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Repetition stalemate");
             this.showEndGameOptions();
 
-        } else if (state == GameState.STALEMATE_REPITITION) { // Check if no material stalemate here.
+        } else if (state == GameState.STALEMATE_NOMATERIAL) { // Check if no material stalemate here.
 
             addNotification("Insufficient material stalemate");
             this.showEndGameOptions();

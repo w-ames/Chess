@@ -204,7 +204,39 @@ public class ChessGame {
         } else if (board.getAllMoves(isWhiteTurn).isEmpty()) {
             currentState = GameState.STALEMATE_NOMOVES;
         } else {
-            currentState = GameState.ACTIVE;
+            boolean sufficientMaterial = false;
+            int whiteBishopStatus = -1;
+            boolean whiteKnightExists = false;
+            int blackBishopStatus = -1;
+            boolean blackKnightExists = false;
+            for (int i=0; !sufficientMaterial && i<Board.ROWS; i++) {
+                for (int j=0; !sufficientMaterial && j<Board.ROWS; j++) {
+                    Piece aPiece = getBoard().getPiece(i, j);
+                    if (aPiece == null) continue;
+                    if (aPiece.getPieceType() == PieceType.QUEEN || aPiece.getPieceType() == PieceType.ROOK || aPiece.getPieceType() == PieceType.PAWN) {
+                        sufficientMaterial = true;
+                    } else if (aPiece.getPieceType() == PieceType.BISHOP) {
+                        if (aPiece.isWhite()) {
+                            sufficientMaterial = whiteKnightExists || whiteBishopStatus != -1 && whiteBishopStatus != (i+j)%2;
+                            whiteBishopStatus = (i+j)%2;
+                        } else {
+                            sufficientMaterial = blackKnightExists || blackBishopStatus != -1 && blackBishopStatus != (i+j)%2;
+                            blackBishopStatus = (i+j)%2;
+                        }
+                    } else if (aPiece.getPieceType() == PieceType.KNIGHT) {
+                        if (aPiece.isWhite()) {
+                            whiteKnightExists = true;
+                        } else {
+                            blackKnightExists = true;
+                        }
+                    }
+                }
+            }
+            if (sufficientMaterial) {
+                currentState = GameState.ACTIVE;
+            } else {
+                currentState = GameState.STALEMATE_NOMATERIAL;
+            }
         }
     }
 
