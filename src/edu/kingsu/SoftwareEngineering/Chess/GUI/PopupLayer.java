@@ -203,6 +203,9 @@ public class PopupLayer extends JPanel {
                 chessGame.rematch();
                 chessPanel.hideEndGameOptionsForRematch();
                 chessPanel.clearNotifications();
+                chessPanel.notificationsOnOff();
+                chessPanel.notificationsOnOff();
+                chessPanel.addNotification("Rematch!");
             }
         });
 
