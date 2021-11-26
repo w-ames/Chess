@@ -6,6 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Insets;
 import java.awt.Dimension;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import edu.kingsu.SoftwareEngineering.Chess.Model.*;
 import edu.kingsu.SoftwareEngineering.Chess.PGN.PGNFile;
 
@@ -19,6 +24,7 @@ public class MainMenu extends JPanel {
     private CustomButton exitButton = new CustomButton("Exit");
     private MainLayer background = new MainLayer();
     private ButtonContainer buttonContainer = new ButtonContainer();
+    JLabel chessTitle = new JLabel();
 
     public MainMenu(ApplicationFrame container) {
         // Add super constructor and parameter to go in between cards
@@ -27,13 +33,20 @@ public class MainMenu extends JPanel {
         //
 
         // Set a JLabel for the LOGO
-        ImageIcon chessIcon = new ImageIcon("./src/assets/images/chesslogo2.png");
-        Image image = chessIcon.getImage();
-        Image newimage = image.getScaledInstance(450, 200, java.awt.Image.SCALE_SMOOTH);
-        chessIcon = new ImageIcon(newimage);
-        JLabel chessTitle = new JLabel(chessIcon);
-        chessTitle.setBackground(Color.black);
+        try{
 
+            BufferedImage bufferedImage = ImageIO.read(MainMenu.class.getClassLoader().getResource("chesslogo2.png"));
+            Image logoImage =  bufferedImage.getScaledInstance(450, 200, Image.SCALE_SMOOTH);
+            ImageIcon chessIcon = new ImageIcon(logoImage);
+            chessTitle.setIcon(chessIcon);
+            chessTitle.setHorizontalAlignment(JLabel.CENTER);
+        } catch (Exception e){
+
+            System.err.println(e);
+
+        }
+        //chessIcon = new ImageIcon(newimage);
+       
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
