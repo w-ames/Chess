@@ -614,9 +614,9 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        Square copyButton = (Square) e.getSource();
-        String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
-        addNotification(squareNotification);
+        // Square copyButton = (Square) e.getSource();
+        // String squareNotification = "You have selected square: " + copyButton.getSquareLocation();
+        // addNotification(squareNotification);
 
     }
 
