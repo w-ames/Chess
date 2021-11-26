@@ -46,7 +46,7 @@ public class MainMenu extends JPanel {
         // Set a JLabel for the LOGO
         try{
 
-            BufferedImage bufferedImage = ImageIO.read(MainMenu.class.getClassLoader().getResource("chesslogo2.png"));
+            BufferedImage bufferedImage = ImageIO.read(MainMenu.class.getClassLoader().getResource("images/chesslogo2.png"));
             Image logoImage =  bufferedImage.getScaledInstance(450, 200, Image.SCALE_SMOOTH);
             ImageIcon chessIcon = new ImageIcon(logoImage);
             chessTitle.setIcon(chessIcon);
