@@ -93,8 +93,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
      * 
-     * @author Chelsie Bajic
-     * @since 11/2021
      */
     public ChessPanel(ApplicationFrame container) {
 
@@ -620,8 +618,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
-     * Responsible for dynamically resizing the popup layers (endGameOptions &
-     * pawnPromotionScreen) if the user resizes the application frame.
+     * Responsible for dynamically resizing the popup layers (endGameOptions &amp; pawnPromotionScreen) if the user resizes the application frame.
+     * 
      */
     public void makePopupsResizeable() {
 
@@ -876,7 +874,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     /**
      * Allows set up screen to turn on or off undo/redo move option.
      * 
-     * @param undoRedoSwitch true = on, false = off.
+     * @param undoRedo_Switch true = on, false = off.
      */
     public void setundoRedoSwitch(boolean undoRedo_Switch) {
         this.undoRedoSwitch = undoRedo_Switch;

@@ -228,7 +228,8 @@ public class ChessGameGUIView extends ChessGameView {
      * To look at the current size of the application frame, used for board
      * resizing.
      * 
-     * @param container
+     * @param width  an integer that represents the width of the frame
+     * @param height an integer that represents the height of the frame
      */
     public void setContainerSize(int width, int height) {
         this.currentFrameHeight = height;

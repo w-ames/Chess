@@ -71,7 +71,7 @@ public class ApplicationFrame extends JFrame {
     /**
      * Creates the main application frame for Java Chess.
      * 
-     * @author Gregory Cal
+     * 
      */
     public ApplicationFrame() {
 

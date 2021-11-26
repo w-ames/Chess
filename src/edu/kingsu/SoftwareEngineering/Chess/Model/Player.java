@@ -32,9 +32,9 @@ public abstract class Player implements Runnable {
      * @param chessGame the chess game which this player is a part of
      * @param isWhite <code>true</code> if this player is the white player,
      *  <code>false</code> if this player is black
+     * @param isHuman <code>true</code> if this player is a human player,
+     *  <code>false</code> if this player is a computer player
      * @param interval the amount of time allotted on this players clock
-     * @param increment the amount of time the players clock gains upon making
-     *  moves
      * @param aiDepth the depth at which this player searches for moves
      */
     public Player(ChessGame chessGame, boolean isWhite, boolean isHuman, int interval, int aiDepth) {

@@ -685,7 +685,7 @@ public class GameSetUp extends JPanel {
         return "" + minutes + ":" + secondsTo2Digits;
     }
     /**
-     * {@inheritDoc}
+     * Method to add a listener event for the Load button
      */
     public void addLoadListener() {
         loadButton.addActionListener(container.getLoadController());

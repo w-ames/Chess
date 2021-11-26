@@ -11,8 +11,6 @@ public class PlayerHuman extends Player {
      * @param isWhite <code>true</code> if this player is the white player,
      *  <code>false</code> if this player is black
      * @param interval the amount of time allotted on this players clock
-     * @param increment the amount of time the players clock gains upon making
-     *  moves
      */
     public PlayerHuman(ChessGame chessGame, boolean isWhite, int interval) {
         super(chessGame, isWhite, true, interval, Player.MAX_AI_DEPTH);
