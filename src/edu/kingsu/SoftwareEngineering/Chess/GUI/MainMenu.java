@@ -31,15 +31,12 @@ public class MainMenu extends JPanel {
     private MainLayer background = new MainLayer();
     private ButtonContainer buttonContainer = new ButtonContainer();
     JLabel chessTitle = new JLabel();
-<<<<<<< HEAD
-    
 
-=======
     /**
      * default constructor for the MainMenu frame
      * @param container the ApplicationFrame container
      */
->>>>>>> 1ee779ba5bd12005c6187b3b0cff95bc268a091a
+
     public MainMenu(ApplicationFrame container) {
         // Add super constructor and parameter to go in between cards
         super();
