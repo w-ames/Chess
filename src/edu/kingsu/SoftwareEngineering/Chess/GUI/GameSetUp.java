@@ -36,13 +36,15 @@ public class GameSetUp extends JPanel {
     JComboBox player1Box = new JComboBox(playerList);
     JComboBox player2Box = new JComboBox(playerList);
 
-    int minTime = 10;
-    int minTime2 = 10;
-    int maxTime = 600;
-    int maxTime2 = 600;
+    private final int MIN_TIME = 60;
+    private final int MAX_TIME = 1800;
+    private final int START_TIME = 600;
+    private final int MIN_INCREMENT = 0;
+    private final int MAX_INCREMENT = 60;
+    private final int START_INCREMENT = 10;
 
-    JSlider timeSlider = new JSlider(minTime, maxTime);
-    JSlider timeSlider2 = new JSlider(minTime2, maxTime2);
+    JSlider timeSlider = new JSlider(MIN_TIME, MAX_TIME, START_TIME);
+    JSlider timeSlider2 = new JSlider(MIN_INCREMENT, MAX_INCREMENT, START_INCREMENT);
 
     JRadioButton timeOn = new JRadioButton("On");
     JRadioButton timeOff = new JRadioButton("Off");
@@ -227,6 +229,7 @@ public class GameSetUp extends JPanel {
         ButtonGroup timeGroup1 = new ButtonGroup();
         timeGroup1.add(timeOn);
         timeGroup1.add(timeOff);
+        timeOff.setSelected(true);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -273,6 +276,7 @@ public class GameSetUp extends JPanel {
         ButtonGroup timeGroup2 = new ButtonGroup();
         timeGroup2.add(timeOn2);
         timeGroup2.add(timeOff2);
+        timeOff2.setSelected(true);
 
         timeConstraints.fill = GridBagConstraints.BOTH;
         timeConstraints.gridx = 0;
@@ -494,7 +498,7 @@ public class GameSetUp extends JPanel {
         background.add(holdAllInCentre, allGB);
 
         selectAllTutorialOptions();
-        addActionListenersToButtons();
+        addListeners();
 
     }
 
@@ -541,7 +545,7 @@ public class GameSetUp extends JPanel {
     /**
      * Add functionality to all of the buttons.
      */
-    public void addActionListenersToButtons() {
+    private void addListeners() {
 
         goToMainMenu.addActionListener(new ActionListener() {
             @Override
@@ -590,6 +594,41 @@ public class GameSetUp extends JPanel {
             }
         });
 
+        //loadButton.addActionListener(new ActionListener() {
+        //    @Override
+        //    public void actionPerformed(ActionEvent e) {
+        //        //
+        //        //
+        //        // Add code for load game here
+        //        //
+        //        //
+        //    }
+        //});
+
+        timeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e){
+                int time= ((JSlider)e.getSource()).getValue();
+                timerLabel1.setText(getMinAndSec(time));
+            }
+        });
+
+        timeSlider2.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e){
+                int time= ((JSlider)e.getSource()).getValue();
+                timerLabel2.setText(getMinAndSec(time));
+            }
+        });
+    }
+
+    public static String getMinAndSec(int fullSeconds){
+        int minutes= fullSeconds / 60;
+        int seconds= fullSeconds % 60;
+        String secondsTo2Digits;
+        if(seconds > 9) secondsTo2Digits= "" + seconds;
+        else secondsTo2Digits= "0" + seconds;
+        return "" + minutes + ":" + secondsTo2Digits;
     }
 
     public void addLoadListener() {
