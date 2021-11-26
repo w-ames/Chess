@@ -105,7 +105,7 @@ public class ApplicationFrame extends JFrame {
         setPreferredSize(WINDOW_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        saveController = new ChessGameSaveController(null);
+        saveController = new ChessGameSaveController(null, this);
         loadController = new ChessGameLoadController(null, this, gameSetUp);
         gameSetUp.addLoadListener();
         addMenuBar();
@@ -283,12 +283,18 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                layout.show(contentPanel, "menu");
-                menuBar.setVisible(false);
-
+                int userSelection= confirmSave();
+                if(userSelection == JOptionPane.YES_OPTION){
+                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                        layout.show(contentPanel, "menu");
+                        menuBar.setVisible(false);
+                    }
+                }else if(userSelection == JOptionPane.NO_OPTION){
+                    layout.show(contentPanel, "menu");
+                    menuBar.setVisible(false);
+                }
             }
-
         });
 
         loadGameMenuItem.addActionListener(getLoadController());
@@ -319,7 +325,16 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int userSelection= confirmSave();
+                if(userSelection == JOptionPane.YES_OPTION){
+                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                        System.exit(0);
+                    }
+                }else if(userSelection == JOptionPane.NO_OPTION){
+                    System.exit(0);
+                }
+                
             }
 
         });
@@ -511,6 +526,17 @@ public class ApplicationFrame extends JFrame {
         });
 
     }
+
+    /**
+     * Shows a confirmation dialog box asking if the player would like to save the game
+     * before leaving it, and returns the user's selection.
+     * @return the user-selected option, one of JOptionPane.YES_OPTION, JOptionPane.NO_OPTION,
+     *  or JOptionPane.CANCEL_OPTION
+     */
+    private int confirmSave(){
+        return JOptionPane.showConfirmDialog(this, "Do you want to save before leaving this game?", "Save?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+    }
+
     /**
      * 
      * @return saveController returns controller to save the PGN
