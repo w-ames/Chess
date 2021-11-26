@@ -39,10 +39,12 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
-    private JMenuItem newGameMenuItem = new JMenuItem("Main Menu");
+    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem restartGameMenuItem = new JMenuItem("Restart Game");
+    private JMenuItem mainMenuMenuItem = new JMenuItem("Main Menu");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
     private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
-    private JMenuItem exitMenuItem = new JMenuItem("Quit");
+    private JMenuItem exitMenuItem = new JMenuItem("Exit");
 
     private JRadioButtonMenuItem turnOnOffBoardHighlight = new JRadioButtonMenuItem("Board Highlight", true);
     private JRadioButtonMenuItem turnOnOffNotifications = new JRadioButtonMenuItem("Notifications", true);
@@ -219,8 +221,10 @@ public class ApplicationFrame extends JFrame {
     public void addMenuBar() {
 
         file.add(newGameMenuItem);
+        file.add(restartGameMenuItem);
         file.add(loadGameMenuItem);
         file.add(saveGameMenuItem);
+        file.add(mainMenuMenuItem);
         file.add(exitMenuItem);
 
         options.add(turnOnOffBoardHighlight);
@@ -279,7 +283,40 @@ public class ApplicationFrame extends JFrame {
      */
     public void addActionListenersToMenuBar() {
 
-        newGameMenuItem.addActionListener(new ActionListener() {
+        newGameMenuItem.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int userSelection= confirmSave();
+                if(userSelection == JOptionPane.YES_OPTION){
+                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                        layout.show(contentPanel, "gamesetup");
+                        menuBar.setVisible(false);
+                    }
+                }else if(userSelection == JOptionPane.NO_OPTION){
+                    layout.show(contentPanel, "gamesetup");
+                    menuBar.setVisible(false);
+                }
+            }
+        });
+
+        restartGameMenuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int userSelection= confirmSave();
+                if(userSelection == JOptionPane.YES_OPTION){
+                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                        chessPanel.getChessGame().rematch();
+                    }
+                }else if(userSelection == JOptionPane.NO_OPTION){
+                    chessPanel.getChessGame().rematch();
+                }
+            }
+        });
+
+        mainMenuMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
