@@ -29,7 +29,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
     private JEditorPane algebraicDisplayPanel = new JEditorPane();
     // private JTextArea algebraicDisplayPanel = new JTextArea();
     private JTextField algebricInputPanel = new JTextField();
-    private CustomButton algebraicMoveSubmitButton = new CustomButton("Submit");
     private GridBagConstraints dp = new GridBagConstraints();
     private int counter = 0;
     private int moveCounter = 0;
@@ -93,15 +92,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
         gb.insets = new Insets(0, 5, 5, 5);
         this.add(algebricInputPanel, gb);
 
-        // Adding the submit button for the algebraic view input.
-        gb.fill = GridBagConstraints.BOTH;
-        gb.gridy = 2;
-        gb.gridx = 1;
-        gb.weightx = 0.25;
-        gb.weighty = 0.025;
-        gb.insets = new Insets(0, 5, 5, 5);
-        this.add(algebraicMoveSubmitButton, gb);
-
     }
 
     /**
@@ -142,55 +132,53 @@ public class ChessGameAlgebraicView extends ChessGameView {
         String test = "";
 
         moveString += "<style>";
-        moveString +="table, {";
-        // moveString +=  "border: 1px solid black;";
-        moveString +=  "border-radius: 10px;";
-        moveString +=  "border-style: groove;";
-        moveString +="}";
-        moveString +="th, td {";
-        moveString +=    "font-size: 1.1em;";
-        moveString +=  "border-radius: 10px;";
-        // moveString +=    "width: 75px;";
-        moveString +=  "border-color: #404040;";
-        moveString +=  "font-family:Roboto;";
-        moveString +=  "font-color: #404040;";
-        moveString +=    "background-color: #C0C0C0;";
-        moveString +="}";
-        moveString +="</style> <table width=\"100%\"><tr><th width=\"20%\">#</th><th width =\"40%\">White</th><th width=\"40%\">Black</th></tr>";
+        moveString += "table, {";
+        // moveString += "border: 1px solid black;";
+        moveString += "border-radius: 10px;";
+        moveString += "border-style: groove;";
+        moveString += "}";
+        moveString += "th, td {";
+        moveString += "font-size: 1.1em;";
+        moveString += "border-radius: 10px;";
+        // moveString += "width: 75px;";
+        moveString += "border-color: #404040;";
+        moveString += "font-family:Roboto;";
+        moveString += "font-color: #404040;";
+        moveString += "background-color: #C0C0C0;";
+        moveString += "}";
+        moveString += "</style> <table width=\"100%\"><tr><th width=\"20%\">#</th><th width =\"40%\">White</th><th width=\"40%\">Black</th></tr>";
         // <font style=\"font-family:\'Roboto\'\" size = \"6\">
-        for (int i = 0; i < pgnMoves.size(); i++) { 
+        for (int i = 0; i < pgnMoves.size(); i++) {
 
             if (i % 2 == 0) {
                 moveCounter++;
-                moveString +="<tr><td width = \"20%\">"+ (Integer.toString(moveCounter) + ".</td>");
+                moveString += "<tr><td width = \"20%\">" + (Integer.toString(moveCounter) + ".</td>");
 
             }
             if (i == lastMoveIndex) {
-                moveString += "<td width = \"40%\"><b>"+addChessUni(pgnMoves.get(i),isWhite)+"</b></td>";
-                if(isWhite == true){
-                isWhite = false;
-                }
-                else if(isWhite == false){
-                isWhite = true;
+                moveString += "<td width = \"40%\"><b>" + addChessUni(pgnMoves.get(i), isWhite) + "</b></td>";
+                if (isWhite == true) {
+                    isWhite = false;
+                } else if (isWhite == false) {
+                    isWhite = true;
                 }
 
             } else {
-                moveString += "<td width = \"40%\" >" + addChessUni(pgnMoves.get(i),isWhite)+"</td>";
+                moveString += "<td width = \"40%\" >" + addChessUni(pgnMoves.get(i), isWhite) + "</td>";
 
-                if(isWhite == true){
-                isWhite = false;
-                }
-                else if(isWhite == false) { 
-                isWhite = true;
+                if (isWhite == true) {
+                    isWhite = false;
+                } else if (isWhite == false) {
+                    isWhite = true;
                 }
             }
-           if (i % 2 != 0) {
+            if (i % 2 != 0) {
                 moveString += ("</tr>");
             }
 
         }
-        
-        moveString+="</font></table>";
+
+        moveString += "</font></table>";
         algebraicDisplayPanel.setText(moveString);
 
     }
@@ -215,56 +203,52 @@ public class ChessGameAlgebraicView extends ChessGameView {
         String blackBishop = "&#9821;";
 
         String newmove = "";
-        
+
         char c = move.charAt(0);
 
-
-  
         if (isWhite == true) {
-            if (c == 'K' ) {
-                newmove = whiteKing+move.substring(1);
+            if (c == 'K') {
+                newmove = whiteKing + move.substring(1);
                 return newmove;
             } else if (c == 'Q') {
-                newmove = whiteQueen+move.substring(1);
+                newmove = whiteQueen + move.substring(1);
                 return newmove;
             } else if (c == 'N') {
-                newmove = whiteKnight+move.substring(1);
+                newmove = whiteKnight + move.substring(1);
                 return newmove;
             } else if (c == 'R') {
-                newmove = whiteRook+move.substring(1);
+                newmove = whiteRook + move.substring(1);
                 System.out.println("newmove= " + newmove);
                 return newmove;
             } else if (c == 'B') {
-                newmove = whiteBishop+move.substring(1);
+                newmove = whiteBishop + move.substring(1);
                 return newmove;
-            } else if(c =='O'){
-                return whiteKing+move;
-            }
-            else
-                return whitePawn+move;
-        }
-        else if(isWhite == false){
+            } else if (c == 'O') {
+                return whiteKing + move;
+            } else
+                return whitePawn + move;
+        } else if (isWhite == false) {
             if (c == 'K') {
-                newmove = blackKing+move.substring(1);
+                newmove = blackKing + move.substring(1);
                 return newmove;
             } else if (c == 'Q') {
-                newmove = blackQueen+move.substring(1);
+                newmove = blackQueen + move.substring(1);
                 return newmove;
             } else if (c == 'N') {
-                newmove = blackKnight+move.substring(1);
+                newmove = blackKnight + move.substring(1);
                 return newmove;
             } else if (c == 'R') {
-                newmove = blackRook+move.substring(1);
+                newmove = blackRook + move.substring(1);
                 return newmove;
             } else if (c == 'B') {
-                newmove = blackBishop+move.substring(1);
+                newmove = blackBishop + move.substring(1);
                 return newmove;
-            } else if(c =='O'){
-                return blackKing+move;
-            }else
-                return blackPawn+move;
+            } else if (c == 'O') {
+                return blackKing + move;
+            } else
+                return blackPawn + move;
         }
-            return newmove+"error, please look at the source code and fix me";
-    }   
+        return newmove + "error, please look at the source code and fix me";
+    }
 
 }
