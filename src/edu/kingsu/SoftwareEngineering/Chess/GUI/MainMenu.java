@@ -184,5 +184,10 @@ public class MainMenu extends JPanel {
         invisbleContainer.setOpaque(false);
         background.add(invisbleContainer, gb);
 
+        newGameButton.setToolTipText("Set up the options to start a new game");
+        tutorialButton.setToolTipText("Play a game with all help features turned on against an easy opponent");
+        loadGameButton.setToolTipText("Load a game from a PGN file");
+        helpButton.setToolTipText("See a manual about how to use this application, the rules of chess, and more");
+        exitButton.setToolTipText("Exit the application");
     }
 }
