@@ -130,6 +130,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
     @Override
     public void update() {
         algebraicDisplayPanel.setText("");// Remove all
+        algebraicDisplayPanel.setEditable(false);
         List<String> pgnMoves = getChessGame().getAlgebraicHistory();
         int lastMoveIndex = getChessGame().latestMoveIndex();
         counter = 0;
@@ -141,26 +142,31 @@ public class ChessGameAlgebraicView extends ChessGameView {
         String test = "";
 
         moveString += "<style>";
-        moveString +="table, th, td {";
-        moveString +=  "border: 1px solid black;";
+        moveString +="table, {";
+        // moveString +=  "border: 1px solid black;";
         moveString +=  "border-radius: 10px;";
         moveString +=  "border-style: groove;";
-        moveString +=  "border-color: #a1b8c2;";
         moveString +="}";
         moveString +="th, td {";
-        moveString +=    "font-size: 1.2em;";
-        moveString +=    "background-color: #a1b8c2;";
+        moveString +=    "font-size: 1.1em;";
+        moveString +=  "border-radius: 10px;";
+        // moveString +=    "width: 75px;";
+        moveString +=  "border-color: #404040;";
+        moveString +=  "font-family:Roboto;";
+        moveString +=  "font-color: #404040;";
+        moveString +=    "background-color: #C0C0C0;";
         moveString +="}";
-        moveString +="</style><font style=\"font-family:\'Roboto\'\" size = \"6\"> <table>";
+        moveString +="</style> <table width=\"100%\">";
+        // <font style=\"font-family:\'Roboto\'\" size = \"6\">
         for (int i = 0; i < pgnMoves.size(); i++) { 
 
             if (i % 2 == 0) {
                 moveCounter++;
-                moveString +="<tr><td>"+ (Integer.toString(moveCounter) + ".</td>");
+                moveString +="<tr><td width = \"20%\">"+ (Integer.toString(moveCounter) + ".</td>");
 
             }
             if (i == lastMoveIndex) {
-                moveString += "<td><b>"+addChessUni(pgnMoves.get(i),isWhite)+"</b></td>";
+                moveString += "<td width = \"40%\"><b>"+addChessUni(pgnMoves.get(i),isWhite)+"</b></td>";
                 if(isWhite == true){
                 isWhite = false;
                 }
@@ -169,7 +175,7 @@ public class ChessGameAlgebraicView extends ChessGameView {
                 }
 
             } else {
-                moveString += "<td>" + addChessUni(pgnMoves.get(i),isWhite)+"</td>";
+                moveString += "<td width = \"40%\" >" + addChessUni(pgnMoves.get(i),isWhite)+"</td>";
 
                 if(isWhite == true){
                 isWhite = false;
@@ -195,7 +201,6 @@ public class ChessGameAlgebraicView extends ChessGameView {
     }
 
     public String addChessUni(String move, boolean isWhite) {
-        System.out.println(move);
         String whiteKing = "&#9812;";
         String whiteQueen = "&#9813;";
         String whiteKnight = "&#9816;";

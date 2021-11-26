@@ -71,6 +71,8 @@ public class CustomButton extends JButton implements MouseListener {
         //this.setIcon(buttonIcon);
         this.setHorizontalTextPosition(AbstractButton.CENTER);
         this.setVerticalTextPosition(AbstractButton.CENTER);
+        addMouseListener(this);
+
     }
 
     /**
@@ -82,6 +84,7 @@ public class CustomButton extends JButton implements MouseListener {
 
         this.setOpaque(true);
         this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+        this.setLayout(new GridBagLayout());
 
         // this.setLayout(new GridBagLayout());
         // GridBagConstraints gb = new GridBagConstraints();
@@ -94,6 +97,8 @@ public class CustomButton extends JButton implements MouseListener {
         //this.setIcon(buttonIcon);
         this.setHorizontalTextPosition(AbstractButton.CENTER);
         this.setVerticalTextPosition(AbstractButton.CENTER);
+        addMouseListener(this);
+
     }
 
     /**
