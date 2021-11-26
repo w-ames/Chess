@@ -24,6 +24,12 @@ public class PlayerAI extends Player {
         super(chessGame, isWhite, false, interval, aiDepth);
     }
 
+    /**
+     * Creates a new AI player from an existing player's values.
+     * @param oldPlayer the player whose values should be used in creating this
+     *  new instance.
+     * @param newDepth the AI search depth of this new AI player
+     */
     public PlayerAI(Player oldPlayer, int newDepth) {
         super(oldPlayer, newDepth);
     }
