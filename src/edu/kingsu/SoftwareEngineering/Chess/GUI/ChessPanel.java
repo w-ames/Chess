@@ -89,6 +89,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private String player1Name;
     private String player2Name;
 
+    private boolean inTutorialMode; 
+    private int tutorialNotificaions = 0;
+    
+
     /**
      * Constructs the primary JPanel to display gameplay (mainLayer) and endgame
      * options (popupLayer), alternated using LayeredPane.
@@ -268,12 +272,6 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         layeredPane.revalidate();
         layeredPane.repaint();
-
-        if (notificationsOnOff == true) {
-            addNotification("Select a chess piece to begin...");
-        } else {
-            // Notifications off
-        }
 
     }
 
@@ -669,11 +667,112 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Determines if current game play is in tutorial mode. 
+     * @param inTutorialMode ture = in tutorial mode. false = not in tutorial mode. 
+     */
+    public void inTutorialMode(boolean inTutorialMode){
+        this.inTutorialMode = inTutorialMode; 
+    }
+
+       /**
+     * Returns whether the current game is in tutorial mode or not. 
+     * @return Tutorial status. 
+     */
+    public boolean returnTutorialStatus(){
+        return inTutorialMode; 
+    }
+
+    /**
      * Checks the state of the game to see if ChessPanel needs to display pawn
      * promotion pop up screen or end game options pop up screen.
      */
     @Override
     public void update() {
+
+         // Tenth tutorial notification.
+         if(inTutorialMode == true && tutorialNotificaions == 20){
+            messagesView.turnNotificationSwitch(true); // Turn off turn notifications.
+        }
+
+        // Ninth tutorial notification.
+        if(inTutorialMode == true && tutorialNotificaions == 18){
+            addNotification("If one of your pawns makes it to the final rank, it can be promoted");
+            addNotification("into a superior piece!");
+        }
+
+            // Ninth tutorial notification.
+            if(inTutorialMode == true && tutorialNotificaions == 16){
+                addNotification(" ");
+                addNotification("FYI: Rows are known as \"rank\" and columns are known as \"file\".");
+                addNotification(" ");
+            }
+
+        // Eighth tutorial notification.
+        if(inTutorialMode == true && tutorialNotificaions == 14){
+            addNotification(" ");
+            addNotification("Try not to lose your Queen!");
+            addNotification("Due to its move versatillity it is the most valuable piece after the King.");
+        }
+
+        // Seventh tutorial notification.
+        if(inTutorialMode == true && tutorialNotificaions == 12){
+            addNotification(" ");
+            addNotification("Try not to let the oppenent capture your Queen!");
+            addNotification("Due to its move versatillity it is the most valuable piece after the King.");
+        }
+
+        // Seventh tutorial notification.
+        if(inTutorialMode == true && tutorialNotificaions == 10){
+            addNotification(" ");
+            addNotification("When certain conditions are met, special moves may be made such as castling & en passant.");
+            addNotification("Please select the \"Game Rules\" option from the help menu to read more about special moves.");
+           
+        }
+
+         // Sixth tutorial notification.
+         if(inTutorialMode == true && tutorialNotificaions == 8){
+            addNotification(" ");
+            addNotification("If you wish to undo or redo a move, you can do so by clicking the undo or redo button");
+            addNotification("located on the top left (undo) or top right (redo) of the button panel -->");
+        }
+
+          // Fifth tutorial notification.
+          if(inTutorialMode == true && tutorialNotificaions == 6){
+            addNotification(" ");
+            addNotification("You may accept defeat at any time by clicking the resign button -->");
+            addNotification("indicated by the white flag icon on the button panel.");
+        }
+
+         // Fourth tutorial notification.
+         if(inTutorialMode == true && tutorialNotificaions == 6){
+            addNotification("To receive more information about each piece, first select the piece you wish to ");
+            addNotification("receive information about, and then click the piece information button -->");
+            addNotification("located on the bottom left of the button panel.");
+        }
+
+         // Third tutorial notification.
+         if(inTutorialMode == true && tutorialNotificaions == 4){
+            addNotification("The purpose of the game is to capture the opponent's King.");
+            addNotification("To capture an opponent piece, move one of your pieces on top of an opponent piece");
+            addNotification("when the oppourtunity presents itself (indicated with red square illumination).");
+        }
+
+        // Second tutorial notification.
+        if(inTutorialMode == true && tutorialNotificaions == 2){
+            addNotification("To receive a move hint click the move hint button on the button panel,");
+            addNotification("indicated by the lightbulb icon -->");
+            addNotification("Your suggested move will be illuminated in green.");
+        }
+
+        // First tutorial notification.
+        if (inTutorialMode == true && tutorialNotificaions == 0) {
+            messagesView.turnNotificationSwitch(false); // Turn off turn notifications.
+            addNotification("Welcome to tutorial mode! You will be taught how to play chess.");
+            addNotification("White always moves first, you are white, select a chess piece to begin...");
+            addNotification("You may move your selected piece to any square that illuminates blue.");
+        }
+
+        tutorialNotificaions++; 
 
         GameState state = null;
         if (chessGame != null) {
@@ -682,54 +781,87 @@ public class ChessPanel extends ChessGameView implements MouseListener {
 
         if (state == GameState.STALEMATE_50MOVES) { // Check if 50 moves stalemate here.
 
-            addNotification("50 move stalemate");
+            addNotification("Game Over: 50 move stalemate");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("The game has ended in 50 move stalemate because ");
+                addNotification("neither player makes progress in the form of moving their pawns ");
+                addNotification("and no pieces have been captured over the span of fifty moves.");
+            }
 
         } else if (state == GameState.STALEMATE_NOMOVES) { // Check if no moves stalemate here.
 
-            addNotification("Stalemate");
+            addNotification("Game Over: Stalemate");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("The game has ended in stalemate because ");
+                addNotification("one of the players has no legal move options.");
+                addNotification("This is considered to be a draw (no winners, no losers)");
+            }
 
         } else if (state == GameState.STALEMATE_REPITITION) { // Check if repetition stalemate here.
 
-            addNotification("Repetition stalemate");
+            addNotification("Game Over: Repetition stalemate");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("The game has ended in repetition stalemate because ");
+                addNotification("a player made the same move three times in a row and ");
+                addNotification("cannot make further game progress");
+            }
 
         } else if (state == GameState.STALEMATE_NOMATERIAL) { // Check if no material stalemate here.
 
-            addNotification("Insufficient material stalemate");
+            addNotification("Game Over: Insufficient material stalemate");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("The game has ended in insufficient material stalemate because ");
+                addNotification("the game came to a state where checkmate is not possible");
+                addNotification(" due to an insufficient number of pieces on the board");
+            }
 
         } else if (state == GameState.BLACK_CHECK) { // Check if white check here.
 
             addNotification("White is in check!");
             endGameState = false;
-            // Add code for white check here.
+            if(inTutorialMode == true){
+                addNotification("This means that your king is under threat of capture!");
+                addNotification("your next move must return the king to safety (use the move hint option for help).");
+            }
 
         } else if (state == GameState.WHITE_CHECK) { // Check if black check here.
 
             addNotification("Black is in check!");
             endGameState = false;
-            // Add code for black check here.
+            if(inTutorialMode == true){
+                addNotification("This means that the black king is under threat of capture");
+                addNotification("Black's next move must return the king to safety");
+            }
+
 
         } else if (state == GameState.WHITE_CHECKMATE) { // Check if white checkmate here.
 
-            addNotification("Checkmate, White wins!");
+            addNotification("Game Over: Checkmate, White wins!");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("You win because the black king has no escape");
+            }
 
         } else if (state == GameState.BLACK_CHECKMATE) { // Check if black checkmate here.
 
-            addNotification("Checkmate, Black wins!");
+            addNotification("Game Over: Checkmate, Black wins!");
             this.showEndGameOptions();
+            if(inTutorialMode == true){
+                addNotification("You lose because your king has no escape!");
+            }
 
         } else if (state == GameState.WHITE_RESIGN) { // Check if white resign here.
 
-            addNotification("White has resigned");
+            addNotification("Game Over: White has resigned");
             this.showEndGameOptions();
 
         } else if (state == GameState.BLACK_RESIGN) { // Check if black resign here.
 
-            addNotification("Black has resigned");
+            addNotification("Game Over: Black has resigned");
             this.showEndGameOptions();
 
         } else if (state == GameState.WHITE_TIMEOUT) { // Check if white time out here.
@@ -801,6 +933,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Move Hints ON");
         }
         guiView.moveHintSwitch(this.moveHintSwitch);
+    }
+
+    /**
+     * Reset tutorial notifications when tutorial game is exited. 
+     */
+    public void resetTutorialNotifications(){
+        this.tutorialNotificaions = 0; 
     }
 
     /**

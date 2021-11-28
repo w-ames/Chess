@@ -627,7 +627,7 @@ public class GameSetUp extends JPanel {
 
                 // Switches allow tutorial options to be turned on or off.
                 container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
-                        undoRedoSwitch, player1Name, player2Name);
+                        undoRedoSwitch, player1Name, player2Name, false);
                 if (getPGNFile() != null) {
                     chessGame.loadPGNFile(getPGNFile());
                 } else {

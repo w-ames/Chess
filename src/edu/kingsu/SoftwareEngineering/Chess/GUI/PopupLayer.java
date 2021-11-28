@@ -305,6 +305,12 @@ public class PopupLayer extends JPanel {
         chooseBishopListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseKnightListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseRookListener.setMovement(fromRow, fromCol, toRow, toCol);
+
+        if(chessPanel.returnTutorialStatus() == true){
+            chessPanel.addNotification("By reaching the last rank with your pawn, you qualify for a pawn promotion!");
+        }
+
+        chessPanel.addNotification("Select a piece to promote your pawn to!");
     }
 
 }
