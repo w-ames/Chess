@@ -659,6 +659,7 @@ public class GameSetUp extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int time = ((JSlider) e.getSource()).getValue();
                 timerLabel1.setText(getMinAndSec(time));
+                timeOn.doClick();
             }
         });
 
@@ -667,6 +668,15 @@ public class GameSetUp extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int time = ((JSlider) e.getSource()).getValue();
                 timerLabel2.setText(getMinAndSec(time));
+                timeOn.doClick();
+                timeOn2.doClick();
+            }
+        });
+
+        timeOff.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                timeOff2.doClick();
             }
         });
     }
