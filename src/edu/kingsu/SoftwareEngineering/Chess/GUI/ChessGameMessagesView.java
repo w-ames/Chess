@@ -162,6 +162,7 @@ public class ChessGameMessagesView extends ChessGameView {
      * Updates information about the current state of the game.
      */
     public void update() {
+      
         if(turnNotificationsSwitch == true){
             ChessGame chessGame = getChessGame();
 

@@ -295,11 +295,13 @@ public class ApplicationFrame extends JFrame {
                         layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
                         chessPanel.resetTutorialNotifications();
+                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
                     chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
             }
         });
@@ -332,11 +334,13 @@ public class ApplicationFrame extends JFrame {
                         layout.show(contentPanel, "menu");
                         menuBar.setVisible(false);
                         chessPanel.resetTutorialNotifications();
+                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     layout.show(contentPanel, "menu");
                     menuBar.setVisible(false);
                     chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
             }
         });

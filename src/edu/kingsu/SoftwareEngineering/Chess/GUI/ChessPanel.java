@@ -683,6 +683,14 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     }
 
     /**
+     * Returns the messages view object. 
+     * @return The messages view object. 
+     */
+    public ChessGameMessagesView returnMessageView(){
+        return messagesView;
+    }
+
+    /**
      * Checks the state of the game to see if ChessPanel needs to display pawn
      * promotion pop up screen or end game options pop up screen.
      */
@@ -1018,6 +1026,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     public void setundoRedoSwitch(boolean undoRedo_Switch) {
         this.undoRedoSwitch = undoRedo_Switch;
     }
+
 
     @Override
     public void addListeners() {
