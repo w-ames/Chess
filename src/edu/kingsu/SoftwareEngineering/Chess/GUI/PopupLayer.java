@@ -32,10 +32,21 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 public class PopupLayer extends JPanel {
 
     private ButtonContainer display = new ButtonContainer();
-    private CustomButton endGameViewBoardButton = new CustomButton("View Board");
-    private CustomButton rematchButton = new CustomButton("Rematch");
-    private CustomButton newGameButton = new CustomButton("New Game");
-    private CustomButton mainMenuButton = new CustomButton("Main Menu");
+
+
+    private ImageIcon viewBoardIcon = ChessGameGUIView.openPieceImageFile("images/view_board.png", 65);
+    private ImageIcon rematchIcon = ChessGameGUIView.openPieceImageFile("images/rematch_game.png", 65);
+    private ImageIcon newGameIcon = ChessGameGUIView.openPieceImageFile("images/new_game.png", 65);
+    private ImageIcon mainMenuIcon = ChessGameGUIView.openPieceImageFile("images/main_menu.png", 65);
+
+    // private CustomButton endGameViewBoardButton = new CustomButton("View Board");
+    private CustomButton endGameViewBoardButton = new CustomButton(viewBoardIcon);
+    // private CustomButton rematchButton = new CustomButton("Rematch");
+    private CustomButton rematchButton = new CustomButton(rematchIcon);
+    // private CustomButton newGameButton = new CustomButton("New Game");
+    private CustomButton newGameButton = new CustomButton(newGameIcon);
+    // private CustomButton mainMenuButton = new CustomButton("Main Menu");
+    private CustomButton mainMenuButton = new CustomButton(mainMenuIcon);
 
     // image
     // ImageIcon whiteQueenIcon = new
@@ -61,8 +72,11 @@ public class PopupLayer extends JPanel {
 
     private ChessPanel chessPanel;
     private ChessGame chessGame;
+    
 
-    JLabel endGameLabel = new JLabel("Game Over!");
+
+    // JLabel whiteWon = new JLabel("White Won");
+    // JLabel endGameLabel = new JLabel();
     JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion Piece");
 
     /**
@@ -171,6 +185,45 @@ public class PopupLayer extends JPanel {
      * @param endGameMessage
      */
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
+        JLabel endGameLabel = new JLabel("Test");
+
+        GameState state = null;
+        if (chessGame != null) {
+            state = chessGame.getState();
+        }
+        state = chessGame.getState();
+        if(state == GameState.WHITE_CHECKMATE){
+            //CHECKMATE WHITE
+            endGameLabel.setText("Checkmate on White, Black wins!");
+            System.out.println("checkmate on white");
+        }
+        else if(state == GameState.BLACK_CHECKMATE){
+            //CHECKMATE BLACK
+            endGameLabel.setText("Checkmate on Black, White wins!");
+
+        }
+        else if(state == GameState.WHITE_RESIGN){
+            //WHITE RESIGN
+            endGameLabel.setText("White resigned, Black wins!");
+            System.out.println("resign on white");
+
+        }
+        else if(state == GameState.BLACK_RESIGN){
+            //Black RESIGN
+            endGameLabel.setText("Black resigned, White wins!");
+            System.out.println("resign on black");
+
+        }
+        else if(state == GameState.WHITE_TIMEOUT){
+            //White Time
+            endGameLabel.setText("White ran out of time, Black wins!");
+        }
+        else if(state == GameState.BLACK_TIMEOUT){
+            //black timeout
+            endGameLabel.setText("Black ran out of time, White wins!");
+        }
+
+
         endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
@@ -179,6 +232,7 @@ public class PopupLayer extends JPanel {
         gb.gridx = 0;
         gb.gridy = 0;
         gb.gridwidth = 2;
+        display.repaint();
         gb.insets = new Insets(15, 0, 0, 0);
         display.add(endGameLabel, gb);
 
@@ -252,6 +306,7 @@ public class PopupLayer extends JPanel {
         });
 
         assignChessGameAndChessPanelToControllers();
+        chessPanel.repaint();
     }
     /**
      * Sets the chessGame
