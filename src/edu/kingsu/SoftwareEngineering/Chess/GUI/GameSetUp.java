@@ -602,6 +602,7 @@ public class GameSetUp extends JPanel {
                 container.show("menu");
                 setPGNFile(null);
                 addLoadedFileName(" ");
+                setDefaults();
             }
         });
 
@@ -637,6 +638,7 @@ public class GameSetUp extends JPanel {
                 container.show("chesspanel");
                 setPGNFile(null);
                 addLoadedFileName(" ");
+                setDefaults();
             }
         });
 
@@ -763,4 +765,10 @@ public class GameSetUp extends JPanel {
         return pgnFile;
     }
 
+    private void setDefaults(){
+        timeSlider.setValue(600);
+        timeSlider2.setValue(10);
+        timeOff.doClick();
+        selectAllTutorialOptions();
+    }
 }
