@@ -294,14 +294,12 @@ public class ApplicationFrame extends JFrame {
                 if(userSelection == JOptionPane.YES_OPTION){
                     int saveSelection= ApplicationFrame.this.getSaveController().doAction();
                     if(saveSelection == JFileChooser.APPROVE_OPTION){
-                        //chessPanel.hideEndGameOptions();
                         layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
                         chessPanel.resetTutorialNotifications();
                         chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
-                    //chessPanel.hideEndGameOptions();
                     layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
                     chessPanel.resetTutorialNotifications();

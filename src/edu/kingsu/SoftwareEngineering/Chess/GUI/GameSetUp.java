@@ -600,13 +600,14 @@ public class GameSetUp extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 container.show("menu");
+                setPGNFile(null);
+                addLoadedFileName(" ");
             }
         });
 
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //chessPanel.hideEndGameOptions();
                 checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
                 getPlayerNamesFromComboBox();
 
