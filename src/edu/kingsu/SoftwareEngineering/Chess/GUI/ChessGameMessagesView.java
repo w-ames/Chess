@@ -77,6 +77,8 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
 
+        notificaionDisplayArea.setLineWrap(true);
+
         JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollNotifications.setMaximumSize(new Dimension(10, 100));
