@@ -786,8 +786,10 @@ public class ChessGame {
         Board oldBoard = board;
         List<Move> oldMoveHistory = new ArrayList<Move>(moveHistory);
         List<String> oldAlgebraicHistory = new ArrayList<String>(algebraicHistory);
+        int oldMoveNo = moveNo;
         moveHistory = new ArrayList<Move>();
         algebraicHistory = new ArrayList<String>();
+        moveNo = 0;
         board = new Board();
         forceSetPlayerTurn(true);
         boolean failFlag = false;
@@ -806,6 +808,7 @@ public class ChessGame {
             board = oldBoard;
             moveHistory = oldMoveHistory;
             algebraicHistory = oldAlgebraicHistory;
+            moveNo = oldMoveNo;
             return false;
         }
         tagPairMap().putAll(pgnFile.getTagPairMap());
