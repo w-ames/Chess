@@ -606,7 +606,7 @@ public class GameSetUp extends JPanel {
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //chessPanel.hideEndGameOptions();
                 checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
                 getPlayerNamesFromComboBox();
 

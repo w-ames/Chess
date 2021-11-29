@@ -203,6 +203,8 @@ public class ApplicationFrame extends JFrame {
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
 
+        chessPanel.hideEndGameOptions();
+        chessPanel.hidePawnPromotionScreen();
         chessPanel.setPlayerNames(player1Name, player2Name);
         chessPanel.initialize(chessGame);
         chessPanel.updateContainerDimensions(width, height);
@@ -291,10 +293,12 @@ public class ApplicationFrame extends JFrame {
                 if(userSelection == JOptionPane.YES_OPTION){
                     int saveSelection= ApplicationFrame.this.getSaveController().doAction();
                     if(saveSelection == JFileChooser.APPROVE_OPTION){
+                        //chessPanel.hideEndGameOptions();
                         layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
+                    //chessPanel.hideEndGameOptions();
                     layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
                 }
