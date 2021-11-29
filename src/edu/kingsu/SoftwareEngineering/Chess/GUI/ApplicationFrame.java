@@ -198,7 +198,7 @@ public class ApplicationFrame extends JFrame {
      * @param moveHintSwitch      Turns the move hint tutorial options on or off.
      */
     public void initializeChessPanel(ChessGame chessGame, boolean highlightMoveSwitch, boolean notificationsSwitch,
-            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name) {
+            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name, boolean inTutorialMode) {
 
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
@@ -214,6 +214,7 @@ public class ApplicationFrame extends JFrame {
         chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
         chessPanel.setundoRedoSwitch(undoRedoSwitch);
         chessPanel.checkTutorialSelections();
+        chessPanel.inTutorialMode(inTutorialMode);
 
     }
 
@@ -296,11 +297,15 @@ public class ApplicationFrame extends JFrame {
                         //chessPanel.hideEndGameOptions();
                         layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
+                        chessPanel.resetTutorialNotifications();
+                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     //chessPanel.hideEndGameOptions();
                     layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
             }
         });
@@ -313,9 +318,19 @@ public class ApplicationFrame extends JFrame {
                     int saveSelection= ApplicationFrame.this.getSaveController().doAction();
                     if(saveSelection == JFileChooser.APPROVE_OPTION){
                         chessPanel.getChessGame().rematch();
+                        chessPanel.resetTutorialNotifications();
+                        chessPanel.clearNotifications();
+                        if(chessPanel.returnTutorialStatus() == true){
+                            chessPanel.addNotification("~Tutorial restart~");
+                        }
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     chessPanel.getChessGame().rematch();
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.clearNotifications();
+                    if(chessPanel.returnTutorialStatus() == true){
+                        chessPanel.addNotification("~Tutorial restart~");
+                    }
                 }
             }
         });
@@ -330,13 +345,18 @@ public class ApplicationFrame extends JFrame {
                     if(saveSelection == JFileChooser.APPROVE_OPTION){
                         layout.show(contentPanel, "menu");
                         menuBar.setVisible(false);
+                        chessPanel.resetTutorialNotifications();
+                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     layout.show(contentPanel, "menu");
                     menuBar.setVisible(false);
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
             }
         });
+        
 
         loadGameMenuItem.addActionListener(getLoadController());
         // loadGameMenuItem.addActionListener(new ActionListener() {
@@ -345,6 +365,9 @@ public class ApplicationFrame extends JFrame {
         // public void actionPerformed(ActionEvent e) {
 
         // // Add code for when "Load Game" is selected from menu bar
+        // if(chessPanel.returnTutorialStatus()){
+        //     chessPanel.inTutorialMode(false);
+        // }
 
         // }
 
@@ -592,4 +615,6 @@ public class ApplicationFrame extends JFrame {
     public ChessGameLoadController getLoadController() {
         return loadController;
     }
+
+ 
 }

@@ -32,6 +32,7 @@ public class ChessGameMessagesView extends ChessGameView {
     private JTextArea notificaionDisplayArea = new JTextArea();
     private boolean turn = true;
     private boolean notificationsOnOff;
+    private boolean turnNotificationsSwitch = true; 
 
     /**
      * Constructs the notifications JPanel.
@@ -75,6 +76,8 @@ public class ChessGameMessagesView extends ChessGameView {
         gb.gridheight = 3;
         gb.gridwidth = 1;
         gb.insets = new Insets(5, 5, 5, 5);
+
+        notificaionDisplayArea.setLineWrap(true);
 
         JScrollPane scrollNotifications = new JScrollPane(notificaionDisplayArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -126,6 +129,7 @@ public class ChessGameMessagesView extends ChessGameView {
      */
     public void addTurnNotification(boolean turn) {
 
+
         if (notificationsOnOff == true) {
 
             String turnString = "";
@@ -144,7 +148,7 @@ public class ChessGameMessagesView extends ChessGameView {
 
     }
 
-    /**
+    /** 
      * Clears all notifications.
      */
     public void clearNotifications() {
@@ -160,12 +164,20 @@ public class ChessGameMessagesView extends ChessGameView {
      * Updates information about the current state of the game.
      */
     public void update() {
-        ChessGame chessGame = getChessGame();
+      
+        if(turnNotificationsSwitch == true){
+            ChessGame chessGame = getChessGame();
 
-        // True == white, false == black
-        turn = chessGame.getPlayerTurn().isWhite();
+            // True == white, false == black
+            turn = chessGame.getPlayerTurn().isWhite();
+    
+            addTurnNotification(turn);
+        }
+    }
 
-        addTurnNotification(turn);
+    public void turnNotificationSwitch(boolean turnNotificationsSwitch){
+      
+        this.turnNotificationsSwitch = turnNotificationsSwitch; 
     }
 
     /**

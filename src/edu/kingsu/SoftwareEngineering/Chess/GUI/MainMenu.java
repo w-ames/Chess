@@ -80,6 +80,7 @@ public class MainMenu extends JPanel {
                 boolean notificationsSwitch = true;
                 boolean moveHintSwitch = true;
                 boolean undoRedoSwitch = true;
+                boolean inTutorialMode = true; 
 
                 String player1Name = "Student";
                 String player2Name = "Teacher";
@@ -88,7 +89,7 @@ public class MainMenu extends JPanel {
 
                 // Switches allow tutorial options to be turned on or off.
                 container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
-                        undoRedoSwitch, player1Name, player2Name);
+                        undoRedoSwitch, player1Name, player2Name, inTutorialMode);
                 chessGame.start();
                 container.show("chesspanel");
             }

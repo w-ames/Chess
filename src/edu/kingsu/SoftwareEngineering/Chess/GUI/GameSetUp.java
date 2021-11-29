@@ -25,24 +25,24 @@ public class GameSetUp extends JPanel {
     private ApplicationFrame container;
     private PGNFile pgnFile;
 
-    MainLayer background = new MainLayer();
-    ButtonContainer player1Panel = new ButtonContainer();
-    ButtonContainer player2Panel = new ButtonContainer();
-    ButtonContainer timePanel = new ButtonContainer();
-    ButtonContainer settingsPanel = new ButtonContainer();
-    JPanel setupPanel = new JPanel();
-    JLabel player1Label = new JLabel("White Player", SwingConstants.CENTER);
-    JLabel player2Label = new JLabel("Black Player", SwingConstants.CENTER);
-    JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
-    JLabel timerLabel1 = new JLabel("10:00");
-    JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
-    JLabel timerLabel2 = new JLabel("0:10");
-    JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
-    String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
+    private MainLayer background = new MainLayer();
+    private ButtonContainer player1Panel = new ButtonContainer();
+    private ButtonContainer player2Panel = new ButtonContainer();
+    private ButtonContainer timePanel = new ButtonContainer();
+    private ButtonContainer settingsPanel = new ButtonContainer();
+    private JPanel setupPanel = new JPanel();
+    private JLabel player1Label = new JLabel("White Player", SwingConstants.CENTER);
+    private JLabel player2Label = new JLabel("Black Player", SwingConstants.CENTER);
+    private JLabel timeLabel = new JLabel("Time", SwingConstants.CENTER);
+    private JLabel timerLabel1 = new JLabel("10:00");
+    private JLabel incrementLabel = new JLabel("Increment", SwingConstants.CENTER);
+    private JLabel timerLabel2 = new JLabel("0:10");
+    private JLabel settingsLabel = new JLabel("Settings", SwingConstants.CENTER);
+    private String[] playerList = { "Human", "A.I. (Easy)", "A.I. (Medium)", "A.I. (Hard)" };
     public static final int[] playerDepthList = { -1, 0, 2, 4 };
 
-    JComboBox player1Box = new JComboBox(playerList);
-    JComboBox player2Box = new JComboBox(playerList);
+    private JComboBox player1Box = new JComboBox(playerList);
+    private JComboBox player2Box = new JComboBox(playerList);
 
     private final int MIN_TIME = 60;
     private final int MAX_TIME = 1800;
@@ -51,27 +51,27 @@ public class GameSetUp extends JPanel {
     private final int MAX_INCREMENT = 60;
     private final int START_INCREMENT = 10;
 
-    JSlider timeSlider = new JSlider(MIN_TIME, MAX_TIME, START_TIME);
-    JSlider timeSlider2 = new JSlider(MIN_INCREMENT, MAX_INCREMENT, START_INCREMENT);
+    private JSlider timeSlider = new JSlider(MIN_TIME, MAX_TIME, START_TIME);
+    private JSlider timeSlider2 = new JSlider(MIN_INCREMENT, MAX_INCREMENT, START_INCREMENT);
 
-    JRadioButton timeOn = new JRadioButton("On");
-    JRadioButton timeOff = new JRadioButton("Off");
+    private JRadioButton timeOn = new JRadioButton("On");
+    private JRadioButton timeOff = new JRadioButton("Off");
 
-    JRadioButton timeOn2 = new JRadioButton("On");
-    JRadioButton timeOff2 = new JRadioButton("Off");
+    private JRadioButton timeOn2 = new JRadioButton("On");
+    private JRadioButton timeOff2 = new JRadioButton("Off");
 
-    JCheckBox highlightMove = new JCheckBox("Highlight Possible Moves");
-    JCheckBox moveHint = new JCheckBox("Move Hints");
-    JCheckBox undoRedo = new JCheckBox("Allow Undo / Redo");
-    JCheckBox notification = new JCheckBox("Notifications");
+    private JCheckBox highlightMove = new JCheckBox("Highlight Possible Moves");
+    private JCheckBox moveHint = new JCheckBox("Move Hints");
+    private JCheckBox undoRedo = new JCheckBox("Allow Undo / Redo");
+    private JCheckBox notification = new JCheckBox("Notifications");
 
-    CustomButton checkAll = new CustomButton("Select All");
-    CustomButton uncheckAll = new CustomButton("All Off");
+    private CustomButton checkAll = new CustomButton("Select All");
+    private CustomButton uncheckAll = new CustomButton("All Off");
 
-    CustomButton goToMainMenu = new CustomButton("Main Menu");
-    CustomButton loadButton = new CustomButton("Load Game");
-    JLabel fileNameLabel = new JLabel("  No File Loaded");
-    CustomButton startGame = new CustomButton("Start Game");
+    private CustomButton goToMainMenu = new CustomButton("Main Menu");
+    private CustomButton loadButton = new CustomButton("Load Game");
+    private JLabel fileNameLabel = new JLabel("  No File Loaded");
+    private CustomButton startGame = new CustomButton("Start Game");
 
     boolean highlightMoveSwitch;
     boolean moveHintSwitch;
@@ -627,7 +627,7 @@ public class GameSetUp extends JPanel {
 
                 // Switches allow tutorial options to be turned on or off.
                 container.initializeChessPanel(chessGame, highlightMoveSwitch, notificationsSwitch, moveHintSwitch,
-                        undoRedoSwitch, player1Name, player2Name);
+                        undoRedoSwitch, player1Name, player2Name, false);
                 if (getPGNFile() != null) {
                     chessGame.loadPGNFile(getPGNFile());
                 } else {
