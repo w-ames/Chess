@@ -290,16 +290,19 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e){
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                    if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            layout.show(contentPanel, "gamesetup");
+                            menuBar.setVisible(false);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
                         layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
-                        chessPanel.resetTutorialNotifications();
-                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
+                } else {
                     layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
                     chessPanel.resetTutorialNotifications();
@@ -311,25 +314,25 @@ public class ApplicationFrame extends JFrame {
         restartGameMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                if(chessPanel.returnTutorialStatus() != true){
+                    int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            chessPanel.getChessGame().rematch();
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
                         chessPanel.getChessGame().rematch();
                         chessPanel.resetTutorialNotifications();
                         chessPanel.clearNotifications();
-                        if(chessPanel.returnTutorialStatus() == true){
-                            chessPanel.addNotification("~Tutorial restart~");
-                        }
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
+                } else {
                     chessPanel.getChessGame().rematch();
                     chessPanel.resetTutorialNotifications();
                     chessPanel.clearNotifications();
-                    if(chessPanel.returnTutorialStatus() == true){
-                        chessPanel.addNotification("~Tutorial restart~");
-                    }
+                    chessPanel.addNotification("~Tutorial restart~");
                 }
+                
             }
         });
 
@@ -337,21 +340,25 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            layout.show(contentPanel, "menu");
+                            menuBar.setVisible(false);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
                         layout.show(contentPanel, "menu");
                         menuBar.setVisible(false);
-                        chessPanel.resetTutorialNotifications();
-                        chessPanel.returnMessageView().turnNotificationSwitch(true);
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
+                } else {
                     layout.show(contentPanel, "menu");
                     menuBar.setVisible(false);
                     chessPanel.resetTutorialNotifications();
                     chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
+                
             }
         });
         
@@ -387,13 +394,18 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            System.exit(0);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
                         System.exit(0);
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
+                
+                } else {
                     System.exit(0);
                 }
                 
@@ -612,6 +624,22 @@ public class ApplicationFrame extends JFrame {
      */
     public ChessGameLoadController getLoadController() {
         return loadController;
+    }
+
+    /**
+     * Returns save game menu item.
+     * @return save game menu item.
+     */
+    public JMenuItem returnSaveGameMenuItem(){
+        return saveGameMenuItem;
+    }
+
+    /**
+     * return load game menu item.
+     * @return load game menu item. 
+     */
+    public JMenuItem returnLoadGameMenuItem(){
+        return loadGameMenuItem;
     }
 
  

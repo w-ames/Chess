@@ -280,6 +280,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * @param chessGame sets the chessGame of the ChessGame
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+
+        container.returnLoadGameMenuItem().setEnabled(true);
+            container.returnSaveGameMenuItem().setEnabled(true);
+
         if (this.chessGame != null) {
             this.chessGame.removeClocks();
         }
@@ -778,6 +782,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Welcome to tutorial mode! You will be taught how to play chess.");
             addNotification("White always moves first, you are white, select a chess piece to begin...");
             addNotification("You may move your selected piece to any square that illuminates blue.");
+            container.returnLoadGameMenuItem().setEnabled(false);;
+            container.returnSaveGameMenuItem().setEnabled(false);;
         }
 
         tutorialNotificaions++; 
