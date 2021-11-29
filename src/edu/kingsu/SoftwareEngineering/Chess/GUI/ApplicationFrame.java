@@ -315,10 +315,18 @@ public class ApplicationFrame extends JFrame {
                     if(saveSelection == JFileChooser.APPROVE_OPTION){
                         chessPanel.getChessGame().rematch();
                         chessPanel.resetTutorialNotifications();
+                        chessPanel.clearNotifications();
+                        if(chessPanel.returnTutorialStatus() == true){
+                            chessPanel.addNotification("~Tutorial restart~");
+                        }
                     }
                 }else if(userSelection == JOptionPane.NO_OPTION){
                     chessPanel.getChessGame().rematch();
                     chessPanel.resetTutorialNotifications();
+                    chessPanel.clearNotifications();
+                    if(chessPanel.returnTutorialStatus() == true){
+                        chessPanel.addNotification("~Tutorial restart~");
+                    }
                 }
             }
         });
