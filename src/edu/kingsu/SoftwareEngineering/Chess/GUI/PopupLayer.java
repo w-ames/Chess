@@ -72,11 +72,9 @@ public class PopupLayer extends JPanel {
 
     private ChessPanel chessPanel;
     private ChessGame chessGame;
-    
+   
+    JLabel endGameLabel = new JLabel("");
 
-
-    // JLabel whiteWon = new JLabel("White Won");
-    // JLabel endGameLabel = new JLabel();
     JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion Piece");
 
     /**
@@ -185,46 +183,9 @@ public class PopupLayer extends JPanel {
      * @param endGameMessage
      */
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
-        JLabel endGameLabel = new JLabel("Test");
 
-        GameState state = null;
-        if (chessGame != null) {
-            state = chessGame.getState();
-        }
-        state = chessGame.getState();
-        if(state == GameState.WHITE_CHECKMATE){
-            //CHECKMATE WHITE
-            endGameLabel.setText("Checkmate on White, Black wins!");
-            System.out.println("checkmate on white");
-        }
-        else if(state == GameState.BLACK_CHECKMATE){
-            //CHECKMATE BLACK
-            endGameLabel.setText("Checkmate on Black, White wins!");
-
-        }
-        else if(state == GameState.WHITE_RESIGN){
-            //WHITE RESIGN
-            endGameLabel.setText("White resigned, Black wins!");
-            System.out.println("resign on white");
-
-        }
-        else if(state == GameState.BLACK_RESIGN){
-            //Black RESIGN
-            endGameLabel.setText("Black resigned, White wins!");
-            System.out.println("resign on black");
-
-        }
-        else if(state == GameState.WHITE_TIMEOUT){
-            //White Time
-            endGameLabel.setText("White ran out of time, Black wins!");
-        }
-        else if(state == GameState.BLACK_TIMEOUT){
-            //black timeout
-            endGameLabel.setText("Black ran out of time, White wins!");
-        }
-
-
-        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+        endGameLabel.setText(endGameMessage);
+        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
@@ -232,7 +193,6 @@ public class PopupLayer extends JPanel {
         gb.gridx = 0;
         gb.gridy = 0;
         gb.gridwidth = 2;
-        display.repaint();
         gb.insets = new Insets(15, 0, 0, 0);
         display.add(endGameLabel, gb);
 
@@ -306,7 +266,6 @@ public class PopupLayer extends JPanel {
         });
 
         assignChessGameAndChessPanelToControllers();
-        chessPanel.repaint();
     }
     /**
      * Sets the chessGame
@@ -366,6 +325,10 @@ public class PopupLayer extends JPanel {
         }
 
         chessPanel.addNotification("Select a piece to promote your pawn to!");
+    }
+
+    public void setEndGameLabel(String endGameMessage){
+        endGameLabel.setText(endGameMessage);
     }
 
 }
