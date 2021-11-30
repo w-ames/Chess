@@ -307,8 +307,17 @@ public class ChessGame {
         if (humanMoveMaker != getPlayerTurn().isHuman()) {
             return false;
         }
+        if (playerIncrement >= 0 && (getPlayerTurn().getInterval() <= 0 || currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN)) {
+            return false;
+        }
         synchronized (this) {
             if (validateMove(move)) {
+                if (playerIncrement < 0 && (currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN)) {
+                    // allow continuance of game if its non-timed and was a resign
+                    stop();
+                    currentState = GameState.ACTIVE;
+                    start();
+                }
                 synchronized (playerTurnLock) {
                     playerTurn.incrementTimer();
                     performMove(move);

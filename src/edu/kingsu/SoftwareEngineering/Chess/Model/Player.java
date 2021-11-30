@@ -190,6 +190,12 @@ public abstract class Player implements Runnable {
         updateTime(newTime);
     }
 
+    public int getInterval() {
+        synchronized(TIMER_LOCK) {
+            return interval;
+        }
+    }
+
     /**
      * Increments this player's clock according to the games increment
      * settings in a timed game.
