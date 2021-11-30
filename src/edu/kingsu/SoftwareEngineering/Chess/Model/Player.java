@@ -202,6 +202,10 @@ public abstract class Player implements Runnable {
         updateTime(newTime);
     }
 
+    /**
+     * Returns the player's current clock interval value.
+     * @return the player's current clock interval value
+     */
     public int getInterval() {
         synchronized(TIMER_LOCK) {
             return interval;

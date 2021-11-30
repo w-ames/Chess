@@ -23,7 +23,6 @@ public class TestPlayerAI {
         assertNotNull("New AI player is null.", testPlayer);
     }
 
-    @Ignore
     @Test
     public void testRun() {
         // tested by chessgame
