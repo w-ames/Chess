@@ -307,8 +307,17 @@ public class ChessGame {
         if (humanMoveMaker != getPlayerTurn().isHuman()) {
             return false;
         }
+        if (playerIncrement >= 0 && (getPlayerTurn().getInterval() <= 0 || currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN)) {
+            return false;
+        }
         synchronized (this) {
             if (validateMove(move)) {
+                if (playerIncrement < 0 && (currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN)) {
+                    // allow continuance of game if its non-timed and was a resign
+                    stop();
+                    currentState = GameState.ACTIVE;
+                    start();
+                }
                 synchronized (playerTurnLock) {
                     playerTurn.incrementTimer();
                     performMove(move);
@@ -582,6 +591,14 @@ public class ChessGame {
         if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
             return null;
         }
+        if (currentState != GameState.ACTIVE && currentState != GameState.WHITE_CHECK && currentState != GameState.BLACK_CHECK && ((currentState != GameState.WHITE_RESIGN || currentState != GameState.BLACK_RESIGN) && playerIncrement >= 0)) {
+            return null;
+        }
+        if ((currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN) &&
+                (whitePlayerThread == null || blackPlayerThread == null)) {
+            currentState = GameState.ACTIVE;
+            start();
+        }
         char[][] highlights = {
             {' ',' ',' ',' ',' ',' ',' ',' '},
             {' ',' ',' ',' ',' ',' ',' ',' '},
@@ -786,8 +803,10 @@ public class ChessGame {
         Board oldBoard = board;
         List<Move> oldMoveHistory = new ArrayList<Move>(moveHistory);
         List<String> oldAlgebraicHistory = new ArrayList<String>(algebraicHistory);
+        int oldMoveNo = moveNo;
         moveHistory = new ArrayList<Move>();
         algebraicHistory = new ArrayList<String>();
+        moveNo = 0;
         board = new Board();
         forceSetPlayerTurn(true);
         boolean failFlag = false;
@@ -806,6 +825,7 @@ public class ChessGame {
             board = oldBoard;
             moveHistory = oldMoveHistory;
             algebraicHistory = oldAlgebraicHistory;
+            moveNo = oldMoveNo;
             return false;
         }
         tagPairMap().putAll(pgnFile.getTagPairMap());

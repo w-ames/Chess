@@ -226,7 +226,7 @@ public class PGNFile implements Iterable<String>{
      */
     private List<String> validateMoveTextAndResult(List<String> moveText, String result) throws IllegalArgumentException{
         List<String> correctedMoves= new ArrayList<String>();
-        ChessGame verifyGame= new ChessGame(-1, -1, 0, 0);
+        ChessGame verifyGame= new ChessGame(-1, -1, -1, -1);
 
         for(int i=0; i < moveText.size(); i++){
             Move move= PGNTranslator.translatePGNToMove(moveText.get(i), verifyGame.getBoard(), verifyGame.getPlayerTurn().isWhite());

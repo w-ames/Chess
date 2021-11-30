@@ -96,6 +96,15 @@ public class ClockView extends JPanel {
     }
 
     /**
+     * Alters the name player associated with this clock
+     *
+     * @param newName the new name of the player
+     */
+    public void setPlayerName(String newName) {
+        playername.setText(newName);
+    }
+
+    /**
      * Updates the time for instances representing a player's chess clock.
      * 
      * @param time The time to be updated to.
