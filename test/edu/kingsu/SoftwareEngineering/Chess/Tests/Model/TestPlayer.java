@@ -94,6 +94,13 @@ public class TestPlayer {
     }
 
     @Test
+    public void testGetInterval() {
+        clock.updatePlayerTime("");
+        testPlayerWhite.registerPlayerClock(clock);
+        assertEquals("Incorrect player interval given.", 30, testPlayerWhite.getInterval());
+    }
+
+    @Test
     public void testIncrementTimer() {
         clock.updatePlayerTime("");
         testPlayerWhite.registerPlayerClock(clock);

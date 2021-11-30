@@ -1,7 +1,10 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
 import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
@@ -55,10 +58,19 @@ public abstract class Player implements Runnable {
      * @param newDepth the AI search depth of this new player
      */
     public Player(Player oldPlayer, int newDepth) {
-        this(oldPlayer.chessGame, oldPlayer.isWhite, newDepth<0, oldPlayer.interval, newDepth);
+        this(oldPlayer.chessGame, oldPlayer.isWhite, newDepth<0, oldPlayer.interval, newDepth<0 ? MAX_AI_DEPTH : newDepth);
         this.clock = oldPlayer.clock;
         this.timer = oldPlayer.timer;
         this.timerRunning = oldPlayer.timerRunning;
+        if (this.clock != null) {
+            int playerNameIndex = Arrays.stream(GameSetUp.playerDepthList).boxed().collect(Collectors.toList()).indexOf(newDepth);
+            String playerName = "AI ("+newDepth+")";
+            if (playerNameIndex >= 0) {
+                playerName = GameSetUp.playerList[playerNameIndex];
+            }
+            // this.clock.addPlayerName(playerName, this.isHuman ? "White: " : "Black: ");
+            this.clock.setPlayerName(playerName);
+        }
     }
 
     /**
@@ -188,6 +200,16 @@ public abstract class Player implements Runnable {
             newTime = interval;
         }
         updateTime(newTime);
+    }
+
+    /**
+     * Returns the player's current clock interval value.
+     * @return the player's current clock interval value
+     */
+    public int getInterval() {
+        synchronized(TIMER_LOCK) {
+            return interval;
+        }
     }
 
     /**
