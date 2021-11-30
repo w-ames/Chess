@@ -22,7 +22,7 @@ public class PlayerHuman extends Player {
      *  new instance.
      */
     public PlayerHuman(Player oldPlayer) {
-        super(oldPlayer, Player.MAX_AI_DEPTH);
+        super(oldPlayer, -1);
     }
 
     /**
