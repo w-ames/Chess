@@ -180,11 +180,13 @@ public class PopupLayer extends JPanel {
     /**
      * Makes this PopupLayer object into an End Game Options screen.
      * 
-     * @param endGameMessage
+     * @param endGameMessage The message that will be displayed on the endgame screen
+     * @param endGameIcon The icon that will be displayed on the endgame screen
      */
-    public void makeIntoEndGameOptionsScreen(String endGameMessage) {
+    public void makeIntoEndGameOptionsScreen(String endGameMessage, ImageIcon endGameIcon) {
 
         endGameLabel.setText(endGameMessage);
+        endGameLabel.setIcon(endGameIcon);
         endGameLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
@@ -327,8 +329,10 @@ public class PopupLayer extends JPanel {
         chessPanel.addNotification("Select a piece to promote your pawn to!");
     }
 
-    public void setEndGameLabel(String endGameMessage){
+    public void setEndGameLabel(String endGameMessage, ImageIcon endGameIcon){
         endGameLabel.setText(endGameMessage);
+        endGameLabel.setIcon(endGameIcon);
     }
+
 
 }
