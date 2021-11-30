@@ -600,13 +600,15 @@ public class GameSetUp extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 container.show("menu");
+                setPGNFile(null);
+                addLoadedFileName(" ");
+                setDefaults();
             }
         });
 
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //chessPanel.hideEndGameOptions();
                 checkUserSelectedTutorialOptions(); // Checks which tutorial options the user selected.
                 getPlayerNamesFromComboBox();
 
@@ -636,6 +638,7 @@ public class GameSetUp extends JPanel {
                 container.show("chesspanel");
                 setPGNFile(null);
                 addLoadedFileName(" ");
+                setDefaults();
             }
         });
 
@@ -658,6 +661,7 @@ public class GameSetUp extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int time = ((JSlider) e.getSource()).getValue();
                 timerLabel1.setText(getMinAndSec(time));
+                timeOn.doClick();
             }
         });
 
@@ -666,6 +670,15 @@ public class GameSetUp extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int time = ((JSlider) e.getSource()).getValue();
                 timerLabel2.setText(getMinAndSec(time));
+                timeOn.doClick();
+                timeOn2.doClick();
+            }
+        });
+
+        timeOff.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                timeOff2.doClick();
             }
         });
     }
@@ -752,4 +765,10 @@ public class GameSetUp extends JPanel {
         return pgnFile;
     }
 
+    private void setDefaults(){
+        timeSlider.setValue(600);
+        timeSlider2.setValue(10);
+        timeOff.doClick();
+        selectAllTutorialOptions();
+    }
 }

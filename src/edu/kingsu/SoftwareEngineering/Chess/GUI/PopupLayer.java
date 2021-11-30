@@ -32,10 +32,21 @@ import edu.kingsu.SoftwareEngineering.Chess.Model.Pieces.*;
 public class PopupLayer extends JPanel {
 
     private ButtonContainer display = new ButtonContainer();
-    private CustomButton endGameViewBoardButton = new CustomButton("View Board");
-    private CustomButton rematchButton = new CustomButton("Rematch");
-    private CustomButton newGameButton = new CustomButton("New Game");
-    private CustomButton mainMenuButton = new CustomButton("Main Menu");
+
+
+    private ImageIcon viewBoardIcon = ChessGameGUIView.openPieceImageFile("images/view_board.png", 65);
+    private ImageIcon rematchIcon = ChessGameGUIView.openPieceImageFile("images/rematch_game.png", 65);
+    private ImageIcon newGameIcon = ChessGameGUIView.openPieceImageFile("images/new_game.png", 65);
+    private ImageIcon mainMenuIcon = ChessGameGUIView.openPieceImageFile("images/main_menu.png", 65);
+
+    // private CustomButton endGameViewBoardButton = new CustomButton("View Board");
+    private CustomButton endGameViewBoardButton = new CustomButton(viewBoardIcon);
+    // private CustomButton rematchButton = new CustomButton("Rematch");
+    private CustomButton rematchButton = new CustomButton(rematchIcon);
+    // private CustomButton newGameButton = new CustomButton("New Game");
+    private CustomButton newGameButton = new CustomButton(newGameIcon);
+    // private CustomButton mainMenuButton = new CustomButton("Main Menu");
+    private CustomButton mainMenuButton = new CustomButton(mainMenuIcon);
 
     // image
     // ImageIcon whiteQueenIcon = new
@@ -61,8 +72,9 @@ public class PopupLayer extends JPanel {
 
     private ChessPanel chessPanel;
     private ChessGame chessGame;
+   
+    JLabel endGameLabel = new JLabel("");
 
-    JLabel endGameLabel = new JLabel("Game Over!");
     JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion Piece");
 
     /**
@@ -171,7 +183,9 @@ public class PopupLayer extends JPanel {
      * @param endGameMessage
      */
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
-        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+
+        endGameLabel.setText(endGameMessage);
+        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
@@ -311,6 +325,10 @@ public class PopupLayer extends JPanel {
         }
 
         chessPanel.addNotification("Select a piece to promote your pawn to!");
+    }
+
+    public void setEndGameLabel(String endGameMessage){
+        endGameLabel.setText(endGameMessage);
     }
 
 }

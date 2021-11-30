@@ -280,6 +280,10 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * @param chessGame sets the chessGame of the ChessGame
      */
     public void initialize(ChessGame chessGame) { // Needs to be edited to read from GameState.
+
+        container.returnLoadGameMenuItem().setEnabled(true);
+            container.returnSaveGameMenuItem().setEnabled(true);
+
         if (this.chessGame != null) {
             this.chessGame.removeClocks();
         }
@@ -778,6 +782,8 @@ public class ChessPanel extends ChessGameView implements MouseListener {
             addNotification("Welcome to tutorial mode! You will be taught how to play chess.");
             addNotification("White always moves first, you are white, select a chess piece to begin...");
             addNotification("You may move your selected piece to any square that illuminates blue.");
+            container.returnLoadGameMenuItem().setEnabled(false);;
+            container.returnSaveGameMenuItem().setEnabled(false);;
         }
 
         tutorialNotificaions++; 
@@ -790,6 +796,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         if (state == GameState.STALEMATE_50MOVES) { // Check if 50 moves stalemate here.
 
             addNotification("Game Over: 50 move stalemate");
+            endGameOptions.setEndGameLabel("Game Over: 50 move stalemate!");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in 50 move stalemate because ");
@@ -800,6 +807,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_NOMOVES) { // Check if no moves stalemate here.
 
             addNotification("Game Over: Stalemate");
+            endGameOptions.setEndGameLabel("Game Over: Stalemate!");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in stalemate because ");
@@ -810,6 +818,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_REPITITION) { // Check if repetition stalemate here.
 
             addNotification("Game Over: Repetition stalemate");
+            endGameOptions.setEndGameLabel("Game Over: Repetition stalemate");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in repetition stalemate because ");
@@ -820,6 +829,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_NOMATERIAL) { // Check if no material stalemate here.
 
             addNotification("Game Over: Insufficient material stalemate");
+            endGameOptions.setEndGameLabel("Game Over: Insufficient Material Stalemate");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in insufficient material stalemate because ");
@@ -849,6 +859,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.WHITE_CHECKMATE) { // Check if white checkmate here.
 
             addNotification("Game Over: Checkmate, White wins!");
+            endGameOptions.setEndGameLabel("Game Over: Checkmate, White Wins!");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("You win because the black king has no escape");
@@ -857,6 +868,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.BLACK_CHECKMATE) { // Check if black checkmate here.
 
             addNotification("Game Over: Checkmate, Black wins!");
+            endGameOptions.setEndGameLabel("Game Over: Checkmate, Black Wins!");
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("You lose because your king has no escape!");
@@ -865,15 +877,18 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.WHITE_RESIGN) { // Check if white resign here.
 
             addNotification("Game Over: White has resigned");
+            endGameOptions.setEndGameLabel("Game Over: White Has Resigned");
             this.showEndGameOptions();
 
         } else if (state == GameState.BLACK_RESIGN) { // Check if black resign here.
 
             addNotification("Game Over: Black has resigned");
+            endGameOptions.setEndGameLabel("Game Over: Black Has Resigned");
             this.showEndGameOptions();
 
         } else if (state == GameState.WHITE_TIMEOUT) { // Check if white time out here.
             addNotification("White has run out of time");
+            endGameOptions.setEndGameLabel("Game Over: White Has Resigned");
             this.showEndGameOptions();
         } else if (state == GameState.BLACK_TIMEOUT) { // Check if black time out here.
             addNotification("Black has run out of time");
@@ -978,6 +993,13 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
 
         messagesView.turnNotificationsOnOff(this.notificationsOnOff);
+    }
+
+    /**
+     * Used to turn on the notifications. 
+     */
+    public void turnNotificationsOn(){
+        this.notificationsOnOff = true;
     }
 
     /**
