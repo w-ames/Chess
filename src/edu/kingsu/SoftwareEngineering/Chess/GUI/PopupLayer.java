@@ -72,11 +72,9 @@ public class PopupLayer extends JPanel {
 
     private ChessPanel chessPanel;
     private ChessGame chessGame;
-    
+   
+    JLabel endGameLabel = new JLabel("");
 
-
-    // JLabel whiteWon = new JLabel("White Won");
-    // JLabel endGameLabel = new JLabel();
     JLabel pawnPromotionLabel = new JLabel("Choose Pawn Promotion Piece");
 
     /**
@@ -223,8 +221,8 @@ public class PopupLayer extends JPanel {
         //     endGameLabel.setText("Black ran out of time, White wins!");
         // }
 
-
-        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+        endGameLabel.setText(endGameMessage);
+        endGameLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         endGameLabel.setForeground(new Color(16, 46, 60));
         display.setLayout(new GridBagLayout());
         GridBagConstraints gb = new GridBagConstraints();
@@ -232,7 +230,6 @@ public class PopupLayer extends JPanel {
         gb.gridx = 0;
         gb.gridy = 0;
         gb.gridwidth = 2;
-        display.repaint();
         gb.insets = new Insets(15, 0, 0, 0);
         display.add(endGameLabel, gb);
 
@@ -306,7 +303,6 @@ public class PopupLayer extends JPanel {
         });
 
         assignChessGameAndChessPanelToControllers();
-        chessPanel.repaint();
     }
     /**
      * Sets the chessGame
@@ -360,6 +356,16 @@ public class PopupLayer extends JPanel {
         chooseBishopListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseKnightListener.setMovement(fromRow, fromCol, toRow, toCol);
         chooseRookListener.setMovement(fromRow, fromCol, toRow, toCol);
+
+        if(chessPanel.returnTutorialStatus() == true){
+            chessPanel.addNotification("By reaching the last rank with your pawn, you qualify for a pawn promotion!");
+        }
+
+        chessPanel.addNotification("Select a piece to promote your pawn to!");
+    }
+
+    public void setEndGameLabel(String endGameMessage){
+        endGameLabel.setText(endGameMessage);
     }
 
 }

@@ -562,7 +562,12 @@ public class ChessGameGUIView extends ChessGameView {
 
                         // Highlight castling moves.
                         if (getMoveHighlights[i][j] == 'c') {
-                            highlightSquare(i, j, new Color(255, 179, 179));
+                            if(squareHolderArray[i][j].returnColor() == true){
+                                highlightSquare(i, j, new Color(231, 209, 240));
+                            }else{
+                                highlightSquare(i, j, new Color(206, 148, 227));
+                            }
+                            
                         }
 
                         // Highlight en passant moves.

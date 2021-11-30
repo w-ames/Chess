@@ -39,10 +39,12 @@ public class ApplicationFrame extends JFrame {
     private JMenu options = new JMenu("Options");
     private JMenu help = new JMenu("Help");
 
-    private JMenuItem newGameMenuItem = new JMenuItem("Main Menu");
+    private JMenuItem newGameMenuItem = new JMenuItem("New Game");
+    private JMenuItem restartGameMenuItem = new JMenuItem("Restart Game");
+    private JMenuItem mainMenuMenuItem = new JMenuItem("Main Menu");
     private JMenuItem loadGameMenuItem = new JMenuItem("Load Game");
     private JMenuItem saveGameMenuItem = new JMenuItem("Save Game");
-    private JMenuItem exitMenuItem = new JMenuItem("Quit");
+    private JMenuItem exitMenuItem = new JMenuItem("Exit");
 
     private JRadioButtonMenuItem turnOnOffBoardHighlight = new JRadioButtonMenuItem("Board Highlight", true);
     private JRadioButtonMenuItem turnOnOffNotifications = new JRadioButtonMenuItem("Notifications", true);
@@ -196,11 +198,13 @@ public class ApplicationFrame extends JFrame {
      * @param moveHintSwitch      Turns the move hint tutorial options on or off.
      */
     public void initializeChessPanel(ChessGame chessGame, boolean highlightMoveSwitch, boolean notificationsSwitch,
-            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name) {
+            boolean moveHintSwitch, boolean undoRedoSwitch, String player1Name, String player2Name, boolean inTutorialMode) {
 
         this.width = (int) this.getBounds().getWidth();
         this.height = (int) this.getBounds().getHeight();
 
+        chessPanel.hideEndGameOptions();
+        chessPanel.hidePawnPromotionScreen();
         chessPanel.setPlayerNames(player1Name, player2Name);
         chessPanel.initialize(chessGame);
         chessPanel.updateContainerDimensions(width, height);
@@ -210,6 +214,7 @@ public class ApplicationFrame extends JFrame {
         chessPanel.setboardHighlightSwitch(highlightMoveSwitch);
         chessPanel.setundoRedoSwitch(undoRedoSwitch);
         chessPanel.checkTutorialSelections();
+        chessPanel.inTutorialMode(inTutorialMode);
 
     }
 
@@ -219,8 +224,10 @@ public class ApplicationFrame extends JFrame {
     public void addMenuBar() {
 
         file.add(newGameMenuItem);
+        file.add(restartGameMenuItem);
         file.add(loadGameMenuItem);
         file.add(saveGameMenuItem);
+        file.add(mainMenuMenuItem);
         file.add(exitMenuItem);
 
         options.add(turnOnOffBoardHighlight);
@@ -279,23 +286,82 @@ public class ApplicationFrame extends JFrame {
      */
     public void addActionListenersToMenuBar() {
 
-        newGameMenuItem.addActionListener(new ActionListener() {
+        newGameMenuItem.addActionListener(new ActionListener(){
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
-                        layout.show(contentPanel, "menu");
+            public void actionPerformed(ActionEvent e){
+                    if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            layout.show(contentPanel, "gamesetup");
+                            menuBar.setVisible(false);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
+                        layout.show(contentPanel, "gamesetup");
                         menuBar.setVisible(false);
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
-                    layout.show(contentPanel, "menu");
+                } else {
+                    layout.show(contentPanel, "gamesetup");
                     menuBar.setVisible(false);
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
                 }
             }
         });
+
+        restartGameMenuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(chessPanel.returnTutorialStatus() != true){
+                    int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            chessPanel.getChessGame().rematch();
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
+                        chessPanel.getChessGame().rematch();
+                        chessPanel.resetTutorialNotifications();
+                        chessPanel.clearNotifications();
+                    }
+                } else {
+                    chessPanel.getChessGame().rematch();
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.clearNotifications();
+                    chessPanel.addNotification("~Tutorial restart~");
+                }
+                
+            }
+        });
+
+        mainMenuMenuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            layout.show(contentPanel, "menu");
+                            menuBar.setVisible(false);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
+                        layout.show(contentPanel, "menu");
+                        menuBar.setVisible(false);
+                    }
+                } else {
+                    layout.show(contentPanel, "menu");
+                    menuBar.setVisible(false);
+                    chessPanel.resetTutorialNotifications();
+                    chessPanel.returnMessageView().turnNotificationSwitch(true);
+                }
+                
+            }
+        });
+        
 
         loadGameMenuItem.addActionListener(getLoadController());
         // loadGameMenuItem.addActionListener(new ActionListener() {
@@ -304,6 +370,9 @@ public class ApplicationFrame extends JFrame {
         // public void actionPerformed(ActionEvent e) {
 
         // // Add code for when "Load Game" is selected from menu bar
+        // if(chessPanel.returnTutorialStatus()){
+        //     chessPanel.inTutorialMode(false);
+        // }
 
         // }
 
@@ -325,13 +394,18 @@ public class ApplicationFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int userSelection= confirmSave();
-                if(userSelection == JOptionPane.YES_OPTION){
-                    int saveSelection= ApplicationFrame.this.getSaveController().doAction();
-                    if(saveSelection == JFileChooser.APPROVE_OPTION){
+                if(chessPanel.returnTutorialStatus() != true){
+                        int userSelection= confirmSave();
+                    if(userSelection == JOptionPane.YES_OPTION){
+                        int saveSelection= ApplicationFrame.this.getSaveController().doAction();
+                        if(saveSelection == JFileChooser.APPROVE_OPTION){
+                            System.exit(0);
+                        }
+                    }else if(userSelection == JOptionPane.NO_OPTION){
                         System.exit(0);
                     }
-                }else if(userSelection == JOptionPane.NO_OPTION){
+                
+                } else {
                     System.exit(0);
                 }
                 
@@ -551,4 +625,22 @@ public class ApplicationFrame extends JFrame {
     public ChessGameLoadController getLoadController() {
         return loadController;
     }
+
+    /**
+     * Returns save game menu item.
+     * @return save game menu item.
+     */
+    public JMenuItem returnSaveGameMenuItem(){
+        return saveGameMenuItem;
+    }
+
+    /**
+     * return load game menu item.
+     * @return load game menu item. 
+     */
+    public JMenuItem returnLoadGameMenuItem(){
+        return loadGameMenuItem;
+    }
+
+ 
 }
