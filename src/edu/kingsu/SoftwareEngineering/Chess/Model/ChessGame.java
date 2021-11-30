@@ -591,6 +591,14 @@ public class ChessGame {
         if (getPlayerTurn() == null || !getPlayerTurn().isHuman()) {
             return null;
         }
+        if (currentState != GameState.ACTIVE && currentState != GameState.WHITE_CHECK && currentState != GameState.BLACK_CHECK && ((currentState != GameState.WHITE_RESIGN || currentState != GameState.BLACK_RESIGN) && playerIncrement >= 0)) {
+            return null;
+        }
+        if ((currentState == GameState.WHITE_RESIGN || currentState == GameState.BLACK_RESIGN) &&
+                (whitePlayerThread == null || blackPlayerThread == null)) {
+            currentState = GameState.ACTIVE;
+            start();
+        }
         char[][] highlights = {
             {' ',' ',' ',' ',' ',' ',' ',' '},
             {' ',' ',' ',' ',' ',' ',' ',' '},

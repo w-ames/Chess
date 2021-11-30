@@ -1,7 +1,10 @@
 package edu.kingsu.SoftwareEngineering.Chess.Model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import edu.kingsu.SoftwareEngineering.Chess.GUI.ClockView;
 import edu.kingsu.SoftwareEngineering.Chess.GUI.GameSetUp;
@@ -59,6 +62,15 @@ public abstract class Player implements Runnable {
         this.clock = oldPlayer.clock;
         this.timer = oldPlayer.timer;
         this.timerRunning = oldPlayer.timerRunning;
+        if (this.clock != null) {
+            int playerNameIndex = Arrays.stream(GameSetUp.playerDepthList).boxed().collect(Collectors.toList()).indexOf(newDepth);
+            String playerName = "AI ("+newDepth+")";
+            if (playerNameIndex >= 0) {
+                playerName = GameSetUp.playerList[playerNameIndex];
+            }
+            // this.clock.addPlayerName(playerName, this.isHuman ? "White: " : "Black: ");
+            this.clock.setPlayerName(playerName);
+        }
     }
 
     /**
