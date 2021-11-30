@@ -187,41 +187,41 @@ public class PopupLayer extends JPanel {
     public void makeIntoEndGameOptionsScreen(String endGameMessage) {
         JLabel endGameLabel = new JLabel("Test");
 
-        GameState state = null;
-        if (chessGame != null) {
-            state = chessGame.getState();
-        }
-        state = chessGame.getState();
-        if(state == GameState.WHITE_CHECKMATE){
-            //CHECKMATE WHITE
-            endGameLabel.setText("Checkmate on White, Black wins!");
-            System.out.println("checkmate on white");
-        }
-        else if(state == GameState.BLACK_CHECKMATE){
-            //CHECKMATE BLACK
-            endGameLabel.setText("Checkmate on Black, White wins!");
+        // GameState state = null;
+        // if (chessGame != null) {
+        //     state = chessGame.getState();
+        // }
+        // state = chessGame.getState();
+        // System.out.println(state);
+        // if(state == GameState.WHITE_CHECKMATE){
+        //     //CHECKMATE WHITE
+        //     endGameLabel.setText("Checkmate on White, Black wins!");
+        //     System.out.println("checkmate on white");
+        // }
+        // else if(state == GameState.BLACK_CHECKMATE){
+        //     //CHECKMATE BLACK
+        //     endGameLabel.setText("Checkmate on Black, White wins!");
 
-        }
-        else if(state == GameState.WHITE_RESIGN){
-            //WHITE RESIGN
-            endGameLabel.setText("White resigned, Black wins!");
-            System.out.println("resign on white");
+        // }
+        // else if(state == GameState.WHITE_RESIGN){
+        //     //WHITE RESIGN
+        //     endGameLabel.setText("White resigned, Black wins!");
+        //     System.out.println("resign on white");
 
-        }
-        else if(state == GameState.BLACK_RESIGN){
-            //Black RESIGN
-            endGameLabel.setText("Black resigned, White wins!");
-            System.out.println("resign on black");
-
-        }
-        else if(state == GameState.WHITE_TIMEOUT){
-            //White Time
-            endGameLabel.setText("White ran out of time, Black wins!");
-        }
-        else if(state == GameState.BLACK_TIMEOUT){
-            //black timeout
-            endGameLabel.setText("Black ran out of time, White wins!");
-        }
+        // }
+        // else if(state == GameState.BLACK_RESIGN){
+        //     //Black RESIGN
+        //     endGameLabel.setText("Black resigned, White wins!");
+        //     System.out.println("resign on black");
+        // }
+        // else if(state == GameState.WHITE_TIMEOUT){
+        //     //White Time
+        //     endGameLabel.setText("White ran out of time, Black wins!");
+        // }
+        // else if(state == GameState.BLACK_TIMEOUT){
+        //     //black timeout
+        //     endGameLabel.setText("Black ran out of time, White wins!");
+        // }
 
 
         endGameLabel.setFont(new Font("Arial", Font.PLAIN, 50));
