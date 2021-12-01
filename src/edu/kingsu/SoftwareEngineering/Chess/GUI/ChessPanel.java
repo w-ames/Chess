@@ -376,8 +376,11 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         }
         resignButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int userSelection= JOptionPane.showConfirmDialog(container, "Are you sure you want to resign?", "Resign?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if(userSelection == JOptionPane.YES_OPTION) getChessGame().resign();
+                if(chessGame.getPlayerTurn().isHuman()){
+                    int userSelection= JOptionPane.showConfirmDialog(container, "Are you sure you want to resign?", "Resign?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if(userSelection == JOptionPane.YES_OPTION) getChessGame().resign();
+                }
+                
             }
         });
 
@@ -461,7 +464,22 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         disableButtons();
         disableBoardClick();
         notificationsOnOff();
+        container.disableJMenu();
 
+    }
+
+    /**
+     * Disable JMenu.
+     */
+    public void disableJMenu(){
+        container.disableJMenu();
+    }
+
+    /**
+     * Enable JMenu.
+     */
+    public void enableJMenu(){
+        container.enableJMenu();
     }
 
     /**
@@ -543,6 +561,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
      * Hides the end game options popup screen.
      */
     public void hideEndGameOptionsForRematch() { // Needs to be edited to read from GameState.
+        container.enableJMenu();
         showEndGameOptionsButton.enable(true);
         endGameOptions.setVisible(false);
         enableButtons();

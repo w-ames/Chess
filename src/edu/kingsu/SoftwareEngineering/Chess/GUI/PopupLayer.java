@@ -231,6 +231,7 @@ public class PopupLayer extends JPanel {
                 chessPanel.notificationsOnOff();
                 chessPanel.notificationsOnOff();
                 chessPanel.addNotification("Rematch!");
+                chessPanel.enableJMenu();
             }
         });
 
@@ -245,6 +246,7 @@ public class PopupLayer extends JPanel {
         newGameButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
+                chessPanel.enableJMenu();
                 chessPanel.getApplicationFrame().show("gamesetup");
                 chessPanel.hideEndGameOptionsForRematch();
                 chessPanel.hideMenuBar();
@@ -260,6 +262,7 @@ public class PopupLayer extends JPanel {
         mainMenuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 chessGame.stop();
+                chessPanel.enableJMenu();
                 chessPanel.getApplicationFrame().show("menu");
                 chessPanel.hideMenuBar();
                 chessPanel.hideEndGameOptionsForRematch();
