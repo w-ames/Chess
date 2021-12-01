@@ -59,6 +59,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ImageIcon resignIcon = ChessGameGUIView.openPieceImageFile("images/white_resign.png", 40);
     private ImageIcon aboutPieceIcon = ChessGameGUIView.openPieceImageFile("images/about.png", 40);
     private ImageIcon endGameIcon = ChessGameGUIView.openPieceImageFile("images/view_end_game.png", 40);
+    
 
     private ImageIcon blackCheckmateIcon = ChessGameGUIView.openPieceImageFile("images/endgame/black_checkmate.png", 150);
     private ImageIcon blackForfeitIcon = ChessGameGUIView.openPieceImageFile("images/endgame/black_forfeit.png", 150);
@@ -66,6 +67,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
     private ImageIcon whiteCheckmateIcon = ChessGameGUIView.openPieceImageFile("images/endgame/white_checkmate.png",150);
     private ImageIcon whiteForfeitIcon = ChessGameGUIView.openPieceImageFile("images/endgame/white_forfeit.png",150);
     private ImageIcon whiteTimeoutIcon = ChessGameGUIView.openPieceImageFile("images/endgame/white_timeout.png",150);
+    private ImageIcon staleMateIcon = ChessGameGUIView.openPieceImageFile("images/endgame/stalemate.png", 150);
 
     private CustomButton undoButton = new CustomButton(undoIcon);
     // private CustomButton undoButton = new CustomButton("Undo");
@@ -803,7 +805,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         if (state == GameState.STALEMATE_50MOVES) { // Check if 50 moves stalemate here.
 
             addNotification("Game Over: 50 move stalemate");
-            endGameOptions.setEndGameLabel("Game Over: 50 move stalemate!",null);
+            endGameOptions.setEndGameLabel("Game Over: 50 move stalemate!",staleMateIcon);
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in 50 move stalemate because ");
@@ -814,7 +816,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_NOMOVES) { // Check if no moves stalemate here.
 
             addNotification("Game Over: Stalemate");
-            endGameOptions.setEndGameLabel("Game Over: Stalemate!",null);
+            endGameOptions.setEndGameLabel("Game Over: Stalemate!",staleMateIcon);
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in stalemate because ");
@@ -825,7 +827,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_REPITITION) { // Check if repetition stalemate here.
 
             addNotification("Game Over: Repetition stalemate");
-            endGameOptions.setEndGameLabel("Game Over: Repetition stalemate",null);
+            endGameOptions.setEndGameLabel("Game Over: Repetition stalemate",staleMateIcon);
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in repetition stalemate because ");
@@ -836,7 +838,7 @@ public class ChessPanel extends ChessGameView implements MouseListener {
         } else if (state == GameState.STALEMATE_NOMATERIAL) { // Check if no material stalemate here.
 
             addNotification("Game Over: Insufficient material stalemate");
-            endGameOptions.setEndGameLabel("Game Over: Insufficient Material Stalemate",null);
+            endGameOptions.setEndGameLabel("Game Over: Insufficient Material Stalemate",staleMateIcon);
             this.showEndGameOptions();
             if(inTutorialMode == true){
                 addNotification("The game has ended in insufficient material stalemate because ");

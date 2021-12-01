@@ -40,13 +40,13 @@ public class PopupLayer extends JPanel {
     private ImageIcon mainMenuIcon = ChessGameGUIView.openPieceImageFile("images/main_menu.png", 65);
 
     // private CustomButton endGameViewBoardButton = new CustomButton("View Board");
-    private CustomButton endGameViewBoardButton = new CustomButton(viewBoardIcon);
+    private CustomButton endGameViewBoardButton = new CustomButton(viewBoardIcon,"View Board");
     // private CustomButton rematchButton = new CustomButton("Rematch");
-    private CustomButton rematchButton = new CustomButton(rematchIcon);
+    private CustomButton rematchButton = new CustomButton(rematchIcon,"Rematch");
     // private CustomButton newGameButton = new CustomButton("New Game");
-    private CustomButton newGameButton = new CustomButton(newGameIcon);
+    private CustomButton newGameButton = new CustomButton(newGameIcon,"New Game");
     // private CustomButton mainMenuButton = new CustomButton("Main Menu");
-    private CustomButton mainMenuButton = new CustomButton(mainMenuIcon);
+    private CustomButton mainMenuButton = new CustomButton(mainMenuIcon,"Main Menu");
 
     // image
     // ImageIcon whiteQueenIcon = new

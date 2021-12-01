@@ -78,6 +78,38 @@ public class CustomButton extends JButton implements MouseListener {
         addMouseListener(this);
 
     }
+    /**
+     * Overloaded constructor that will have a text and an icon right beside each other.
+     * @param buttonIcon    ImageIcon that will get attached to the button
+     * @param buttonMessage A string that will specift what button it is
+     */
+    public CustomButton(ImageIcon buttonIcon, String buttonMessage) {
+
+        this.setOpaque(true);
+        this.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(64, 64, 64)));
+        this.setLayout(new GridBagLayout());
+
+        JLabel iconLabel = new JLabel(buttonIcon);
+        JLabel textLabel = new JLabel(buttonMessage);
+        textLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        GridBagConstraints gbForButton = new GridBagConstraints();
+        gbForButton.fill = GridBagConstraints.CENTER;
+        gbForButton.gridx = 0;
+        gbForButton.gridy = 0;
+        this.add(iconLabel, gbForButton);
+        
+        gbForButton.gridx = 0;
+        gbForButton.gridy = 1;
+        this.add(textLabel,gbForButton);
+        //this.setIcon(buttonIcon);
+        this.setHorizontalTextPosition(AbstractButton.CENTER);
+        this.setVerticalTextPosition(AbstractButton.CENTER);
+        addMouseListener(this);
+
+    }
 
     /**
      * Overloaded constructor for adding icons only to buttons (no text).
