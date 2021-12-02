@@ -5,6 +5,13 @@ Group:
 - Will Ames (780-217-9522, w_ames@outlook.com (Primary), william.ames.stu@kingsu.ca (Secondary) )
 - Gregory Cal (780-318-3353, gregory.cal.stu@kingsu.ca, gred_cal@yahoo.com, gregory.cal@kingsu.ca)
 
+# Overview
+
+This project contains a java-based chess game, using a Swing GUI. The game is made
+for players of various chess-ability, having features including: move highlights,
+move hints, move undo/redo, a piece information query button, AI player
+functionality, PGN loading and saving functionality, and more.
+
 # Build Information
 
 This project was created and tested with OpenJDK Java 11.0.11. Other versions
