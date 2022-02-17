@@ -15,7 +15,6 @@ import org.antlr.v4.runtime.tree.*;
  * Represents a PGN file, including all of its constituent parts: tag pairs, list of moves, and result.
  */
 public class PGNFile implements Iterable<String>{
-    public static final String PLAYERTYPE_TAG= "PlayerTypes";   //white player is human/easyAI/etc, black player is human/etc.
     private Map<String, String> tagPairs;
     private List<String> moveText;
     private String result;

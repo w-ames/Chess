@@ -263,6 +263,25 @@ public class ApplicationFrame extends JFrame {
         });
     }
 
+
+    /**
+     * Disable menu options
+     */
+    public void disableJMenu(){
+        file.setEnabled(false);
+        options.setEnabled(false);
+        help.setEnabled(false);
+    }
+
+    /**
+     * Enable menu  options
+     */
+    public void enableJMenu(){
+        file.setEnabled(true);
+        options.setEnabled(true);
+        help.setEnabled(true);
+    }
+
     /**
      * 0 = Human, 1 = A.I (easy), 2 = A.I. (medium), 3 = A.I (hard)
      * 
